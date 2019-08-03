@@ -2,6 +2,16 @@
 
 刚好最近在弄typescript ，很多用到装饰器 所以就从基础开始看起 在对typescript做一个研究
 
+## 基础环境配置
+  
+  1. yarn add @babel/cli -g
+  2. 创建.babelrc
+  3. yarn add @babel/plugin-proposal-class-properties --save-dev
+  4. yarn add @babel/plugin-proposal-decorators --savde-dev
+  5. yarn add @babel/preset-env --savde-dev
+
+## 常规操作
+
 ``` javascript
 class Decoration {
     constructor() {

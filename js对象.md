@@ -148,6 +148,47 @@ unshift
     添加一个或者多个元素在数组的开头，返回值是新的数组的长度。
 
 
+Accessor方法
+concat
+    返回一个包含此数组和其他数组和/或值的结合的新数组
+indexOf
+    返回第一个与给定参数相等的数组元素的索引，没有找到则返回-1。
+join
+    将所有的数组元素连接成一个字符串。
+
+lastIndexOf
+    返回在数组中搜索到的与给定参数相等的元素的最后（最大）索引。
+
+slice
+    返回数组中的一段。
+
+toSource
+    Returns an array literal representing the specified array; you can use this value to create a new array. Overrides the Object.toSource method.
+
+toString
+    返回代表该数组及其元素的字符,重写Object.toString 过程.
+
+valueOf
+    Returns the primitive value of the array. Overrides the Object.valueOf method.
+
+
+循环迭代
+filter
+    对数组中的每一个元素调用参数中指定的过滤函数，并将对于过滤函数返回值为true的那些数组元素集合为新的数组返回。
+
+forEach
+    对数组的每一个元素依次调用参数中指定的函数。
+
+every
+    如果数组中每一个元素都满足参数中提供的测试函数，则返回真。
+
+map
+    Creates a new array with the results of calling a provided function on every element in this array.
+
+some
+    如果数组中至少有一个元素满足参数函数的测试，则返回true。
+
+
 
 
 

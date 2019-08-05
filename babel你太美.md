@@ -1,8 +1,8 @@
-# Babel
+# Babel 你太美
 
 ## 为什么要用 Babel
 
-  Babel 的本意是 “通天塔”。 西方神话故事里，以前的人语言相同，决定建立有个能直达上天的塔，神后面惧怕人们语言相通就打乱他，让他们不能明白对方的意思，并把他们分散到各地。
+  Babel 的本意是 “通天塔”。 西方神话故事里，以前的人语言相同，决定建立有个能直达上天的塔，神后面惧怕人们语言相通就打乱它，让他们不能明白对方的意思，并把他们分散到各地。
 
    为了解决上古时代浏览器对新语法不支持、不兼容情况下。发明了 Babel ，能够将 ES6 代码 转为 ES5 代码， 从而在现有环境执行。
 
@@ -15,7 +15,6 @@
 yarn add --save-dev @babel/core @babel/cli @babel/preset-env
 yarn add --save @babel/polyfill
 ```
-
 
 ```js
 babel.config.js
@@ -47,18 +46,31 @@ module.exports = { presets };
 
 ## 运行原理
 
+  babel 在进行解析时如下
+
+```js
+  input string -> @babel/parser parser -> AST -> transformer[s] -> AST -> @babel/generator -> output string
+
+  用大白话讲一下就是以炒菜为例子， 我们需要将菜放到锅里面乱炖。 babel/core, 就是炒菜的这个过程。 babel/cli 是锅，我们可以在上面炒任何菜（我们的代码）， 我们在炒的过程，希望全自动炒菜，bable/plugin 就是提供的工具，当我们直接照着菜单自动炒的时候，就是 babel/preset-env。 有时候这个锅可能要用电，用煤气，我们就用 babel/proyfill 做个接口兼容。让他可以用电、用煤气。 后来发现这个接电就能用，这时候 babel/runtime 就能解决，遇到要接电的才转。
 
 
+  ok，再说都饿了。
 
+  我们再来梳理下：
 
+  @babel/core 转换ast
 
+  @babel/cli 打包工具
 
+  @babel/plugin 插件机制，手动增加
 
+  @babel/preset-env 配置环境
 
+  @babel/polyfill 提供某些api，包含所需整个运行环境。
 
+  @babel/runtime 按需载入所需api。
 
-
-
+```
 
 ### Plugins & Presets
 
@@ -137,20 +149,27 @@ module.exports = { presets };
 
 ```
 
-
 ### polyfill
 
   env 预设仅加载我们的目标浏览器中不可用的功能转换插件。
-  @babel/prolyfill模块包括core.js和自定义 regenerator，模拟完成的 es2015 环境
+  @babel/prolyfill模块包括core.js和自定义 regenerator，模拟完成的 es2015 环境。
   也就是说你可以使用内置函数，静态方法等。
 
   npm install --save @babel/polyfill
 
+ Babel 是处于构建期， 转译出来的结果在默认下并不包括 ES6 对运行时的扩展，例如 builtins , 内建类型上的原型扩展 Array、Object、String ，Regenerator 等。
 
+  api 指的是我们可以通过函数重新覆盖的语法，例如 Promise，includes等。
 
+  syntax， 指的是let， const， class等， 无法重写。
 
- Babel 是处于构建期， 转译出来的结果在默认下并不包括 ES6 对运行时的扩展，例如内建类型上的原型扩展 Array、Object、String 等。
+  所以需要 plyfill 来处理。
+  
+  polyfill 与 transform-runtime 的区别。
 
+  babel-runtime 库 是由Babel提供的polyfill库， 它本身就是由core-js 与 regenerator-runtime 库组成。
+
+ 我们可以通过 babel-plugin-transform-runtime 进行引用
 
 ## babel 配置
 
@@ -159,16 +178,11 @@ configuration配置方法 可以有以下情况：
 * .babelrc (and .babelrc.js) files
 * package.json files with a "babel" key
 
-
-
-
 ## babel 与 react 常见配置
 
 yarn add @babel/preset-es2015  @babel/preset-react  - -save-dev
 
 yarn add @babel/preset-react-hmre  - -save -dev
-
-yarn add 
 
 ```json
 
@@ -204,9 +218,7 @@ yarn add @babel/preset-typescript
 
 ```
 
-
 ## babel 还能做什么
-
 
 ## 后记
 
@@ -219,38 +231,3 @@ yarn add @babel/preset-typescript
 [babel/core.js](https://github.com/zloirock/core-js)
 
 [babel regenerator-runtimer](https://github.com/facebook/regenerator/blob/master/packages/regenerator-runtime/runtime.js)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

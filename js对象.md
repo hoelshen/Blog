@@ -194,6 +194,10 @@ some
 
 
 
+改变原数组的方法： pop() push() reverse() shift() sort() splice unshift()
+不改变原数组的方法 concat() join() slice() toString()
+
+
 ```
 
 
@@ -205,3 +209,12 @@ constructor 是绑在实例上面的，不是绑在原型链上面的。
 
 
 浏览器的同源策略 防止cookie
+
+
+## Object.setPrototypeOf()
+Object.setPrototypeOf() 方法设置一个指定的对象的原型 ( 即, 内部[[Prototype]]属性）到另一个对象或  null。
+
+
+不建议这么使用  建议使用 objcet.create()来创建带有你想要的[[prototyp]] 的新对象
+
+Object.setPrototypeOf()是ECMAScript 6最新草案中的方法，相对于 Object.prototype.__proto__ ，它被认为是修改对象原型更合适的方法

@@ -218,3 +218,22 @@ Object.setPrototypeOf() 方法设置一个指定的对象的原型 ( 即, 内部
 不建议这么使用  建议使用 objcet.create()来创建带有你想要的[[prototyp]] 的新对象
 
 Object.setPrototypeOf()是ECMAScript 6最新草案中的方法，相对于 Object.prototype.__proto__ ，它被认为是修改对象原型更合适的方法
+
+所有的对象都具有toLocaleString()、toString()和valueOf()方法。因为所有的对象都继承自Object,而前面所说的方法都是Object的方法!
+
+toString方法返回每个值的字符串形式 拼接成了一个字符串，中间用逗号隔开
+valueOf() 返回的还是数组的字符串形式
+
+第三行alert()要接收字符串参数，而第三行传给alert是一个数组，所以alert会在后台调用toString方法，输出数组的字符串类型
+
+
+二者共同的缺点
+无法获取 null 和 undefined 的值
+
+用途的区别
+tostring() 用于输出字符串
+valueOf()用于算术计算和关系运算
+
+返回值类型的差别
+toString 一定将所有内容转为字符串
+valueOf取出对象内部的值， 不进行类型转换。

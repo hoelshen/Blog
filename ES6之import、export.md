@@ -58,6 +58,60 @@ Commjs 模块输出的是值的缓存， 不存在动态更新。
 
 ```
 
+⚠️：import 加载模块的接口
+
+  import 命令接受一堆大括号，里面指定要从其他模块导入的变量名。大括号里面的变量名，必须与被导入模块对外接口保持一致。
+
+  import 命令是只读的，因为它的本质是输入接口
+
+```js
+
+import {a} from './xxx.js'
+
+a = {}; // Syntax Error : 'a' is read-only;
+
+
+import {a} from './xxx.js'
+
+a.foo = 'hello'; // 合法操作
+
+因为 a 是一个对象，修改 a 的属性是允许的。
+
+```
+
+import 后面的 from 指定模块文件的位置， 可以是相对的路径，也可以是绝对的，.js 后缀可以省略。如果只是模块名，不带路径，那么必须要有配置文件，告诉 JavaScript 引擎该模块的位置
+
+```js
+//webpack.config.js
+alias: {
+  xx: path.resolve(__dirname, 'src/components/xx.js',
+}
+
+```
+import 是静态执行， 不能使用表达式和变量。这些只有运行时才能得到结果的语法解构。
+```js
+// 报错
+import { 'f' + 'oo' } from 'my_module';
+
+// 报错
+let module = 'my_module';
+import { foo } from module;
+
+// 报错
+if (x === 1) {
+  import { foo } from 'module1';
+} else {
+  import { foo } from 'module2';
+}
+
+
+```
+
+很遗憾的是现在所有的浏览器都不支持 import 和 export
+
+import 命令具有提升效果， 会提升到整个模块的头部，首先执行。
+
+
   node.js是基于commonjs规范的
   exports是一个特殊的对象，它的任何输出都将对作为一个对外暴露的公共api.
 

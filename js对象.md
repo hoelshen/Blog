@@ -237,3 +237,13 @@ valueOf()用于算术计算和关系运算
 返回值类型的差别
 toString 一定将所有内容转为字符串
 valueOf取出对象内部的值， 不进行类型转换。
+
+
+
+
+new 产生的对象  类型是object  实例对象是各个类型 Array  Number 
+
+object.prototype.toString Array  Number
+
+undefined 比较特殊 Object
+

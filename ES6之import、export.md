@@ -1,19 +1,18 @@
 # import与export
 
   混乱时期 ---- 社区规范
-  CommonJs 分为两个派系  服务端
- `*`  modules/1.x   
-     modules/async  和包括后来的cmd\umd
+  CommonJs 分为两个派系
+ `*` 服务端
+  modules/1.x
+     modules/async  
  `*` browserify
+  AMD\UMD   代表有requireJs和seaJs
 
 ## commonjs 规范的核心内容
 
   1. module.exports 定义模块
   2. 通过 require 关键字引用模块
 
-
-  AMD  用于浏览器端
-  代表有requireJs和seaJs
 
   ES6时期
   设计思想是尽量端静态化， 编译时就能确定模块的依赖关系，以及输入和输出的变量。而 CommonJs 和 AMD 模块，都只能在运行时确定这些东西。
@@ -88,7 +87,9 @@ alias: {
 }
 
 ```
+
 import 是静态执行， 不能使用表达式和变量。这些只有运行时才能得到结果的语法解构。
+
 ```js
 // 报错
 import { 'f' + 'oo' } from 'my_module';
@@ -122,19 +123,6 @@ import 命令具有提升效果， 会提升到整个模块的头部，首先执
 
   exports 多用于编写对外暴露多个api的工具类代码
   module.exports用于编写对外暴露同一个对象api 的代码
-
-  客户端还不支持require
-  require  是一个函数  参数是模块表示
-  require 函数的返回值是module.exports对象
-
-  require 还有按需加载的含义， 当多次引用一个模块的时候，该模块只会被加载一次，其他情况下都在缓存中加载，不需要重新加载
-
-
-  模块间的循环引用
-
-  require返回的对象必须至少包含此外部模块在调用require
-  函数之前就已经准备完毕的输出
-
 
 
 ### export
@@ -176,15 +164,101 @@ export {default as foo } from "foo";
 
 ```
 
+没有用export标示的一切都在模块作用域内部保持私有。
+
+
 ```js
 commonsjs 分为
 
 
 ```
+
 ### import
 
 ```js
-import {foo} from './export.js'
+export default{
+  foo(){},
+  bar(){}
+}
+```
 
+这个模式，js引擎无法静态分析平凡对象的内容， 这意味着它无法对静态import 进行性能优化。让每个成员独一且显示的导出的有点是引擎可以对其进行静态分析和优化
+
+我们可以采用
+```js
+export default function foo(){}
+export function bar(){}
+export function baz(){}
+或者
+function foo(){}
+function bar(){}
+function baz(){}
+
+export{ foo as default, bar, baz, ... }
+```
+
+  为了解决
+  从模块把所有一切导入到一个单独命名空间，而不是向作用域直接导入独立的成员。 命名空间导入
+
+```js
+import * as foo from './export.js'
+foo.bar()
+
+foo.x;
+
+foo.baz();
 
 ```
+注意点： 命名空间要么全有要么全无
+
+```js
+  import { bar, baz } as foo from 'foo'
+
+```
+
+### 模块依赖环
+
+
+
+  require 还有按需加载的含义， 当多次引用一个模块的时候，该模块只会被加载一次，其他情况下都在缓存中加载，不需要重新加载
+
+
+  模块间的循环引用
+
+  require返回的对象必须至少包含此外部模块在调用require
+  函数之前就已经准备完毕的输出
+
+```js
+  module A
+  import bar from 'B'
+
+  export default function foo(x){
+    if(x > 10) return bar(x-1)
+    return x*2
+  }
+
+  module B
+  import foo from 'A'
+
+  export default function bar(y){
+    if(y >5) return foo(y/2)
+    return y*3
+  }
+
+```
+  如果先加载模块A，第一步是扫描这个文件分析所有导出，注册所有可以导入的绑定。然后处理 import .. from 'B'。
+  引擎加载”B“之后，会对它的导出绑定进行同样的分析。当看到import .. from "A"，它已经了解"A"的api，所以可以验证import是否有效。现在它了解'B'的api， 就可以验证等待的“A”模块中import .. from 'b'的有效性
+
+![这是更详细的例子](http://pvt7l4h05.bkt.clouddn.com/2019-08-12-modulelLoading.png)
+
+
+## require
+
+  浏览器端还不支持require
+  require  是一个函数  参数是模块表示
+  require 函数的返回值是module.exports对象
+
+
+### 模块加载
+
+环境提供的默认模块加载起会把模块标识符解析为URL

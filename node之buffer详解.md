@@ -187,3 +187,12 @@ function Buffer(subject, encoding) {
   
   //构造函数，返回this对象，即一个新的buffer对象
 }
+
+
+## 浏览器端
+var buf = new ArrayBuffer(32);
+buf.length    //32
+
+var arr = new Unit16Array(buf);
+arr.length   //16
+

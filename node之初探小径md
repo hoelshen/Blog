@@ -19,7 +19,7 @@ touch ~/.zshrc  或者 echo "export PATH=~/.npm-global/bin:$PATH" > ~/.zshrc
 export PATH=~/.npm-global/bin:$PATH
 
 4.返回命令行，更新系统变量
-source ~/.profile
+source ~/.zshrc
 
 测试
 npm install -g jsdoc

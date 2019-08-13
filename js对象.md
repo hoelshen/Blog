@@ -247,3 +247,6 @@ object.prototype.toString Array  Number
 
 undefined 比较特殊 Object
 
+
+
+多态  继承  

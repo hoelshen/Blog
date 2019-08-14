@@ -1,6 +1,6 @@
-# 异步流程小记（上）
+# ES6之异步流程的前世今生（上）
 
-  前端不可绕过的异步流程，那么是什么是异步编程呢： 简单来讲就是执行一个指令不会马上返回结果而执行下一个任务，而是等到特定的事件触发后，才能得到结果。
+  本文讲述了异步流程的演变过程。那么是什么是异步编程呢： 简单来讲就是执行一个指令不会马上返回结果而执行下一个任务，而是等到特定的事件触发后，才能得到结果。
 
 ## 基础知识
 
@@ -28,21 +28,16 @@
     promise 永远会在队列尾部添加微观任务
 
     为什么Promise的代码（microtask）会比setTimeout的代码（macrotask）更优先执行，因为它太机智了，竟然会插队！
-    
-
 
 ## 常见的异步编程方案
 
-    `*` 回调函数
-    
-    `*` 事件监听
-    
-    `*` 发布/订阅
-    
-    `*` promise对象
+  1. 回调函数
+  2. 事件监听
+  3. 发布/订阅
+  4. promise对象
 
 ## 环境配置
-
+  一双能敲代码的手、一台能执行代码的电脑。
 需要预先引入的库
 
       const fs = require('fs')
@@ -71,9 +66,11 @@ readFile((err, data) => {
 })
 ```
 
-  回调函数的弊端： 代码书写顺序与执行顺序不一致，不利于维护
-  回调函数大多是匿名函数，bug 追踪困难
-  异步操作的代码变更，后期维护麻烦。
+  回调函数的弊端： 
+  
+  1. 代码书写顺序与执行顺序不一致，不利于维护
+  2. 回调函数大多是匿名函数，bug 追踪困难
+  3. 异步操作的代码变更，后期维护麻烦。
 
 ## 事件监听
 
@@ -120,10 +117,12 @@ readFile((err, data) => {
 ## promise
 
 第二阶段：Promise
-  定义阶段  promise（resolve， reject）分别成功或者失败时处理什么
-  调用阶段  通过then函数实现，成功就执行resolve， 它会将reslove的值传递给最近的then函数，作为then函数的参数。 如果出错reject，那么交给catch来捕获异常
 
-  promise的要点如下
+  定义阶段：promise（resolve， reject）分别成功或者失败时处理什么。
+  
+  调用阶段：通过then函数实现，成功就执行resolve，它会将reslove的值传递给最近的then函数，作为then函数的参数。如果出错reject，那么交给catch来捕获异常
+
+  promise的要点如下：
 
   1. 递归： 每个一步操作返回的都是promise对象
   2. 状态机： 三种状态peomise对象内部可以控制，不能在外部改变状态
@@ -155,10 +154,11 @@ Promise.prototype.then() = function (success, fail) {
 
 一般情况下，只传 success 回调函数即可，fail函数可选，使用catch来捕获函数异常比通过fail函数进行处理更加可控。
 
+
+``` javascript
 const requireDirectory = require(require-directory )
 module.export = requireDirectory(module)
 
-``` javascript
 function readFileAsync(path) {
     return new Promise((resolve, reject) => {
         fs.readFile(path, (err, data) => {
@@ -199,7 +199,7 @@ readFileAsync('./package.json')
 
   new Promise更为强大,Promise.resolve更为便捷
 
-//以下是更为便捷的写法
+以下是更为便捷的写法
 
 ```js
 function hello(i){
@@ -244,7 +244,7 @@ hell('./xx.json').then(function (data) {
 
 ```
 
- promise原理
+### promise原理
 
 ```js
 

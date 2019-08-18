@@ -44,7 +44,7 @@
 ⚠️：export 对外输出的是接口
 
 ```js
-  export 1  //
+  export 1  
 
   var m = 1;
   export m
@@ -155,21 +155,11 @@ export {foo as default, bar}
 
 ```
 
-```js
-//export from
-export * from 'foo';
-export {foo} from "foo";
-export {foo, bar} from "foo";
-export {default as foo } from "foo";
-
-```
-
 没有用export标示的一切都在模块作用域内部保持私有。
 
 
 ```js
 commonsjs 分为
-
 
 ```
 
@@ -217,8 +207,6 @@ foo.baz();
 ```
 
 ### 模块依赖环
-
-
 
   require 还有按需加载的含义， 当多次引用一个模块的时候，该模块只会被加载一次，其他情况下都在缓存中加载，不需要重新加载
 

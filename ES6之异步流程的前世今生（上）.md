@@ -50,7 +50,7 @@
 
 第一阶段：回调函数
 
-``` javascript
+```javascript
 function readFile(cb) {
     fs.readFile('./package.json', (err, data) => {
         if (err) return cb(err)
@@ -66,7 +66,7 @@ readFile((err, data) => {
 })
 ```
 
-  回调函数的弊端： 
+  回调函数的弊端
   
   1. 代码书写顺序与执行顺序不一致，不利于维护
   2. 回调函数大多是匿名函数，bug 追踪困难

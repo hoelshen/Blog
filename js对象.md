@@ -249,4 +249,4 @@ undefined 比较特殊 Object
 
 
 
-多态  继承  
+多态  继承  重载

@@ -1,6 +1,5 @@
-# import与export
-
-  混乱时期 ---- 社区规范
+# ES6之import、export你知吗
+## 混乱时期 ---- 社区规范
   CommonJs 分为两个派系
  `*` 服务端
   modules/1.x

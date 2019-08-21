@@ -36,7 +36,8 @@ csrf 跨站请求伪造
 
 
 ## 怎么实现跨域访问？
- 1 document.domain + iframe 基于iframe实现的跨域要求两个域具有aa.xx.com,bb.xx.com这种特点，也就是两个页面必须属于一个基础域（例如都是xxx.com，或是xxx.com.cn），使用同一协议（例如都是 http）和同一端口（例如都是80），这样在两个页面中同时添加document.domain，就可以实现父页面调用子页面的函数，代码如下： 页面一在head内添加js如下： document.domain = “xx.com”; function aa(){ alert(“p”); } body添加iframe和js如下 iframe src=”http://localhost:8080/CmsUI/2.html“ id=”i”
+ 1 document.domain + iframe 基于iframe实现的跨域要求两个域具有aa.xx.com,bb.xx.com这种特点，也就是两个页面必须属于一个基础域（例如都是xxx.com，或是xxx.com.cn），使用同一协议（例如都是 http）和同一端口（例如都是80），这样在两个页面中同时添加document.domain，就可以实现父页面调用子页面的函数，代码如下： 页面一在head内添加js如下：
+```js document.domain = “xx.com”; function aa(){ alert(“p”); } body添加iframe和js如下 iframe src=”http://localhost:8080/CmsUI/2.html“ id=”i”
 document.getElementById(‘i’).onload = function(){ var d = document.getElementById(‘i’).contentWindow; d.a(); };
 
 
@@ -46,7 +47,7 @@ document.getElementById(‘i’).onload = function(){ var d = document.getElem
 
 编写一个函数来自动创建 iframe 跨域
 
-
+```
 
 2 Jsonp
 
@@ -62,12 +63,12 @@ JavaScript这个安全策略在进行多iframe或多窗口编程、以及Ajax编
 假设在http://example1.com/index.php这个页面中向http://example2.com/getinfo.php提交GET请求，我们可以将下面的JavaScript代码放在http://example1.com/index.php这个页面中来实现： 
 复制代码
 代码如下:
-
+```js
 var eleScript= document.createElement("script"); 
 eleScript.type = "text/javascript"; 
 eleScript.src = "http://example2.com/getinfo.php"; 
 document.getElementsByTagName("HEAD")[0].appendChild(eleScript); 
-
+```
 当GET请求从http://example2.com/getinfo.php返回时，可以返回一段JavaScript代码，这段代码会自动执行，可以用来负责调用http://example1.com/index.php页面中的一个callback函数。 
 
 JSONP的优点是：它不像XMLHttpRequest对象实现的Ajax请求那样受到同源策略的限制；它的兼容性更好，在更加古老的浏览器中都可以运行，不需要XMLHttpRequest或ActiveX的支持；并且在请求完毕后可以通过调用callback的方式回传结果。 
@@ -77,6 +78,7 @@ JSONP的缺点则是：它只支持GET请求而不支持POST等其它类型的HT
 复制代码
 代码如下:
 
+```js
 var qsData = {'searchWord':$("#searchWord").attr("value"),'currentUserId': 
 $("#currentUserId").attr("value"),'conditionBean.pageSize':$("#pageSize").attr("value")}; 
 $.ajax({ 
@@ -113,6 +115,7 @@ if(json.属性名==值){
 } 
 }); 
 
+```
 这种方式其实是上例$.ajax({..}) api的一种高级封装，有些$.ajax api底层的参数就被封装而不可见了。 
 这样，jquery就会拼装成如下的url get请求： 
 复制代码

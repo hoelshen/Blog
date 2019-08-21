@@ -1,4 +1,4 @@
-# ES6之import、export
+# ES6之import、export你知吗
 
 ## 历史缘由
   混乱时期 ---- 社区规范

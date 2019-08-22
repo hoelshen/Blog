@@ -216,7 +216,62 @@ CommonJS 模块输出的是值的缓存，不存在动态更新。
 ![这是更详细的例子](http://pvt7l4h05.bkt.clouddn.com/2019-08-12-modulelLoading.png)
 
 ## 模块加载
-第一步肯定是解析路径，系统解析出一个绝对路径。如果是核心模块，比如 fs，就直接返回模块。如果是带有路径的 /、./等，则进行拼接，然后先读区缓存require.cache，在读取文件。
+第一步肯定是解析路径，系统解析出一个绝对路径。如果是核心模块，比如 fs，就直接返回模块。如果是带有路径的 /、./等，则进行拼接，然后先读取缓存require.cache，在读取文件。在加载的过程中，按照依赖关系依次执行，结果保存到 cache， 下次在运行时，遇到则不执行。
+我们将 path 设置为 id，
+下面是相关的伪代码
+```js
+
+var cache = {},
+loadings = {},
+queue = [],
+scripts = doc.getElementsTagName('script'),
+root = scripts[scripts.length-1].src,
+baseUrl = root.slice(0, root.lastIndexOf('/') + 1);
+function Module(path, deps, factory){
+  this.id = path;
+  uitls.addLoading(this.deps);
+  cache[path] = this;
+}
+
+
+
+var utils = {
+  addLoading(){
+    for(var i = 0; i< deps.length; i++){
+      var id = deps[i],
+      stat = loadings[id];
+      loadings[id] = sta ? stat : 0
+    }
+  },
+  loadDeps(){
+    for (var i = 0; i < deps.length; i++) {
+      var m = deps[i];
+      if (m.state < STATUS.LOADED) {
+          m.load();
+      }
+  }
+
+  },
+  run(){
+     queue.push(path);
+     utils.addLoading([path]);
+     utils.loadDeps();
+  }
+}
+
+
+Module.prototype = {
+  compile:function(){
+    return this.factory(utils._r)
+  }
+}
+
+const run = utils.run()
+
+
+
+```
+
 
 ## 补充
   浏览器对于带有type="module"的<script>，都是异步加载，不会造成堵塞浏览器，即等到整个页面渲染完，再执行模块脚本，等同于打开了<script>标签的defer属性。

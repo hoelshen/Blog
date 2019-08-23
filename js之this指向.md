@@ -31,4 +31,17 @@ c();
 
 // 先获得delegate引用对象
 
+![bing\call\apply](http://pvt7l4h05.bkt.clouddn.com/2019-08-23-234059.png)
+
+
+this 就是 call 的第一个参数！ call 的其他参数统称为 arguments
+
+
+
+
+
+
+
+
+
 

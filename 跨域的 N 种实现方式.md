@@ -1,15 +1,23 @@
 # 跨域的 N 种实现方式
+
 跨域， 什么是跨域？跨域有什么好处？跨域有什么不好？怎么实现跨域？
+
 ## 什么是跨域
+
 只要协议、域名、端口有任何一个不同，都被当作是不同的域，之间的请求就是跨域操作.
 对于端口和协议的不同，只能通过后台来解决。
+
 ## 跨域会有什么好处？
+
 防止CSRF攻击、同源策略：隔离潜在恶意文件的重要安全机制
  补充知识:
-什么是CSRF攻击？ CSRF（Cross-site request forgery 跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为 CSRF 或者 XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本（XSS），但它与 XSS 非常不同，并且攻击方式几乎相左。XSS 利用站点内的信任用户，而CSRF则通过伪装来自受信任用户的请求来利用受信任的网站。与 XSS 攻击相比，CSR F攻击往往不大流行（因此对其进行防范的资源也相当稀少）和难以防范，所以被认为比XSS更具危险性。
-为什么会出现CSRF攻击？举例说明 比如说有两个网站 A 和 B。你是 A 网站的管理员，你在 A 网站有一个权限是删除用户，比如说这个过程只需用你的身份登陆并且 POST 数据到http://a.com/delUser，就可以实现删除操作。好现在说B网站，B网站被攻击了，别人种下了恶意代码，你点开的时候就会模拟跨域请求，如果是针对你，那么就可以模拟对 A 站的跨域请求，恰好这个时候你已经在 A 站登陆了。那么攻击者 在B 站内通过脚本，模拟一个用户删除操作是很简单的。面对这种问题，有从浏览器解决，但个人认为最好是从网站端解决，检测每次 POST 过来数据时的 Refer，添加AccessToken 等都是好方法。
+什么是CSRF攻击？
+
+CSRF（Cross-site request forgery 跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为 CSRF 或者 XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本（XSS），但它与 XSS 非常不同，并且攻击方式几乎相左。XSS 利用站点内的信任用户，而CSRF则通过伪装来自受信任用户的请求来利用受信任的网站。与 XSS 攻击相比，CSR F攻击往往不大流行（因此对其进行防范的资源也相当稀少）和难以防范，所以被认为比XSS更具危险性。
+为什么会出现CSRF攻击？举例说明 比如说有两个网站 A 和 B。你是 A 网站的管理员，你在 A 网站有一个权限是删除用户，比如说这个过程只需用你的身份登陆并且 POST 数据到 【http://a.com/delUser 】， 就可以实现删除操作。好现在说B网站，B网站被攻击了，别人种下了恶意代码，你点开的时候就会模拟跨域请求，如果是针对你，那么就可以模拟对 A 站的跨域请求，恰好这个时候你已经在 A 站登陆了。那么攻击者 在B 站内通过脚本，模拟一个用户删除操作是很简单的。面对这种问题，有从浏览器解决，但个人认为最好是从网站端解决，检测每次 POST 过来数据时的 Refer，添加AccessToken 等都是好方法。
 
 防范 CSRF 攻击可以遵循以下几种规则：
+
 1. Get 请求不对数据进行修改
 2. 不让第三方网站访问到用户 Cookie
 3. 阻止第三方网站请求接口
@@ -20,50 +28,52 @@ Cross-Site Scripting（跨站脚本攻击）简称 XSS，是一种代码注入�
 持久型也就是攻击的代码被服务端写入进数据库中，这种攻击危害性很大，因为如果网站访问量很大的话，就会导致大量正常访问页面的用户都受到攻击。
 一次性（非持久性）
 通过用户点击链接引起
+
 * 		反射型 XSS，也可称为非持久型 XSS。
 * 		其攻击方式往往是通过诱导用户去点击一些带有恶意脚本参数的 URL 而发起的。
 * 		事实上由于反射型 XSS 因为 URL 特征导致很容易被防御。很多浏览器如 Chrome 都内置了 相应的 XSS 过滤器，来防范用户点击了反射型 XSS 的恶意链接
 * 		反射型 XSS 归根到底就是由于不可信的用户输入被服务器在没有安全防范处理，然后就直接使用到响应页面中，然后反射给用户而导致代码在浏览器执行的一种 XSS 漏洞。
 
 XSS 主要做什么事：
-- 窃取用户 Cookie
-- 伪造请求
-- XSS 钓鱼
+
+* 窃取用户 Cookie
+* 伪造请求
+* XSS 钓鱼
 
 防范措施： 针对 URL 编码， HTML编码， JS 编码。
-URL只能使用英文字母（a-zA-Z）、数字（0-9）、-_.~4个特殊字符以及所有（;,/?:@&=+$#）保留字符。
+URL只能使用英文字母（a-zA-Z）、数字（0-9）、-_.~4个特殊字符以及所有（; , /?:@&=+$#）保留字符。
 例如：
-```js
+
+``` js
 // 使用了汉字
 var url1 = 'http://www.帅.com';
 
-然后由于 encodeURI 不转义&、?和=。
-使用encodeURLComponent
+然后由于 encodeURI 不转义 & 、 ? 和 = 。
+    使用encodeURLComponent
 
 // "http://a.com?a=%3F%26"
-encodeURI('http://a.com') + '?a=' + encodeURIComponent('?&');  
+encodeURI('http://a.com') + '?a=' + encodeURIComponent('?&');
 相应的解码
 decodeURl()
 decodeURLComponent()
-
 ```
 
 判断输入格式：
 过滤特殊字符：<、 > 、&、 \
 过滤危险字符： 去除<"script"> 、javascript、onclik
 
-```js
+``` js
 /**
  * 转义 HTML 特殊字符
  * @param {String} str
  */
 function htmlEncode(str) {
     return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
 }
 
 // 正则获取危险标签
@@ -75,85 +85,85 @@ var REGEXP_ATTR_NAME = /(onerror|onclick)=([\"\']?)([^\"\'>]*?)\2/ig;
  * 过滤函数
  */
 function filter(str) {
-  return String(str)
-    .replace(REGEXP_TAG, '')
-    .replace(REGEXP_ATTR_NAME, '');
+    return String(str)
+        .replace(REGEXP_TAG, '')
+        .replace(REGEXP_ATTR_NAME, '');
 }
-
-
 ```
+
 或者使用 CSP 建立白名单，开发者明确告诉浏览器哪些外部资源可以加载和执行。
 两种方式开启 CSP。
+
 1. 设置 HTTP Header 中的 Content-Security-Policy
 2. 设置 meta 标签的方式 <meta http-equiv="Content-Security-Policy">
 
 Content-Security-Policy: default-src ‘self’
+
 Content-Security-Policy: img-src https://*
+
 Content-Security-Policy: child-src 'none'
 
-
 ## 怎么实现跨域访问？
+
 1. JSONP
+
   JSONP跨域GET请求是一个常用的解决方案，下面我们来看一下JSONP跨域是如何实现的，并且探讨下JSONP跨域的原理。 
 利用在页面中创建<script>节点的方法向不同域提交HTTP请求的方法称为JSONP，这项技术可以解决跨域提交Ajax请求的问题。JSONP的工作原理如下所述： 
 假设在http://example1.com/index.php这个页面中向http://example2.com/getinfo.php提交GET请求，我们可以将下面的JavaScript代码放在http://example1.com/index.php这个页面中来实现： 
 代码如下:
 
-```js
-
+``` js
 //server.js
 const url = require('url');
-	
+
 require('http').createServer((req, res) => {
-  // console.log('req: ', req);
-    
+    // console.log('req: ', req);
+
     const data = {
-	    x: 10
+        x: 10
     };
     console.log('url.parse(req.url, true).query: ', url.parse(req.url, true).query);
     const callback = url.parse(req.url, true).query.callback;
     res.writeHead(200);
-    res.end(`${callback}(${JSON.stringify(data)})`);  // jsonpCallback(data)
-    
+    res.end( `${callback}(${JSON.stringify(data)})` ); // jsonpCallback(data)
 
 }).listen(3000, '127.0.0.1');
 
 console.log('启动服务，监听 127.0.0.1:3000');
 
-
 //html
-  <script>
+<
+script >
     function jsonpCallback(data) {
-      alert('获得 X 数据:' + data.x);
-    }
-  </script>
-    <script src="http://127.0.0.1:3000?callback=jsonpCallback"></script>
+        alert('获得 X 数据:' + data.x);
+    } <
+    /script> <
+script src = "http://127.0.0.1:3000?callback=jsonpCallback" > < /script>
 ```
 
 当GET请求从http://xx1.html返回时，可以返回一段JavaScript代码，这段代码会自动执行，可以用来负责调用http://xxx2.html页面中的一个callback函数。 
-
 
 JSONP的优点是：它不像XMLHttpRequest对象实现的Ajax请求那样受到同源策略的限制；它的兼容性更好，在更加古老的浏览器中都可以运行，不需要XMLHttpRequest或ActiveX的支持；并且在请求完毕后可以通过调用 callback 的方式回传结果。 
 
 JSONP的缺点则是：它只支持GET请求而不支持POST等其它类型的HTTP请求；它只支持跨域HTTP请求这种情况，不能解决不同域的两个页面之间如何进行 JavaScript 调用的问题。 
 再来一个例子： 
-```js
+
+``` js
 //server.js
 const url = require('url');
-	
+
 require('http').createServer((req, res) => {
-  // console.log('req: ', req);
-    
+    // console.log('req: ', req);
+
     const data = {
-	    "x": "10"
+        "x": "10"
     };
     console.log('url.parse(req.url, true).query: ', url.parse(req.url, true).query);
-    if(url.parse(req.url, true).query.word === 'sjh'){
-      const callback = url.parse(req.url, true).query.callback;
-      res.writeHead(200);
-      res.end(`${callback}(${JSON.stringify(data)})`);
+    if (url.parse(req.url, true).query.word === 'sjh') {
+        const callback = url.parse(req.url, true).query.callback;
+        res.writeHead(200);
+        res.end( `${callback}(${JSON.stringify(data)})` );
     }
-
 
 }).listen(3000, '127.0.0.1');
 
@@ -161,29 +171,30 @@ console.log('启动服务，监听 127.0.0.1:3000');
 
 //html
 var qsData = {
-  'word': 'shj'
+    'word': 'shj'
 };
 $.ajax({
-  async: false,
-  url: "http://127.0.0.1:3000",  //跨域的dns
-  type: "GET",
-  dataType: 'jsonp',
-  jsonp: 'callback',
-  data: qsData,
-  timeout: 5000,
-  success: function (json) {
-    console.log('json: ', json);
-    alert(json.x)
-    // let obj = JSON.parse(json);
-    // console.log('obj: ',obj );
-  },
-  error: function (xhr) {
-    console.log('xhr: ', xhr);
-    //请求出错处理 
-    alert("请求出错)",xhr);
-  }
+    async: false,
+    url: "http://127.0.0.1:3000", //跨域的dns
+    type: "GET",
+    dataType: 'jsonp',
+    jsonp: 'callback',
+    data: qsData,
+    timeout: 5000,
+    success: function(json) {
+        console.log('json: ', json);
+        alert(json.x)
+        // let obj = JSON.parse(json);
+        // console.log('obj: ',obj );
+    },
+    error: function(xhr) {
+        console.log('xhr: ', xhr);
+        //请求出错处理 
+        alert("请求出错)", xhr);
+    }
 });
 ```
+
 这种方式其实是上例$.ajax({..}) api的一种高级封装，有些$.ajax api底层的参数就被封装而不可见了。 jquery $.ajax方法名有误导人之嫌。 如果设为dataType: 'jsonp'，这个$.ajax方法就和ajax XmlHttpRequest没什么关系了，这种跨域方式其实与ajax XmlHttpRequest协议无关了。 取而代之的则是JSONP协议。JSONP是一个非官方的协议，它允许在服务器端集成Script tags返回至客户端，通过javascript callback的形式实现跨域访问。
 
 Jsonp的执行过程如下： 
@@ -193,89 +204,113 @@ Jsonp的执行过程如下：
 最后将 json 数据直接以入参的方式，放置到 function 中，这样就生成了一段 js 语法的文档，返回给客户端。 
 
 客户端浏览器，解析script标签，并执行返回的 javascript 文档，此时javascript文档数据，作为参数， 传入到了客户端预先定义好的 callback 函数(如上例中jquery $.ajax()方法封装的的success: function (json))里。 
-可以说jsonp的方式原理上和<script src="http://跨域/...xx.js"></script>是一致的(qq空间就是大量采用这种方式来实现跨域数据交换的)。JSONP是一种脚本注入(Script Injection)行为，所以有一定的安全隐患。 
-那jquery为什么不支持post方式跨域呢？ 
+可以说jsonp的方式原理上和<script src="http://跨/...xx.js"></script>是一致的(qq空间就是大量采用这种方式来实现跨域数据交换的)。JSONP是一种脚本注入(Script Injection)行为，所以有一定的安全隐患。 
+那jquery为什么不支持post方式跨域呢？
 
-虽然采用post+动态生成iframe是可以达到post跨域的目的(有位js牛人就是这样把jquery1.2.5 打patch的)，但这样做是一个比较极端的方式，不建议采用。 
-也可以说get方式的跨域是合法的，post方式从安全角度上，被认为是不合法的，万不得已还是不要剑走偏锋。 
+2. 跨域资源共享CORS
 
-client端跨域访问的需求看来也引起w3c的注意了，看资料说html5 WebSocket标准支持跨域的数据交换，应该也是一个将来可选的跨域数据交换的解决方案。 
- 利用script标签没有跨域限制的“漏洞”（历史遗迹啊）来达到与第三方通讯的目的。当需要通讯时，本站脚本创建一个script元素，地址指向第三方的API网址，形如：script src=”http://www.example.net/api?param1=1&param2=2"></script 并提供一个回调函数来接收数据（函数名可约定，或通过地址参数传递）。 第三方产生的响应为json数据的包装（故称之为jsonp，即json padding），形如： callback({“name”:”hax”,”gender”:”Male”}) 这样浏览器会调用callback函数，并传递解析后json对象作为参数。本站脚本可在callback函数里处理所传入的数据。
-过程屡一下 ① 首先我这边客户端有人请求其他网页的内容 ② 本站通过script 指向对方的API网址，然后提供一个数据接收的回调函数 ③ 第三方产生后的数据 json并进行包装 jsonp json padding 调用我们的回调函数 解析数据
-JSONP的优点是：它不像XMLHttpRequest对象实现的Ajax请求那样受到同源策略的限制；它的兼容性更好，在更加古老的浏览器中都可以运行，不需要XMLHttpRequest或ActiveX的支持；并且在请求完毕后可以通过调用callback的方式回传结果。 缺点：它只支持GET请求而不支持POST等其它类型的HTTP请求；它只支持跨域HTTP请求这种情况，不能解决不同域的两个页面之间如何进行JavaScript调用的问题。
-2. web代理 即用户访问A网站时所产生的对B网站的跨域访问请求均提交到A网站的指定页面（Post页面过去），由该页面代替用户页面完成交互，从而返回合适的结果。此方案可以解决现阶段所能够想到的多数跨域访问问题，但要求A网站提供Web代理的支持，因此A网站与B网站之间必须是紧密协作的，且每次交互过程，A网站的服务器负担增加，且无法代用户保存session状态。
-3. 跨域资源共享CORS
     什么是CORS
     CORS(cross-Origin Resource Sharing) 跨域资源共享，管理跨源请求。而跨域资源共享是有益的。今天的我们创建的大多数网站加载资源从网络的各个不同的地方，
-    ```js
-    http://www.example.com/foo-bar.html
-    ```
-    浏览器访问外部资源时会出现下面这种情况
-    ![same-origin](http://pvt7l4h05.bkt.clouddn.com/2019-08-23-025845.png)
-    而我们想要的效果是这种情况.
+    当我们发送 GET 请求时，大多数情况浏览器头会fan hui Access-Control-Allow-Origin: * 。意思是能够共享资源在任何域名下。否则就是只能在特定的情况下了。
+    当请求时以下时，将在原始请求前先进行标准预请求，使用 OPTIONS 头，
     
-    ![cros-origin](http://pvt7l4h05.bkt.clouddn.com/2019-08-23-030111.png)
+``` js
+    http: //www.example.com/foo-bar.html
+```
+
+  浏览器访问外部资源时会出现下面这种情况
+   
+![same-origin](https://user-gold-cdn.xitu.io/2019/8/24/16cc43b8950eff00?w=1136&h=686&f=png&s=11964)
+
+而我们想要的效果是这种情况.
+
+
+![cros-origin](https://user-gold-cdn.xitu.io/2019/8/24/16cc43b8945a6eb6?w=1128&h=654&f=png&s=11837)
+
+我们可以在 HTTP 请求头加上 CORS 标准。
+- Access-Control-Allow-Origin
+- Access-Control-Allow-Credentials
+- Access-Control-Allow-Headers
+- Access-Control-Allow-Methods
+- Access-Control-Expose-Headers
+- Access-Control-Max-Age
+- Access-Control-Request-Headers
+- Access-Control-Request-Method
+- Origin
+
     
-    我们可以在 HTTP 请求头加上 CORS 标准。
-    
-    *     Access-Control-Allow-Origin
-    *     Access-Control-Allow-Credentials
-    *     Access-Control-Allow-Headers
-    *     Access-Control-Allow-Methods
-    *     Access-Control-Expose-Headers
-    *     Access-Control-Max-Age
-    *     Access-Control-Request-Headers
-    *     Access-Control-Request-Method
-    *     Origin
     
     当我们发送 GET 请求时，大多数情况浏览器头会fan hui Access-Control-Allow-Origin: * 。意思是能够共享资源在任何域名下。否则就是只能在特定的情况下了。
     
-    
+    app.use(cors());
     当请求时以下时，将在原始请求前先进行标准预请求，使用 OPTIONS 头，
-    * PUT
-    * DELETE
-    * CONNECT
-    * OPTIONS
-    * TRACE
-    * PATCH
+ 
+
+    - PUT
+    - DELETE
+    - CONNECT
+    - OPTIONS
+    - TRACE
+    - PATCH
+
+    
+
     当我们发的预处理请求并指示原始请求是否安全，如果指定原始请求时安全的，则它将允许原始请求。否则拒接。
-    ![OPTIONS](http://pvt7l4h05.bkt.clouddn.com/2019-08-23-033242.png)
     
-    ```js
+    
+    
+    
+    
+
+![OPTIONS](https://user-gold-cdn.xitu.io/2019/8/24/16cc43b86c12667c?w=1640&h=1272&f=png&s=30057)
+
+``` js
     //npm install cors
-        
+
     response.setHeader('Content-Type', 'text/html');
-    
+
     var express = require('express');
     var cors = require('cors');
-    
+
     //或者直接设置
     // res.writeHead(200, {
-	 //'Access-Control-Allow-Origin': 'http://localhost:8080'
-   // });
+    //'Access-Control-Allow-Origin': 'http://localhost:8080'
+    // });
     var app = express();
-    
+
     app.use(cors());
-    
-    app.get('/hello/:id', function (req, res, next) {
-      res.json({msg: 'CORS-enabled!'});
+
+    app.get('/hello/:id', function(req, res, next) {
+        res.json({
+            msg: 'CORS-enabled!'
+        });
     });
-    
-    app.listen(80, function () {
-      console.log('CORS-enabled web ');
+
+    app.listen(80, function() {
+        console.log('CORS-enabled web ');
     });
+```
+
     
-    ```
+    
+    
+    
+    
 
 4. Server Proxy:
+
     服务器代理，当你需要有跨域请求额操作时发送给后端，让后端帮你带为请求，然后将最后的获取的结果发送给你。
+    
+    
+    
+    
+    
 
-```js
+``` js
 //html
-  $.get('http://127.0.0.1:3000/topics',function (data){
+$.get('http://127.0.0.1:3000/topics', function(data) {
     consoel.log(data)
-  })
-
+})
 
 //server.js
 const url = require('url');
@@ -283,167 +318,242 @@ const url = require('url');
 const http = require('http');
 
 const server = http.createServer((req, res) => {
-  const path = url.parse(req.url).path.slice(1);
-  console.log('path: ', path);
-  
-  if (path === 'topics') {
-    http.get('http://cnodejs.org/api/v1/topics', (resp) => {
-      const { statusCode } = resp;
-      const contentType = resp.headers['content-type'];
-      console.log('resp: ', statusCode,contentType);
-      let error;
-      if (statusCode !== 200) {
-        error = new Error('Request Failed.\n' +
-                          `Status Code: ${statusCode}`);
-      } else if (!/^application\/json/.test(contentType)) {
-        error = new Error('Invalid content-type.\n' +
-                          `Expected application/json but received ${contentType}`);
-      }
-      if (error) {
-        console.error(error.message);
-        // Consume response data to free up memory
-        resp.resume();
-        return;
-      }
+    const path = url.parse(req.url).path.slice(1);
+    console.log('path: ', path);
 
-      res.setEncoding('utf8');
-      let data = "";
-      resp.on('data', chunk => {
-        data += chunk;
-      });
-      res.on('end', () => {
-        try {
-          const parsedData = JSON.parse(rawData);
-          console.log(parsedData);
-        } catch (e) {
-          console.error(e.message);
-        }
-      });
-    })
-  }
+    if (path === 'topics') {
+        http.get('http://cnodejs.org/api/v1/topics', (resp) => {
+            const {
+                statusCode
+            } = resp;
+            const contentType = resp.headers['content-type'];
+            console.log('resp: ', statusCode, contentType);
+            let error;
+            if (statusCode !== 200) {
+                error = new Error('Request Failed.\n' +
+`Status Code: ${statusCode}` );
+            } else if (!/^application\/json/.test(contentType)) {
+                error = new Error('Invalid content-type.\n' +
+`Expected application/json but received ${contentType}` );
+            }
+            if (error) {
+                console.error(error.message);
+                // Consume response data to free up memory
+                resp.resume();
+                return;
+            }
+
+            res.setEncoding('utf8');
+            let data = "";
+            resp.on('data', chunk => {
+                data += chunk;
+            });
+            res.on('end', () => {
+                try {
+                    const parsedData = JSON.parse(rawData);
+                    console.log(parsedData);
+                } catch (e) {
+                    console.error(e.message);
+                }
+            });
+        })
+    }
 }).listen(3000, '127.0.0.1');
 
 console.log('启动服务，监听 127.0.0.1:3000');
-
 ```
 
 5. document.domain + iframe
-基于iframe实现的跨域要求两个域具有aa.xx.com,bb.xx.com这种特点，也就是两个页面必须属于一个基础域（例如都是xxx.com，或是xxx.com.cn），使用同一协议（例如都是 http）和同一端口（例如都是80），这样在两个页面中同时添加document.domain，就可以实现父页面调用子页面的函数，当然这种方法只能解决主域相同而二级域名不同的情况。
+
+基于iframe实现的跨域要求两个域具有aa.xx.com, bb.xx.com这种特点，也就是两个页面必须属于一个基础域（例如都是xxx.com，或是xxx.com.cn），使用同一协议（例如都是 http）和同一端口（例如都是80），这样在两个页面中同时添加document.domain，就可以实现父页面调用子页面的函数，当然这种方法只能解决主域相同而二级域名不同的情况。
 代码如下：
 
-```js
-//页面一在head内添加js如下： document.domain = “xx.com”; function aa(){  alert(“p”); } //body添加iframe和js如下 <iframe src=”http://localhost:8080/2.html“ id=”i”>
-
-document.getElementById(‘i’).onload = function(){     var d = document.getElementById(‘i’).contentWindow;     d.a(); };
-
-//页面二 head添加如下 document.domain = “xx.com”; function a(){ alert(“c”); }
-//这时候父页面就可以调用子页面的a函数，实现js跨域访问
-
+``` js
+//页面一在head内添加js如下： document.domain = “xx.com”;  function aa() {     alert(“p”); } //body添加iframe和js如下 < iframe src = ”http: //localhost:8080/2.html“ id=”i”>      document.getElementById(‘i’).onload = function() {         var d = document.getElementById(‘i’).contentWindow;         d.a();     };  //页面二 head添加如下 document.domain = “xx.com”;  function a() {     alert(“c”); } //这时候父页面就可以调用子页面的a函数，实现js跨域访问
 ```
 
 6.1、通过location.hash跨域
-假设域名a.com下的文件cs1.html要和jianshu.com域名下的cs2.html传递信息。 1、cs1.html首先创建自动创建一个隐藏的iframe，iframe的src指向jianshu.com域名下的cs2.html页面。 2、cs2.html响应请求后再将通过修改cs1.html的hash值来传递数据。 3、同时在cs1.html上加一个定时器，隔一段时间来判断location.hash的值有没有变化，一旦有变化则获取获取hash值。
-注：由于两个页面不在同一个域下IE、Chrome不允许修改parent.location.hash的值，所以要借助于a.com域名下的一个代理iframe。
-优点：1.可以解决域名完全不同的跨域。2.可以实现双向通讯。 缺点：location.hash会直接暴露在URL里，并且在一些浏览器里会产生历史记录，数据安全性不高也影响用户体验。另外由于URL大小的限制，支持传递的数据量也不大。有些浏览器不支持onhashchange事件，需要轮询来获知URL的变化。
+
+以下三种都是通过 iframe 方式来，我们根据 iframe 能够在浏览器下能够跨域的特点，进行通信。  
+
+
+在 url 中，http://www.a.com#la 的 "#la" 就是 location.hash，改变 hash 值不会导致页面刷新，所以可以利用 hash 值来进行数据的传递，当然数据量是有限的。
+
+``` js
+//locationNameA
+<
+script >
+
+    function startRequest() {
+        var ifr = document.createElement('iframe');
+        ifr.style.display = 'none';
+        ifr.src = 'http://127.0.0.1:5501/locationNameB.html#name';
+        document.body.appendChild(ifr);
+    }
+
+function checkHash() {
+    try {
+        var data = location.hash ? location.hash.substring(1) : '';
+        if (console.log) {
+            console.log('Now the data is ' + data);
+        }
+    } catch (e) {};
+}
+
+setInterval(checkHash, 2000);
+
+<
+/script>
+//locationNameB
+<
+script >
+
+    function callBack() {
+        try {
+            parent.location.hash = 'somedata';
+        } catch (e) {
+            // ie、chrome的安全机制无法修改parent.location.hash，
+            // 所以要利用一个中间的cnblogs域下的代理iframe
+            var ifrproxy = document.createElement('iframe');
+            ifrproxy.style.display = 'none';
+            ifrproxy.src = 'http://127.0.0.1:5502/locationNameC.html#sjh';
+            document.body.appendChild(ifrproxy);
+        }
+    }
+
+    <
+    /script>
+
+    //locationNameC
+    <
+    script >
+    parent.parent.location.hash = self.location.hash.substring(1);
+console.log('parent.parent.location.hash: ', parent); <
+/script>
+```
 
 6.2 通过window.name跨域
-window对象有个 name 属性，该属性有个特征：即在一个窗口(window)的生命周期内,窗口载入的所有的页面都是共享一 个window.name 的，每个页面对 window.name 都有读写的权限，window.name 是持久存在一个窗口载入过的所有页面中的。window.name 属性的 name 值在不同的页面（甚至不同域名）加载后依旧存在（如果没修改则值不会变化），并且可以支持非常长的 name 值（2MB）。
- window.name = data;//父窗口先打开一个子窗口，载入一个不同源的网页，该网页将信息写入。        
- location = 'http://parent.url.com/xxx.html';//接着，子窗口跳回一个与主窗口同域的网址。
- var data = document.getElementById('myFrame').contentWindow.name。//然后，主窗口就可以读取子窗口的window.name了。
-如果是与iframe通信的场景就需要把iframe的src设置成当前域的一个页面地址。
- 
+window对象有个 name 属性，该属性有个特征：即在一个窗口(window)的生命周期内, 窗口载入的所有的页面都是共享一个window.name 的，每个页面对 window.name 都有读写的权限，window.name 是持久存在一个窗口载入过的所有页面中的。window.name 属性的 name 值在不同的页面（甚至不同域名）加载后依旧存在（如果没修改则值不会变化），并且可以支持非常长的 name 值（2MB）。
 ```js
-
-
-
-
+ window.name = data; //父窗口先打开一个子窗口，载入一个不同源的网页，该网页将信息写入。        
+ window.location = 'http://a.com/index.html';//接着，子窗口跳回一个与主窗口同域的网址。
+ var data = document.getElementById('myFrame').contentWindow.name。//然后，主窗口就可以读取子窗口的window.name了。
 
 ```
+如果是与iframe通信的场景就需要把iframe的src设置成当前域的一个页面地址。
+``` js
+//http://127.0.0.1:5502/window.nameA.html
+let data = '';
+const ifr = document.createElement('iframe');
+ifr.src = "http://127.0.0.1:5501/window.nameB.html";
+ifr.style.display = 'none';
+document.body.appendChild(ifr);
+ifr.onload = function() {
+        ifr.onload = function() {
+            console.log('ifr。contentWindow: ', ifr.contentWindow, ifr.contentWindow.name);
+            data = ifr.contentWindow.name;
+            console.log('收到数据:', data);
+        }
+        ifr.src = "http://127.0.0.1:5502/window.nameC.html";
+    } <
+    /script>  
+
+    //http://127.0.0.1:5501/window.nameB.html
+    <
+    script >
+    window.name = "你想要的数据!"; <
+/script>
+
+//http://127.0.0.1:5502/window.nameC.html
+emty
+```
+
 6.3 windows.postMessage
-otherWindow.postMessage(message, targetOrigin, [transfer]);
-接收数据：data、type：类型、source：对象、origin：源;
-```js
+
+otherWindow.postMessage(message, targetOrigin, [transfer]); 
+
+接收数据：data、type：类型、source：对象、origin：源; 
+
+``` js
 //postMessageChild.html
-  <iframe src="./postMessageChild.html" id="myFrame"></iframe>
-  <script >
-  
-  iframe = document.getElementById('myFrame')
+<
+iframe src = "./postMessageChild.html"
+id = "myFrame" > < /iframe> <
+script >
 
+    iframe = document.getElementById('myFrame')
 
-  iframe.onload = function (){
+iframe.onload = function() {
 
     iframe.contentWindow.postMessage('MessageFromIndex1', '*')
 
-    setTimeout(()=>{
-      iframe.contentWindow.postMessage('MessageFromIndex2', '*')
+    setTimeout(() => {
+        iframe.contentWindow.postMessage('MessageFromIndex2', '*')
     })
 
-  }
+}
 
-  function receiveMessageFromIframePage(event){
+function receiveMessageFromIframePage(event) {
     console.log('receiveMessageFromIframePage', event)
-  }
+}
 
-  window.addEventListener('messae', receiveMessageFromIframePage, false)
-  
+window.addEventListener('messae', receiveMessageFromIframePage, false)
+
 //  postMessageParent.html
-      parent.postMessage({
-      msg: 'MessageFromIframePage'
-    }, "*");
+parent.postMessage({
+    msg: 'MessageFromIframePage'
+}, "*");
 
-    function receiveMessageFromParent(event) {
-      consle.log('receiveMessageFromParent', event)
-    }
+function receiveMessageFromParent(event) {
+    consle.log('receiveMessageFromParent', event)
+}
 
-
-    widnow.addEventListener('message', receiveMessageFromParent, false)
-
+widnow.addEventListener('message', receiveMessageFromParent, false)
 ```
 
-
 7. websocket
+
 WebSocket是一种通信协议，使用ws://（非加密）和wss://（加密）作为协议前缀。该协议不实行同源政策，只要服务器支持，就可以通过它进行跨源通信。
 
-```js
+``` js
 //html
-<ul></ul>
-<input  type="text">
-    $(function () {
-      var iosocket = io.connect('http://localhost:3000/');
-      var $ul = $("ul");
-      var $input = $("input");
-      iosocket.on('connect', function () { //接通处理
-        $ul.append($('<li>连上啦</li>'));
-        iosocket.on('message', function (message) { //收到信息处理
-          $ul.append($('<li></li>').text(message));
+<
+ul > < /ul> <
+input type = "text" >
+    $(function() {
+        var iosocket = io.connect('http://localhost:3000/');
+        var $ul = $("ul");
+        var $input = $("input");
+        iosocket.on('connect', function() { //接通处理
+            $ul.append($('<li>连上啦</li>'));
+            iosocket.on('message', function(message) { //收到信息处理
+                $ul.append($('<li></li>').text(message));
+            });
+            iosocket.on('disconnect', function() { //断开处理
+                $ul.append('<li>Disconnected</li>');
+            });
         });
-        iosocket.on('disconnect', function () { //断开处理
-          $ul.append('<li>Disconnected</li>');
-        });
-      });
 
-      $input.keypress(function (event) {
-        if (event.which == 13) { //回车
-          event.preventDefault();
-          console.log("send : " + $input.val());
-          iosocket.send($input.val());
-          $input.val('');
-        }
-      });
+        $input.keypress(function(event) {
+            if (event.which == 13) { //回车
+                event.preventDefault();
+                console.log("send : " + $input.val());
+                iosocket.send($input.val());
+                $input.val('');
+            }
+        });
     });
-
 
 //server.js
 var io = require('socket.io')(3000);
-io.sockets.on('connection', function (client) {
-  client.on('message', function (msg) { //监听到信息处理
-    console.log('Message Received: ', msg);
-    client.send('服务器收到了信息：' + msg);
-  });
-  client.on("disconnect", function () { //断开处理
-    console.log("client has disconnected");
-  });
+io.sockets.on('connection', function(client) {
+    client.on('message', function(msg) { //监听到信息处理
+        console.log('Message Received: ', msg);
+        client.send('服务器收到了信息：' + msg);
+    });
+    client.on("disconnect", function() { //断开处理
+        console.log("client has disconnected");
+    });
 });
 console.log("listen 3000...");
 ```

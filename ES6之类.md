@@ -1,4 +1,13 @@
 
+#ES6之类（一）
+
+  上篇会讲 ES5相关的东西。
+## 基础
+![](http://pvt7l4h05.bkt.clouddn.com/2019-08-24-Pasted%20Graphic%2018.tiff)
+
+
+我们先从
+
 ```js
 
 class A {

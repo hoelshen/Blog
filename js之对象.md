@@ -203,9 +203,6 @@ some
 
 
 
-//原型链与继承 class
-
-constructor 是绑在实例上面的，不是绑在原型链上面的。
 
 
 浏览器的同源策略 防止cookie
@@ -239,14 +236,3 @@ toString 一定将所有内容转为字符串
 valueOf取出对象内部的值， 不进行类型转换。
 
 
-
-
-new 产生的对象  类型是object  实例对象是各个类型 Array  Number 
-
-object.prototype.toString Array  Number
-
-undefined 比较特殊 Object
-
-
-
-多态  继承  重载

@@ -92,3 +92,23 @@ o2.foo();
 使用 prototype 操作符， 
 箭头没有 prototype 属性。
 
+
+es5转es6
+
+class Animal {
+
+    constructor(name) {
+        this.name = name
+    }
+}
+Animal.prototype.species = 'animal'
+
+class Leo extends Animal {
+
+    constructor(name) {
+        super(name)
+    }
+}
+
+constructor(){} 充当了之前的构造函数,  
+super() 作为函数调用扮演着 Animal.call(this, name) 的角色(还可以表示父类). 最重要的是 Leo 的 _proto_ 也指向了 Animal.

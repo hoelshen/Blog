@@ -3,9 +3,57 @@
 
   本文会分为上下两篇。上篇会讲 ES5 相关的东西， 下篇会讲 ES6 相关的东西。
 
-## 对象方法、 类方法、 原型方法
+## 函数声明 和 函数表达式
+
+ 竟然是讲类，那不得不从函数开始讲起，以及涉及到到的原型链相关的东西。我们写第一个 hellowworld 时的场景不知道你们还记不记得。
 
 ``` js
+  function HelloWorld() {
+      console.log('hello world')
+  }
+```
+
+```js
+var HelloWorld = function(){
+  console.log('hello world')
+}
+
+```
+
+函数声明 与 函数表达式  的最主要区别就是函数名称， 在函数表达式只能够可以忽略它，从而创建匿名函数，一个匿名函数可以被用作一个IIFE（即时调用的函数表达式）， 一旦它定义就运行。
+注意点： 函数表达式没有提升，不像函数声明， 你在定义函数表达式之前不能使用函数表达式
+
+``` js
+obj();
+
+const obj = function() {
+    console.log('obj')
+}
+
+//ReferenceError: Cannot access 'obj' before initialization
+```
+
+如果想再函数体内部引用当前函数， 则需要创建一个命名函数表达式。 然后函数名称将会作为函数体（作用于）的本地变量
+
+``` js
+var math = {
+    'factorial': function factorial(n) {
+        if (n <= 1) {
+            return 1
+        }
+        return n * factorial(n - 1)
+    }
+}
+const obj = math.factorial(3);
+console.log('obj: ', obj); //6
+```
+
+被函数表达式赋值的那个变量会有一个 name 属性， 如果我们直接调用这个跟函数名有区别吗？
+
+## 对象方法、 类方法、 原型方法
+
+```js
+
 function People(name) {
     this.name = name;
     //对象方法  
@@ -131,11 +179,9 @@ Object.prototype.constructor == Objcect
 var Obj = function() {};
 var obj1 = new Obj();
 console.log(obj1.constructor === Obj)
-
-Obj.prototype.constructor = Fighter
 ```
 
-是Obj，因为他会顺着原型链找上去
+是true，因为它会顺着原型链找上去，
 
 再来看一个例子
 
@@ -145,88 +191,9 @@ Obj.prototype.constructor = Fighter
     var fighter = new Fighter();
 ```
 
-Fighter.prototype.constructor = Fighter
-只要将子类构造函数constructor指向子类
-在由上面我们可以引生出继承
-定义：继承可以使子类具有父类的属性和方法
-
-构造函数继承可以传递参数
+Fighter.prototype.constructor = Plane。只要将子类构造函数constructor指向子类，在由上面我们可以引生出继承。
 
 ``` js
-function Person(name) {
-    this.name = name
-}
-Person.prototype.sayHello = function() {
-    console.log('hi' + this.name)
-}
-
-function Student(name, grade) {
-    Person.call(this, name)
-    this.grade = grade;
-}
-
-Student.prototype.selfIntroduce = function() {
-    console.log('my ' + this.name + ' grade ' + this.grade)
-}
-
-var student = new Student('sjh', 99);
-student.selfIntroduce()
-```
-
-//我们得出my sjh grade 99
-但是这种会遇到一种情况就是无法使用Person的sayHello方法
-因为没有继承person原型方法和属性, 继承自Person的实例属性
-
-那么有没有最佳实践呢
-最佳实践其实就是在组合继承的基础上修改原型继承的方式，封装inheritPrototype函数，专门处理子类继承父类的原型逻辑.
-
-inheritPrototype函数。
-
-console.log(bottle2.__proto_); //undefined
-console.log(bottle1.sayHello() === bottle2.sayHello())
-
-``` js
-function Person(name) {
-    this.name = name
-}
-Person.prototype.sayHello = function() {
-    console.log(‘hi’ + this.name)
-}
-
-function Student(name, grade) {
-    Person.call(this, name)
-    this.grade = grade;
-}
-
-inheritPrototype(Student, Person);
-
-Student.prototype.selfIntroduce = function() {
-    console.log('my ' + this.name + ' grade ' + this.grade)
-}
-
-function inheritPrototype(subType, superType) {
-
-    var protoType = Object.create(superType.prototype);
-    protoType.constructor = subType;
-    subType.prototype = protoType
-
-}
-
-var student = new Student(‘sjh’, 23)
-console.log(student.name); //‘Cover’
-student.sayHello(); // sjh
-student.sayHello(); //23
-student.hasOwnProperty(‘name’); //true
-
-``
-`
-
-  
-
-`
-``
-js
-
 function Person(name, age, sex) {
     this.name = name;
     this.age = age;
@@ -246,7 +213,7 @@ var obj2 = new Person('yellow', 11, 'male');
 console.log('obj1.sayHello === obj2.sayHello', obj1.sayHello === obj2.sayHello)
 ```
 
- 通过构造函数生成的实例对象时，会自动为实例对象分配原型对象。每个构造函数都有一个  prototype 属性， 这个属性就是实例对象的原型对象。
+ 通过构造函数生成的实例对象时，会自动为实例对象分配原型对象。每个构造函数都有一个 prototype 属性，这个属性就是实例对象的原型对象。
 
  原型对象上的所有属性和方法， 都能被派生对象共享。
 
@@ -265,43 +232,11 @@ Person.prototype = {
 
 注意：需注意的是在上面的代码中，我们将 Person.prototype 设置为一个新创建的对象。会导致 Person.prototype 对象原来的 constructor 属性不再指向 Person, 这里可以像上面那样，特意的把 constructor 设置为 Person 。
 
-函数声明
-
-函数表达式 与 函数声明 的最主要区别就是函数名称， 在函数表达式只能够可以忽略它，从而创建匿名函数，一个匿名函数可以被用作一个iife（即时调用的函数表达式）， 一旦它定义就运行。
-注意点： 函数表达式没有提升，不像函数声明， 你在定义函数表达式之前不能使用函数表达式
-
-``` js
-obj();
-
-const obj = function() {
-    console.log('obj')
-}
-
-//ReferenceError: Cannot access 'obj' before initialization
-```
-
-如果想再函数体内部引用当前函数， 则需要创建一个命名函数表达式。 然后函数名称将会作为函数体（作用于）的本地变量
-
-``` js
-var math = {
-    'factorial': function factorial(n) {
-        if (n <= 1) {
-            return 1
-        }
-        return n * factorial(n - 1)
-    }
-}
-const obj = math.factorial(3);
-console.log('obj: ', obj); //6
-```
-
-被函数表达式赋值的那个变量会有一个 name 属性， 如果
-
 ``` js
 var arr = [];
-arr.name = "随笔川迹";
-Array.prototype.name = "川流不息";
-console.log(arr.name); // 随笔川迹
+arr.name = "ar1";
+Array.prototype.name = "Ar1";
+console.log(arr.name); // ar1
 ```
 
 当构造函数自定义的属性名与该构造函数下原型属性名相同时，构造函数的自定义属性优先于原型属性(可以把构造函数理解为内联样式), 而原型属性或者原型方法可以看做是class)
@@ -313,7 +248,9 @@ obj.__proto__ = MyFunc.prototype; //将这个空对象的__proto__成员指向�
 MyFunc.call(obj); //将构造函数的作用域赋给新对象
 
 return obj //返回新对象obj
-```
+```  
+
+所以在这里简单总结下构造函数、原型、隐式原型和实例的关系：每个构造函数都有一个原型属性(prototype)，该属性指向构造函数的原型对象；而实例对象有一个隐式原型属性(__proto__)，其指向构造函数的原型对象(obj.__proto__==Object.prototype)；同时实例对象的原型对象中有一个constructor属性，其指向构造函数。
 
 ## 继承 多态 重载
 
@@ -372,7 +309,9 @@ Person.prototype.sayHello = function() {
 std1.sayHello(); //ES5.JS:103 Uncaught TypeError: std1.sayHello is not a function
 ```
 
-2.prototype 模式
+2. prototype 模式
+
+  先看下面代码
 
 ``` js
 function Person(name) {
@@ -403,8 +342,7 @@ console.log('std1.prototype: ', Student.prototype);
 ```
 
 将子类的 prototype 指向父类的实例。 每个 prototype 都有一个 constructor 属性，它指向构造函数。
-缺点就是子类实例没有自己的属性
-
+缺点就是子类实例没有自己的属性.
 3. 直接继承 prototype
 
 ``` js
@@ -447,9 +385,9 @@ Student.prototype.constructor = Student;
 
 以上继承方式或多或少都有点缺点，那么我们有没有完美的解决方案呢
 
-``` js
-最佳组合方式
+## 最佳组合方式
 
+``` js
 function Animal(name) {
     this.name = name
 }
@@ -477,6 +415,52 @@ Leo.prototype.contructor = Leo
 // 这种在构造函数内部借函数同时又间接借助原型继承的方式被称之为 寄生组合式继承.
 ```
 
+### ES5方式的实现方式（最佳实践）
+
+最佳实践其实就是在组合继承的基础上修改原型继承的方式，封装inheritPrototype函数，专门处理子类继承父类的原型逻辑.inheritPrototype函数。
+
+``` js
+function Person(name) {
+
+    this.name = name
+
+}
+Person.prototype.sayHello = function() {
+
+    console.log(‘hi’ + this.name)
+
+}
+
+function Student(name, grade) {
+
+    Person.call(this, name)
+    this.grade = grade;
+
+}
+
+inheritPrototype(Student, Person);
+
+Student.prototype.selfIntroduce = function() {
+
+    console.log('my ' + this.name + ' grade ' + this.grade)
+
+}
+
+function inheritPrototype(subType, superType) {
+
+    var protoType = Object.create(superType.prototype);
+    protoType.constructor = subType;
+    subType.prototype = protoType
+
+}
+
+var student = new Student('obj', 23)
+console.log(student.name); //‘obj’
+student.sayHello(); // obj
+student.sayHello(); //23
+student.hasOwnProperty(‘name’); //true
+```
+
 ### 多态
 
 ### 重载
@@ -484,4 +468,3 @@ Leo.prototype.contructor = Leo
 最后放一张高清无码大图，作为总结！
 
 ![原型链图](http://pvt7l4h05.bkt.clouddn.com/2019-08-28-js%E5%8E%9F%E5%9E%8B%E9%93%BE.jpeg)
-

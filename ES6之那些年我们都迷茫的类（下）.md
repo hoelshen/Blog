@@ -40,6 +40,8 @@ class Retctange {}
 静态方法：
 static 关键字来定义。调用静态类方法不需要实例话该类，但不能通过一个类实例调用静态方法。常用语为一个应用程序回创建工具函数。
 
+⚠️： 只有静态方法 没有静态属性
+
 我们先从
 
 ``` js
@@ -83,15 +85,11 @@ o2.foo();
 
  o2.foo()方法中的 super 引用静态锁定到 o2, 具体说是锁定到 o2 的[[Prototype]]。 基本上这里的 super 就是 Object.getPrototypeOf(o2) 
 
-
-
 使用 new 操作符
 箭头函数不能够用作构造器，和new 一起用会跑出错误
 
-
 使用 prototype 操作符， 
 箭头没有 prototype 属性。
-
 
 es5转es6
 
@@ -100,6 +98,7 @@ class Animal {
     constructor(name) {
         this.name = name
     }
+
 }
 Animal.prototype.species = 'animal'
 
@@ -108,7 +107,59 @@ class Leo extends Animal {
     constructor(name) {
         super(name)
     }
+
 }
 
 constructor(){} 充当了之前的构造函数,  
 super() 作为函数调用扮演着 Animal.call(this, name) 的角色(还可以表示父类). 最重要的是 Leo 的 _proto_ 也指向了 Animal.
+
+ES6的继承
+ 
+class 内定义的所有函数都会置于该类的原型当中。
+
+``` js
+  class Point {
+      constructor() {
+          // ...
+      }
+
+      toString() {
+          // ...
+      }
+
+      toValue() {
+          // ...
+      }
+  }
+
+  // 等同于下边的代码
+  Point.prototype.constructor = function() {}
+  Point.prototype.toString = function() {}
+  Point.prototype.toValue = function() {}
+```
+
+在类的实例上面调用方法， 其实就是调用原型上的方法。
+
+``` js
+  class Point {}
+
+  var point = new Point()
+
+  console.log(point.constructor === Point.prototype.constructor) // true
+```
+
+class实现原理
+ES5的继承，实质是先创造子类的实例对象 this， 然后再将父类的方法添加到 this 上面 Parent.apply(this), 
+es6 的继承则是，将父类实例对象的属性和犯法，驾到this上面（所以必须先调用super方法）， 然后在用子类的构造函数修改this.
+
+super在调用之后， 内部的 this 指向的是 child，
+
+``` js
+  class parent {}
+
+  class Child extends Parent {}
+
+  Child.__proto__ === Parent // 继承属性
+  Child.prototype.__proto__ === Parent.prototype // 继承方法
+```
+

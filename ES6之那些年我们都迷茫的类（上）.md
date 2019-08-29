@@ -13,11 +13,10 @@
   }
 ```
 
-```js
-var HelloWorld = function(){
-  console.log('hello world')
+``` js
+var HelloWorld = function() {
+    console.log('hello world')
 }
-
 ```
 
 函数声明 与 函数表达式  的最主要区别就是函数名称， 在函数表达式只能够可以忽略它，从而创建匿名函数，一个匿名函数可以被用作一个IIFE（即时调用的函数表达式）， 一旦它定义就运行。
@@ -52,8 +51,7 @@ console.log('obj: ', obj); //6
 
 ## 对象方法、 类方法、 原型方法
 
-```js
-
+``` js
 function People(name) {
     this.name = name;
     //对象方法  
@@ -248,7 +246,8 @@ obj.__proto__ = MyFunc.prototype; //将这个空对象的__proto__成员指向�
 MyFunc.call(obj); //将构造函数的作用域赋给新对象
 
 return obj //返回新对象obj
-```  
+``
+`  
 
 所以在这里简单总结下构造函数、原型、隐式原型和实例的关系：每个构造函数都有一个原型属性(prototype)，该属性指向构造函数的原型对象；而实例对象有一个隐式原型属性(__proto__)，其指向构造函数的原型对象(obj.__proto__==Object.prototype)；同时实例对象的原型对象中有一个constructor属性，其指向构造函数。
 
@@ -260,7 +259,10 @@ return obj //返回新对象obj
 
 // .call/apply 将 子类 的 this 传给 父类 ， 再将 父类的属性绑定到 子类 的 this 上。
 
-``` js
+`
+``
+js
+
 function Person(name, grade) {
     this.name = name //实例属性
     this.grade = grade // 实例属性
@@ -343,6 +345,7 @@ console.log('std1.prototype: ', Student.prototype);
 
 将子类的 prototype 指向父类的实例。 每个 prototype 都有一个 constructor 属性，它指向构造函数。
 缺点就是子类实例没有自己的属性.
+
 3. 直接继承 prototype
 
 ``` js
@@ -463,8 +466,43 @@ student.hasOwnProperty(‘name’); //true
 
 ### 多态
 
-### 重载
+  JavaScript 的多态，我们先看百度百科的介绍：多态（Polymorphism）按字面的意思就是“多种状态”。 在面向对象语言中，接口的多种不同的实现方式即为多态。
+  多态的优点
+
+  1. 扩展性强
+  2. 消除类型之间的耦合关系
+  3. 接口性
+  4. 可替换行
+
+  存在的三个必要条件
+  * 继承
+  * 重写
+  * 父类引用指向子类对象
+
+```js
+function Person(name){
+  this.name = name
+}
+Person.prototype.sayName(){
+  console.log("My name is" , this.name)
+}
+
+function Student(){
+
+}
+
+function Teacher(){
+
+}
+
+
+```
+### 封装
+
+
+
 
 最后放一张高清无码大图，作为总结！
 
 ![原型链图](http://pvt7l4h05.bkt.clouddn.com/2019-08-28-js%E5%8E%9F%E5%9E%8B%E9%93%BE.jpeg)
+

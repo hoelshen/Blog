@@ -498,10 +498,36 @@ function Teacher(){
 
 ```
 ### 封装
+```js
 
+function Person(name, age) {
+    this.name = name;
+    var age = age;// 在实例中无法被调用
+}
+var p1 = new Person("Bob", 20);
+console.log(p1) // Person ->{name: "Bob"}  无法访问到age属性，这就叫被封（装）起来了。
+```
+```js
+function Person(age) {
+    var age = age;// 私有变量
+    this.showAge = function() {// 特权方法
+        console.log(age);
+    };
+}
+var p1 = new Person(20);// 新建对象p1
+p1.showAge();// -> 20  这个20是闭包，在闭包笔记处会详解。
+// 如果不理解闭包，按照我自己的思路很难去解释：
+// 为什么这个函数体里面存了一份age的数据。
 
+```
+```js
+Person.prototype.myAge = function() {
+    console.log(age);
+};
+var p1 = new Person(20);// 新建对象p1
+p1.myAge();// 报错 age is not defined
 
-
+```
 最后放一张高清无码大图，作为总结！
 
 ![原型链图](http://pvt7l4h05.bkt.clouddn.com/2019-08-28-js%E5%8E%9F%E5%9E%8B%E9%93%BE.jpeg)

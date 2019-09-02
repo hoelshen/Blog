@@ -480,24 +480,34 @@ student.hasOwnProperty(‘name’); //true
   * 父类引用指向子类对象
 
 ```js
-function Person(name){
-  this.name = name
-}
-Person.prototype.sayName(){
-  console.log("My name is" , this.name)
-}
+  function Person(){
+    this.say = function(vocation){
+      console.log("My vocation is" , vocation.name)
+      console.log("My vocation is" , vocation.constructor)
+    }
+  }
 
-function Student(){
+  
+  
+  function Student(){
+    this.name = name
+  }
+  
+  function Teacher(name){
+    this.name = name
+  }
+  var std = new Student('student')
+  var tea = new Teacher('teacher')
+  var per = new Person();
+  per.say(std);
+  per.say(tea);
 
-}
-
-function Teacher(){
-
-}
 
 
 ```
+
 ### 封装
+
 ```js
 
 function Person(name, age) {
@@ -515,11 +525,11 @@ function Person(age) {
     };
 }
 var p1 = new Person(20);// 新建对象p1
-p1.showAge();// -> 20  这个20是闭包，在闭包笔记处会详解。
-// 如果不理解闭包，按照我自己的思路很难去解释：
-// 为什么这个函数体里面存了一份age的数据。
+p1.showAge();
+
 
 ```
+由于prototype是通过函数名，指到其他内存空间独立的函数体，因此没法取得闭包的作用域变量。
 ```js
 Person.prototype.myAge = function() {
     console.log(age);

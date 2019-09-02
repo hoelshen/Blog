@@ -1,4 +1,4 @@
-# ES6之类（二
+# ES6之类（二）
 
 ## 类
 
@@ -11,15 +11,12 @@ class Retctange {
     constructor(hight, width) {
         this.height = height;
         this.width = width;
-
     }
-
 }
 ```
 
   函数声明和类声明之间的一个重要区别就是函数声明会提升， 类声明不会。例如下面例子
 
-  
 
 ``` js
 let p = new Retctange();
@@ -61,7 +58,7 @@ class B extends A {
 let b = new B();
 ```
 
-  子类的 super.p()，就是将 super 当作是一个对象使用，super在普通方法中， 指向 A.prototype， 所以super.p()就相当于A.prototype.p(); 
+  子类的 super.p()，就是将 super 当作是一个对象使用，super在普通方法中， 指向 A.prototype， 所以super.p()就相当于A.prototype.p();
   super 指向父类的原型对象， 所以定义在父类实例上的方法或属性，是无法通过 super 调用的。
 
 ``` js
@@ -88,13 +85,12 @@ o2.foo();
 使用 new 操作符
 箭头函数不能够用作构造器，和new 一起用会跑出错误
 
-使用 prototype 操作符， 
+使用 prototype 操作符，
 箭头没有 prototype 属性。
 
 es5转es6
 
 class Animal {
-
     constructor(name) {
         this.name = name
     }
@@ -103,7 +99,6 @@ class Animal {
 Animal.prototype.species = 'animal'
 
 class Leo extends Animal {
-
     constructor(name) {
         super(name)
     }
@@ -114,7 +109,7 @@ constructor(){} 充当了之前的构造函数,  
 super() 作为函数调用扮演着 Animal.call(this, name) 的角色(还可以表示父类). 最重要的是 Leo 的 _proto_ 也指向了 Animal.
 
 ES6的继承
- 
+
 class 内定义的所有函数都会置于该类的原型当中。
 
 ``` js

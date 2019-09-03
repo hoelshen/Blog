@@ -132,8 +132,7 @@ require('http').createServer((req, res) => {
 console.log('启动服务，监听 127.0.0.1:3000');
 
 //html
-<
-script >
+<script >
     function jsonpCallback(data) {
         alert('获得 X 数据:' + data.x);
     } <

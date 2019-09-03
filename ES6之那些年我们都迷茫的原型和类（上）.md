@@ -1,11 +1,11 @@
 
-# ES6之类（一）
+# ES5之原型（一）
 
   本文会分为上下两篇。上篇会讲 ES5 相关的东西， 下篇会讲 ES6 相关的东西。
 
 ## 函数声明 和 函数表达式
 
- 竟然是讲类，那不得不从函数开始讲起，以及涉及到到的原型链相关的东西。我们写第一个 hellowworld 时的场景不知道你们还记不记得。
+ 既然是讲类，那不得不从函数开始讲起，以及涉及到到的原型链相关的东西。我们写第一个 hellowworld 时的场景不知道你们还记不记得。
 
 ``` js
   function HelloWorld() {
@@ -142,16 +142,17 @@ prototype 是构造函数的属性，构造函数也是对象。 而 __proto__ �
 
 ### constructor 和 prototype
 
-  原型(prototype)是构造函数的一个属性，是一个对象。constructor 是绑在实例上面的，不是绑在原型链上面的。
+  原型(prototype)是构造函数的一个属性，是一个对象。constructor 是绑在实例上面的，不是绑在原型链上面的。，constructor 则代表实例拥有的方法。可以浅显的认为 prototype 向下指， constructor 向上指， 这里的向上指代表的是往父类或者原型上面。
 
 ![构造函数](http: //pvt7l4h05.bkt.clouddn.com/2019-08-26-175034.png)
 
 ``` js
-Object.prototype.constructor == Objcect
+var obj = new Object();
+console.log('Object.prototype.constructor == Objcect && Objcect === obj.constructor', Object.prototype.constructor == Object && Object == obj.constructor)
 //这个答案是什么
 ```
 
- 在前面说过，只有 prototype 是让你知道用什么属性（也就是原型链上的方法）
+ 在前面说过，prototype 是让你知道用什么属性，Object.prototype 指的是 Object类原型的 constructor方法。
 
 ``` js
     function Bottle() {
@@ -173,27 +174,9 @@ Object.prototype.constructor == Objcect
 
   构造函数实例出来的对象，可以得到构造函数对象中的属性，方法。等等还有一个什么 __proto__。我们仔细点进去，有两个东西 constructor: Bottle（）。这是因为我们是由 Bottle，new出来。我们在继续点下去，还有__proto_: 的constructor： Object（）。
 
-``` js
-var Obj = function() {};
-var obj1 = new Obj();
-console.log(obj1.constructor === Obj)
-```
-
-是true，因为它会顺着原型链找上去，
-
-再来看一个例子
-
-``` js
-    var plane = new Plane();
-    Fighter.prototype = new Plane();
-    var fighter = new Fighter();
-```
-
-Fighter.prototype.constructor = Plane。只要将子类构造函数constructor指向子类，在由上面我们可以引生出继承。
-
 ```js
 
-var obj = new Object;();
+var obj = new Object();
 obj.__proto = 六个属性：constructor, hasOwnProperty, toLocaleString
 
 obj.constructor指向Objector
@@ -225,9 +208,7 @@ console.log('obj1.sayHello === obj2.sayHello', obj1.sayHello === obj2.sayHello)
  原型对象上的所有属性和方法， 都能被派生对象共享。
 
 ``` js
-function Person(name) {
-
-}
+function Person(name) {}
 
 Person.prototype = {
     constructor: Person,
@@ -259,17 +240,26 @@ return obj //返回新对象obj
 
 所以在这里简单总结下构造函数、原型、隐式原型和实例的关系：每个构造函数都有一个原型属性(prototype)，该属性指向构造函数的原型对象；而实例对象有一个隐式原型属性(__proto__)，其指向构造函数的原型对象(obj.__proto__==Object.prototype)；同时实例对象的原型对象中有一个constructor属性，其指向构造函数。
 
+由于prototype是通过函数名，指到其他内存空间独立的函数体，因此没法取得闭包的作用域变量。
+
+```js
+Person.prototype.myAge = function() {
+    console.log(age);
+};
+var p1 = new Person(20);// 新建对象p1
+p1.myAge();// 报错 age is not defined
+
+```
+
 ## 继承 多态 重载
 
 ### 子类继承父类
 
 1. 借用构造函数继承
 
-// .call/apply 将 子类 的 this 传给 父类 ， 再将 父类的属性绑定到 子类 的 this 上。
+ call/apply 将 子类 的 this 传给 父类 ， 再将 父类的属性绑定到 子类 的 this 上。
 
-`
-``
-js
+```js
 
 function Person(name, grade) {
     this.name = name //实例属性
@@ -316,10 +306,11 @@ Person.prototype.sayHello = function() {
     console.log('hello', this.name)
 }
 
-std1.sayHello(); //ES5.JS:103 Uncaught TypeError: std1.sayHello is not a function
+std1.sayHello();
 ```
 
-2. prototype 模式
+ES5.JS:103 Uncaught TypeError: std1.sayHello is not a function
+2.prototype 模式
 
   先看下面代码
 
@@ -346,7 +337,7 @@ Student.prototype.constrctor = Student; // 保持构造函数和原型对象的�
 var std1 = new Student('b', 11)
 var std2 = new Student('a', 22)
 std1.sayHello(); // 实例和原型 均访问的到。
-console.log(std1.hasOwnProperty('name')) // false 说明是继承来的属性
+console.log(std1.hasOwnProperty('name')) // 为false 说明是继承来的属性， 为 true 代表是自身的属性
 console.log(std1.sayHello === std2.sayHello) // true,复用了方法
 console.log('std1.prototype: ', Student.prototype);
 ```
@@ -354,7 +345,7 @@ console.log('std1.prototype: ', Student.prototype);
 将子类的 prototype 指向父类的实例。 每个 prototype 都有一个 constructor 属性，它指向构造函数。
 缺点就是子类实例没有自己的属性.
 
-3. 直接继承 prototype
+3.直接继承 prototype
 
 ``` js
 function Person(name) {
@@ -384,7 +375,7 @@ console.log(Person.prototype.constructor); //Student
 
  缺点是 Student.prototype 和 Person.prototype 现在都指向同一个对象了，那么任何对Student.prototype 修改， 都会映射到 Person.prototype 上。
 
-### 空对象
+4.空对象
 
 ``` js
 var Obj = function() {}
@@ -396,7 +387,7 @@ Student.prototype.constructor = Student;
 
 以上继承方式或多或少都有点缺点，那么我们有没有完美的解决方案呢
 
-## 最佳组合方式
+5.最佳组合方式
 
 ``` js
 function Animal(name) {
@@ -432,18 +423,13 @@ Leo.prototype.contructor = Leo
 
 ``` js
 function Person(name) {
-
     this.name = name
-
 }
 Person.prototype.sayHello = function() {
-
     console.log(‘hi’ + this.name)
-
 }
 
 function Student(name, grade) {
-
     Person.call(this, name)
     this.grade = grade;
 
@@ -452,13 +438,10 @@ function Student(name, grade) {
 inheritPrototype(Student, Person);
 
 Student.prototype.selfIntroduce = function() {
-
     console.log('my ' + this.name + ' grade ' + this.grade)
-
 }
 
 function inheritPrototype(subType, superType) {
-
     var protoType = Object.create(superType.prototype);
     protoType.constructor = subType;
     subType.prototype = protoType
@@ -477,15 +460,16 @@ student.hasOwnProperty(‘name’); //true
   JavaScript 的多态，我们先看百度百科的介绍：多态（Polymorphism）按字面的意思就是“多种状态”。 在面向对象语言中，接口的多种不同的实现方式即为多态。
   多态的优点
 
-  1. 扩展性强
-  2. 消除类型之间的耦合关系
-  3. 接口性
-  4. 可替换行
+1. 扩展性强
+2. 消除类型之间的耦合关系
+3. 接口性
+4. 可替换行
 
   存在的三个必要条件
-  * 继承
-  * 重写
-  * 父类引用指向子类对象
+
+* 继承
+* 重写
+* 父类引用指向子类对象
 
 ```js
   function Person(){
@@ -522,9 +506,10 @@ function Person(name, age) {
     this.name = name;
     var age = age;// 在实例中无法被调用
 }
-var p1 = new Person("Bob", 20);
-console.log(p1) // Person ->{name: "Bob"}  无法访问到age属性，这就叫被封（装）起来了。
+var p1 = new Person("obj", 20);
+console.log(p1) // Person ->{name: "obj"}  无法访问到age属性，这就叫被封（装）起来了。
 ```
+
 ```js
 function Person(age) {
     var age = age;// 私有变量
@@ -537,16 +522,3 @@ p1.showAge();
 
 
 ```
-由于prototype是通过函数名，指到其他内存空间独立的函数体，因此没法取得闭包的作用域变量。
-```js
-Person.prototype.myAge = function() {
-    console.log(age);
-};
-var p1 = new Person(20);// 新建对象p1
-p1.myAge();// 报错 age is not defined
-
-```
-最后放一张高清无码大图，作为总结！
-
-![原型链图](http://pvt7l4h05.bkt.clouddn.com/2019-08-28-js%E5%8E%9F%E5%9E%8B%E9%93%BE.jpeg)
-

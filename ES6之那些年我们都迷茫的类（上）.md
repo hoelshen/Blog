@@ -191,6 +191,15 @@ console.log(obj1.constructor === Obj)
 
 Fighter.prototype.constructor = Plane。只要将子类构造函数constructor指向子类，在由上面我们可以引生出继承。
 
+```js
+
+var obj = new Object;();
+obj.__proto = 六个属性：constructor, hasOwnProperty, toLocaleString
+
+obj.constructor指向Objector
+
+```
+
 ``` js
 function Person(name, age, sex) {
     this.name = name;
@@ -246,8 +255,7 @@ obj.__proto__ = MyFunc.prototype; //将这个空对象的__proto__成员指向�
 MyFunc.call(obj); //将构造函数的作用域赋给新对象
 
 return obj //返回新对象obj
-``
-`  
+```  
 
 所以在这里简单总结下构造函数、原型、隐式原型和实例的关系：每个构造函数都有一个原型属性(prototype)，该属性指向构造函数的原型对象；而实例对象有一个隐式原型属性(__proto__)，其指向构造函数的原型对象(obj.__proto__==Object.prototype)；同时实例对象的原型对象中有一个constructor属性，其指向构造函数。
 

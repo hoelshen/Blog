@@ -7,7 +7,7 @@
   实际上是特殊的函数，就像你能够定义的函数表达式和函数声明，类语法有两个组成部分： 类表达式和类声明。
   构造函数 、静态方法、原型方法、getter、setter
   一个构造函数方法是一个特殊方法， 其用于创建和初始化使用一个类创建的一个对象。
-  一个狗找函数可以使用 super 关键字来调用一个父类的构造函数。
+  一个构造函数可以使用 super 关键字来调用一个父类的构造函数。
   静态方法：
   static 关键字来定义。调用静态类方法不需要实例话该类，但不能通过一个类实例调用静态方法。常用语为一个应用程序回创建工具函数。
   ⚠️： 只有静态方法 没有静态属性
@@ -56,34 +56,46 @@ person.sayName();
 class 内定义的所有函数都会置于该类的原型当中。
 
 ``` js
-  class Point {
-      constructor() {
-          // ...
-      }
-      toString() {
-          // ...
-      }
-      toValue() {
-          // ...
-      }
-  }
-  // 等同于下边的代码
-  Point.prototype.constructor = function() {}
-  Point.prototype.toString = function() {}
-  Point.prototype.toValue = function() {}
+class Animal {
+    constructor(name) {
+        this.name = name
+    }
+}
+Animal.prototype.species = 'animal'
+class Leo extends Animal {
+    constructor(name) {
+        super(name)
+    }
+}
 ```
 
-在类的实例上面调用方法， 其实就是调用原型上的方法。
+constructor(){} 充当了之前的构造函数,  
+super() 作为函数调用扮演着 Animal.call(this, name) 的角色(还可以表示父类). 最重要的是 Leo 的 _proto_ 也指向了 Animal.
 
 ``` js
-  class Point {}
-  var point = new Point()
-  console.log(point.constructor === Point.prototype.constructor) // true
+class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    toString() {
+        return '(' + this.x + ', ' + this.y + ')';
+    }
+}
+var point = new Point(2, 3);
+point.toString() // (2, 3)
+point.hasOwnProperty('x') // true
+point.hasOwnProperty('y') // true
+point.hasOwnProperty('toString') // false
+point.__proto__.hasOwnProperty('toString')
 ```
 
-### class实现原理
+x 和 y 都是实例对象point 自身的属性（因为定义在 this 变量上）， 所以 hasOwnPropery 返回 true， 而toString 是原型对象的属性（定义在 Point类上）， 所以 hasOwnProperty 方法返回 false。
 
-ES5的继承，实质是先创造子类的实例对象 this， 然后再将父类的方法添加到 this 上面 Parent.apply(this), 
+### class 实现原理
+
+ES5的继承，实质是先创造子类的实例对象 this， 然后再将父类的方法添加到 this 上面 Parent.apply(this),
 es6 的继承则是，将父类实例对象的属性和犯法，驾到this上面（所以必须先调用super方法）， 然后在用子类的构造函数修改this.
 super在调用之后， 内部的 this 指向的是 child，
 
@@ -144,7 +156,7 @@ class B extends A {
 let b = new B();
 ```
 
-  子类的 super.p()，就是将 super 当作是一个对象使用，super在普通方法中， 指向 A.prototype， 所以super.p()就相当于A.prototype.p(); 
+  子类的 super.p()，就是将 super 当作是一个对象使用，super在普通方法中， 指向 A.prototype， 所以super.p()就相当于A.prototype.p();
   super 指向父类的原型对象， 所以定义在父类实例上的方法或属性，是无法通过 super 调用的。
 
 ``` js
@@ -198,57 +210,45 @@ const obj = function Person() {
     console.log('obj')
 
 }
-console.log('obj', obj.name)
+console.log('obj', obj.name) //Person
 ```
 
 ES6 的类只是 ES5 的构造函数的一层包装，所以函数的许多特性都被Class继承，包括name属性。
-
-2. 他们之间的共同点。
-
-``` js
-class Animal {
-    constructor(name) {
-        this.name = name
-    }
-}
-Animal.prototype.species = 'animal'
-class Leo extends Animal {
-    constructor(name) {
-        super(name)
-    }
-}
-```
-
-constructor(){} 充当了之前的构造函数,  
-super() 作为函数调用扮演着 Animal.call(this, name) 的角色(还可以表示父类). 最重要的是 Leo 的 _proto_ 也指向了 Animal.
+2. 继承
 
 ``` js
-class Point {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    toString() {
-        return '(' + this.x + ', ' + this.y + ')';
-    }
-}
-var point = new Point(2, 3);
-point.toString() // (2, 3)
-point.hasOwnProperty('x') // true
-point.hasOwnProperty('y') // true
-point.hasOwnProperty('toString') // false
-point.__proto__.hasOwnProperty('toString')
+  class Point {
+      constructor() {
+          // ...
+      }
+      toString() {
+          // ...
+      }
+      toValue() {
+          // ...
+      }
+  }
+  // 等同于下边的代码
+  Point.prototype.constructor = function() {}
+  Point.prototype.toString = function() {}
+  Point.prototype.toValue = function() {}
 ```
 
-x 和 y 都是实例对象point 自身的属性（因为定义在 this 变量上）， 所以 hasOwnPropery 返回 true， 而toString 是原型对象的属性（定义在 Point类上）， 所以 hasOwnProperty 方法返回 false。
+在类的实例上面调用方法，其实就是调用原型上的方法。
+
+``` js
+  class Point {}
+  var point = new Point()
+  console.log(point.constructor === Point.prototype.constructor) // true
+```
 
 ### 不同点
 
 1. 不存在提升
 
   上面例子有讲，不在重复叙述。
-2.this 的指向
+
+2. this 的指向
   函数的this 是指向区分多种，在这里不做展开，我们只看最简单的例子。
   类的方法内部如果含有 this， 它默认指向类的实例。
 
@@ -292,9 +292,7 @@ console.log('printName', printName())
 printName  //Hello there
 printName(); // TypeError: Cannot read property 'print' of undefined
 
-
-
-我们可以用bind 解决 this 指向问题
+我们可以用 bind 或者箭头函数解决 this 指向问题
 
 ```js
 class Logger {
@@ -351,4 +349,3 @@ class Foo {
 }
 console.log('Foo.getPrivateValue(new Foo());', Foo.getPrivateValue(new Foo())) //42
 ```
-

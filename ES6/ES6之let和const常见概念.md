@@ -37,6 +37,16 @@ function toSquare(n){
 立即执行函数能够有效解决：
 
 ```js
+for(var i = 0; i< 10; ++i){
+  (function(value){
+     console.log(value)
+  }(i))
+}
+```
+
+还有一个例子:
+
+```js
     (function() {
       var testValue = 'hello';
       var testFunc = function () {

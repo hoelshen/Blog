@@ -31,7 +31,7 @@
 * wx.showShareMenu
 * wx.navigateTo({url:})
 
-### 移动端经验不足，
+### 移动端经验不足
 
 缺乏移动思维 在页面布局方面没有合理的运用 flex布局
 
@@ -113,7 +113,7 @@ export function compareVersion(v1, v2) {
 
 ### 前期没有做一些相关物料  导致后期还在实现
 
-### megalo的特定结构转译之后的东西。
+### megalo的特定结构转译之后的东西
 
 sesstion，label，div等，在小程序的表现形式都不一样
 

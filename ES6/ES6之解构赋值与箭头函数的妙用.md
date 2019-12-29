@@ -63,7 +63,7 @@ y = 6
 foo(undefined, 10);
 
 
-// undefined就是缺失
+// undefined 就是缺失
 
 ```
 
@@ -82,7 +82,7 @@ foo(); //ReferenceError
 
 ```
 
-ES6中引入了TDZ,它防止变量在未初始化的状态下被访问
+ES6 中引入了 TDZ ,它防止变量在未初始化的状态下被访问
 
 默认值表达式
 // 函数引用，而不是函数调用本身（后面没有调用形式()）
@@ -94,7 +94,7 @@ function foo2() {
 }
 
 var tmp = foo2(),
-  a = tmp[0],
+  a = tmp[0], 
   b = tmp[1],
   c = tmp[2]
 
@@ -163,8 +163,9 @@ test({
 }) //2 3
 ```
 
-我们传入的参数({})， 所以没有使用默认值{y:10},而是在传入的空对象{}上进行{y}结构
+我们传入的参数({})， 所以没有使用默认值 {y:10} ,而是在传入的空对象 {} 上进行 {y} 结构
 
+```js
 // 嵌套默认
 
 //default合并进config
@@ -173,13 +174,14 @@ var defaultt = {
     remove: 1,
     enable: 2,
   }
-} 
+}
+
 {
   //（带默认值赋值的）的解构
   let {
     options: {
-      remove: defaultt.options.remove,
-      enable: defaultt.options.enable,
+      remove: default.options.remove,
+      enable: default.options.enable,
     } = {},
     log: {
       warn = defalut.log.warn,
@@ -203,7 +205,6 @@ var defaultt = {
 //生成器
 var o = {
   * foo() {
-
   }
 }
 
@@ -217,9 +218,11 @@ runSomething({
     return y - x
   }
 })
+```
 
-//1.第一个属性something使得我们能够通过o.someting(..)来调用，像是它的公开名称。 而第二个something是一个词法名称， 用于其在自身内部引用这个函数， 其目的是递归。
+第一个属性 something 使得我们能够通过 o.someting(..) 来调用，像是它的公开名称。 而第二个 something 是一个词法名称， 用于其在自身内部引用这个函数，其目的是递归。
 
+```js
 // 如果我们采用简洁方法的话
 runSomething({
   something(x, y) {
@@ -230,11 +233,13 @@ runSomething({
     return y - x
   }
 })
+```
 
-// 会提示找不到someting标识符
-// 简洁方法意味着匿名函数表达式
-// 你应该在不需要它们执行递归或者事件绑定 / 解绑定的时候使用
+ 会提示找不到 someting 标识符
+ 简洁方法意味着匿名函数表达式
+ 你应该在不需要它们执行递归或者事件绑定 / 解绑定的时候使用
 
+```js
 var o = {
   __id: 10,
   get id() {
@@ -251,13 +256,13 @@ o.id;
 
 o.__id;
 o.__id;
+```
 
-// setter字面量必须有且只有一个声明参数：省略或者多写都是语法错误
-// 所需的参数可以使用解构和默认值set id({id: v=0}){..}
-// 但是gather/reset...是不允许的set id(...v){..}
+setter 字面量必须有且只有一个声明参数：省略或者多写都是语法错误
+所需的参数可以使用解构和默认值 set id({id: v=0}){..}
+但是 gather/reset... 是不允许的 set id(...v){..}
 
-
-// super只允许在简洁方法中出现，而不允许在普通函数表达式属性中出现，也只允许以super.xxx的形式（用于属性/方法访问）出现，而不能以super()的心事出现
+super 只允许在简洁方法中出现，而不允许在普通函数表达式属性中出现，也只允许以 super.xxx 的形式（用于属性/方法访问）出现，而不能以 super() 的心事出现
 
 字符串字面量在它出现的词法作用域内, 没有任何形式的动态作用域
 
@@ -269,16 +274,55 @@ function foo(string ,...value){
 var desc = 'awesome'
 
 foo`Everything is ${desc}!`;
-["everything is ", " ! "]
-["awesome"]
 ```
 
- 标签（tag）部分，即`..`字符串字面量之前说的foo这一部分，是一个要调用的函数值。
+ 标签（tag）部分，即`..`字符串字面量之前说的，是一个要调用的函数值。
  实际上它可以是任意结果为函数的表达式，甚至可以是一个结果为另一个函数的函数调用
+
+ ## 箭头函数
+
+ 箭头函数表达式的语法比函数表达式更简洁，并且没有自己的 this，arguments，super或 new.target。这些函数表达式更适用于那些本来需要匿名函数的地方，并且它们不能用作构造函数。
 
  箭头函数总是表达式，不存在箭头函数声明
   在箭头函数内部, this绑定不是都动态的，而是语法的。
  => 是 var self = this（ 或者.bind(this) ）的词法替代形式
+
+，我们说过箭头函数从词法范围中获取它们的值。这意味着它只是在周围的代码块中使用这个值。它不在乎叫它什么，它只在乎它在哪里被定义
+
+```js
+let obj = {
+  myVar: 'foo',
+  
+  myFunc: function() { 
+    console.log(this.myVar)  
+  
+    setTimeout(() => {
+      console.log(this.myVar)
+    }, 1000)
+  }
+}
+obj.myFunc() // foo ... then... foo
+
+```
+
+你可能希望this指向obj。但是箭头函数不会将它绑定到调用它们的对象。他们只是在定义的范围内使用这个值。在这种情况下，this指向全局对象。所以箭头函数不能用于对象方法！
+
+```js
+
+let obj = {
+  myVar: 'foo',
+  
+  myFunc: () => { 
+    console.log(this.myVar)  
+  }
+}
+obj.myFunc() // undefined
+
+```
+你可能希望this指向obj。但是箭头函数不会将它绑定到调用它们的对象。他们只是在定义的范围内使用这个值。在这种情况下，this指向全局对象。所以箭头函数不能用于对象方法！
+
+
+
 
 
  箭头函数的适用时机规则：

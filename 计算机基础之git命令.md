@@ -13,7 +13,11 @@ git pull 的运行过程：
 git pull : 首先，基于本地的FETCH_HEAD记录，比对本地的FETCH_HEAD记录与远程仓库的版本号，然后git fetch 获得当前指向的远程分支的后续版本的数据，然后再利用git merge将其与本地的当前分支合并。
 
 
-git pull --rebase
+git rebase  自己跟自己远程的分支合并
+
+git merge --no-ff 跟别人的分支合并
+
+git checkout -b 
 
 
 

@@ -44,8 +44,8 @@
   * [前端常见设计模式之适配器模式](./设计模式/前端常见设计模式之适配器模式.md)
 
 * [Flutter](./Flutter/README.md)
-  * [flutter小记之路由和导航(一)](./Flutter/flutter小记之路由和导航(一).md)
-  * [flutter小记之页面布局(二)](./Flutter/flutter小记之页面布局(二).md)
+  * [flutter小记之路由和导航(一)](./Flutter/flutter小记之路由和导航.md)
+  * [flutter小记之页面布局(二)](./Flutter/flutter小记之页面布局.md)
 
 * [Node](./Node/README.md)
   * [Node 之 Buffer 详解](./Node/Node 之 Buffer 详解.md)

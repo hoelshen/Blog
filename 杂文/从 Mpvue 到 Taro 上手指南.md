@@ -91,8 +91,51 @@ class Popper extends Component {
 
 ```
 
+### 事件循环
+ 
+ 不能使用 Array#map 之外的方法操作 JSX 数组
+numbers.filter(isOdd).map((number) => <View />)
+
+for (let index = 0; index < array.length; index++) {
+  // do you thing with array
+}
+
+const element = array.map(item => {
+  return <View />
+})
+
+
+```js
+
+
+taro组件使用keys
+小程序原生组件使用taroKeys
+
+const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 98, 99]
+const listItems = numbers.map((number) => {
+  return (
+    // native component
+    <g-list
+      taroKey={String(number)}
+      className='g-list'
+    >
+    我是第 {number + 1} 个数字
+    </g-list>
+  )
+})
+
+ Taro 中，JSX 会编译成微信小程序模板字符串，因此你不能把 map 函数生成的模板当做一个数组来处理。当你需要这么做时，应该先处理需要循环的数组，再用处理好的数组来调用 map 函数。例如上例应该写成：
+const list = this.state.list
+  .filter(l => l.selected)
+  .map(l => {
+    return <li>{l.text}</li>
+  })
+  ```
+
 ### api
+
 首先是api 的命名方式不同， 在 Taro 里面没有wx，这个api开头，所有的一切都要转变成Taro,可以看下面这个例子:
+
 ```js
     Taro.chooseImage({
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -117,6 +160,12 @@ class Popper extends Component {
 
 微信提供的回调是bindgetuserinfo，但是Taro将bind事件都封装成了on事件，这个需要注意一下
 
+你基本都能使用小程序本身提供的 API 达到同等的需求，其中就包括但不限于：
+1. 使用 this.$scope.triggerEvent 调用通过 props 传递的函数;
+2. 通过 this.$scope.selectComponent 和 wx.createSelectorQuery 实现 ref;
+3. 通过 getCurrentPages 等相关方法访问路由；
+4. 修改编译后文件 createComponent 函数创建的对象
+
 ### ref
   Trao 给了三种 ref 调用方式，
 ```js
@@ -128,9 +177,38 @@ class Popper extends Component {
 ```
 
 ### slot
+Children 与组合
+相当于slot
+请不要对 this.props.children 进行任何操作。
+this.props.children && this.props.children、this.props.children[0] 在 Taro 中都是非法的。
+this.props.children 无法用 defaultProps 设置默认内容。
+不能把 this.props.children 分解为变量再使用
+
+通过字符串创建 ref 只需要把一个字符串的名称赋给 ref prop
 
 跟vue 不同的点。不允许在jsx 参数中传入jsx元素
 不能使用内置组件化的slot 功能
+
+通过字符串创建 ref 只需要把一个字符串的名称赋给 ref prop
+
+  // 如果 ref 的是小程序原生组件，那只有在 didMount 生命周期之后才能通过
+    // this.refs.input 访问到小程序原生组件
+    if (process.env.TARO_ENV === 'weapp') {
+      // 这里 this.refs.input 访问的时候通过 `wx.createSeletorQuery` 取到的小程序原生组件
+    } else if (process.env.TARO_ENV === 'h5') {
+      // 这里 this.refs.input 访问到的是 `@tarojs/components` 的 `Input` 组件实例
+    }
+
+通过传递一个函数创建 ref, 在函数中被引用的组件会作为函数的第一个参数传递。
+
+通过函数创建的ref 是不是不能在函数式组件中使用  果然如此
+
+  this.cat = Taro.createRef()
+
+  roar () {
+    // 会打印 `miao, miao, miao~`
+    this.cat.current.miao()
+  }
 
 ```jsx
 //无效
@@ -157,11 +235,25 @@ render () {
 在微信小程序中，从调用 Taro.navigateTo、Taro.redirectTo 或 Taro.switchTab 后，到页面触发 componentWillMount 会有一定延时。因此一些网络请求可以提前到发起跳转前一刻去请求。
  
 
+### mobx 状态管理与vuex
+mobx：
+computed(function) 创建的函数只有当它有自己的观察者时才会重新计算，否则它的值会被认为是不相关的。 经验法则：如果你有一个函数应该自动运行，但不会产生一个新的值，请使用autorun。
+
+vuex
+
+
 ## 优化
 
 下面是官网摘录的相关优化方式:
 1. 不要直接更新状态
+```js
+this.setState({
+  value: this.state.value + 1
+})   // ✗ 错误
 
+
+this.setState(prevState => ({ value: prevState.value + 1 }))    // ✓ 正确
+```
 2. 状态更新一定是异步的
   Taro 可以将多个 setState() 调用合并成一个调用来提高性能。
   因为 this.state 和 props 一定是异步更新的，所以你不能在 setState 马上拿到 state 的值，例如：

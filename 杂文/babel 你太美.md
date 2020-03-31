@@ -231,3 +231,15 @@ yarn add @babel/preset-typescript
 [babel/core.js](https://github.com/zloirock/core-js)
 
 [babel regenerator-runtimer](https://github.com/facebook/regenerator/blob/master/packages/regenerator-runtime/runtime.js)
+
+以下是常见的 babel 模块
+
+Babylon（ @babel/parser）
+Babylon 就是 Babel 的 parser。它可以把一段符合规范的 JavaScript 代码输出成一个符合 Esprima 规范的 AST。
+
+Babel-traverse
+babel-traverse 可以遍历由 Babylon 生成的抽象语法树，并把抽象语法树的各个节点从拓扑数据结构转化成一颗路径（Path）树，Path 表示两个节点之间连接的响应式（Reactive）对象，它拥有添加、删除、替换节点等方法。当你调用这些修改树的方法之后，路径信息也会被更新.
+
+Babel-types（@babel/types）
+babel-types 是一个用于 AST 节点的 Lodash 式工具库，它包含了构造、验证以及变换 AST 节点的方法。
+

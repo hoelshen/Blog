@@ -1,17 +1,12 @@
 # svg
 
+格式解析
 
-## 
+## 实现svg 的三种方式  
 
-实现svg 的三种方式  
+### unicode
 
-
-unicode 
-
-
-
-
-font-class  
+### font-class  
 
 第一步：拷贝项目下面生成的fontclass代码：
 //at.alicdn.com/t/font_8d5l8fzk5b87iudi.css
@@ -19,7 +14,7 @@ font-class
 <i class="iconfont icon-xxx"></i>
 
 
-symbol
+### symbol
 
 第一步：拷贝项目下面生成的symbol代码：
 //at.alicdn.com/t/font_8d5l8fzk5b87iudi.js

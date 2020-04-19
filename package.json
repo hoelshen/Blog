@@ -1,0 +1,26 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "## 自己平时写的文章，会同步更新到掘金上面",
+  "main": "vue2.0.js",
+  "dependencies": {
+    "gitbook-plugin-emphasize": "^1.1.0",
+    "gitbook-plugin-tbfed-pagefooter": "^0.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gitbook build",
+    "serve": "gitbook serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JH46666/Blog.git"
+  },
+  "author": "sjh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JH46666/Blog/issues"
+  },
+  "homepage": "https://github.com/JH46666/Blog#readme"
+}

@@ -665,8 +665,6 @@ this.props.children 无法用 defaultProps 设置默认内容。
     this.cat.current.miao()
   }
 
-
-
 你基本都能使用小程序本身提供的 API 达到同等的需求，其中就包括但不限于：
 1. 使用 this.$scope.triggerEvent 调用通过 props 传递的函数;
 2. 通过 this.$scope.selectComponent 和 wx.createSelectorQuery 实现 ref;

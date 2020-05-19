@@ -214,8 +214,8 @@ hooks = 【’create’, ‘active’, ‘update’, ‘remove’, ’destroy’
           nodeOps.nextSibling(oldElm)
         )
 
-createElm 作用是通过虚拟节点创建真实的dom并插入到它的父节点中
-createchildren 方法创建子元素  遍历子虚拟节点， 递归调用createElm， 
+createElment 作用是通过虚拟节点创建真实的dom并插入到它的父节点中
+createchildren 方法创建子元素  遍历子虚拟节点， 递归调用createElment 
 
 接着再调用 invokeCreateHooks 方法执行所有的 create 的钩子并把 vnode push 到 insertedVnodeQueue 中。
 
@@ -363,7 +363,7 @@ LIFECYCLE_HOOKS.forEach(hook => {
 我们看看strats 怎么定义的
 strats = config.optionsMergeStrategies
 strats.el = strats.propsData = function(parent, child, vm, key){
-}
+} 
 
 里面有各种各样的策略，data.watch.props=inject=methods.computed
 

@@ -15,3 +15,9 @@ hooks特别擅长用来实现状态行为的复用，如果你的li组件里面�
 比如数据由A模块来维护，那么无论谁想修改数据，都要通知A模块，由A模块代为完成，这样数据变更的状态就比较好跟踪了。
 
 你可以这样理解，Hook只向父组件回调函数，具体删数据还是刷新数据都是父组件来操作。
+
+
+其实useLayoutEffect的调用时机与之前的componentDidMount/componentDidUpdate是相同的，都是发生在DOM更新之后，会阻塞渲染。而getSnapshotBeforeUpdate是发生在重渲染之前，因此可以记录一些DOM的状态。
+
+到目前位置，React Hooks还没有提供与getSnapshotBeforeUpdate等价或者类似的Hook函数。
+

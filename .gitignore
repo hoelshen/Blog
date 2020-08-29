@@ -67,3 +67,4 @@ _book/
 _book/**.html
 _book/**/**.html
 *.html
+.history/**

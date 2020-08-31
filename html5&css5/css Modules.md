@@ -131,8 +131,29 @@ Rendering the component will produce a markup similar to:
 ```
 
 我们引入插件 **bable-plugin-react-css-modules**
+  babel-plugin-react-css-modules 可以实现使用 styleName 属性自动加载 CSS 模块。我们通过该 babel 插件来进行语法树解析并最终生成 className。
 
 ```js
-
+import React from 'react';
+import styles from './table.css';
+ 
+class Table extends React.Component {
+    render () {
+        return <div styleName='table'>
+        </div>;
+    }
+}
+ 
+export default Table；
 
 ```
+
+1. 构建每个文件的所有样式表导入的索引（导入具有.css 或.scss 扩展名的文件）。
+2. 使用 postcss 解析匹配到的 css 文件
+3. 遍历所有 JSX 元素声明
+4. 把 styleName 属性解析成匿名和命名的局部 css 模块引用
+5. 查找与 CSS 模块引用相匹配的 CSS 类名称：
+* 如果 styleName 的值是一个字符串字面值，生成一个字符串字面值。
+* 如果是 JSXExpressionContainer，在运行时使用 helper 函数来构建如果 styleName 的值是一个 jSXExpressionContainer, 使用辅助函数（[getClassName] 在运行时构造 className 值。
+6. 从元素上移除 styleName 属性。
+7. 将生成的 className 添加到现有的 className 值中（如果不存在则创建 className 属性）。

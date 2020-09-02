@@ -171,3 +171,14 @@ Virtual DOM 更大的意义是跨平台，它对 DOM 的更新算法是相对高
 
 计算属性的本质是computed watcher
 侦听属性的本质是userwatcher， 他支持 deep sync immediate 
+
+
+
+![update](https://tva1.sinaimg.cn/large/007S8ZIlgy1gics2dsolnj30dw08cgls.jpg)
+
+```js
+//计算属性 
+
+```
+![computed](https://tva1.sinaimg.cn/large/007S8ZIlgy1gics18crznj30dw0553yk.jpg)
+也仅仅是把 this.dirty 设置为 false并不会触发计算属性的重新计算也不会让页面重新渲染。所以我们需要把计算属性中的依赖收集到当前渲染 watcher 中。这样一旦计算属性的依赖发生变化就会触发 render watcher 的 update就会触发重新渲染在重新渲染的过程中会再次访问到计算属性的 getter。然后又回到最初。

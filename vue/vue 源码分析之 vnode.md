@@ -57,3 +57,25 @@ function sameVnode (a, b) {
     return isDef(vnode.tag)
   }
 ```
+
+```js
+if (isUndef(vnode.text)) {
+      if (isDef(oldCh) && isDef(ch)) {
+        if (oldCh !== ch) updateChildren(elm, oldCh, ch, insertedVnodeQueue, removeOnly)
+      } else if (isDef(ch)) {
+        if (process.env.NODE_ENV !== 'production') {
+          checkDuplicateKeys(ch)
+        }
+        if (isDef(oldVnode.text)) nodeOps.setTextContent(elm, '')
+        addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue)
+      } else if (isDef(oldCh)) {
+        removeVnodes(oldCh, 0, oldCh.length - 1)
+      } else if (isDef(oldVnode.text)) {
+        nodeOps.setTextContent(elm, '')
+      }
+    } else if (oldVnode.text !== vnode.text) {
+      nodeOps.setTextContent(elm, vnode.text)
+    }
+```
+
+父组件的 props 改变会触发到子组件的 patch 

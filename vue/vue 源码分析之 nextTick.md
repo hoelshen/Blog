@@ -41,3 +41,9 @@ if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
 
 
 ```
+
+1. nextTick 函数设计的目的是让所有通过 nextTick 执行的函数 cb 异步执行，也就是在下一个 tick 执行。
+2. 调用 nextTick 的 cb 不会立马执行，会收集到一个 callbacks 数组中
+3. macroTimerFunc 或者 microTimerFunc 就是在下一个 tick 去遍历 callbacks 数组执行。
+4. 显然，在一个同步 tick 内，即使 nextTick 函数被多次执行，但是 macroTimerFunc 或者 microTimerFunc 并不需要多次执行，所以需要一个 pending 标志位来保证他们只执行一次。
+5. 当 callbacks 数组在下一个 tick 执行后，需要重置 pending，保证之后执行 nextTick 的逻辑正确。

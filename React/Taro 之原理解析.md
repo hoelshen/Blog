@@ -94,7 +94,7 @@ mac环境下electron报错Uncaught ReferenceError: require is not defined
       nodeIntegration: true
     }
 
-position: relative;只是在视觉上显示出有偏差 这时候我们再看文档中:
+position: relative;只是在视觉上显示出有偏差这时候我们再看文档中:
 设置为相对定位的元素框会偏移某个距离。元素仍然保持其未定位前的形状，它原本所占的空间仍保留。
 就是说标签其实在DOM中还占据着原始的位置，只是在视觉上给人偏移的错觉。这样就可以合理解释为何第二个往后设置relative的元素没有跟着往下排列。很自然的，既然还占着原来的位置，那就手动设置 margin-bottom: 15px;就可以实现真正意义上的DOM位置偏移。
 

@@ -42,5 +42,13 @@ Child1.contextTypes = {
 //Parent
         <Provider value={this.state.newContext}>{this.props.children}</Provider>
 
-
 ```
+
+个人的建议是对所有组件共享的一些只读信息可以采用 context 来传递，比如登录用户信息
+等， react Router 路由就是通过 context 来传递路由属性的。
+
+
+
+
+
+

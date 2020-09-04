@@ -2,7 +2,7 @@
 
 ## 用法
 ```jsx
-import React, { useState, useEffect, createContext,useContext } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import "./App.css";
 import { Component } from "react";
 
@@ -24,8 +24,7 @@ function Counter(){
   const count = useContext(CountContext)
   return(
     <h1>{count}</h1>
-
-  ) 
+  )
 }
 
 class Bar extends Component{

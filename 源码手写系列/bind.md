@@ -16,3 +16,15 @@ Function.prototype.bind(context){
   return fBound;
 }
 ```
+
+
+```js
+Function.prototype.bind =  function(...arg){
+  const func = this;
+  const context = arg[0];
+  const params = arg.slice(1);
+  return function(...innerParam){
+    func.apply(context, [...params, ...innerParam])
+  }
+}
+```

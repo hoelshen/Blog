@@ -10,11 +10,11 @@
 ## 跨域会有什么好处？
 
 防止CSRF攻击、同源策略：隔离潜在恶意文件的重要安全机制
- 补充知识:
+补充知识:
 什么是CSRF攻击？
 
 CSRF（Cross-site request forgery 跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为 CSRF 或者 XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本（XSS），但它与 XSS 非常不同，并且攻击方式几乎相左。XSS 利用站点内的信任用户，而CSRF则通过伪装来自受信任用户的请求来利用受信任的网站。与 XSS 攻击相比，CSR F攻击往往不大流行（因此对其进行防范的资源也相当稀少）和难以防范，所以被认为比XSS更具危险性。
-为什么会出现CSRF攻击？举例说明 比如说有两个网站 A 和 B。你是 A 网站的管理员，你在 A 网站有一个权限是删除用户，比如说这个过程只需用你的身份登陆并且 POST 数据到 【http://a.com/delUser 】， 就可以实现删除操作。好现在说B网站，B网站被攻击了，别人种下了恶意代码，你点开的时候就会模拟跨域请求，如果是针对你，那么就可以模拟对 A 站的跨域请求，恰好这个时候你已经在 A 站登陆了。那么攻击者 在B 站内通过脚本，模拟一个用户删除操作是很简单的。面对这种问题，有从浏览器解决，但个人认为最好是从网站端解决，检测每次 POST 过来数据时的 Refer，添加AccessToken 等都是好方法。
+为什么会出现CSRF攻击？举例说明比如说有两个网站 A 和 B。你是 A 网站的管理员，你在 A 网站有一个权限是删除用户，比如说这个过程只需用你的身份登陆并且 POST 数据到 【http://a.com/delUser 】， 就可以实现删除操作。好现在说B网站，B网站被攻击了，别人种下了恶意代码，你点开的时候就会模拟跨域请求，如果是针对你，那么就可以模拟对 A 站的跨域请求，恰好这个时候你已经在 A 站登陆了。那么攻击者 在B 站内通过脚本，模拟一个用户删除操作是很简单的。面对这种问题，有从浏览器解决，但个人认为最好是从网站端解决，检测每次 POST 过来数据时的 Refer，添加AccessToken 等都是好方法。
 
 防范 CSRF 攻击可以遵循以下几种规则：
 
@@ -290,20 +290,9 @@ Jsonp的执行过程如下：
     });
 ```
 
-    
-    
-    
-    
-    
-
 4. Server Proxy:
 
     服务器代理，当你需要有跨域请求额操作时发送给后端，让后端帮你带为请求，然后将最后的获取的结果发送给你。
-    
-    
-    
-    
-    
 
 ``` js
 //html
@@ -368,7 +357,7 @@ console.log('启动服务，监听 127.0.0.1:3000');
 代码如下：
 
 ``` js
-//页面一在head内添加js如下： document.domain = “xx.com”;  function aa() {     alert(“p”); } //body添加iframe和js如下 < iframe src = ”http: //localhost:8080/2.html“ id=”i”>      document.getElementById(‘i’).onload = function() {         var d = document.getElementById(‘i’).contentWindow;         d.a();     };  //页面二 head添加如下 document.domain = “xx.com”;  function a() {     alert(“c”); } //这时候父页面就可以调用子页面的a函数，实现js跨域访问
+//页面一在head内添加js如下：document.domain = “xx.com”;function aa() {    alert(“p”);}//body添加iframe和js如下<iframe src = ”http: //localhost:8080/2.html“ id=”i”>    document.getElementById(‘i’).onload = function() {        var d = document.getElementById(‘i’).contentWindow;        d.a();    };//页面二 head添加如下document.domain = “xx.com”;function a() {    alert(“c”);}//这时候父页面就可以调用子页面的a函数，实现js跨域访问
 ```
 
 6.1、通过location.hash跨域

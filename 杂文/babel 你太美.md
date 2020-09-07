@@ -81,7 +81,7 @@ module.exports = { presets };
   npx babel src --out-dir lib --plugins=@babel/plugin-transform-arrow-functions.
 
 ```js
-
+  
 const fn = () => 1;
 
 // converted to
@@ -212,10 +212,6 @@ yarn add @babel/preset-typescript
 }
 
 配置清单
-
-
-
-
 ```
 
 ## babel 还能做什么
@@ -242,4 +238,3 @@ babel-traverse 可以遍历由 Babylon 生成的抽象语法树，并把抽象�
 
 Babel-types（@babel/types）
 babel-types 是一个用于 AST 节点的 Lodash 式工具库，它包含了构造、验证以及变换 AST 节点的方法。
-

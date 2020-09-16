@@ -44,3 +44,14 @@
 
 ```
 2.
+
+##  原理
+
+```js
+function resolvDispatcher(){
+  var dispatcher = ReactCurrentOwner.currentDispatcher;
+  !(dispatcher !== null) ? invariant(false, 'hook can only be ...');
+  return dispatcher
+}
+```
+这个方法真正用的时候 要在我们 react 进行渲染的时候， 已经创建虚拟dom 的实例

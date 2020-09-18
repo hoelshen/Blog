@@ -1,6 +1,40 @@
 
+# redux-thunk
 
 ## 详解
+
+  用于处理异步的 action, 因为 dispatch 的默认参数只能是一个 JavaScript 对象.
+  如果先派发一个发送请求的 action, 在派发一个处理请求结果的 action
+
+``` js
+dispatch(sendRequestAction);
+dispatch(handleResponseAction);
+```
+
+如果可以接收一个函数作为参数, 在函数体内进行异步操作, 并在异步完成后在派发相应的 action, 那么便能解决问题
+
+``` js
+store.dispatch(fetchNewBook(’learnRedux’));
+
+function fetchNewBook(book) {
+    return function(dispatch) {
+        dispatch({
+            type: 'START_ FETCH_NEW_BOOK',
+            data: book
+        })
+        ajax({
+                url( `／ some/API/$(book } . ] son ` ,
+                    type POST『， data: {}
+                }).then(function(bookData) {
+                dispatch({
+                    type: 'FETCH_NEW_BOOK_SUCCESS',
+                })
+            })
+        }
+    }
+```
+
+![redux-thunk](https://tva1.sinaimg.cn/large/007S8ZIlgy1gircrpw14jj30po0bataw.jpg)
 
 
 

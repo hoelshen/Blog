@@ -67,6 +67,3 @@ function App() {
 ```
 
 <Contacts /> 和 <Chat /> 之类的 React 元素本质就是对象（object），所以你可以把它们当作 props，像其他数据一样传递。
-
-
-

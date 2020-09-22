@@ -1,6 +1,61 @@
 # useEffect
 
+```js
+useLayOutEffect(){
+  useEffectImpl(UpadteEffect, UnmountMutation | MountLayout, create, inputs)
+
+}
+useEffect(){
+  useEffectImpl(
+    UpadteEffect | PassiveEffect,
+    UnmountMutation | MountPassive, create, inputs)
+}
+```
+因为他是匿名函数 所以每次都不一样
+
+```js
+function useEffectImpl(fiberEffectTag, hookEffectTag, create, inputs): void {
+  workInProgressHook = createWorkInProgressHook();
+  let nextInputs = inputs !== undefined && inputs !== null ? inputs : [create];
+  componentUpadteQueue.lastEffect = effect.next = effect
+
+}
+```
+
+接着 commitHookEffectList 这个方法
+
+
+如果有传入的第二个return 
+
+我们就去执行 destory() 方法
+
+```js
+const destory = effect.destory;
+effect.destory = null;
+if(destory != null){
+  destory()
+}
+```
+
+```js
+function commitLifeCycles(
+  finishedRoot: FiberRoot,
+  current: Fiber | null,
+  finishedWork: Fiber,
+  committedExpirationTime: ExpirationTime,
+): void {
+  switch (finishedWork.tag) {
+    case FunctionComponent:
+    case ForwardRef:
+    case SimpleMemoComponent: {
+      commitHookEffectList(UnmountLayout, MountLayout, finishedWork);
+      break;
+    }
+  }
+}
+```
 ## 用法
+
 ```jsx
 function App2(props) {
   const [count, setCount] = useState(0);

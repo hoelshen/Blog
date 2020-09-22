@@ -1,5 +1,31 @@
 # useCallback
 
+## 原理
+```js
+export function useCallback<T>(
+  callback: T,
+  inputs: Array<mixed> | void | null,
+): T {
+  currentlyRenderingFiber = resolveCurrentlyRenderingFiber();
+  workInProgressHook = createWorkInProgressHook();
+
+  const nextInputs =
+    inputs !== undefined && inputs !== null ? inputs : [callback];
+
+  const prevState = workInProgressHook.memoizedState;
+  if (prevState !== null) {
+    const prevInputs = prevState[1];
+    if (areHookInputsEqual(nextInputs, prevInputs)) {
+      return prevState[0];
+    }
+  }
+  workInProgressHook.memoizedState = [callback, nextInputs];
+  return callback;
+}
+
+
+
+```
 为了向下传递子组件
 
 

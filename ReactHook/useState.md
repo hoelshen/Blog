@@ -55,3 +55,17 @@ function resolvDispatcher(){
 }
 ```
 这个方法真正用的时候 要在我们 react 进行渲染的时候， 已经创建虚拟dom 的实例
+
+```js
+const queue = workInProgressHook.baseUpadte
+
+// 接着我们判断
+updateExpirationTime < renderExiprtaionTime
+
+
+if(!didShip){
+  newBaseUpdate = prevUpdate;
+  newBaseState = _newState;
+}
+
+```

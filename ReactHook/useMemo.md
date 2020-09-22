@@ -1,4 +1,37 @@
 
+
+## 原理
+
+```js
+
+export function useMemo<T>(
+  nextCreate: () => T,
+  inputs: Array<mixed> | void | null,
+): T {
+  currentlyRenderingFiber = resolveCurrentlyRenderingFiber();
+  workInProgressHook = createWorkInProgressHook();
+
+  const nextInputs =
+    inputs !== undefined && inputs !== null ? inputs : [nextCreate];
+
+  const prevState = workInProgressHook.memoizedState;
+  if (prevState !== null) {
+    const prevInputs = prevState[1];
+    if (areHookInputsEqual(nextInputs, prevInputs)) {
+      return prevState[0];
+    }
+  }
+
+  const nextValue = nextCreate();
+  workInProgressHook.memoizedState = [nextValue, nextInputs];
+  return nextValue;
+}
+
+
+```
+
+这方法执行的结果对比
+
 ## 用法
 useMemo是不是有点像vue中的计算属性 只有useMemo(() => {}, []) 第二个依赖项shallowEqual相等才重新执行函数并将结果作为useMemo的返回值
 useMemo 的含义是，通过一些变量计算得到新的值。通过把这些变量加入依赖 deps，当 deps 中的值均未发生变化时，跳过这次计算。useMemo 中传入的函数，将在 render 函数调用过程被同步调用。

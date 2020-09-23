@@ -83,3 +83,16 @@ http{
 
 
 ```
+
+6.down
+标识某一台server不可用。可能能通过某些参数动态的激活它吧，要不真没啥用。
+
+```sh
+upstream tomcats {
+    server 192.168.0.100:8080 weight=2 max_fails=3 fail_timeout=15;
+
+    server 192.168.0.101:8080 down;
+
+    server 192.168.0.102:8080 backup;
+}
+```

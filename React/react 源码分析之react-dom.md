@@ -149,12 +149,13 @@ Mode = Mode | b; 代表将b 赋值给 mode
 更新的类型不同
 
 
+setState时把组件的rootFiber 加入到调度队列,我们有barchedUpdate,每次setState并不一定只有一个组件被更新，第二把root加入队列是为了更好得进行调度，我们可以把所有更新的优先级都列在root上，以便删选。
 
+调用this。setState是一个组件级的调用，只会存在发起setState的组件里面。简单来说，只有Class组件和使用Hooks的函数组件对应的Fiber对象updateQueue有用，其他节点是没用的。将来React会对Fiber对象的类型进行区分，对于一些属性在没有必要的节点上就不存在了。
 
+16.7统一按照越大的优先级越高的模式走了，之前Sync是等一1，16.7里面Sync是maxIntxxxxx了。但是原理是一样的，就是判断优先级换了个方法，不需要先判断是否等于Sync
 
-
-
-
+你需要区别FiberRoot和RootFiber，后者是Fiber对象，前者则是RootFiber的stateNode
 
 
 

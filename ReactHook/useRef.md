@@ -37,5 +37,37 @@ useRef可以传入初始值，你这个代码没有传入，因此直接当作�
 
 取决于这个数据的变更要不要触发重渲染，如果不重渲染，那么放ref是比较建议的做法；否则，就只能用state了。
 
+```jsx
+export default function App() {
+  const [count, setCount] = useState(0);
+  const preCountRef = useRef(count);
+  useEffect(() => {
+    preCountRef.current = count;
+  });
+  const preCount = preCountRef.current;
 
+  return (
+    <div className="App">
+      <div
+        onClick={() => {
+          setCount((count) => count + 1);
+        }}
+      >
+        <h1>
+          Now:{count} preCount: {preCount}
+        </h1>
+      </div>
+    </div>
+  );
+}
+```
+useEffect 它没有依赖参数，说明每一次组件的渲染，都会运行一次这个副作用。而useEffect 是在每次的渲染后来执行的。因而我们又把本次渲染所使用的count 保存在了preCountRef中
+现在我们执行下一次渲染，先运行的代码是：
 
+```jsx
+
+const [count, setCount] = useState(0);
+const prevCountRef = useRef();
+const prevCount = prevCountRef.current;
+```
+这个就是典型的先渲染jsx， 在执行useEffcet

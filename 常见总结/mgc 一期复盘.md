@@ -74,6 +74,3 @@ global.EventJavascriptInterface.getVersionCode
   <img :style="{'margin-top': pageHeight + 'px'}" src="~images/upLevel.png">
 
 ```
-
-5.
-

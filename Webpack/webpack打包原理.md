@@ -13,6 +13,8 @@
 
 webpack的工作步骤如下：
 
+![工作流程](https://tva1.sinaimg.cn/large/007S8ZIlgy1gj6gphjv86j319d0u0do0.jpg)
+
 1. 从入口文件开始递归地建立一个依赖关系图。
 2. 把所有文件都转化成模块函数。
 3. 根据依赖关系，按照配置文件把模块函数分组打包成若干个bundle。
@@ -26,15 +28,15 @@ webpack的工作步骤如下：
 
 首先分析一下manifest文件。
 
-它包含三个主要变量，modules、installedModules和installedChunks。
+它包含三个主要变量，modules、installedModules 和 installedChunks。
 
-modules对象保存的是所有的模块函数。模块函数是webpack处理的基本单位，对应打包前的一个文件，形式为function(module, webpack_exports, webpack_require) {…}。所有的模块函数的索引值是连续编码的，如果第一个bundle里的模块函数的索引是0-7，第二个bundle里的模块函数的索引就从8开始，从而保证索引和模块函数一一对应。
+modules 对象保存的是所有的模块函数。模块函数是 webpack 处理的基本单位，对应打包前的一个文件，形式为 function(module, webpack_exports, webpack_require) {…}。所有的模块函数的索引值是连续编码的，如果第一个bundle里的模块函数的索引是0-7，第二个bundle里的模块函数的索引就从8开始，从而保证索引和模块函数一一对应。
 
 installedModules对象保存的是模块对象。模块对象是运行模块函数得到的对象，是标准的Commonjs对象，其属性主要有模块id和exports对象。webpack的运行就是指执行模块函数得到模块对象的过程。
 
 installedChunks保存的是异步加载对象的promise信息，结构为[resolve, reject, promise]。主要是用来标记异步加载模块。用promise便于异步加载模块的全局管理，如果加载超时就可以抛出js异常。
 
-包括三个主要函数webpackJsonpCallback，webpack_require和webpack_require.e
+包括三个主要函数 webpackJsonpCallback，webpack_require和webpack_require.e
 
 webpackJsonpCallback(chunkIds, moreModules, executeModules){…}是bundle文件的包裹函数。bundle文件被加载后就会运行这个函数。函数的三个参数分别对应三种模块。chunkIds指的是需要单独加载的模块的id，对应installedChunks；executeModules指的是需要立即执行的模块函数的id，对应modules，一般是入口文件对应的模块函数的id；moreModules包括该bundle打包的所有模块函数。webpackJsonpCallback先把模块函数存到modules对象中；然后处理chunkIds，调用resolve来改变promise的状态；最后处理executeModules，把对应的模块函数转化成模块对象。
 
@@ -138,47 +140,276 @@ webpack_require.e(chunkId)通过建立promise对象来跟踪按需加载模块�
             }
         })([]);
 ```
-下面是webpack配置时的一些概念
 
-Entry
+1. 编译一个入口文件(代码文件)
+1. 解析并改造代码如将 import、require转换成 webpack_require
+1. 收集依赖的模块并重复2
+1. 生成文件并导出上面的模版。
 
-入口文件是webpack建立依赖图的起点。
+```js
+ class KWebpack {
+  constructor(){
+    // 读取webpack.config.js 且初始化
+  }
 
-Output
+  // 构建模块
+  buildModules(){
 
-Output配置告诉webpack怎么处理打包的代码。
+  }
 
-Hot Module Replacement
+  // 生成打包文件
+  writeFile(){
 
-热模块替换功能可以在不刷新所有文件的情况下实现单独跟新某个模块。
+  }
 
-Tree Shaking
+  // 读取本地文件
+  readFile(){
+    
+  }
 
-去除无用代码，比如某个js文件里的函数并没有被使用，这段函数代码在打包时将会被去掉。
+  // 解析模块 将源代码解析成 ast语法树并处理
+  parse(){
 
-Code Splitting
+  }
 
-代码拆分，实现的方式有三种
+  // 运行模块
+  start(){
 
-Entry Points 手动把代码分成多个入口
-Prevent Duplication 使用插件CommonsChunkPlugin提取公共代码块
-Dynamic Imports 用import函数动态动引入模块
-Lazy Loading
+  }
 
-懒加载或者按需加载，属于Code Splitting的一部分
+}
 
-Loaders
+```
 
-webpack把所有文件都当成模块对待，但是它只理解Javascript。Loaders把这些webpack不认识的文件转化成模块，以便webpack进行处理。
+初始化(编译一个入口文件)
 
-plugins
+```js
+let path = require('path')
+let _config = require(path.resolve('webpack.config.js'))
 
-插件一般用来处理打包模块的编译或代码块相关的工作。
+// 初始化配置
+let defaultConfig = {
+  entry:'./src/main.js',
+  output:{
+    fileName:'build.js'
+  }
+}
 
-The Manifest
+class KWebpack {
+  constructor(config){
+    // 读取webpack.config.js 且初始化
+    this.config = {...defaultConfig,...config}
+    this.root = process.pwd()
+    // 所有模块依赖
+    this.modules = {}
+    this.entry = this.config.entry
+  }
 
-webpack manifest文件用来引导所有模块的交互。manifest文件包含了加载和处理模块的逻辑。
+```
 
-当webpack编译器处理和映射应用代码时，它把模块的详细的信息都记录到了manifest文件中。当模块被打包并运输到浏览器上时，runtime就会根据manifest文件来处理和加载模块。利用manifest就知道从哪里去获取模块代码。
+构建
+
+```js
+  // 1.读取本地文件
+  readFile(path){
+    return fs.readFileSync(path,'utf-8')
+  }
+
+
+
+  // 2.构建模块
+  buildModules(modulePath){
+    let fileContent = this.readFile(modulePath)
+    // 获取解析过后的内容和依赖的模块
+    let {resrouce,deps}= this.parse(fileContent)
+    this.modules['./'+path.relative(this.root,modulePath)] = resrouce
+    deps.forEach(dep => {
+      this.buildModules(path.join(path.dirname(modulePath),dep))
+    })
+
+  }
+
+  // 3.解析模块 将源代码解析成 ast语法树并处理
+  parse(data){
+    let deps = []
+    let ast = babylon.parse(data)
+    let root = this.root
+    // @babel/traverse遍历ast节点
+    traverse(ast, {
+      CallExpression(p) {
+          let node = p.node
+          if (node.callee.name === 'require') {
+              node.callee.name = '__webpack_require__'
+              // 构建新的模块路径(模块名)
+              
+              let moduleName = node.arguments[0].value
+
+              // 这里作了简化处理，可能引用的还有其他模块 。
+              moduleName = moduleName + (path.extname(moduleName) ? '' : '.js') // ./a.js
+              moduleName = path.join(moduleName) // ./src/a.js
+              deps.push(moduleName)
+          }
+      }
+    })
+    let resrouce = generator(ast).code
+    return { resrouce, deps} 
+
+  }
+
+  // 4.生成打包文件
+  writeFile(){
+    let templateContent = this.readFile(__dirname + '/template.js')
+    // 把this.moudles数组转成字符串，为了拼接到template里面。
+    let modulesStr = ''
+    Object.keys(this.modules).forEach((item)=>{
+      modulesStr+= `"${item}":${this.modules[item]},`
+    })
+    templateContent = templateContent.replace('__entry__',this.entry).replace('__modules_content__',modulesStr)
+
+    fs.writeFileSync(`./dist/${this.config.output.fileName}`,templateContent)
+  }
+
+  // 5.template.js
+  (function(modules) {
+    var installedModules = {};
+
+    function __webpack_require__(moduleId) {
+      if (installedModules[moduleId]) {
+        return installedModules[moduleId].exports;
+      }
+      var module = (installedModules[moduleId] = {
+        i: moduleId,
+        l: false,
+        exports: {}
+      });
+      modules[moduleId].call(
+        module.exports,
+        module,
+        module.exports,
+        __webpack_require__
+      );
+      
+      return module.exports;
+    }
+    // return 入口
+    return __webpack_require__("__entry__");
+  })({__modules_content__})
+
+
+    // 扩展 loader
+
+  // 6.修改过后的readFile方法
+
+  // 读取本地文件并且加入loader处理
+  readFile(path){
+    let _file = fs.readFileSync(path,'utf-8')
+    return this.handleLoader(path,_file)
+  }
+
+  // 7. loader 函数处理
+  handleLoader(path,content){
+    let rules = this.config.module.rules
+    rules.forEach((rule)=>{
+      let length = rule.use.length - 1; 
+      let test = rule.test
+      if(test.test(path)){
+        do{
+          let lo = rule.use[length].loader || rule.use[length]
+          let loader = require(lo)  
+          content = loader(content) // 这里如果引用正常的loader会报错，因为官方loader里面封装了很多方法。这里没写，所以这里代码封装了一个简单添加文字的loader。来演示
+          length--
+        }while(length > 0)
+      }
+      
+    })
+    return content
+  }
+
+  // 8.// loaderText.js
+
+  function loader (source) {
+    source += '// 我是添加的loader文案'
+    return source
+  }
+
+  module.exports = loader
+
+
+  // 9. plugin
+  // 只要在constructor的时候添初始化钩子，然后在合适的地方调用即可。
+
+  这里简单说下 tapable 钩子，类似于 node 的 Events, 也是注册类似于事件，然后通过不同的钩子调用，来触发一个个事件。（实现事件流机制的 “钩子” 大方向可以分为两个类别，“同步” 和 “异步”，“异步” 又分为两个类别，“并行” 和 “串行”，而 “同步” 的钩子都是串行的）
+  class Compiler {
+    // 配置钩子
+    initHooks() {
+      // 配置钩子
+      this.hooks = {
+          entryOption: new SyncHook(),
+          compile: new SyncHook(),
+          afterCompile: new SyncHook(),
+          afterPlugins: new SyncHook(),
+          run: new SyncHook(),
+          emit: new SyncHook(),
+          done: new SyncHook()
+      }
+    }
+
+    // 注册一个调用 plugin 的方法
+    hanldePlugins() {
+      // 处理插件
+      let { plugins } = this.config
+      if (Array.isArray(plugins)) {
+
+          plugins.forEach((plugin) => {
+              plugin.apply(this) // 每个插件里面都会有一个apply方法来调用
+          })
+          this.hooks.afterPlugins.call(this)
+      }
+    }
+
+
+    // 继续修改启动项 运行模块
+    start(){
+      this.hooks.run.call(this)
+      this.hooks.compile.call(this)
+
+      this.buildModules(path.resolve(this.root, this.entry),this.entry)
+
+      this.hooks.afterCompile.call(this)
+
+      this.writeFile()
+
+      this.hooks.emit.call(this)
+      this.hooks.done.call(this)
+    }
+  }
+
+
+  // plugin 例子
+  class PluginTest{
+    apply(compiler) {
+      compiler.hooks.emit.tap('emit', function() {
+          console.log('现在是emit钩子触发')
+        })
+    }
+  }
+  module.exports = PluginTest
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

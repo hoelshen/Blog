@@ -15,7 +15,7 @@ javaScript引擎会常驻于内存中
     });
     r.then(() => console.log("c"));
     console.log("b")
-    输出顺序是a b c
+    // 输出顺序是a b c
 
     var r = new Promise(function(resolve, reject) {
         console.log("a");
@@ -23,7 +23,7 @@ javaScript引擎会常驻于内存中
     });
     setTimeout(() => console.log("d"), 0)
     r.then(() => console.log("c"));
-    console.log("b")
+    // console.log("b")
 ```
 
 ![untitled](https://tva1.sinaimg.cn/large/00831rSTgy1gd3uqh046tj313y0iut9x.jpg)

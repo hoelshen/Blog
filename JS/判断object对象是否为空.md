@@ -1,6 +1,6 @@
-# 本文解决痛点：对象里面是否有值。
+# 本文解决痛点：对象里面是否有值
 
-## 1.通过  JSON  自带的  stringify()  方法来判断:
+## 1.通过  JSON  自带的  stringify()  方法来判断
 
 JSON.stringify()  方法用于将  JavaScript  值转换为  JSON  字符串。
 
@@ -28,7 +28,7 @@ return false // 如果为空,返回false
 
 ```
 
-## 3.ES6  新增的方法  Object.keys():
+## 3.ES6  新增的方法  Object.keys()
 
 Object.keys()  方法会返回一个由给定对象的自身可枚举属性组成的数组。
 如果我们的对象为空，他会返回一个空数组，如下：

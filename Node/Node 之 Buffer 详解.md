@@ -1,10 +1,10 @@
 // const buffer = new Buffer(10);
 // console.log('buffer', buffer.length);
 
-
+```js
 const buf = new Buffer([1,2,3])
 console.log('buf', buf)
-
+```
 
 
 //下面这些是在Buffer构造函数中使用到的一些基本的方法：

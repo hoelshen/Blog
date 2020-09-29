@@ -128,7 +128,7 @@ updateChildren (parentElm, oldCh, newCh) {
 }
 
 ```
-过程可以概括为：oldCh和newCh各有两个头尾的变量StartIdx和EndIdx，它们的2个变量相互比较，一共有4种比较方式。如果4种比较都没匹配，如果设置了key，就会用key进行比较，在比较的过程中，变量会往中间靠，一旦StartIdx>EndIdx表明oldCh和newCh至少有一个已经遍历完了，就会结束比较。
+过程可以概括为：oldCh 和newCh 各有两个头尾的变量 StartIdx 和 EndIdx，它们的2个变量相互比较，一共有4种比较方式。如果4种比较都没匹配，如果设置了key，就会用key进行比较，在比较的过程中，变量会往中间靠，一旦StartIdx>EndIdx表明oldCh和newCh至少有一个已经遍历完了，就会结束比较。
 
 这种由两端至中间的对比方法与react的updateChildren实现也是不同，后者是从左至右依次进行对比，各有优点。
 比如一个集合，只是把最后一个节点移到了第一个，react实现就出现了短板，react会依次移动前三个节点到对应的位置：

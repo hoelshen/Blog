@@ -74,3 +74,10 @@ git commit -m'应用属性标签榜单'
 
 
 git commit --amend
+
+
+###  技巧六
+
+git log -g 找到最近一次提交的commit记录,并记下commit id
+git branch newbranch commit_id生成一个newbranch新分支
+切到newbranch分支

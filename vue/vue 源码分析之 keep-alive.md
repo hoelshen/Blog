@@ -91,8 +91,8 @@ if (parent && !options.abstract) {
 vm.$parent = parent
 ```
 
-keep-alive 在crated钩子里定义 this.cache 和 this.keys， 本质行就是去缓存已经创建过的 vnode。 keep-alive 直接实现了 render 函数，而不是我们常规模版的方式，执行keep-alive组件渲染的时候，就回执行到这个 render 函数。
-首先获取第一个子元素的vnode
+keep-alive 在 created 钩子里定义 this.cache 和 this.keys， 本质行就是去缓存已经创建过的 vnode。 keep-alive 直接实现了 render 函数，而不是我们常规模版的方式，执行 keep-alive 组件渲染的时候，就回执行到这个 render 函数。
+首先获取第一个子元素的 vnode
 
 ```js
 

@@ -80,8 +80,16 @@ p1.IntroduceChinese(); //原型方法也需要通过实例化对象去调用
 ```
 
 1. 对象方法包括构造函数中的方法以及构造函数原型上面的方法。
-2. 类方法，相当于函数， 可以为其添加函数属性及方法。
-3. 原型方法一般用于对象实例共享，比如 Person.prototype.sayName=function(){console.log(this.name); }; 在原型上面添加该方法，就能实现共享。这样就不用每一次初始化一个实例的时候，为其分配相应的内存了。
+2. 类方法，相当于函数，可以为其添加函数属性及方法。
+3. 原型方法一般用于对象实例共享，比如
+
+```js
+Person.prototype.sayName=function(){
+  console.log(this.name)
+};
+```
+
+在原型上面添加该方法，就能实现共享。这样就不用每一次初始化一个实例的时候，为其分配相应的内存了。
 
 ## 原型链
 
@@ -89,7 +97,7 @@ p1.IntroduceChinese(); //原型方法也需要通过实例化对象去调用
 
 原型是什么？
 
-在JavaScript中原型是一个prototype对象，用于表示类型之间的关系。
+在JavaScript中原型是一个 prototype 对象，用于表示类型之间的关系。
 
 原型链是什么？
 
@@ -100,7 +108,7 @@ JavaScript 万物都是对象，对象和对象之间也有关系，并不是孤
 ### prototype 和 __proto__
 
    其实在 JavaScript 代码还没有运行的时候，JavaScript 环境已经有一个 window 对象
-window 对象有一个 Object 属性， window. Object 是一个函数对象. window. Object 这个函数对象有一个重要的属性是 prototype.
+window 对象有一个 Object 属性， window.Object 是一个函数对象. window.Object 这个函数对象有一个重要的属性是 prototype.
 
 ``` js
 var obj = {};
@@ -110,9 +118,9 @@ console.log('obj', obj)
 
 ![obj.prototype](http://pvt7l4h05.bkt.clouddn.com/2019-08-28-034839.png)
 
-obj变量指向一个空对象，这个空对象有个__proto_ 属性指向 window. Object.prototype
-调用obj.toString（）的时候，obj本身没有toString，就去obj._proto_上面去找toString
-所以你调用obj.toString的时候，实际上是调用window. Object.prototype.toString
+obj 变量指向一个空对象，这个空对象有个 __proto_ 属性指向 window.Object.prototype
+调用 obj.toString（）的时候，obj本身没有 toString，就去 obj._proto_ 上面去找 toString
+所以你调用 obj.toString 的时候，实际上是调用 window.Object.prototype.toString
 
 我们在看这个例子：
 
@@ -124,21 +132,20 @@ console.log(arr)
 
 ![arry.__proto_](http://pvt7l4h05.bkt.clouddn.com/2019-08-28-035607.png)
 
-arr.__proto__ 指向window. Array.prototype。 这样当你在调用 arr.push 的时候，arr 自身没有 push 属性，就上去arr.__proto__ 上找。最终找到 push 方法。如果是 arr.valueOf 呢，arr 自身没有，Array.prototype 也没有, 那么他会去 arr.__proto__.__proto__ 就是 window. Object.prototype, 所以 arr.valueOf 其实就是 window. Object.valueOf
+arr.__proto__ 指向window.Array.prototype。 这样当你在调用 arr.push 的时候，arr 自身没有 push 属性，就上去arr.__proto__ 上找。最终找到 push 方法。如果是 arr.valueOf 呢，arr 自身没有，Array.prototype 也没有, 那么他会去 arr.__proto__.__proto__ 就是 window.Object.prototype, 所以 arr.valueOf 其实就是 window.Object.valueOf
 
 所以我们可以得出如下概念:
 
 prototype 是构造函数的属性，构造函数也是对象。 而 __proto__ 是对象的属性，
-函数的 prortotype 是个一对象, 对象的 __proto__ 属性指向原型
-, __proto__ 将对象和原型连接起来组成了原型链。
+函数的 prototype 是个一对象, 对象的 __proto__ 属性指向原型, __proto__ 将对象和原型连接起来组成了原型链。
 
 * Object 是所有对象的爸爸， 所有对象都可 __proto__ 指向
-* Funciton 是所有函数的爸爸， 所有函数都可以通过 __proto__ 找到它
+* Function 是所有函数的爸爸， 所有函数都可以通过 __proto__ 找到它
 
 他们的区别:
 
 * prototype 是让你知道用什么属性
-* __prototype__ 是让你知道都有什么属性
+* __proto__ 是让你知道都有什么属性
 
 ### constructor 和 prototype
 
@@ -173,6 +180,8 @@ console.log('Object.prototype.constructor == Objcect && Objcect === obj.construc
 ![原型链](http://pvt7l4h05.bkt.clouddn.com/2019-08-26-%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-08-27%20%E4%B8%8A%E5%8D%881.52.11.png)
 
   构造函数实例出来的对象，可以得到构造函数对象中的属性，方法。等等还有一个什么 __proto__。我们仔细点进去，有两个东西 constructor: Bottle（）。这是因为我们是由 Bottle，new出来。我们在继续点下去，还有__proto_: 的constructor： Object（）。
+
+![原型链](https://tva1.sinaimg.cn/large/007S8ZIlgy1gj7n4cxy2mj30c20eqjuq.jpg)
 
 ```js
 
@@ -310,6 +319,7 @@ std1.sayHello();
 ```
 
 ES5.JS:103 Uncaught TypeError: std1.sayHello is not a function
+
 2.prototype 模式
 
   先看下面代码
@@ -333,7 +343,7 @@ function Student(name, grade, sex) {
 }
 
 Student.prototype = new Person(); //通过改变原型对象实现继承
-Student.prototype.constrctor = Student; // 保持构造函数和原型对象的完整性
+Student.prototype.constructor = Student; // 保持构造函数和原型对象的完整性
 var std1 = new Student('b', 11)
 var std2 = new Student('a', 22)
 std1.sayHello(); // 实例和原型 均访问的到。
@@ -399,7 +409,7 @@ function Leo(name) {
     Animal.call(this, name)
 }
 Leo.prototype = new Animal()
-Leo.prototype.contructor = Leo
+Leo.prototype.constructor = Leo
 
 //既然不能直接在两者之间画等号, 就造一个过渡纽带呗. 能够关联起原型链的不只有 new,  Object.create() 也是可以的.
 
@@ -412,9 +422,9 @@ function Leo(name) {
     Animal.call(this, name)
 }
 Leo.prototype = Object.create(Animal.prototype)
-Leo.prototype.contructor = Leo
+Leo.prototype.constructor = Leo
 
-// 这种在构造函数内部借函数同时又间接借助原型继承的方式被称之为 寄生组合式继承.
+// 这种在构造函数内部借函数同时又间接借助原型继承的方式被称之为寄生组合式继承.
 ```
 
 ### ES5方式的实现方式（最佳实践）
@@ -423,7 +433,7 @@ Leo.prototype.contructor = Leo
 
 ``` js
 function Person(name) {
-    this.name = name
+    this.name = name;
 }
 Person.prototype.sayHello = function() {
     console.log(‘hi’ + this.name)
@@ -488,11 +498,11 @@ student.hasOwnProperty(‘name’); //true
   function Teacher(name){
     this.name = name
   }
-  var std = new Student('student')
-  var tea = new Teacher('teacher')
-  var per = new Person();
-  per.say(std);
-  per.say(tea);
+  var student = new Student('student')
+  var teacher = new Teacher('teacher')
+  var person = new Person();
+  person.say(student);
+  person.say(teacher);
 
 
 

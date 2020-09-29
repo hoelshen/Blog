@@ -1,22 +1,32 @@
 ### webpack基础知识
 entry
+
 output
+
 hot module replacement
+
 tree shaking
+
 code splitting
+
 lazy loading
+
 loaders
+
 plugin
+
 the manifest
+
 ### webpack 工作原理
 webpack的工作步骤如下：
 
 从入口文件开始递归地建立一个依赖关系图。
+
 把所有文件都转化成模块函数。
+
 根据依赖关系，按照配置文件把模块函数分组打包成若干个bundle。
+
 通过script标签把打包的bundle注入到html中，通过manifest文件来管理bundle文件的运行和加载。
-
-
 
 ### webpack按需加载原理
 

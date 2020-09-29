@@ -15,7 +15,7 @@ sentry 是一个日志平台，分为客户端和服务端，客户端(目前客
 
 安装 sentry 对应的命令行管理工具 sentry-cli
 
-``` sh
+```js
 npm i -g @sentry/cli
 
 sentry-cli -V // 检查版本
@@ -23,13 +23,13 @@ sentry-cli -V // 检查版本
 
 安装好之后可以登录
 
-``` sh
+```js
 sentry-cli login
 ```
 
 输入一下命令配置
 
-``` sh
+```js
 vi /Users/sjh/.sentryclirc
 ```
 
@@ -45,13 +45,13 @@ vi /Users/sjh/.sentryclirc
 
 如果出现 error: project not found  可以输入一下命令
 
-``` sh
+```js
 sentry-cli info
 ```
 
 这是我们配置的详细信息, 可以对一下是否写错
 
-``` sh
+```js
 sentry-cli projects list
 ```
 

@@ -347,7 +347,7 @@ Student.prototype.constructor = Student; // 保持构造函数和原型对象的
 var std1 = new Student('b', 11)
 var std2 = new Student('a', 22)
 std1.sayHello(); // 实例和原型 均访问的到。
-console.log(std1.hasOwnProperty('name')) // 为false 说明是继承来的属性， 为 true 代表是自身的属性
+console.log(std1.hasOwnProperty('name')) // 为 false 说明是继承来的属性， 为 true 代表是自身的属性
 console.log(std1.sayHello === std2.sayHello) // true,复用了方法
 console.log('std1.prototype: ', Student.prototype);
 ```
@@ -376,14 +376,14 @@ function Student(name, grade, sex) {
 }
 
 Student.prototype = Person.prototype;
-Student.prototype.constrctor = Student;
+Student.prototype.constructor = Student;
 var std1 = new Student('b', 11)
 std1.sayHello(); // 实例和原型 均访问的到。
-console.log('std1.prototype: ', Student.prototype);
+console.log('std1.prototype: ', Student.prototype);  // sayHello
 console.log(Person.prototype.constructor); //Student
 ```
 
- 缺点是 Student.prototype 和 Person.prototype 现在都指向同一个对象了，那么任何对Student.prototype 修改， 都会映射到 Person.prototype 上。
+ 缺点是 Student.prototype 和 Person.prototype 现在都指向同一个对象了，那么任何对 Student.prototype 修改， 都会映射到 Person.prototype 上。
 
 4.空对象
 
@@ -503,9 +503,6 @@ student.hasOwnProperty(‘name’); //true
   var person = new Person();
   person.say(student);
   person.say(teacher);
-
-
-
 ```
 
 ### 封装

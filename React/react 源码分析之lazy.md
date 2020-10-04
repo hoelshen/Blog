@@ -59,3 +59,4 @@ export function lazy<T, R>(ctor: () => Thenable<T, R>): LazyComponent<T> {
 
 
 ```
+Suspense的主要解决问题其实是对于异步操作会多次state变化的问题。

@@ -52,5 +52,3 @@ ReactCurrentOwner.current 指的是
 <B><C/></B>
 
 对于C来说，B是他的父组件，而A就是owner
-
-

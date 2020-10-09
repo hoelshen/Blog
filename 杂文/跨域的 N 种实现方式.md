@@ -212,19 +212,18 @@ Jsonp的执行过程如下：
     CORS(cross-Origin Resource Sharing) 跨域资源共享，管理跨源请求。而跨域资源共享是有益的。今天的我们创建的大多数网站加载资源从网络的各个不同的地方，
     当我们发送 GET 请求时，大多数情况浏览器头会 Access-Control-Allow-Origin: * 。意思是能够共享资源在任何域名下。否则就是只能在特定的情况下了。
     当请求时以下时，将在原始请求前先进行标准预请求，使用 OPTIONS 头，
-    
-``` js
+
+```js
     http: //www.example.com/foo-bar.html
 ```
 
   浏览器访问外部资源时会出现下面这种情况
-   
+
 ![same-origin](https://user-gold-cdn.xitu.io/2019/8/24/16cc43b8950eff00?w=1136&h=686&f=png&s=11964)
 
 而我们想要的效果是这种情况.
 
-
-![cros-origin](https://user-gold-cdn.xitu.io/2019/8/24/16cc43b8945a6eb6?w=1128&h=654&f=png&s=11837)
+![cors-origin](https://user-gold-cdn.xitu.io/2019/8/24/16cc43b8945a6eb6?w=1128&h=654&f=png&s=11837)
 
 我们可以在 HTTP 请求头加上 CORS 标准。
 - Access-Control-Allow-Origin

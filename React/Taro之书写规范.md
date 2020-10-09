@@ -1,11 +1,10 @@
-taro 规范：
+# taro 规范
 Taro 中普通 JS/TS 文件以小写字母命名，多个单词以下划线连接，例如 util.js、util_helper.js
 Taro 组件文件命名遵循 Pascal 命名法，例如 ReservationCard.jsx
 
 对于变量和函数名统一使用驼峰命名
 
 避免对类名重新赋值
-
 
 子类的构造器一定要调用super
 
@@ -14,8 +13,7 @@ Taro 组件文件命名遵循 Pascal 命名法，例如 ReservationCard.jsx
 组件 与jsx 书写规范
 jsx 属性均使用单引号
 
-
-属性名称始终使用驼峰命名法
+## 属性名称始终使用驼峰命名法
 
 jsx 与括号
 
@@ -41,7 +39,8 @@ this.setState(prevState => ({ value: prevState.value + 1 }))    // ✓ 正确
 
 ```
 
-尽量避免在 componentDidMount 中调用 this.setState
+## 尽量避免在 componentDidMount 中调用 this.setState
+
 因为在 componentDidMount 中调用 this.setState 会导致触发更新
 
  尽量避免，可以在 componentWillMount 中处理

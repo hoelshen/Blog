@@ -62,9 +62,5 @@ typings/
 
 # 忽略_book 所有目录下所有的.html后缀的文件
 *~
-_book
-_book/
-_book/**.html
-_book/**/**.html
-*.html
+
 .history/

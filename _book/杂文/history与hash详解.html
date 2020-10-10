@@ -1,0 +1,1631 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>history与hash详解 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="由三道题引伸出来的思考.html" />
+    
+    
+    <link rel="prev" href="http详解.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../常见总结/README.md">
+            
+                <span>
+            
+                    
+                    常见总结
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../常见总结/趁着有风快飞翔|2019年终总结.html">
+            
+                <a href="../常见总结/趁着有风快飞翔|2019年终总结.html">
+            
+                    
+                    趁着有风快飞翔|2019年终总结
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../常见总结/2018年终总结-年底了，你总结了吗？我先来.html">
+            
+                <a href="../常见总结/2018年终总结-年底了，你总结了吗？我先来.html">
+            
+                    
+                    2018年终总结-年底了，你总结了吗？我先来
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../常见总结/Tell2.0前端复盘.html">
+            
+                <a href="../常见总结/Tell2.0前端复盘.html">
+            
+                    
+                    Tell2.0前端复盘
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../常见总结/游戏中心复盘.html">
+            
+                <a href="../常见总结/游戏中心复盘.html">
+            
+                    
+                    游戏中心复盘
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../HTML5&CSS5/README.md">
+            
+                <span>
+            
+                    
+                    HTML5&CSS5
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../HTML5&CSS5/圣杯布局与双飞翼.html">
+            
+                <a href="../HTML5&CSS5/圣杯布局与双飞翼.html">
+            
+                    
+                    圣杯布局与双飞翼
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../HTML5&CSS5/cssModules.html">
+            
+                <a href="../HTML5&CSS5/cssModules.html">
+            
+                    
+                    cssModules
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../HTML5&CSS5/rem布局.html">
+            
+                <a href="../HTML5&CSS5/rem布局.html">
+            
+                    
+                    rem布局
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../JS/README.md">
+            
+                <span>
+            
+                    
+                    JS
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../JS/ES6之迭代器.html">
+            
+                <a href="../JS/ES6之迭代器.html">
+            
+                    
+                    ES6之迭代器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../JS/ES6之解构赋值与箭头函数的妙用.html">
+            
+                <a href="../JS/ES6之解构赋值与箭头函数的妙用.html">
+            
+                    
+                    ES6之解构赋值与箭头函数的妙用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../JS/ES6之模块你知吗.html">
+            
+                <a href="../JS/ES6之模块你知吗.html">
+            
+                    
+                    ES6之模块你知吗
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../JS/ES6之那些年我们都迷茫的原型和类（上）.html">
+            
+                <a href="../JS/ES6之那些年我们都迷茫的原型和类（上）.html">
+            
+                    
+                    ES6之那些年我们都迷茫的原型和类（上）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../JS/ES6之那些年我们都迷茫的原型和类（下）.html">
+            
+                <a href="../JS/ES6之那些年我们都迷茫的原型和类（下）.html">
+            
+                    
+                    ES6之那些年我们都迷茫的原型和类（下）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../JS/ES6之异步流程的前世今生（上）.html">
+            
+                <a href="../JS/ES6之异步流程的前世今生（上）.html">
+            
+                    
+                    ES6之异步流程的前世今生（上）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="../JS/ES6之异步流程的前世今生（下）.html">
+            
+                <a href="../JS/ES6之异步流程的前世今生（下）.html">
+            
+                    
+                    ES6之异步流程的前世今生（下）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.8" data-path="../JS/ES6之元编程你好.html">
+            
+                <a href="../JS/ES6之元编程你好.html">
+            
+                    
+                    ES6之元编程你好
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.9" data-path="../JS/ES6之let和const常见概念.html">
+            
+                <a href="../JS/ES6之let和const常见概念.html">
+            
+                    
+                    ES6之let和const常见概念
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.10" data-path="../JS/ES7之装饰器了解一下.html">
+            
+                <a href="../JS/ES7之装饰器了解一下.html">
+            
+                    
+                    ES7之装饰器了解一下
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.11" data-path="../JS/js之对象.html">
+            
+                <a href="../JS/js之对象.html">
+            
+                    
+                    js之对象
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.12" data-path="../JS/js之执行环境.html">
+            
+                <a href="../JS/js之执行环境.html">
+            
+                    
+                    js之执行环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.13" data-path="../JS/js之this指向.html">
+            
+                <a href="../JS/js之this指向.html">
+            
+                    
+                    js之this指向
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.14" data-path="../JS/判断object对象是否为空.html">
+            
+                <a href="../JS/判断object对象是否为空.html">
+            
+                    
+                    判断object对象是否为空
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../React/README.md">
+            
+                <span>
+            
+                    
+                    React
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../React/scheduleWork.html">
+            
+                <a href="../React/scheduleWork.html">
+            
+                    
+                    scheduleWork
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../React/Taro之原理解析.html">
+            
+                <a href="../React/Taro之原理解析.html">
+            
+                    
+                    Taro之原理解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../React/Taro之实战分析.html">
+            
+                <a href="../React/Taro之实战分析.html">
+            
+                    
+                    原理解Taro之实战分析析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../React/Taro之书写规范.html">
+            
+                <a href="../React/Taro之书写规范.html">
+            
+                    
+                    Taro之书写规范
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../React/浅析styled-components.html">
+            
+                <a href="../React/浅析styled-components.html">
+            
+                    
+                    浅析styled-components
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../React/性能优化方案.html">
+            
+                <a href="../React/性能优化方案.html">
+            
+                    
+                    性能优化方案
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../React/react源码分析之diff算法.html">
+            
+                <a href="../React/react源码分析之diff算法.html">
+            
+                    
+                    react 源码分析之diff算法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.8" data-path="../React/react源码分析之react-dom.html">
+            
+                <a href="../React/react源码分析之react-dom.html">
+            
+                    
+                    react源码分析之react-dom
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../redux/README.md">
+            
+                <span>
+            
+                    
+                    REDUX
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../Redux/使用方法.html">
+            
+                <a href="../Redux/使用方法.html">
+            
+                    
+                    使用方法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../Redux/与Mobx对比.html">
+            
+                <a href="../Redux/与Mobx对比.html">
+            
+                    
+                    与 Mobx 对比
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../Redux/原理解析.html">
+            
+                <a href="../Redux/原理解析.html">
+            
+                    
+                    原理解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../Redux/redux-thunk.html">
+            
+                <a href="../Redux/redux-thunk.html">
+            
+                    
+                    redux-thunk
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../JS/README.md">
+            
+                <span>
+            
+                    
+                    杂文
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="小程序优化指南.html">
+            
+                <a href="小程序优化指南.html">
+            
+                    
+                    小程序优化指南
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="十分钟搞定多人协作开发.html">
+            
+                <a href="十分钟搞定多人协作开发.html">
+            
+                    
+                    十分钟搞定多人协作开发
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="Mac常用软件（一）.html">
+            
+                <a href="Mac常用软件（一）.html">
+            
+                    
+                    Mac常用软件（一）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4" data-path="Mac常用软件（二）.html">
+            
+                <a href="Mac常用软件（二）.html">
+            
+                    
+                    Mac常用软件（二）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5" data-path="Mac常用软件（三）.html">
+            
+                <a href="Mac常用软件（三）.html">
+            
+                    
+                    Mac常用软件（三）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6" data-path="手机端调试.html">
+            
+                <a href="手机端调试.html">
+            
+                    
+                    手机端调试
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.7" data-path="babel你太美.html">
+            
+                <a href="babel你太美.html">
+            
+                    
+                    babel 你太美
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.8" data-path="从输入网址后发生了什么到缓存了什么.html">
+            
+                <a href="从输入网址后发生了什么到缓存了什么.html">
+            
+                    
+                    从输入网址后发生了什么到缓存了什么
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.9" data-path="跨域的N种实现方式.md">
+            
+                <span>
+            
+                    
+                    跨域的 N 种实现方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.10" data-path="前端之数据结构.md">
+            
+                <span>
+            
+                    
+                    前端之数据结构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.11" data-path="http详解.html">
+            
+                <a href="http详解.html">
+            
+                    
+                    http详解
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.12" data-path="v8引擎垃圾回收机制.html">
+            
+                <a href="v8引擎垃圾回收机制.html">
+            
+                    
+                    v8 引擎垃圾回收机制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.13" data-path="从Mpvue到Taro上手指南.html">
+            
+                <a href="从Mpvue到Taro上手指南.html">
+            
+                    
+                    从Mpvue到Taro上手指南
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.14" data-path="http详解.html">
+            
+                <a href="http详解.html">
+            
+                    
+                    http详解
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.7.15" data-path="history与hash详解.html">
+            
+                <a href="history与hash详解.html">
+            
+                    
+                    history与hash详解
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.16" data-path="由三道题引伸出来的思考.html">
+            
+                <a href="由三道题引伸出来的思考.html">
+            
+                    
+                    由三道题引伸出来的思考
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.17" data-path="TCP与UDP连接区别.html">
+            
+                <a href="TCP与UDP连接区别.html">
+            
+                    
+                    TCP 与 UDP 连接区别
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.18" data-path="函数式编程.html">
+            
+                <a href="函数式编程.html">
+            
+                    
+                    函数式编程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.19" data-path="微前端架构分析与搭建(一">
+            
+                <span>
+            
+                    
+                    微前端架构分析与搭建(一)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.20" data-path="微前端架构分析与搭建(二">
+            
+                <span>
+            
+                    
+                    微前端架构分析与搭建(二)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.21" data-path="异常检控之sentry实践.html">
+            
+                <a href="异常检控之sentry实践.html">
+            
+                    
+                    异常检控之sentry实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.22" data-path="浏览器缓存策略详解.html">
+            
+                <a href="浏览器缓存策略详解.html">
+            
+                    
+                    浏览器缓存策略详解
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.23" data-path="重绘和重排.html">
+            
+                <a href="重绘和重排.html">
+            
+                    
+                    重绘和重排
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../设计模式/README.md">
+            
+                <span>
+            
+                    
+                    设计模式
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../设计模式/前端常见设计模式之代理模式.html">
+            
+                <a href="../设计模式/前端常见设计模式之代理模式.html">
+            
+                    
+                    前端常见设计模式之代理模式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../设计模式/前端常见设计模式之单例模式.html">
+            
+                <a href="../设计模式/前端常见设计模式之单例模式.html">
+            
+                    
+                    前端常见设计模式之单例模式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../设计模式/前端常见设计模式之发布-订阅模式.html">
+            
+                <a href="../设计模式/前端常见设计模式之发布-订阅模式.html">
+            
+                    
+                    前端常见设计模式之发布-订阅模式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="../设计模式/前端常见设计模式之工厂模式.html">
+            
+                <a href="../设计模式/前端常见设计模式之工厂模式.html">
+            
+                    
+                    前端常见设计模式之工厂模式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.5" data-path="../设计模式/前端常见设计模式之适配器模式.html">
+            
+                <a href="../设计模式/前端常见设计模式之适配器模式.html">
+            
+                    
+                    前端常见设计模式之适配器模式
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../Flutter/README.md">
+            
+                <span>
+            
+                    
+                    Flutter
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="../Flutter/flutter小记之路由和导航.html">
+            
+                <a href="../Flutter/flutter小记之路由和导航.html">
+            
+                    
+                    flutter小记之路由和导航(一)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="../Flutter/flutter小记之页面布局.html">
+            
+                <a href="../Flutter/flutter小记之页面布局.html">
+            
+                    
+                    flutter小记之页面布局(二)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../Node/README.md">
+            
+                <span>
+            
+                    
+                    Node
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.1" data-path="../Node/Node 之 Buffer 详解.html">
+            
+                <a href="../Node/Node 之 Buffer 详解.html">
+            
+                    
+                    Node 之 Buffer 详解
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.2" data-path="../Node/Node之初探小径.html">
+            
+                <a href="../Node/Node之初探小径.html">
+            
+                    
+                    Node之初探小径
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.3" data-path="../Node/Node之模块解析.html">
+            
+                <a href="../Node/Node之模块解析.html">
+            
+                    
+                    Node之模块解析(一)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="../译文/README.md">
+            
+                <span>
+            
+                    
+                    译文
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.11.1" data-path="../译文/[译] 您是否优化了API的性能.html">
+            
+                <a href="../译文/[译] 您是否优化了API的性能.html">
+            
+                    
+                    您是否优化了API的性能?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.2" data-path="../译文/[译] 如何使用 CircleCI for GitHub Pages 持续部署.html">
+            
+                <a href="../译文/[译] 如何使用 CircleCI for GitHub Pages 持续部署.html">
+            
+                    
+                    如何使用 CircleCI for GitHub Pages 持续部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.3" data-path="../译文/[译][官方] Google 正式发布 Flutter 1.2 版本.html">
+            
+                <a href="../译文/[译][官方] Google 正式发布 Flutter 1.2 版本.html">
+            
+                    
+                    [官方] Google 正式发布 Flutter 1.2 版本
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11.4" >
+            
+                <span>
+            
+                    
+                    [[译]什么是 Deno ，它将取代 NodeJS ？] (./译文/[译]什么是 Deno ，它将取代 NodeJS ？.md)
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="../Webpack/README.md">
+            
+                <span>
+            
+                    
+                    Webpack
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.12.1" data-path="../Webpack/webpack按需加载的原理.html">
+            
+                <a href="../Webpack/webpack按需加载的原理.html">
+            
+                    
+                    webpack按需加载的原理?
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12.2" data-path="../Webpack/webpack常用优化.html">
+            
+                <a href="../Webpack/webpack常用优化.html">
+            
+                    
+                    webpack常用优化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12.3" data-path="../Webpack/webpack打包原理.html">
+            
+                <a href="../Webpack/webpack打包原理.html">
+            
+                    
+                    webpack打包原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >history与hash详解</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="history-&#x4E0E;-hash-&#x8DEF;&#x7531;&#x7B56;&#x7565;">history &#x4E0E; hash &#x8DEF;&#x7531;&#x7B56;&#x7565;</h1>
+<h2 id="&#x539F;&#x59CB;&#x9636;&#x6BB5;">&#x539F;&#x59CB;&#x9636;&#x6BB5;</h2>
+<p>  &#x65E9;&#x671F;&#x6D4F;&#x89C8;&#x5668;&#x5C31;&#x662F;&#x6839;&#x636E;&#x6D4F;&#x89C8;&#x5668;&#x7F51;&#x5740;&#x7684;&#x53D8;&#x5316;&#xFF0C;&#x8DF3;&#x8F6C;&#x8BF7;&#x6C42;&#x8D44;&#x6E90;&#x7684;&#x3002;&#x4F46;&#x662F;&#x5728;&#x5355;&#x9875;&#x5E94;&#x7528;&#x76DB;&#x884C;&#x7684;&#x4ECA;&#x5929;&#x53C8;&#x662F;&#x600E;&#x4E48;&#x505A;&#x5230;&#x7F51;&#x5740;&#x6539;&#x53D8;&#x4E0D;&#x5237;&#x65B0;&#x9875;&#x9762;&#x7684;&#x5462;&#x3002;&#x6D4F;&#x89C8;&#x5668;&#x7684; hash&#x548C; history &#x90FD;&#x80FD;&#x591F;&#x505A;&#x5230;&#x3002;</p>
+<pre><code class="lang-js">  <span class="hljs-function"><span class="hljs-keyword">function</span>
+  <span class="hljs-title">return</span> (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">&apos;https://www.baidu.com&apos;</span>
+  }
+</code></pre>
+<p>  &#x6D4F;&#x89C8;&#x5668;&#x6709;&#x4E24;&#x5927;api&#xFF1A; location &#x548C; history</p>
+<p>  location &#x6709; href&#x3001;reload&#x3001;search&#x3001;pathname&#x3001;hash</p>
+<p>  history &#x6709; pushState&#x3001;replaceState&#x3001;go&#x3001;back&#x3001;forward &#x7B49;&#x529F;&#x80FD;</p>
+<h2 id="hash">hash</h2>
+<p>  &#x7F51;&#x5740;&#x4E2D;&#x7684;#&#x79F0;&#x4E3A;&#x4F4D;&#x7F6E;&#x7684;&#x6807;&#x8BC6;&#x7B26;&#xFF0C;&#x4EE3;&#x8868;&#x7F51;&#x9875;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x7684;hash&#xFF0C;&#x5C06;&#x8D44;&#x6E90;&#x8DEF;&#x5F84;&#x4F2A;&#x88C5;&#x6210;&#x951A;&#x70B9;&#xFF0C;&#x901A;&#x8FC7; onhashchange &#x4E8B;&#x4EF6;&#x6765;&#x6539;&#x53D8;&#x72B6;&#x6001;&#xFF0C;&#x540C;&#x65F6;&#x53C8;&#x4E0D;&#x4F1A;&#x5237;&#x65B0;&#x6D4F;&#x89C8;&#x5668;&#x3002;</p>
+<p>  &#x5F53;#&#x503C;&#x53D1;&#x751F;&#x53D8;&#x5316;&#x65F6;&#xFF0C;&#x5C31;&#x4F1A;&#x89E6;&#x53D1; hashchange &#x4E8B;&#x4EF6;</p>
+<pre><code class="lang-js">    <span class="hljs-comment">// &#x663E;&#x793A;&#x5F53;&#x524D;&#x65F6;&#x95F4;</span>
+    setInterval(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-built_in">window</span>.location.hash = <span class="hljs-string">&apos;J&apos;</span>
+    }, <span class="hljs-number">2000</span>);
+    <span class="hljs-built_in">window</span>.onhashchange = funcRef;
+
+    <span class="hljs-comment">//&#x4EE5;&#x4E0A;&#x64CD;&#x4F5C;&#x5C06;&#x8986;&#x76D6;&#x73B0;&#x6709;&#x7684;&#x4E8B;&#x4EF6;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#x3002;</span>
+    <span class="hljs-comment">//&#x4E3A;&#x4E86;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x4E8B;&#x4EF6;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#xFF0C;&#x800C;&#x4E0D;&#x8986;&#x76D6;&#x6389;&#x5DF2;&#x6709;&#x7684;&#x5176;&#x4ED6;&#x4E8B;&#x4EF6;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x51FD;&#x6570; &quot;addEventListener&quot;&#x3002;</span>
+
+    <span class="hljs-comment">// &#x76D1;&#x542C;onhashchange&#x4E8B;&#x4EF6;</span>
+    <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&quot;hashchange&quot;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;e: &apos;</span>, e);
+        <span class="hljs-comment">// &#x83B7;&#x53D6;hash&#x503C;&#x5224;&#x65AD;&#x9875;&#x9762;&#x72B6;&#x6001;</span>
+        <span class="hljs-keyword">var</span> flag = location.hash &amp;&amp; location.hash.substring(<span class="hljs-number">1</span>);
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;flag: &apos;</span>, flag);
+
+    }, <span class="hljs-literal">false</span>);
+</code></pre>
+<pre><code class="lang-js">  <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">&apos;www.baidu.com/#&apos;</span>
+
+  <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">&apos;www.baidu.com/#/foo&apos;</span>
+</code></pre>
+<h2 id="history">history</h2>
+<p>  html5 &#x7684; history api</p>
+<ul>
+<li>history.pushState </li>
+<li>history.replaceState</li>
+<li>history.back()</li>
+<li>history.forward()</li>
+<li>history.go()</li>
+</ul>
+<p>  &#x53EF;&#x4EE5;&#x5728;&#x4E0D;&#x5237;&#x65B0;&#x9875;&#x9762;&#x7684;&#x524D;&#x63D0;&#x4E0B;&#x52A8;&#x6001;&#x6539;&#x53D8;&#x6D4F;&#x89C8;&#x5668;&#x5730;&#x5740;&#x680F;&#x4E2D;&#x7684; url &#x5730;&#x5740;&#xFF0C;&#x52A8;&#x6001;&#x4FEE;&#x6539;&#x9875;&#x9762;&#x4E0A;&#x6240;&#x663E;&#x793A;&#x8D44;&#x6E90;&#x3002;</p>
+<p>  <strong>pushState(state, title, url); </strong> //&#x6DFB;&#x52A0;&#x4E00;&#x6761;&#x5386;&#x53F2;&#x8BB0;&#x5F55;&#xFF0C;&#x4E0D;&#x5237;&#x65B0;&#x9875;&#x9762;</p>
+<p>  state: &#x4E00;&#x4E2A;&#x4E8E;&#x6267;&#x884C;&#x7F51;&#x5740;&#x76F8;&#x5173;&#x7684;&#x72B6;&#x6001;&#x5BF9;&#x8C61;&#xFF0C;popstate&#x4E8B;&#x4EF6;&#x89E6;&#x53D1;&#x65F6;&#xFF0C;&#x8BE5;&#x5BF9;&#x8C61;&#x4F1A;&#x4F20;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C; &#x5982;&#x679C;&#x4E0D;&#x9700;&#x8981;&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#xFF0C;&#x6B64;&#x5904;&#x53EF;&#x4EE5;&#x586B; null</p>
+<p>  title: &#x65B0;&#x9875;&#x9762;&#x7684;&#x6807;&#x9898;&#xFF0C;&#x6240;&#x6709;&#x6D4F;&#x89C8;&#x5668;&#x53EF;&#x4EE5;&#x5FFD;&#x7565;&#x8FD9;&#x4E2A;&#x503C;&#xFF0C;&#x53EF;&#x4EE5;&#x586B; null</p>
+<p>  url: &#x65B0;&#x7684;&#x7F51;&#x5740;&#xFF0C;&#x5FC5;&#x987B;&#x4E0E;&#x524D;&#x9875;&#x9762;&#x5904;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x57DF;&#x3002;&#x6D4F;&#x89C8;&#x5668;&#x7684;&#x5730;&#x5740;&#x5C06;&#x663E;&#x793A;&#x8FD9;&#x4E2A;&#x7F51;&#x5740;&#x3002;</p>
+<h2 id="replacestate-&#x548C;-pushstate&#x7684;&#x533A;&#x522B;">replaceState &#x548C; pushState&#x7684;&#x533A;&#x522B;</h2>
+<pre><code class="lang-js">  pushState()&#x3001; replaceState() &#x65B9;&#x6CD5;&#x63A5;&#x6536;&#x4E09;&#x4E2A;&#x53C2;&#x6570;&#xFF1A; stateObj&#x3001; title&#x3001; url&#x3002;
+
+  <span class="hljs-comment">// &#x8BBE;&#x7F6E;&#x72B6;&#x6001;</span>
+  history.pushState({
+      color: <span class="hljs-literal">null</span>
+  }, <span class="hljs-literal">null</span>, <span class="hljs-string">&quot;newHistory&quot;</span>);
+
+  <span class="hljs-comment">// &#x76D1;&#x542C;&#x72B6;&#x6001;</span>
+  <span class="hljs-built_in">window</span>.onpopstate = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) </span>{
+      <span class="hljs-built_in">console</span>.log(event.state);
+      <span class="hljs-keyword">if</span> (event.state &amp;&amp; event.state.color === <span class="hljs-string">&quot;newHistory&quot;</span>) {
+          <span class="hljs-built_in">document</span>.body.style.color = <span class="hljs-string">&quot;newHistory&quot;</span>;
+      }
+  }
+
+  <span class="hljs-comment">// &#x6539;&#x53D8;&#x72B6;&#x6001;</span>
+  history.back();
+  history.forward();
+</code></pre>
+<p>  replaceState(state, title, url); &#x66FF;&#x6362;&#x5F53;&#x524D;&#x7684;&#x5386;&#x53F2;&#x8BB0;&#x5F55;&#xFF0C;&#x5386;&#x53F2;&#x6808;&#x6CA1;&#x6709;&#x53D8;&#x5316;&#xFF0C;&#x800C; pushState &#x6709;&#x3002;</p>
+<h3 id="hashchange-&#x548C;-popstate">hashchange &#x548C; popstate</h3>
+<p>  &#x8FD9;&#x4E24;&#x4E2A;&#x90FD;&#x80FD;&#x76D1;&#x542C;url hash&#x7684;&#x6539;&#x53D8;</p>
+<pre><code class="lang-js"><span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&apos;hashchange&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(e)
+})
+
+<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&apos;popstate&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(e)
+})
+</code></pre>
+<p>  1.popstate &#x4E8B;&#x4EF6;&#xFF1A; &#x5386;&#x53F2;&#x8BB0;&#x5F55;&#x53D1;&#x751F;&#x6539;&#x53D8;&#x65F6;&#x89E6;&#x53D1;&#xFF0C;&#x8C03;&#x7528; history.pushState() &#x6216;&#x8005; history.replaceState() &#x65F6;&#xFF0C;&#x4E0D;&#x4F1A;&#x89E6;&#x53D1; popState &#x4E8B;&#x4EF6;&#x3002;</p>
+<p>  2.hashchange &#x4E8B;&#x4EF6;&#xFF1A;&#x5F53;&#x9875;&#x9762;&#x7684; hash &#x503C;&#x6539;&#x53D8;&#x7684;&#x65F6;&#x5019;&#x89E6;&#x53D1;&#xFF0C;history.pushState() &#x6216;&#x8005; history.replaceState() &#x4E5F;&#x4E0D;&#x4F1A;&#x89E6;&#x53D1;&#x3002;</p>
+<h2 id="hash-&#x548C;-history-&#x4E24;&#x8005;&#x4E4B;&#x95F4;&#x533A;&#x522B;">hash &#x548C; history &#x4E24;&#x8005;&#x4E4B;&#x95F4;&#x533A;&#x522B;</h2>
+<ul>
+<li>hash&#x524D;&#x7AEF;&#x8DEF;&#x7531;&#xFF0C;&#x65E0;&#x5237;&#x65B0; #</li>
+<li><p>history  &#x4F1A;&#x53BB;&#x8BF7;&#x6C42;&#x63A5;&#x53E3; /</p>
+</li>
+<li><p>hash  &#x6539;&#x53D8;hash&#x4E0D;&#x4F1A;&#x52A0;&#x8F7D;&#x9875;&#x9762;</p>
+</li>
+<li>history &#x4FEE;&#x6539;&#x9875;&#x9762;url&#x65F6;&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x4E0D;&#x4F1A;&#x5411;&#x540E;&#x7AEF;&#x53D1;&#x9001;&#x8BF7;&#x6C42;&#x3002;</li>
+</ul>
+<p>hash&#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;# &#x4E4B;&#x524D;&#x7684;&#x5185;&#x5BB9;&#x5305;&#x542B;&#x5728; http &#x8BF7;&#x6C42;&#x4E2D;&#xFF0C;&#x5BF9;&#x540E;&#x7AEF;&#x6765;&#x8BF4;&#xFF0C;&#x5373;&#x4F7F;&#x6CA1;&#x6709;&#x5BF9;&#x8DEF;&#x7531;&#x505A;&#x5230;&#x5168;&#x9762;&#x8986;&#x76D6;&#xFF0C;&#x4E5F;&#x4E0D;&#x4F1A;&#x62A5; 404; </p>
+<p>history &#x5728;&#x5237;&#x65B0;&#x9875;&#x9762;&#x65F6;&#xFF0C;&#x5982;&#x679C;&#x670D;&#x52A1;&#x5668;&#x4E2D;&#x6CA1;&#x6709;&#x76F8;&#x5E94;&#x7684;&#x54CD;&#x5E94;&#x8D44;&#x6E90;&#xFF0C;&#x5C31;&#x4F1A;&#x51FA;&#x73B0; 404&#xFF0C;&#x5982;&#x679C; url &#x5339;&#x914D;&#x4E0D;&#x5230;&#x4EFB;&#x4F55;&#x9759;&#x6001;&#x8D44;&#x6E90;&#xFF0C;&#x5219;&#x5E94;&#x8BE5;&#x8FD4;&#x56DE;&#x540C;&#x4E00;&#x4E2A; index.html &#x9875;&#x9762;&#x3002;</p>
+<h2 id="vue-router-&#x63D0;&#x4F9B;&#x4E24;&#x79CD;&#x6A21;&#x5F0F;&#x7684;&#x539F;&#x56E0;">vue-router &#x63D0;&#x4F9B;&#x4E24;&#x79CD;&#x6A21;&#x5F0F;&#x7684;&#x539F;&#x56E0;</h2>
+<p>  &#x524D;&#x7AEF;&#x8DEF;&#x7531;&#x7684;&#x6838;&#x5FC3;&#xFF1A;&#x6539;&#x53D8;&#x89C6;&#x56FE;&#x7684;&#x540C;&#x65F6;&#x4E0D;&#x4F1A;&#x5411;&#x540E;&#x7AEF;&#x53D1;&#x51FA;&#x8BF7;&#x6C42;&#x3002;</p>
+<p>  1.hash&#xFF1A; hash &#x867D;&#x7136;&#x51FA;&#x73B0;&#x5728; url &#x4E2D;&#xFF0C;&#x4F46;&#x4E0D;&#x4F1A;&#x88AB;&#x5305;&#x542B; http &#x8BF7;&#x6C42;&#xFF0C;</p>
+<p>  2.history &#x80FD;&#x591F;&#x4FEE;&#x6539;&#x540C;&#x6E90;&#x4E0B;&#x9762;&#x7684;&#x4EFB;&#x610F;url&#xFF0C;hash&#x53EA;&#x80FD;&#x4FEE;&#x6539; # &#x540E;&#x9762;&#x7684;&#x90E8;&#x5206;&#xFF0C;&#x56E0;&#x4E3A;&#x53EA;&#x80FD;&#x8BBE;&#x7F6E;&#x5F53;&#x524D;url&#x540C;&#x6587;&#x6863;&#x7684;url&#x3002;</p>
+<p>pushState &#x8BBE;&#x7F6E;&#x7684;&#x65B0; url&#xFF0C;&#x80FD;&#x4E0E;&#x5F53;&#x524D;&#x4E00;&#x6837;&#xFF0C;&#x8FD9;&#x6837;&#x4E5F;&#x4F1A;&#x8BB0;&#x5F55;&#x6DFB;&#x52A0;&#x5230;&#x6808;&#x4E2D;&#xFF0C;hash&#x8BBE;&#x7F6E;&#x7684;&#x65B0;&#x503C;&#x80FD;&#x4E0D;&#x80FD;&#x4E0E;&#x539F;&#x6765;&#x4E00;&#x6837;&#xFF0C;&#x4E00;&#x6837;&#x7684;&#x503C;&#x4E0D;&#x4F1A;&#x89E6;&#x53D1;&#x52A8;&#x4F5C;&#x5C06;&#x8BB0;&#x5F55;&#x6DFB;&#x52A0;&#x5230;&#x6808;&#x4E2D;&#x3002;pushstate&#x901A;&#x8FC7;stateObject&#x53C2;&#x6570;&#x5C06;</p>
+<h2 id="react-router-v5">react router v5</h2>
+<p>&#x4E24;&#x4E2A;&#x57FA;&#x7840;&#x7EC4;&#x4EF6; <strong>BrowserRouter, Route</strong>
+&#x5B83;&#x7684;&#x7EC4;&#x4EF6;&#x5F62;&#x5F0F;&#x662F; react-router &#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E9B;router&#x7684;&#x6838;&#x5FC3;api&#xFF1A; router, route&#xFF0C;switch &#x548C; react-router-dom  &#x63D0;&#x4F9B;&#x4E86;dom&#x64CD;&#x4F5C;&#x8FDB;&#x884C;&#x8DF3;&#x8F6C;&#x7684;API&#xFF0C;browserrouter&#xFF0C;routerlink</p>
+<p>&#x4F8B;&#x5982;</p>
+<pre><code class="lang-js">&lt; Route path = <span class="hljs-string">&quot;/help&quot;</span>
+component = {
+    Help
+}
+/&gt;
+</code></pre>
+<p>&#x5F53;&#x6211;&#x4EEC;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x5730;&#x5740;&#x680F;&#x4E2D;&#x8F93;&#x5165;  <strong><a href="http://localhost:3000/help" target="_blank">http://localhost:3000/help</a></strong> &#x7684;&#x65F6;&#x5019;&#xFF0C;React Router &#x4F1A;&#x5339;&#x914D;&#x5230; <route path="/help" component="{Help}"> &#x8FD9;&#x4E00;&#x6761;&#x8BB0;&#x5F55;&#xFF0C;&#x7136;&#x540E;&#x5C31;&#x4F1A;&#x5728;&#x5F53;&#x524D;&#x4F4D;&#x7F6E;&#x6E32;&#x67D3;&#x5BF9;&#x5E94;&#x7684;component&#x3002;</route></p>
+<p>&#x8FD8;&#x53EF;&#x4EE5;&#x5BFC;&#x5165; Link &#x7EC4;&#x4EF6;&#x8FDB;&#x884C;&#x94FE;&#x63A5;&#x7684;&#x8DF3;&#x8F6C;</p>
+<pre><code class="lang-js"> &lt; li &gt; <span class="xml"><span class="hljs-tag">&lt; <span class="hljs-attr">Link</span> <span class="hljs-attr">to</span> = &quot;/<span class="hljs-attr">help</span>&quot; &gt;</span> Help <span class="hljs-tag">&lt; /<span class="hljs-attr">Link</span>&gt;</span></span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">li</span> &gt;</span>
+</span></code></pre>
+<h2 id="&#x914D;&#x7F6E;&#x65B9;&#x5F0F;">&#x914D;&#x7F6E;&#x65B9;&#x5F0F;</h2>
+<ul>
+<li><route component="{Index}">
+
+</route></li>
+</ul>
+<p>&#x5982;&#x679C;&#x6CA1;&#x6709;&#x6307;&#x5B9A; path &#x5C5E;&#x6027;, &#x8FD9;&#x65F6;&#x53EA;&#x8981;&#x4F60;&#x6253;&#x5F00;&#x9879;&#x76EE;, &#x65E0;&#x8BBA;&#x8BBF;&#x95EE;&#x4EC0;&#x4E48;, &#x90FD;&#x662F;&#x5339;&#x914D;&#x5230;&#x8FD9;&#x4E2A; Route.</p>
+<ul>
+<li><route path="/" component="{Index}">
+
+</route></li>
+</ul>
+<p>&#x8DDF;&#x4E0A;&#x9762;&#x4E00;&#x6837;&#x90A3;&#x4E2A;, &#x6211;&#x4EEC;&#x8BBF;&#x95EE;&#x7684;&#x8DEF;&#x5F84;, &#x90FD;&#x5305;&#x542B;&quot;/&quot;&#x7684;&#x8DEF;&#x5F84;. &#x65E0;&#x8BBA;&#x8BBF;&#x95EE;&#x4EC0;&#x4E48;, &#x90FD;&#x662F;&#x5339;&#x914D;&#x5230;&#x8FD9;&#x4E2A; Route.</p>
+<ul>
+<li><route exact="" path="/" component="{Index}">
+
+<p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E; exact , &#x5339;&#x914D;&#x89C4;&#x5219;&#x5C31;&#x662F;&#x5339;&#x914D;&#x4E0A;&#x624D;&#x4F1A;&#x8D70;&#x8FD9;&#x4E2A;&#x8DEF;&#x7531;.</p>
+</route></li>
+<li><p><route path="/render" render="{" ()=""> { return <h1 id="&#x6211;&#x662F;&#x5339;&#x914D;&#x5230;&#x7684;&#x8DEF;&#x7531;">&#x6211;&#x662F;&#x5339;&#x914D;&#x5230;&#x7684;&#x8DEF;&#x7531;</h1> } } /&gt;</route></p>
+</li>
+</ul>
+<p>render&#x5C5E;&#x6027;&#x3002;&#x8BE5;&#x5C5E;&#x6027;&#x662F;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;&#x5F53;&#x5339;&#x914D;&#x5230;&#x8FD9;&#x4E2A;Route&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x9875;&#x9762;&#x5C06;&#x4F1A;&#x6E32;&#x67D3;&#x51FA;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x7684;&#x5185;&#x5BB9;&#x3002;</p>
+<p>&#x5339;&#x914D;&#x5230;&#x7684; Route &#x5219;&#x4F1A;&#x6E32;&#x67D3;&#x51FA;&#x6765;, &#x6CA1;&#x6709;&#x5339;&#x914D;&#x5230;&#x7684; Route, &#x5219;&#x4F1A;&#x66FF;&#x6362;&#x6210; null</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> warning <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;warning&quot;</span>;
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>;
+<span class="hljs-keyword">import</span> PropTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;prop-types&quot;</span>;
+<span class="hljs-keyword">import</span> { createBrowserHistory <span class="hljs-keyword">as</span> createHistory } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;history&quot;</span>;<span class="hljs-comment">//&#x8FD9;&#x91CC;&#x7684;history&#x5C31;&#x662F;&#x4E0A;&#x9762;&#x7B2C;&#x4E8C;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#x7684;historyModule</span>
+<span class="hljs-keyword">import</span> Router <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./Router&quot;</span>; <span class="hljs-comment">//&#x5BF9;&#x5E94;&#x7B2C;&#x4E8C;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#x7684;Router&#x5BF9;&#x8C61;</span>
+
+<span class="hljs-comment">/**
+ * The public API for a &lt;Router&gt; that uses HTML5 history. //&#x8FD9;&#x91CC;&#x662F;&#x91CD;&#x70B9;
+ */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BrowserRouter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  history = createHistory(<span class="hljs-keyword">this</span>.props);
+  render() {
+    <span class="hljs-keyword">return</span> &lt;Router history={this.history} children={this.props.children} /&gt;;
+  }
+}
+
+export default BrowserRouter;
+
+
+
+
+//&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x63A5;&#x53E3;
+export interface History {
+    length: number;
+    action: Action;
+    location: Location;
+    push(path: Path, state?: LocationState): void;
+    push(location: LocationDescriptorObject): void;
+    replace(path: Path, state?: LocationState): void;
+    replace(location: LocationDescriptorObject): void;
+    go(n: number): void;
+    goBack(): void;
+    goForward(): void;
+    block(prompt?: boolean): UnregisterCallback;
+    listen(listener: LocationListener): UnregisterCallback;
+    createHref(location: LocationDescriptorObject): Href;
+}
+
+
+
+
+
+/**
+ * The public API for putting history on context. //&#x8FD9;&#x91CC;&#x7684;&#x9053;&#x7406;&#x7C7B;&#x4F3C;&#x4E8E;&#x4F8B;&#x5B50;&#x4E8C;&#x4E2D;&#x7B2C;&#x4E8C;&#x6B65;
+ */
+class Router extends React.Component {
+
+  static childContextTypes = {
+    router: PropTypes.object.isRequired
+  };
+
+  getChildContext() {
+    return {
+      router: {
+        ...this.context.router,
+        history: this.props.history,
+        route: {
+          location: this.props.history.location,
+          match: this.state.match
+        }
+      }
+    };
+  }
+
+  state = {
+    match: this.computeMatch(this.props.history.location.pathname)
+  };
+
+  computeMatch(pathname) {
+    return {
+      path: &quot;/&quot;,
+      url: &quot;/&quot;,
+      params: {},
+      isExact: pathname === &quot;/&quot;
+    };
+  }
+
+  componentWillMount() {
+    const { children, history } = this.props;
+    // Do this here so we can setState when a &lt;Redirect&gt; changes the
+    // location in componentWillMount. This happens e.g. when doing
+    // server rendering using a &lt;StaticRouter&gt;.
+    this.unlisten = history.listen(() =&gt; {
+      this.setState({
+        match: this.computeMatch(history.location.pathname)
+      });
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    warning(
+      this.props.history === nextProps.history,
+      &quot;You cannot change &lt;Router history&gt;&quot;
+    );
+  }
+
+  componentWillUnmount() {
+    this.unlisten();
+  }
+
+  render() {
+    const { children } = this.props;
+    return children ? React.Children.only(children) : null;
+  }
+}
+
+export default Router;
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="http详解.html" class="navigation navigation-prev " aria-label="Previous page: http详解">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="由三道题引伸出来的思考.html" class="navigation navigation-next " aria-label="Next page: 由三道题引伸出来的思考">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"history与hash详解","level":"1.7.15","depth":2,"next":{"title":"由三道题引伸出来的思考","level":"1.7.16","depth":2,"path":"杂文/由三道题引伸出来的思考.md","ref":"./杂文/由三道题引伸出来的思考.md","articles":[]},"previous":{"title":"http详解","level":"1.7.14","depth":2,"path":"杂文/http详解.md","ref":"./杂文/http详解.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"杂文/history与hash详解.md","mtime":"2020-10-09T06:17:20.601Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-10-09T08:15:23.588Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

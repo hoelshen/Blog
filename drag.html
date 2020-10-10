@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>drag</title>
+  <style>
+/**
+ * Drag and Drop Basic
+ **/
+
+[draggable="true"] {
+  /*
+   To prevent user selecting inside the drag source
+  */
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+  #drag-drop-basic{
+    display: flex;
+  }
+  #drag-drop-basic #source-container{
+    height: 400px;
+    border: 2px solid #CCC;
+    flex: 1;
+  }
+
+  #drag-drop-basic  #target-container{
+    height: 400px;
+    border: 2px solid #CCC;
+    flex: 1;
+  }
+
+  #drag-drop-basic #drag-source{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: steelblue;
+  }
+  </style>
+</head>
+
+<body>
+  
+  <div id="drag-drop-basic">
+    <div id="source-container" data-role="drag-drop-container">
+      <div id="drag-source" draggable="true"></div>
+    </div>
+    <div id="target-container" data-role="drag-drop-container"></div>
+  </div>
+  <script>
+    // Allow multiple draggable items
+    let dragSources = document.querySelectorAll('[draggable="true"]')
+    dragSources.forEach(dragSource => {
+      dragSource.addEventListener('dragstart', dragStart)
+    })
+
+    function dragStart(e) {
+      e.dataTransfer.setData('text/plain', e.target.id)
+    }
+
+
+    // Allow multiple dropped targets
+    let dropTargets = document.querySelectorAll('[data-role="drag-drop-container"]')
+    dropTargets.forEach(dropTarget => {
+      dropTarget.addEventListener('drop', dropped)
+      dropTarget.addEventListener('dragenter', cancelDefault)
+      dropTarget.addEventListener('dragover', cancelDefault)
+    })
+
+    function dropped(e) {
+      cancelDefault(e)
+      let id = e.dataTransfer.getData('text/plain')
+      e.target.appendChild(document.querySelector('#' + id))
+    }
+
+    function cancelDefault(e) {
+      e.preventDefault()
+      e.stopPropagation()
+      return false
+    }
+  </script>
+</body>
+
+</html>

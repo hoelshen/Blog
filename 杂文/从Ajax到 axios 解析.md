@@ -270,3 +270,35 @@ source.cancel('Operation canceled by the user.');
 	    source.cancel(); // 5秒之后执行下一步操作
 	}, 5000)
 ```
+
+demo
+
+```js
+    <button @click="getMsg" class="get-msg">获取数据</button>
+    getMsg() {
+      let CancelToken = axios.CancelToken;
+      let self = this;  
+      axios
+        .get("http://www.zhangxinxu.com/study/201802/cros-ajax.php", {
+          cancelToken: new CancelToken(function executor(c) {
+            self.cancel = c;
+            console.log(c);
+            // 这个参数 c 就是CancelToken构造函数里面自带的取消请求的函数，这里把该函数当参数用
+          }),
+        })
+        .then((res) => {
+          this.items = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      //手速够快就不用写这个定时器了，点击取消获取就可以看到效果了
+      setTimeout(function () {
+        //只要我们去调用了这个cancel()方法，没有完成请求的接口便会停止请求
+        self.cancel();
+      }, 100);
+    }
+
+
+```

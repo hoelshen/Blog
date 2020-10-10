@@ -31,7 +31,7 @@ Component.prototype.setState = function(partialState, callback) {
 };
 ```
 
-## pureComponent
+## pureCompontent
 
 大体跟component 差不多 唯一的区别就是 多了个
 
@@ -52,20 +52,3 @@ ReactCurrentOwner.current 指的是
 <B><C/></B>
 
 对于C来说，B是他的父组件，而A就是owner
-
-
-Function Component 代替 Stateless Component, 自从 hooks 出现后, 函数式组件不在需要强调其无状态特性
-
-在 function component 中 prop 是不可变
-在 class component 中, this 是可变得, 因此 this.props 的调用会导致每次访问最新得 props.
-
-
-
-
-
-
-
-
-
-
-

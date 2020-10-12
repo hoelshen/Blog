@@ -28,15 +28,15 @@ module.exports和exports一开始都是一个空对象{}，实际上，这两个
 exports.age = 18和module.exports.age = 18，这两种写法是一致的（都相当于给最初的空对象{}添加了一个属性，通过require得到的就是{age: 18}）。
 但是：
 require引入的对象本质上是module.exports。这就产生了一个问题，当 module.exports和exports指向的不是同一块内存时，exports的内容就会失效。
+
 例如：
 module.exports = {name: 'jikebang'}；
 exports = {name: 'liuhua'}
 
-
 webpack 给我们每个模块创建了一个函数作用域，让他们不互相干扰
 
 ```js
-if(installedModues[moduleId]){
+if(installedModules[moduleId]){
   return installedModules[moduleId].exports
 }
 
@@ -48,10 +48,9 @@ if(installedModues[moduleId]){
 
 ```
 
-
 node 模块加载过程
 
-1. 加载模块: `require('<module>');` 
+1. 加载模块: `require('<module>');`
 2. 加载模块会运行模块代码
 3. 模块导入支持绝对路径和相对路径, 相对路径永远是该文件对应的路径开始
 4. 加载模块建议都带上后缀
@@ -84,13 +83,12 @@ EventEmiiter
 I/O 即input/ouput 一个系统的输入 输出
 阻塞与非阻塞的区别在于系统接收输入再到输出期间，能不能接收其他输入
 
-
 异步流程控制：
   callback
   
 异步流程控制:
 1. callback嵌套 -> 可能会造成 callback, 代码可读性降低
-2. Promise 
+2. Promise
 3. Generator
 4. Async/Await: Generator语法糖，本质跟Generator一致
 
@@ -195,7 +193,6 @@ node.js 进程守护
 
 ![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjbyitvwuuj30dg09dgm1.jpg)
 
-
 设计模式
 单一职责
 里氏替换
@@ -203,4 +200,3 @@ node.js 进程守护
 接口隔离
 最小知晓原则
 开闭原则
-

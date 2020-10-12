@@ -241,7 +241,7 @@ class KWebpack {
           if (node.callee.name === 'require') {
               node.callee.name = '__webpack_require__'
               // 构建新的模块路径(模块名)
-              
+
               let moduleName = node.arguments[0].value
 
               // 这里作了简化处理，可能引用的还有其他模块 。
@@ -288,7 +288,7 @@ class KWebpack {
         module.exports,
         __webpack_require__
       );
-      
+
       return module.exports;
     }
     // return 入口

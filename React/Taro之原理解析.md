@@ -248,7 +248,7 @@ Taro['getStorage'] = options => {
 Taro.getStorage({
   key: 'test',
   success() {
-	
+
   }
 })
 // 在 Taro 里也可以这样调用
@@ -257,10 +257,6 @@ Taro.getStorage({
 }).then(() => {
   // success
 })
-
-
-what’up
-
 
 // 示例代码
 render() {
@@ -284,15 +280,7 @@ render() {
 
 针对小程序特有的api。在web端实现方式是自己造轮子，只关心出参和入参
 
-
-联系方式：
-微信：kaiyanicey
-邮箱：bd@openlanguage.com
-
-感觉如果想看css的话可以去翻一下组件库的源码
-
 build 走的是vue 的ssr
-
 
 切换行注释：con+/
 切换块注释：comm+/
@@ -429,7 +417,5 @@ componentWillUnmount()
 组件卸载时触发
 
 组件传递函数属性名以 on 开头
-
-wx274b238a2a603eee
 
 开启gpu 加速

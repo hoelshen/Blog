@@ -81,3 +81,9 @@ git commit --amend
 git log -g 找到最近一次提交的commit记录,并记下commit id
 git branch newbranch commit_id生成一个newbranch新分支
 切到newbranch分支
+
+## 遇坑
+一、fatal: refusing to merge unrelated histories
+在操作命令写上 --allow-unrelated-histories
+git pull origin master --allow-unrelated-histories
+

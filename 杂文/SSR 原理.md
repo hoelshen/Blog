@@ -39,7 +39,7 @@ ssr 的局限
 学习成本相对较高
   除了对 webpack、vue 要熟悉，还需要掌握 node、express 相关技术。
 
-
+Simple fix is adding a flag on Vue to make sure you only apply the mixin once.
 
 
 

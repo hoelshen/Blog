@@ -1,4 +1,5 @@
 # taro 规范
+
 Taro 中普通 JS/TS 文件以小写字母命名，多个单词以下划线连接，例如 util.js、util_helper.js
 Taro 组件文件命名遵循 Pascal 命名法，例如 ReservationCard.jsx
 
@@ -18,6 +19,7 @@ jsx 属性均使用单引号
 jsx 与括号
 
 书写顺序：
+
 1. static 静态方法
 2. constructor
 3. componentWillMount
@@ -51,9 +53,12 @@ this.setState(prevState => ({ value: prevState.value + 1 }))    // ✓ 正确
 不要在 componentWillUpdate/componentDidUpdate/render 中调用 this.setState
 
 组件最好定义 defaultProps
+
+```js
   static defaultProps = {
     isEnable: true
   }
+```
 
 render 方法必须有返回值
 

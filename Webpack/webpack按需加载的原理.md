@@ -1,23 +1,6 @@
-### webpack基础知识
-entry
-
-output
-
-hot module replacement
-
-tree shaking
-
-code splitting
-
-lazy loading
-
-loaders
-
-plugin
-
-the manifest
 
 ### webpack 工作原理
+
 webpack的工作步骤如下：
 
 从入口文件开始递归地建立一个依赖关系图。

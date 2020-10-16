@@ -72,5 +72,3 @@ Origin: origin
 Access-Control-Request-Method: method
 
 Access-Control-Request-Headers: <field-name>[, <field-name>]*
-
-

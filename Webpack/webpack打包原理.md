@@ -4,11 +4,11 @@
 2. 资源加载管理  处理文件的加载顺序先后世纪 和文件的加载数量（合并、潜入、拆分）
 3. 效率与优化管理 提高开发效率，完成页面优化
 
-它采用tool+ plugins 的结构，tools提供基础能力，即文件依赖管理和资源加载管理，基础上通过一系列的plugins来丰富打包工具的功能。
+它采用tool+ plugins 的结构，tools 提供基础能力，即文件依赖管理和资源加载管理，基础上通过一系列的 plugins 来丰富打包工具的功能。
 
-在webpack里， 所有的文件都是模块。但是webpack只认识js模块，所以要通过loader插件吧css、图片等文件转化成webpack认识的模块
+在webpack里， 所有的文件都是模块。但是 webpack 只认识 js 模块，所以要通过 loader 插件吧css、图片等文件转化成webpack认识的模块
 
-在webpack打包的文件中，模块是以模块函数来表示的，通过吧文件转换成模块函数就可以控制模块的运行时间。即加载完成后不会立即执行， 等到调用模块函数的时候才会执行。
+在 webpack 打包的文件中，模块是以模块函数来表示的，通过吧文件转换成模块函数就可以控制模块的运行时间。即加载完成后不会立即执行，等到调用模块函数的时候才会执行。
 
 
 webpack的工作步骤如下：
@@ -26,13 +26,13 @@ webpack的工作步骤如下：
 
 打包代码解析
 
-首先分析一下manifest文件。
+首先分析一下 manifest 文件。
 
 它包含三个主要变量，modules、installedModules 和 installedChunks。
 
-modules 对象保存的是所有的模块函数。模块函数是 webpack 处理的基本单位，对应打包前的一个文件，形式为 function(module, webpack_exports, webpack_require) {…}。所有的模块函数的索引值是连续编码的，如果第一个bundle里的模块函数的索引是0-7，第二个bundle里的模块函数的索引就从8开始，从而保证索引和模块函数一一对应。
+modules 对象保存的是所有的模块函数。模块函数是 webpack 处理的基本单位，对应打包前的一个文件，形式为 function(module, webpack_exports, webpack_require) {…}。所有的模块函数的索引值是连续编码的，如果第一个 bundle 里的模块函数的索引是0-7，第二个 bundle 里的模块函数的索引就从8开始，从而保证索引和模块函数一一对应。
 
-installedModules对象保存的是模块对象。模块对象是运行模块函数得到的对象，是标准的Commonjs对象，其属性主要有模块id和exports对象。webpack的运行就是指执行模块函数得到模块对象的过程。
+installedModules 对象保存的是模块对象。模块对象是运行模块函数得到的对象，是标准的 Commonjs 对象，其属性主要有模块id和exports对象。webpack的运行就是指执行模块函数得到模块对象的过程。
 
 installedChunks保存的是异步加载对象的promise信息，结构为[resolve, reject, promise]。主要是用来标记异步加载模块。用promise便于异步加载模块的全局管理，如果加载超时就可以抛出js异常。
 

@@ -1,4 +1,5 @@
-基础配置
+# 基础配置
+
 1. entry
 2. output
 3. mode
@@ -76,10 +77,29 @@ webpack manifest文件用来引导所有模块的交互。manifest文件包含�
 
 当webpack编译器处理和映射应用代码时，它把模块的详细的信息都记录到了manifest文件中。当模块被打包并运输到浏览器上时，runtime就会根据manifest文件来处理和加载模块。利用manifest就知道从哪里去获取模块代码。
 
-
-  在插件开发中最重要的两个资源就是 compiler 和 compilation 对象. 
+  在插件开发中最重要的两个资源就是 compiler 和 compilation 对象.
   compiler 对象代表了完整的 webpack 环境配置. 这个对象在启动 webpack 时被一次性建立, 并配置好所有可操作的设置, 包括 options, loader 和 plugin.
 
   compilation 对象代表了一次资源版本构建. 当运行 webpack 开发环境中间件时, 每当检测到一个文件变化, 就会创建一个新的 compilation, 从而生成一组新的编译资源. 一个 compilation 对象表现了当前的模块资源\编译生成资源\变化的文件\以及被跟踪依赖的状态信息.compilation 对象也提供了很多关键时间的回调, 以供插件做自定义处理试选择使用
 
-  同样的compilation钩子也是继承自Tapable，那么它也具有compiler的同样的方法和特性。Compilation 模块会被 Compiler 用来创建新的编译（或新的构建）。Compiler可以理解为整个webpack生命周期都存在的编译[构建]对象，但是Compliation只代表着某一次的编译[构建]对象。
+  同样的compilation钩子也是继承自Tapable，那么它也具有compiler的同样的方法和特性。Compilation 模块会被 Compiler 用来创建新的编译（或新的构建）。Compiler可以理解为整个webpack生命周期都存在的编译[构建]对象，但是Compliation只代表着某一次的编译[构建]对象
+
+## webpack基础知识
+
+entry
+
+output
+
+hot module replacement
+
+tree shaking
+
+code splitting
+
+lazy loading
+
+loaders
+
+plugin
+
+the manifest

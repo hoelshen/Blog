@@ -1,9 +1,13 @@
 # useEffect
 
+
+
+
+## 原理
+
 ```js
 useLayOutEffect(){
   useEffectImpl(UpadteEffect, UnmountMutation | MountLayout, create, inputs)
-
 }
 useEffect(){
   useEffectImpl(
@@ -25,7 +29,7 @@ function useEffectImpl(fiberEffectTag, hookEffectTag, create, inputs): void {
 接着 commitHookEffectList 这个方法
 
 
-如果有传入的第二个return 
+如果有传入的第二个return 消除副作用
 
 我们就去执行 destory() 方法
 
@@ -126,9 +130,42 @@ function App2(props) {
 
 第二个传入的参数表达的意思是只有第二个参数数组每一项都不变的情况下 useEffect 才不会执行
 
-第二个参数 undefin 空数组 非数组
+第二个参数 undefined 空数组 非数组
 
 ## 原理
+  
+```js
+const allDeps: any[][] = [];
+let effectCursor: number = 0;
+function useEffect(callbak: () => void, deps:any[]){
+  if(!allDeps[effectCursor]){
+    //  初次渲染: 赋值 + 调用回调函数
+    allDeps[effectCursor]= deps;
+    ++effectCursor;
+    callbak();
+    return
+  }
+
+  const currentEffectCursor = effectCursor;
+  const rawDeps = allDeps[currentEffectCursor];
+
+  const isChanged = rawDeps.some(
+    (dep: any, index: number) => dep !== deps[index]
+  );
+
+  if(isChanged){
+    callbak();
+    allDeps[effectCursor] = deps;
+  }
+  ++effectCursor;
+}
+
+
+
+const rootElement = document.getElementById("root");
+render(<App />, rootElement);
+
+```
 
 ## 坑
 

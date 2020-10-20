@@ -58,6 +58,7 @@ ssr 的局限
 ## 访问特定平台(Platform-Specific) API
 
 ## 自定义指令
+
 大多数自定义指令直接操作 DOM，因此会在服务器端渲染 (SSR) 过程中导致错误。有两种方法可以解决这个问题：
 
 推荐使用组件作为抽象机制，并运行在「虚拟 DOM 层级(Virtual-DOM level)」（例如，使用渲染函数(render function)）。
@@ -80,8 +81,23 @@ ssr 的局限
 
 Simple fix is adding a flag on Vue to make sure you only apply the mixin once.
 
+## cookie 透传
+  当在 ssr 端请求数据时, 需要带上浏览器的 cookie, 在客户端到 ssr 服务器的请求中, 客户端是携带有 cookie 数据的,但是在 ssr 服务器请求后端接口的过程中, 相应的 cookie 数据的, 在 ssr 服务器进行接口请求的时候,我们需要手动那倒客户端的 cookie 传给后端服务器.
+```js
+app.use('*', (req, res) => {
+  ...
+  window.ssr_cookie = req.cookie
+  ...
+})
+```
 
-
+```js
+axios.create({
+  ...
+  headers: window.ssr_cookie || {}
+  ...
+})
+```
 
 
 

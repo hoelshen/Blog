@@ -15,19 +15,16 @@
 
 
 ```js
+const debounce = (fn, wait) =>{
+  var timerId = null;
 
-const debounce = function(func, interval){
-  let timerId;
-
-  return function(e){
+  return function(){
     clearTimeout(timerId);
-    timerId = setTimeout(function(){
-      func.apply()
-    }, interval)
-  }
-
+    timerId = setTimeout(()=>{
+      fn.apply(this, arguments)
+    }, wait)
+ }
 }
-debounce(apiCall, 3000)
 ```
 
 
@@ -36,17 +33,18 @@ throttle
 假设你正在乘电梯上楼，当电梯门关闭之前发现有人也要乘电梯，礼貌起见，你会按下开门开关，然后等他进电梯；  
 但是，你是个没耐心的人，你最多只会等待电梯停留一分钟；
 在这一分钟内，你会开门让别人进来，但是过了一分钟之后，你就会关门，让电梯上楼。
+
 ```js
-let throttle =  function(fn, delay){
-  var statTime = 0;
-    
-  return function() {
-      var currTime = +new Date();
-      
-      if (currTime - statTime > delay) {
-          action.apply(this, arguments);
-          statTime = currTime ;
-      }
+const throttle = (fn ,wait)=>{
+  var wait = wait || 0;
+  var lastTime = 0;
+
+  return function(){
+    var currentTime = +new Date();
+    if(currentTime > lastTime + wait){
+      lastTime = currentTime;
+      fn.apply(this, arguments)
+    }
   }
 }
 ```

@@ -140,3 +140,15 @@ a.js不仅有自己模块的代码，还会去往window["webpackJsonp"]里面把
 
 
 ![webpack 按需加载流程](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjusbi6hjoj30qy0me3zj.jpg)
+
+
+定义一个promise数组，用来存储promise.
+判断是否已经加载过，如果加载过，返回一个空数组的promise.all().
+如果正在加载中，则返回存储过的此文件对应的promise.
+如果没加载过，先定义一个promise，然后创建script标签，加载此js，并定义成功和失败的回调
+返回一个promise
+
+只看这个函数，我们可能还有一下疑问：
+
+判断有无加载过是通过判断installedChunks[chunkId]的值是否为0，但在script.onerror/script.onload回调函数中并没有把installedChunks[chunkId]的值置为0
+promise 把 resolve 和 reject 全部存入了 installedChunks 中， 并没有在获取异步chunk成功的onload 回调中执行 resolve，那么，resolve 是什么时候被执行的呢?

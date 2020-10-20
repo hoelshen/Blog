@@ -17,9 +17,27 @@
 
 ## 原理
 
+```js
+let state:[any] = [];
+let cursor: number = 0;
+function useState<T>(initState: T): [T, (setState: T)=> void]{
+  const currentCursor = cursor;
+  state[currentCursor] = state[currentCursor] || initState;
+  function setState(newState: T){
+    state[currentCursor] = newState
+    render()
+  }
+  ++cursor
+
+  return [state[currentCursor], setState]
+}
+```
+
 ## 坑
+
 1.useState 必须要规规矩矩的写
 
+```js
  let name ,setName;
   let count , setCount;
   id+=1;
@@ -31,18 +49,26 @@
      [name, setName] = useState('mike')
      [count, setCount] = useState(0)
   }
-
+  ()=>{
+    console.log('initial count')
+    return props.defaultCount || 0;
+  }
+```
 
 这样子写会有问题
 
 
+在初始的状态是保存在一个全局变量中的, 多个状态,应该是保存在一个专门的全局容器中. 
+
+
+
 ``` jsx
-()=>{
-    console.log('initial count')
-    return props.defaultCount || 0;
-  }
+
 
 ```
+
+
+
 2.
 
 ##  原理
@@ -69,3 +95,4 @@ if(!didShip){
 }
 
 ```
+

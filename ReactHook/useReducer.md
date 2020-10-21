@@ -1,7 +1,22 @@
 # useReducer
 
 
+## 原理
 
+```js
+function useReducer(reducer, initialState) {
+  const [state, setState] = useState(initialState);
+
+  function dispatch(action) {
+    const nextState = reducer(state, action);
+    setState(nextState);
+  }
+
+  return [state, dispatch];
+}
+```
+
+## 使用
 
 ```js
     const [state, dispatch] = useReducer(reducer, initState);
@@ -41,8 +56,24 @@
             </>
         );
     }
+```
 
 
+## 自定义 Reducer
 
+我们也可以自定义 reducer
 
+```js
+function todosReducer(state, action) {
+  switch (action.type) {
+    case 'add':
+      return [...state, {
+        text: action.text,
+        completed: false
+      }];
+    // ... other actions ...
+    default:
+      return state;
+  }
+}
 ```

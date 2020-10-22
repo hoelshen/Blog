@@ -1,26 +1,26 @@
-结合mobx在跳转前预请求?
-比如详情页,展示类的页面,我们一般都是通过typeId去拿到具体的详情,再来展示
-常规做法都是进到页面后在componentDidMount去触发请求,然后把结果集渲染到页面,
+## 结合 mobx 在跳转前预请求
+比如详情页,展示类的页面,我们一般都是通过 Id 去拿到具体的详情,再来展示.
+常规做法都是进到页面后在 componentDidMount 去触发请求,然后把结果集渲染到页面,
 但这样一进去就会展示默认数据再替换,有点突兀;我们肯定想改善用户体验,那就把数据预请求
-我们可以根据实际场景在跳转之前的生命周期入手,比如redirecTo可以在componentDidHide内调用函数dispatch
-reLuanch可以在componentWillUnmount内触发;
-跳转过去的页面,可以直接从props拿到渲染,不会那么突兀
+我们可以根据实际场景在跳转之前的生命周期入手,比如 redirectTo 可以在componentDidHide 内调用函数 dispatch.
 
+reLuanch 可以在 componentWillUnmount 内触发;跳转过去的页面,可以直接从 props 拿到渲染,不会那么突兀
+
+```js
   config = {
     navigationBarTitleText: "首页",
     usingComponents: {
       navbar: "../../components/Navbar/index" // 书写第三方组件的相对路径
     }
   };
+```
 mobx：
-computed(function) 创建的函数只有当它有自己的观察者时才会重新计算，否则它的值会被认为是不相关的。 经验法则：如果你有一个函数应该自动运行，但不会产生一个新的值，请使用autorun。
+computed(function) 创建的函数只有当它有自己的观察者时才会重新计算，否则它的值会被认为是不相关的。经验法则：如果你有一个函数应该自动运行，但不会产生一个新的值，请使用autorun。
 
 
 
 入口文件：
-componentwillmount  对应onlaunch
-监听程序初始化，初始化完成时触发（全局只触发一次）
-在此生命周期中通过 this.$router.params，可以访问到程序初始化参数
+componentwillmount  对应 onlaunch 监听程序初始化，初始化完成时触发（全局只触发一次）在此生命周期中通过 this.$router.params，可以访问到程序初始化参数
 
 componentDidMount()
 onLaunch，在 componentWillMount 后执行
@@ -30,20 +30,12 @@ onLaunch，在 componentWillMount 后执行
 componentDidShow()对应 onShow，在 H5/RN 中同步实现
 componentDidHide()对应onHide
 
-
-
 历史栈变动触发router的回调
 
 对于历史栈来说，无非就是三种操作：push, pop，还有replace。
 
-当遇到ab你bc时 怎么判断前进还是后退
 
-
-GameGlobal.test = () => {
-	console.log('test global')
-}
-test()
-
+```js
 var document = {
     createElement: function (tagName) {
         tagName = tagName.toLowerCase()
@@ -52,6 +44,8 @@ var document = {
         }
     }
 }
+```
+
 ![](https://tva1.sinaimg.cn/large/007S8ZIlly1gdvjlbsz6wj31220gajt5.jpg)
 
 
@@ -59,32 +53,34 @@ var document = {
 
 
 ![](https://tva1.sinaimg.cn/large/007S8ZIlly1gdvjl8ruusj310e092t9o.jpg)
+
+
 所谓编译原理，就是一个对输入的源代码进行语法分析，语法树构建，随后对语法树进行转换操作再解析生成目标代码的过程。
 
 
 ML 类有个明显的特点是关注点分离（Separation of Concerns），即语义层（XML）、视觉层（CSS）、交互层（JavaScript）三者分离的松耦合形式，JSX 类则要把三者混为一体，用脚本来包揽三者的工作。
 
-
 样式处理：
-h5端使用官方提供的weui进行适配，react native 端则在组件内添加样式，并通过脚本来控制一些状态类的样式框架核心在编译的时候把源代码的 class 所指向的样式通过 css-to-react-native 进行转译，所得 StyleSheet 样式传入组件的 style 参数，组件内部会对样式进行二次处理，得到最终的样式。
+h5 端使用官方提供的 weui 进行适配，react native 端则在组件内添加样式，并通过脚本来控制一些状态类的样式框架核心在编译的时候把源代码的 class 所指向的样式通过 css-to-react-native 进行转译，所得 StyleSheet 样式传入组件的 style 参数，组件内部会对样式进行二次处理，得到最终的样式。
 
-把react 代码想象成一颗抽象语法树，根据这棵树生成小程序支持的模版代码，在做一个小程序运行时框架处理事件和生命周期与之兼容。
+把 react 代码想象成一颗抽象语法树，根据这棵树生成小程序支持的模版代码，在做一个小程序运行时框架处理事件和生命周期与之兼容。
 
-
-浏览器端不能识别require关键字，require是node.js环境下的，在node_modules文件夹里面的模块下面常见require
+浏览器端不能识别 require 关键字，require是 node.js 环境下的，在node_modules文件夹里面的模块下面常见 require.
 
 解决方法：
 通过工具browserify或者是webpack把js文件编译一下，转成浏览器端可识别的。
 
+```js
 //安装browserify ,我这里是全局安装
-
 npm install -g browserify
+```
 
+```js
 // 编译
-
 browserify ./source/module.js -o ./dist/dist.js
-
-babel-traverse 可以遍历由 Babylon 生成的抽象语法树，并把抽象语法树的各个节点从拓扑数据结构转化成一颗路径（Path）树，Path 表示两个节点之间连接的响应式（Reactive）对象，它拥有添加、删除、替换节点等方法。当你调用这些修改树的方法之后，路径信息也会被更新。
+```
+babel-traverse 
+可以遍历由 Babylon 生成的抽象语法树，并把抽象语法树的各个节点从拓扑数据结构转化成一颗路径（Path）树，Path 表示两个节点之间连接的响应式（Reactive）对象，它拥有添加、删除、替换节点等方法。当你调用这些修改树的方法之后，路径信息也会被更新。
 
 electron 出现
 mac环境下electron报错Uncaught ReferenceError: require is not defined
@@ -131,31 +127,31 @@ Text 只有一个属性: 内容（content），它对应的 AST 类型是 JSXT
 
 看 <View className='home'>，它在 AST 中是一个 JSXElement，它的结构和我们定义 Element 类型差不多。我们先将 JSXElement 的 ScrollView 从驼峰式的 JSX 命名转化为短横线（kebab case）风格，className 和 scrollTop 的值分别代表了 JSXAttribute 值的两种类型：StringLiteral 和 JSXExpressionContainer，className 是简单的 StringLiteral 处理起来很方便，scrollTop 处理起来稍微麻烦点，我们需要用两个花括号 {} 把内容包起来。
 
-
 ![](https://tva1.sinaimg.cn/large/007S8ZIlly1gdvjmkg9x3j312u0ry0uf.jpg)
 
-我们知道 expr1 && expr2 意味着如果 expr1 能转换成 true 则返回 expr2，也就是说我们只要把 number % 2 === 0 作为值生成一个键名 wx:if 的 JSXAttribute 即可。但由于 wx:if 和 wx:for 同时作用于一个元素可能会出现问题，所以我们应该生成一个 block 元素，把 wx:if 挂载到 block 元素
-
-
-https://taro-ext.jd.com/plugin/view/5d4107de08267b4198ad0c3d
+我们知道 expr1 && expr2 意味着如果 expr1 能转换成 true 则返回 expr2，也就是说我们只要把 number % 2 === 0 作为值生成一个键名 wx:if 的 JSXAttribute 即可。但由于 wx:if 和 wx:for 同时作用于一个元素可能会出现问题，所以我们应该生成一个 block 元素，把 wx:if 挂载到 block 元素.
 
 这里我们可以思考一下 this.props.text || this.props.children 的解决方案。当用户在 JSX 中使用 || 作为逻辑表达式时很可能是 this.props.text 和 this.props.children 都有可能作为结果返回。这里 Taro 将它编译成了 this.props.text ? this.props.text: this.props.children，按照条件表达式（三元表达式）的逻辑，也就是说会生成两个 block，一个 wx:if 和一个 wx:else：
+
+```js
 <block wx:if="{{text}}">{{text}}</block>
 <block wx:else>
     <slot></slot>
 </block>
+```
 
-
-运行时提供饿了两个方法createApp 和createComponent来分别创建程序和组件
+运行时提供了两个方法 createApp 和 createComponent 来分别创建程序和组件
 createComponent 方法主要做了这样几件事情：
 1. 将组件的 state 转换成小程序组件配置对象的 data
 2. 将组件的生命周期对应到小程序组件的生命周期
 3. 将组件的事件处理函数对应到小程序的事件处理函数
 
 对于静态的state 我们跟wxml 一一对应 ，涉及到动态的东西，可能会创建一个_createData的方法，里面会生成 $anonymousCallee__1 这个变量， $anonymousCallee__1 是由编译器生成的，对 this.state.list 进行相关操作后的变量。 $anonymousCallee__1 最终会被放到组件的 data 中给模板调用：
+```js
 var $anonymousCallee__1 = this.state.list.map(function (item) {
   return ++item;
 });
+```
 render 里 return 之前的所有定义变量或者对 props、state 计算产生新变量的操作，都会被编译到 _createData 方法里执行。每当 Taro 调用 this.setState API 来更新数据时，都会调用生成的 _createData 来获取最新数据。
 
 生命周期的对应工作主要包含两个部分：初始化过程和状态更新过程。
@@ -167,12 +163,14 @@ render 里 return 之前的所有定义变量或者对 props、state 计算产�
 在页面 attached 的时候从全局对象里取到，这样就不用等到onload即可获取到路由参数，触发componentwillmount生命周期。
 
 taro 实现的在小程序中nextTick是这么实现的：
+
+```js
 const nextTick = (fn, ...args) => {
   fn = typeof fn === 'function' ? fn.bind(null, ...args) : fn
   const timerFunc = wx.nextTick ? wx.nextTick : setTimeout
   timerFunc(fn)
 }
-
+```
 这里用到了小程序组件的 properties 的 observer 特性，给子组件传入一个 prop 并在子组件里监听 prop 的更改，这个 prop 更新就会触发子组件的状态更新逻辑。编译后的代码里会给每个自定义的组件传入一个 __triggerObserer 的值，它的作用正是用于触发子组件的更新逻辑。
 
 为了保证性能，将模版里面用到的字段找出并存储到组件的$usedState字段中。
@@ -288,7 +286,7 @@ build 走的是vue 的ssr
 
 webpack 插件是一个具有 apply 属性的 JavaScript 对象。apply 属性会被 webpack compiler 调用，并且 compiler 对象可在整个编译生命周期访问。
 
-
+```js
 HtmlResWebpackPlugin.prototype.apply = function(compiler, callback) {
             // some code here
     compiler.plugin("make", function(compilation, callback) {
@@ -316,7 +314,7 @@ HtmlResWebpackPlugin.prototype.apply = function(compiler, callback) {
         callback();
     });
 }
-
+```
 loader一般是用来处理文件语言的编译，例如sass -> css, babel转es6->es5。plugin的功能则强大的得多，能调用许多webpack提供的能力，如果处理构建流程中的事件，例如丑化代码、去重、code splitting都是通过plugin去处理。
 
 
@@ -331,6 +329,7 @@ options.modulesDir (='node_modules')
 
 
 h5端
+```js
 /* 示例代码 */
 function setStorage({ key, value }) {
   localStorage.setItem(key, value);
@@ -342,8 +341,10 @@ function setStorage({ key, value }) {
   return Promise.resolve({ errMsg: 'setStorage:ok' });
 }
 
-
+```
 下面是进行多余的参数校验：
+
+```js
 /* 示例代码 */
 function setStorage({ key, value, success, fail, complete }) {
   let res = { errMsg: 'setStorage:ok' }
@@ -358,7 +359,7 @@ function setStorage({ key, value, success, fail, complete }) {
   return Promise.resolve({ errMsg: 'setStorage:ok' });
 }
 
-
+```
 可以说，react-router的路由方案是组件级别的。
 
 ![](https://tva1.sinaimg.cn/large/007S8ZIlly1gdvjnitne5j30jh09u3yw.jpg)

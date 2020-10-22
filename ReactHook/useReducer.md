@@ -20,11 +20,10 @@ function useReducer(reducer, initialState) {
 
 ```js
     const [state, dispatch] = useReducer(reducer, initState);
-
-
 ```
 
-第一个参数：reducer函数，没错就是我们上一篇文章介绍的。第二个参数：初始化的state。返回值为最新的state和dispatch函数（用来触发reducer函数，计算对应的state）。按照官方的说法：对于复杂的state操作逻辑，嵌套的state的对象，推荐使用useReducer。
+第一个参数：reducer函数
+第二个参数：初始化的state。返回值为最新的state和dispatch函数（用来触发reducer函数，计算对应的state）。按照官方的说法：对于复杂的state操作逻辑，嵌套的state的对象，推荐使用useReducer。
 
 ```js
     // 官方 useReducer Demo

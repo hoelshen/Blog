@@ -77,12 +77,70 @@ ssr 的局限
 应用程序的代码分割或惰性加载，有助于减少浏览器在初始渲染中下载的资源体积，可以极大地改善大体积 bundle 的可交互时间(TTI - time-to-interactive)
 
 
-
-
 Simple fix is adding a flag on Vue to make sure you only apply the mixin once.
 
+
+## 在服务端请求 ssr 首屏数据
+
+最合适的方式是通过 Vuex 的 Store, 在 entry-server.js 
+
+```js
+      // 对所有匹配的路由组件调用 `asyncData()`
+      Promise.all(matchedComponents.map(Component => {
+        if (Component.asyncData) {
+
+          return Component.asyncData({
+            store,
+            route: router.currentRoute
+          })
+        }
+      })).then(() => {
+        // 在所有预取钩子(preFetch hook) resolve 后，
+        // 我们的 store 现在已经填充入渲染应用程序所需的状态。
+        // 当我们将状态附加到上下文，
+        // 并且 `template` 选项用于 renderer 时，
+        // 状态将自动序列化为 `window.__INITIAL_STATE__`，并注入 HTML。
+        context.state = store.state
+
+        resolve(app)
+      }).catch((err)=>{
+        console.error(err)
+        reject(err)
+      })
+```
+
+同时给首屏的第一个路由组件添加 asyncData 方法来请求数据,注意是组件的静态方法,而非在 methods 中定义的方法.
+
+```js
+export default {
+  name: 'wecircle',
+  ...
+  asyncData ({ store }) {
+    // 触发 action 后，会返回 Promise
+    return store.dispatch('setWecircleDataListSSR')
+  },
+  ...
+}
+```
+
+后面的 action 和 mutation 按照正常逻辑写即可, 最后, 当 ssr 数据渲染完成后,会在生成的 html 中添加一个 window.__INITIAL_STATE__ 对象, 修改 entry-client.js 可以将数据直接赋值给客户端渲染.
+
+```js
+const { app, router, store } = createApp()
+
+if (window.__INITIAL_STATE__) {
+  store.replaceState(window.__INITIAL_STATE__)
+}
+```
+
 ## cookie 透传
+
   当在 ssr 端请求数据时, 需要带上浏览器的 cookie, 在客户端到 ssr 服务器的请求中, 客户端是携带有 cookie 数据的,但是在 ssr 服务器请求后端接口的过程中, 相应的 cookie 数据的, 在 ssr 服务器进行接口请求的时候,我们需要手动那倒客户端的 cookie 传给后端服务器.
+
+我们有个场景就是 需要在请求数据时, 带上 immei 进行登录, 而客户端到 ssr 服务器的请求中, 客户端是携带有 cookie 数据的. 但是在 ssr 服务器 请求后端接口的过程中, 却是没有相应的 immei 数据的, 因此在 ssr 服务器进行接口请求的时候, 我们需要手动拿到客户端的 immei 传给后端服务器.
+
+在 Server.js 中获取浏览器cookie, 并利用 window 对象存储
+
 ```js
 app.use('*', (req, res) => {
   ...
@@ -92,23 +150,72 @@ app.use('*', (req, res) => {
 ```
 
 ```js
+在 axios 中, 添加 header 将 cookie 塞进去
+
 axios.create({
   ...
   headers: window.ssr_cookie || {}
   ...
 })
+
+```
+
+## 同时支持客户端渲染和服务端渲染
+
+ssr 服务端渲染挂掉的时候, 需要有容错逻辑保证页面可用, 原先的客户端渲染相关的构建要保留, 即通过直接访问 inde.html 的方式能够正常使用页面, 这里通过 nginx 配置路径转发.
+
+```js
+location /index.html {
+     return 301 https://$server_name/;
+}
+```
+
+原先通过 http://xxx.com/index.html 变成 http://xxx.com/ .history模式的vue-router的path="/"的路由, 对客户端访问和服务端的访问, 分别设置不同的转发
+
+```sh
+ # 客户端渲染服务
+  location / {
+     # 给静态文件添加缓存
+     location ~ .*\.(js|css|png|jpeg)(.*) {
+          valid_referers *.nihaoshijie.com.cn;
+          if ($invalid_referer) {
+            return 404;
+          }
+          proxy_pass http://localhost:8080;
+          expires  3d;# 3天
+      }
+      proxy_pass http://localhost:8080; # 静态资源走8080端口
+  }
+
+  # ssr服务
+  location  = /index_ssr {
+     proxy_pass http://localhost:8888; # ssr服务使用8888端口
+  }
 ```
 
 
+只保留/index_ssr 作为 ssr 渲染的入口, 然后在 server.js 中, 将/index_ssr 处理成首页的路径, 并添加对 ssr 渲染的容错逻辑.
+
+```js
+  if (req.originalUrl === '/index_ssr' || req.originalUrl === '/index_ssr/') {
+    context.url = '/'
+  }
+  ...
+  renderer(bundle, manifest).renderToString(context, (err, html) => {
+    ...
+    if (err) {
+      // 发现报错，直接走客户端渲染
+      res.redirect('/')
+      // 记录错误信息 这部分内容可以上传到日志平台 便于统计
+      console.error(`error during render : ${req.url}`)
+      console.error(err)
+    }
+    ...
+  })
+```
 
 
+遇坑1：vue 组件名尽量不要和路由重名，名字一样大小写不一样也不可（例如 组件叫component，而引用这个组建的路由叫/Component）。如果重名了，会出现路由找不到的情况
 
 
-
-
-
-
-
-
-
-
+遇坑2： 一定要遵守标签的嵌套规则，尤其是<router-link>不要单独使用tag="li"属性，嵌套规则的不一致会造成client和server两端的dom树不一致，导致本地开发没问题而打包上线有问题

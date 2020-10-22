@@ -7,7 +7,7 @@
 
 ## ES6 的继承
 
-先创建父类实例this 通过class丶extends丶super关键字定义子类，并改变this指向,super本身是指向父类的构造函数但做函数调用后返回的是子类的实例，实际上做了父类.prototype.constructor.call(this)，做对象调用时指向父类.prototype,从而实现继承。
+先创建父类实例 this 通过class丶extends丶super关键字定义子类，并改变 this 指向,super 本身是指向父类的构造函数但做函数调用后返回的是子类的实例，实际上做了父类.prototype.constructor.call(this)，做对象调用时指向父类.prototype,从而实现继承。
   
 
 

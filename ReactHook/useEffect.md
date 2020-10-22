@@ -1,6 +1,6 @@
 # useEffect 与 useLayoutEffect
   
-  执行的时机,赋值给 useEffect 的函数会在组件渲染到屏幕之后执行。 在函数组件主体内()这里指 react 渲染阶段 改变 dom, 添加订阅 设置定时器, 或执行其他包含副作用的操作都是不被允许的,因为这可能产生莫名其妙的 bug
+  执行的时机,赋值给 useEffect 的函数会在组件渲染到屏幕之后执行。 在函数组件主体内()这里指 react 渲染阶段 改变 dom, 添加订阅 设置定时器, 或执行其他包含副作用的操作都是不被允许的,因为这可能产生莫名其妙的 bug.
 
 ## 原理
 
@@ -16,6 +16,7 @@ useEffect(){
     UnmountMutation | MountPassive, create, inputs)
 }
 ```
+
 因为他是匿名函数 所以每次都不一样
 
 ```js
@@ -125,7 +126,6 @@ function App2(props) {
 }
 
 ```
-
 
 // 不太关心是mount 还是update
 

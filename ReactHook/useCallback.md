@@ -1,6 +1,9 @@
 # useCallback
 
+这是对事件句柄进行缓存，useState的第二个返回值是dispatch，但是每次都是返回新的，使用useCallback，可以让它使用上次的函数。
+
 ## 原理
+
 ```js
 export function useCallback<T>(
   callback: T,
@@ -26,6 +29,7 @@ export function useCallback<T>(
 
 
 ```
+
 为了向下传递子组件
 
 

@@ -2,7 +2,7 @@
 
 javaScript引擎会常驻于内存中
 
-宿主发起的任务称为宏观任务， JavaScript 引擎发起的任务称为微观任务。
+宿主发起的任务称为宏任务， JavaScript 引擎发起的任务称为微任务。
 
 行为都是一个事件循环， 所以 Node 术语， 也会把这部分称为事件循环。
 
@@ -82,7 +82,6 @@ javaScript中的函数完全符合必包的定义。
 
 ![untitled%206](https://tva1.sinaimg.cn/large/00831rSTgy1gd3uq3xfv0j30zc0lmq3p.jpg)
 
- 
 
 ![untitled%207](https://tva1.sinaimg.cn/large/00831rSTgy1gd3uq1tbx5j312s0l675i.jpg)
 
@@ -94,9 +93,9 @@ javaScript中的函数完全符合必包的定义。
 
 ![untitled%208](https://tva1.sinaimg.cn/large/00831rSTgy1gd3upygxupj30b6098aa4.jpg)
 
-在只有var， 没有let 的时代， 诞生了一个技巧：立即执行的函数表达式
+在只有 var， 没有 let 的时代， 诞生了一个技巧：立即执行的函数表达式
 
-创建一个函数， 并且立即执行， 来构造一个新的域， 从而控制var的范围。
+创建一个函数， 并且立即执行， 来构造一个新的域，从而控制 var 的范围。
 
 ``` js
     ;
@@ -133,7 +132,7 @@ javaScript中的函数完全符合必包的定义。
     console.log("Global b:", b);
 ```
 
-一下语句会产生let使用的作用域
+一下语句会产生 let 使用的作用域
 
 * for
 * if

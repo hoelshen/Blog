@@ -29,7 +29,7 @@ Cross-Origin-Resource-Policy: same-origin
 Cross-Origin-Resource-Policy: cross-origin
 
 
-cors
+## cors
 
 里面有的参数
 HTTP 响应首部字段

@@ -1,6 +1,6 @@
 # vue composition api
 
-1. vue3 使用js 实现了类型推断，新版api 全部采用普通函数，避免使用了装饰器@
+1. vue3 使用js 实现了类型推断，新版 api 全部采用普通函数，避免使用了装饰器@
 2. 解决了多组件间逻辑重用问题
 3. composition api 简单。
 

@@ -30,8 +30,6 @@ class Demo extends Component {
 
 ## 生命周期
 
-
-
 页面切换的执行顺序：
 
 * 离开的顺序： index的跳转方法  后面跟着componentdDidHide
@@ -603,23 +601,30 @@ const listItems = numbers.map((number) => {
   )
 })
 ```
+
 Taro 中，JSX 会编译成微信小程序模板字符串，因此你不能把 map 函数生成的模板当做一个数组来处理。当你需要这么做时，应该先处理需要循环的数组，再用处理好的数组来调用 map 函数。例如上例应该写成：
+
+```js
 const list = this.state.list
   .filter(l => l.selected)
   .map(l => {
     return <li>{l.text}</li>
   })
+```
 
 在 Taro 中使用函数式组件有以下限制：
+
 1. 函数的命名需要遵循帕斯卡式命名法；
 2. 一个文件中只能定义一个普通函数式组件或一个 Class 组件
 
 由于一个文件不能定义两个组件，但有时候我们需要组件内部的抽象组件
+
 1. 函数的命名必须以 render 开头，render 后的第一个字母需要大写
 2. 函数的参数不得传入 JSX 元素或 JSX 元素引用
 3. 函数不能递归地调用自身
 
 报没有jsx 错误
+
 ```jsx
   renderFooter(){
     const todos = [{id:1,text:1, completed:true}, {id:2, text:2, completed: false}, {id:3,text:3, completed: true}]
@@ -635,10 +640,11 @@ const list = this.state.list
 
 ### slot
 
-onst MyContext = Taro.createContext(defaultValue)
+```js
+const MyContext = Taro.createContext(defaultValue)
+```
 
-Children 与组合
-相当于slot
+Children 与组合 相当于slot
 请不要对 this.props.children 进行任何操作。
 this.props.children && this.props.children、this.props.children[0] 在 Taro 中都是非法的。
 this.props.children 无法用 defaultProps 设置默认内容。
@@ -646,6 +652,7 @@ this.props.children 无法用 defaultProps 设置默认内容。
 
 通过字符串创建 ref 只需要把一个字符串的名称赋给 ref prop
 
+```js
   // 如果 ref 的是小程序原生组件，那只有在 didMount 生命周期之后才能通过
     // this.refs.input 访问到小程序原生组件
     if (process.env.TARO_ENV === 'weapp') {
@@ -653,33 +660,36 @@ this.props.children 无法用 defaultProps 设置默认内容。
     } else if (process.env.TARO_ENV === 'h5') {
       // 这里 this.refs.input 访问到的是 `@tarojs/components` 的 `Input` 组件实例
     }
+```
 
 通过传递一个函数创建 ref, 在函数中被引用的组件会作为函数的第一个参数传递。
 
 通过函数创建的ref 是不是不能在函数式组件中使用  果然如此
 
+```js
   this.cat = Taro.createRef()
 
   roar () {
     // 会打印 `miao, miao, miao~`
     this.cat.current.miao()
   }
+```
 
 你基本都能使用小程序本身提供的 API 达到同等的需求，其中就包括但不限于：
+
 1. 使用 this.$scope.triggerEvent 调用通过 props 传递的函数;
 2. 通过 this.$scope.selectComponent 和 wx.createSelectorQuery 实现 ref;
 3. 通过 getCurrentPages 等相关方法访问路由；
 4. 修改编译后文件 createComponent 函数创建的对象
 
-
+```js
 this.setState({
   value: this.state.value + 1
 })   // ✗ 错误
 
-
 this.setState(prevState => ({ value: prevState.value + 1 }))    // ✓ 正确
 
-
+```
 
 尽量避免在 componentDidMount 中调用 this.setState
 因为在 componentDidMount 中调用 this.setState 会导致触发更新
@@ -691,11 +701,12 @@ this.setState(prevState => ({ value: prevState.value + 1 }))    // ✓ 正确
 
 不要在 componentWillUpdate/componentDidUpdate/render 中调用 this.setState
 
+```js
 组件最好定义 defaultProps
   static defaultProps = {
     isEnable: true
   }
 
-render 方法必须有返回值
-
+r//ender 方法必须有返回值
+```
 值为 true 的属性可以省略书写值

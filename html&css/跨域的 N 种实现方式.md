@@ -23,6 +23,12 @@ Content-Security-Policy: img-src https://*
 
 Content-Security-Policy: child-src 'none'
 
+## 同源策略限制以下几种行为
+
+1.) Cookie、LocalStorage 和 IndexDB 无法读取
+2.） DOM 和 JS 对象无法获取
+3.） AJAX 请求不能发送
+
 ## 怎么实现跨域访问
 
 1. JSONP
@@ -470,4 +476,6 @@ io.sockets.on('connection', function(client) {
 });
 console.log("listen 3000...");
 ```
+
+8. canvas 操作图片的跨域问题
 

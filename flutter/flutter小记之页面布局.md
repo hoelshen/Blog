@@ -20,7 +20,6 @@ Row(
 )
 
 ```
-```
 
 ## stack
 
@@ -139,8 +138,7 @@ Center(
         color: Colors.lightBlue[100 * (index % 9)],
         child: Text('list item $index'),
         );
-    }, childCount: 50 //50个列表项
-            ),
+    }, childCount: 50), //50个列表项
     ),
 
 
@@ -288,10 +286,4 @@ class ListItemDemo extends StatelessWidget {
 
 
 ![](https://user-gold-cdn.xitu.io/2019/7/10/16bdb54f8604c63c?w=682&h=1460&f=gif&s=323382)
-
-
-
-
-
-
 

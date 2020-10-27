@@ -39,6 +39,24 @@ xhr.ontimeout = () => console.log('请求超时')
 * xhr.readyStatus==3 已接收到请求返回的数据
 * xhr.readyStatus==4 请求已完成
 
+
+
+
+XMLHttpRequest.responseType 属性是一个枚举属性, 返回响应式数据的类型.
+
+responseType 支持以下几种值:
+* "" 
+    responseType 为空字符串时，采用默认类型 DOMString，与设置为 text 相同。
+* arraybuffer
+    response 是一个包含二进制数据的 JavaScript arrayBuffer
+* blob
+    response 是一个包含二进制数据的 blob 对象
+* document
+    response是一个 html document 或 xmldocument, 这取决于接收到的数据的 mime 类型.
+* json
+    response 是一个 JavaScript 对象。这个对象是通过将接收到的数据类型视为 JSON 解析得到的     
+* text
+    response 是一个以 DOMString 对象表示的文本。
 ## ajax
 
 ``` js

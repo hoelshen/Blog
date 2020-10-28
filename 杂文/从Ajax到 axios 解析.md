@@ -143,7 +143,7 @@ fetch(url)
 ```
 
 ## axios
-
+![](https://tva1.sinaimg.cn/large/0081Kckwgy1gk4tak223cj30gm0gw0tf.jpg)
   我们可以为 axios 处理一下错误
 
 ``` js

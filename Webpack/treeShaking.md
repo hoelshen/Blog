@@ -21,6 +21,7 @@ tree-shaking 的消除原理是依赖于ES6的模块特性。
 
 这是 ES6 modules 在设计时的一个重要考量，也是为什么没有直接采用 CommonJS，正是基于这个基础上
 
+## 注意点
 
 treeshaking 只能对函数进行消除  无法对类进行消除
 
@@ -60,8 +61,9 @@ export default Menu;
 
 abel是js世界的福星，其实css世界也有利器，那就是postCss。
 
-PostCSS 提供了一个解析器，它能够将 CSS 解析成AST抽象语法树。然后我们能写各种插件，对抽象语法树做处理，最终生成新的css文件，以达到对css进行精确修改的目的。
+PostCss 本质上是一个平台.
 
+PostCSS 提供了一个解析器，它能够将 CSS 解析成AST抽象语法树。然后我们能写各种插件，对抽象语法树做处理，最终生成新的css文件，以达到对css进行精确修改的目的。
 
 
 主要流程：
@@ -110,3 +112,8 @@ apply (compiler) {
 ```
 
 可以看到其实我只处理里 id选择器和class选择器，id和class相对来说副作用小，引起样式异常的可能性相对较小。判断css是否再js中出现过，是使用正则匹配。其实，后续还可以继续优化，比如对tag类的选择器，可以配置是否再html，jsx，template中出现过，如果出现过，没有出现过也可以认为是无用代码。
+
+
+## 遇到的问题
+IFE 存在副作用无法被 tree-shaking 掉. 需要配置 { module: false } 和 sideEffects: false
+

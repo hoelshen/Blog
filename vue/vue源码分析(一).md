@@ -1,32 +1,11 @@
-vue-router
+# 初始化的流程
 
-核心：  数据驱动  组件化  响应式原理  
-
-1. 准备工作： flow、目录结构、源码构建
-2. 数据驱动： 数据->dom创建完整流程
-3. 组件化： 组件创建、组件相关核心概念
-4. 响应式原理： 完整讲诉响应式实现原理
-
-编译：  parse  optimize  codegen
+## 编译：  parse  optimize  codegen
 
 编译：
-1.parse ： 模版 ->ast树
-optimize： 优化ast树
-codegen： ast树 ->代码
-
-扩展： event、v-model  slot、keep-alive transition 
-
-event & v-model: 事件 和v-model的实现原理
-slot & keep-alive: 内置组件的实现原理
-transition…: 过渡的实现原理
-
-生态： vue-router vuex
-
-官方路由实现原理
-官方状态实现原理
-
-vue 不是用 es6 写的
-flow 
+1. parse ： 模版 ->ast树
+2. optimize： 优化ast树
+3. codegen： ast树 ->代码
 
 vue 源码自定义了很多类型 例如 decalre interface VNodeData
 
@@ -34,11 +13,11 @@ libs 部分用来描述包含指定库定义的目录
 
 *compiler  virtual dom render function  写的都是tml
 
-*core 内置组件 global-api keep-alive  instance实例化 生命周期 oberver应式 utils vdom  
+*core 内置组件 global-api keep-alive  instance实例化 生命周期 obersever响应式 utils vdom  
 
 *platform  web  wexx  mpvue  
 
-放一些平台编译  运行时的相关代码  server  util 
+放一些平台编译  运行时的相关代码  server  util
 
 *server  服务端的代码跑在node上，渲染成html字符串，将它们直接发送到浏览器
 
@@ -46,12 +25,12 @@ libs 部分用来描述包含指定库定义的目录
 
 *shared  常量  工具方法
 
-子继承父类的话  就是 
-先看下父类的constructor里面有没有定义this 如果有的话 子类的方法能够读到
-如果父类constructor没有定义 子类constructor 定义也是子类方法读取的到
+子继承父类的话  就是
+先看下父类的 constructor 里面有没有定义 this 如果有的话 子类的方法能够读到
+如果父类 constructor 没有定义 子类 constructor 定义也是子类方法读取的到
 
 super(xxx) 一定要在前面  不然会错
- Must call super constructor in derived class before accessing 
+ Must call super constructor in derived class before accessing
 
 vue rollup 构建出cjs(COMMONJS)  es（ES MODULE）umd  （umd规范）三个版本
 
@@ -110,7 +89,7 @@ $mount = function() {
 }
 ```
 
-在 lifecycle 中 
+在 lifecycle 中
 
 ``` js
 vm.$options.render = createEmptyNode
@@ -124,6 +103,7 @@ if (updateComponent) {
 渲染watcher
 
 在定义的watcher 里面 有个
+
 ```js 
 constructor(
 

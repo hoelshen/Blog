@@ -4,6 +4,9 @@ PostCss 本质上是一个平台.
 
 PostCSS 提供了一个解析器，它能够将 CSS 解析成AST抽象语法树。然后我们能写各种插件，对抽象语法树做处理，最终生成新的css文件，以达到对css进行精确修改的目的。
 
+1. 把源代码（或者符合一定条件的扩展语法）解析为一个自带遍历访问、节点操作接口的树；
+2. 把语法树输出为代码字符串。
+
 ## PostCSS 相比于 SASS
 
 比如，我们用 SASS 来处理 box-shadow 的前缀，我们需要这样写：
@@ -43,7 +46,6 @@ PostCSS：源代码 -> 标准 CSS -> 生产环境 CSS
 
 * 生成节点树串
 
-
 这里看一个 DEMO，主要做 rem 和 px 单位之间的互换，加入 processors 就可以用了，很方便：
 
 ```js
@@ -56,6 +58,10 @@ var custom = function(css, opts){
 };
 
 ```
+
+![postcss](https://tva1.sinaimg.cn/large/0081Kckwgy1gk65ea0nv9j30f1092dgg.jpg)
+
+先将 sass 先编译成 css, 然后通过 postcss 对编译号的 css 做优化处理.让自己的代码更为健康
 
 
 

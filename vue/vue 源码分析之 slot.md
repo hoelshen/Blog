@@ -1,6 +1,6 @@
 # vue之slot
 
-插槽分为普通插槽和作用域插槽
+插槽分为 普通插槽 和 作用域插槽
 
 ## 编译
 
@@ -60,7 +60,7 @@ function processSlot (el) {
 
 ```
 
-当解析到 slot 属性的时候，会给ast 节点添加slottarget 属性，然后在codegen 阶段，在gendata 中处理slotTarget
+当解析到 slot 属性的时候，会给 ast 节点添加slottarget 属性，然后在 codegen 阶段，在 gendata 中处理slotTarget
 
 ```js
 if (el.slotTarget && !el.slotScope) {

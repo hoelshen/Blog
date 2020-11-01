@@ -145,15 +145,17 @@ virtual dom 就是用一个原生的js对象去描述一个dom节点，所以它
 
 vnode 是对真实dom 的一种抽象描述， 它的核心定义无非就是： 标签名、数据、子节点、键值。
 
-我们根据 simple_normalize  always_normalize 判断两种类型 
+我们根据 simple_normalize  always_normalize 判断两种类型
 
 1. simpleNormalizeChidlren   children包含函数式组件，可能返回一个数组而不是根结点，使用 for 循环遍历，进行concat 拼接
 
-2.（1）render函数是用户手写的，当children 只有一个节点的时候， 会调用createTextvNodex写成基础类型： isprimitive 
+2.
+（1）render函数是用户手写的，当children 只有一个节点的时候， 会调用createTextvNodex写成基础类型： isprimitive 
 （2）normalizeChildren 如果是tpl、slot、v-for 的话 就判断有没有children.normalizeArrayChildren
 
 VNode的创建
 我们对tag 对判断
+
 ```js
 if(string){
 

@@ -89,9 +89,15 @@ setClickCount(count => count + 1)
 
 
 
+那么如何定义这个依赖数组呢？严格来讲，只要用到了变量，就需要声明到里面，包括函数变量。不过也有例外，比如“setState”这一类函数，React官方已经保证，对于同一个组件的同一个state，它的setState每次都返回同一个，因此它是一种“常量”。对于其它已经被保证不会变化的变量，也不需要放到依赖数组中。
 
+同样是调用了setCount函数，也有两种方式：
 
+setCount(1 + count)
+上面这种需要引用count参数，因此count是一种依赖。
 
+setCount(count => count + 1)
+上面这种只引用了setCount函数，而我们讲到它是“常量”，因此依赖数组中什么都不必写。
 
 
 

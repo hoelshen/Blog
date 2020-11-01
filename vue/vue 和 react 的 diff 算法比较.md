@@ -1,7 +1,9 @@
 ## 传统的 diff 算法
+
 渲染递归每个节点
 
 ## vue 和 react 的 diff 算法对比
+
   vue 和 react 的 diff 算法,都是忽略跨级比较,只做同级比较.vue diff 时调动 patch 函数,参数是 vnode 和 oldVnode, 分别代表新旧节点.
 
 

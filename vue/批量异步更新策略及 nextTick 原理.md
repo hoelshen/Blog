@@ -105,10 +105,3 @@ function flushSchedulerQueue () {
     waiting  = false;
 }
 ```
-
-
-
-
-
-
-

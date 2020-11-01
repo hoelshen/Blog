@@ -1,4 +1,5 @@
 # vue  优化的 diff 策略
+
   diff 调用 patch 函数,patch 接收两个参数 vnode, oldVnode, 分别代表新旧节点
   
 ```js

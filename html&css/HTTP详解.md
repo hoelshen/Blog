@@ -120,11 +120,15 @@ SSL/TLS的基本思路是公钥加密法：客户端先向服务器索要并验�
 
 
 ## http3.0
-  google 搞了一个基于 UDP 协议的 QUIC 协议,并且使用在了HTTP/3 上, 在之前名为 HTTP-over-QUIC
+  google 搞了一个基于 UDP 协议的 QUIC 协议,并且使用在了 HTTP/3 上, 在之前名为 HTTP-over-QUIC, QUIC的意思是“快速UDP Internet连接”。协议的这种更改将极大地加快连接建立和数据传输的时间。但是，UDP当然更快，更简单，但是它不具备TCP的可靠性和错误处理能力。
+
+  HTTP3是HTTP2的复用和压缩功能，协议从TCP更改为UDP。然后，Google家伙在协议中添加了他们的层，以确保稳定性，数据包接收顺序以及安全性。
+
+  因此，HTTP3在保持QUIC稳定性的同时使用UDP来保持高速，而又不会忘记TLS的安全性。
+
   * 多路复用
   * 加密认证的报文
   * 向前纠错机制
-
 
 看重点: http1.x 和 http1.0 相比  多了长连接, connection : keep-alive
 http1.x 和 http2.0 多路复用: 只通过一个 tcp 可以发送多个请求,不用按照顺序--对应,避免了"队头堵塞"
@@ -170,7 +174,7 @@ HTTPS 运用了非对称加密：加密使用的密钥和解密使用的密钥�
 ![HTTPS](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjp0tococ5j30xm0o2wr0.jpg)
 
 HSTS
+
 HSTS(HTTP Strict-Transport-Security)它是一个Web安全策略机制,网站采用 HSTS 后，用户访问时无需手动在地址栏中输入 HTTPS，浏览器会自动采用 HTTPS 访问网站地址，从而保证用户始终访问到网站的加密链接，保护数据传输安全。
 
 服务器需要认证的通信过程
-

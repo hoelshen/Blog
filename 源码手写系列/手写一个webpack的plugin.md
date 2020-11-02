@@ -12,13 +12,13 @@ compiler 模块主要提供 webpack 的配置信息（options，loaders，plugin
 compilation 也是继承自 Tapable 类。有着父类相同的特性和方法。compilation 会被 compiler 用来创建新的编译。每次检测到文件变化，就会生成一组新的编译资源。
 一个 compilation 对象表示当前模块信息，编译生成资源，变化的文件以及被跟踪依赖的状态信息。compilation 也提供了很多关键的回调以供插件使用。
 
-
 书写一个 plugin 包含以下几步
+
 1. 一个 JavaScript 函数或者类
 1. 在函数原型（prototype）中定义一个注入compiler对象的apply方法。
 1. apply函数中通过compiler插入指定的事件钩子，在钩子回调中拿到compilation对象
-1. 使用compilation操纵修改webapack内部实例数据。
-1. 异步插件，数据处理完后使用callback回调
+1. 使用 compilation 操纵修改 webpack 内部实例数据。
+1. 异步插件，数据处理完后使用 callback 回调
 
 ```js
 
@@ -27,6 +27,7 @@ compilation 也是继承自 Tapable 类。有着父类相同的特性和方法�
 ```
 
 ## 原理
+
   插件就是钩子在不同的生命周期做的方法
 
   ```js
@@ -47,7 +48,7 @@ compilation 也是继承自 Tapable 类。有着父类相同的特性和方法�
   然后我们配置一个注册调用 plugins 的方法
 
   ```js
-  hanldePlugins() {
+  handlePlugins() {
     // 处理插件
     let { plugins } = this.config
     if (Array.isArray(plugins)) {
@@ -61,6 +62,7 @@ compilation 也是继承自 Tapable 类。有着父类相同的特性和方法�
   ```
 
   继续修改启动项:
+  
   ```js
   // 运行模块
   start(){

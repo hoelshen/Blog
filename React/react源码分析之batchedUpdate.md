@@ -25,8 +25,6 @@ export function msToExpirationTime(ms: number): ExpirationTime {
 setState 没有进入 batchedUpdate
 
 
-
-
 ```js
 try{
   return fn(a)
@@ -51,15 +49,13 @@ setTimeout(()=>{
 
 如果我们放在 setTimeout 里面，setTimeout的执行上下文变为window isBatchingUpdates 每次都会为 恢复原样的情况， 但是这样会变得应用性能很低
 
-setState 本身的方法是同步的，但是调用后不代表立马就更新了,这个更新是根据我们当前的执行上下文来判断的, 如果出于批量更新的话， 就不会更新
-
+setState 本身的方法是同步的，但是调用后不代表立马就更新了,这个更新是根据我们当前的执行上下文来判断的, 如果出于批量更新的话，就不会更新
 
 状态更新和执行回调的步骤是不一样的，更新状态在渲染阶段，而调用回调是在提交阶段，所以肯定是批量更新之后在一起回调的。
 
-
 被打断的任务会回溯到最初的状态重新执行新的任务
 
-FiberRoot是只有一个的，也就是你的container对应的fiber对象
+FiberRoot 是只有一个的，也就是你的 container 对应的 fiber 对象
 
 reactScheduler
 
@@ -69,9 +65,7 @@ reactScheduler
 
 * 调度列表
 
-
 ```js
-
 function scheduleCallbackWithExpirationTime(
   root: FiberRoot,
   expirationTime: ExpirationTime,
@@ -113,4 +107,4 @@ export {
 // 先导入进来， 在替换名字
 ```
 
-异步任务是会交给scheduler来做，而这个callback就是交给scheduler的回调，回调里面其实就是work本身
+异步任务是会交给 scheduler 来做，而这个 callback 就是交给 scheduler 的回调，回调里面其实就是 work 本身.

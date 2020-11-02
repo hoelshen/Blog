@@ -57,19 +57,9 @@ function useState<T>(initState: T): [T, (setState: T)=> void]{
 
 这样子写会有问题
 
-
 在初始的状态是保存在一个全局变量中的, 多个状态,应该是保存在一个专门的全局容器中. 
 
-
-
-``` jsx
-
-
-```
-
-2.
-
-##  原理
+## 原理
 
 ```js
 function resolvDispatcher(){
@@ -79,13 +69,13 @@ function resolvDispatcher(){
 }
 ```
 
-这个方法真正用的时候 要在我们 react 进行渲染的时候， 已经创建虚拟dom 的实例
+这个方法真正用的时候 要在我们 react 进行渲染的时候， 已经创建虚拟 dom 的实例
 
 ```js
-const queue = workInProgressHook.baseUpadte
+const queue = workInProgressHook.baseUpdate
 
 // 接着我们判断
-updateExpirationTime < renderExiprtaionTime
+updateExpirationTime < renderExpriationTime
 
 
 if(!didShip){
@@ -94,4 +84,3 @@ if(!didShip){
 }
 
 ```
-

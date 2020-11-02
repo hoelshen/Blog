@@ -19,8 +19,7 @@ export function createRef(): RefObject {
 
 purecomponent 没有实例
 
-纯函数组件
-connect需要是一个forwardRef，像这样：const connect = forwardRef(() => {...})
+纯函数组件 connect 需要是一个forwardRef，像这样：const connect = forwardRef(() => {...})
 怎么获取到ref
 
 ```ts

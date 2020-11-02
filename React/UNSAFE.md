@@ -1,4 +1,4 @@
-
+# unSafe
 
 React官网上的计划是：
 
@@ -9,7 +9,7 @@ React官网上的计划是：
 未来的16.x版本：为componentWillMount，componentWillReceiveProps和componentWillUpdate启用弃用警告。 （旧的生命周期名称和新的别名都可以在此版本中使用，但旧名称会记录DEV模式警告。）
 
 
-17.0：删除componentWillMount，componentWillReceiveProps和componentWillUpdate。 （从现在开始，只有新的“UNSAFE_”生命周期名称将起作用。
+17.0：删除componentWillMount，componentWillReceiveProps和componentWillUpdate。 （从现在开始，只有新的“UNSAFE_”生命周期名称将起作用。)
 
 
 React意识到componentWillMount、componentWillReceiveProps和componentWillUpdate这三个生命周期函数有缺陷，比较容易导致崩溃。但是由于旧的项目已经在用以及有些老开发者习惯用这些生命周期函数，于是通过给它加UNSAFE_来提醒用它的人要注意它们的缺陷。

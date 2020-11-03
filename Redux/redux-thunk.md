@@ -37,8 +37,6 @@ function fetchNewBook(book) {
 ![redux-thunk](https://tva1.sinaimg.cn/large/007S8ZIlgy1gircrpw14jj30po0bataw.jpg)
 
 
-
-
 ## 实例
 
 ```js

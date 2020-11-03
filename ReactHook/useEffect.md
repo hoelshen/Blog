@@ -194,7 +194,7 @@ setTimeout(() => {
 
 6. 但在有了 hooks 以后，函数组件在这个阶段，会同步调用上一次渲染时 useLayoutEffect(create, deps) create 函数返回的 destroy 函数
 
-7. 注意一个节点在 commitWokr 后，这个时候，我们已经把发生的变化映射到真实 DOM 上了
+7. 注意一个节点在 commitWork 后，这个时候，我们已经把发生的变化映射到真实 DOM 上了
 
 8. 但由于 JS 线程和浏览器渲染线程是互斥的，因为 JS 虚拟机还在运行，即使内存中的真实 DOM 已经变化，浏览器也没有立刻渲染到屏幕上
 

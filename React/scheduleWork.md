@@ -158,3 +158,22 @@ function workLoop(isYieldy) {
 ```js
  next = beginWork(current, workInProgress, nextRenderExpirationTime);
 ```
+
+在 render 阶段:
+  在 render 阶段, react 将更新应用于通过 setState 或 render 方法触发的组件, 并确定需要在用户屏幕上做哪些更新 -- 哪些节点需要插入, 更新或删除, 哪些组件需要调用其生命周期方法. 最终的这些更新信息被保存在一个叫 effect list 的 fiber 节点树上( 关于 fiber 的内容, 在这篇文章中简述 react 中的 fiber). 当然, 在首次渲染时, React 不需要产生任何更新信息，而是会给每个从 render 方法返回的 element 生成一个 fiber 节点，最终生成一个 fiber 节点树， 后续的更新也是复用了这棵fiber树。
+
+在上图中， render 阶段被标记为纯的、没有副作用的，可能会被 React 暂停、终止或者重新执行。也就是说，React 会根据产生的任务的优先级，安排任务的调度（schedule）。利用类似 requestIdleCallback 的原理在浏览器空闲阶段进行更新计算，而不会阻塞动画，事件等的执行。
+
+在 commit 阶段:  react 内部会有三个 fiber 树
+
+```js
+current fiber tree: 在首次渲染时, react 不需要产生任何更新信息, 而是会给每个从 render 方法返回的 element 生成一个 fiber 节点,后续的更新也是复用了这颗 fiber 树.
+
+workInProgress fiber tree:  所有的更新计算工作都在 workInProgress tree 的 fiber 上执行. 当 react 遍历 current fiber tree 时, 它为每个 current fiber 创建一个替代 (alternate) 节点, 这样的 alternate 节点构成了 workInProgress tree.
+
+effect list fiber tree: workInprogress fiber tree 的子树, 这个树的作用串联了标记具有更新的节点.
+```
+
+commit阶段会遍历effect list，把所有更新都commit到DOM树上。具体的，首先会有一个**pre-commit**阶段，主要是执行**getSnapshotBeforeUpdate**方法，可以获取当前DOM的快照（snap）。然后给需要卸载的组件执行**componentWillUnmount**方法。接着会把**current fiber tree**替换为**workInProgress fiber tree**。最后执行DOM的插入、更新和删除，给更新的组件执行componentDidUpdate，给插入的组件执行componentDidMount。
+
+重点要注意的是，这一阶段是同步执行的，不能中止。

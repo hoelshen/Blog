@@ -7,16 +7,4 @@ thunkMiddleware是用来处理异步action的，action的类型为函数类型�
 而loggerMiddleware只能处理普通的plain object类型的action，
 所以顺序上需要在thunkMiddleware之后，等thunkMiddleware将函数类型的action处理转换成plain object类型的action，在发挥作用。
 
-```js
-function throlle(fn, wait){
-  var timer = null;
-  return (...arg)=>{
-    if(!timer){
-      setTimeout(()=> {
-        timer = null;
-        fn.call(...arg)
-      }, wait);
-    }
-  }
-}
-```
+

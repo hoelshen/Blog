@@ -1,23 +1,40 @@
 # webpack按需加载原理
 
-结合 Vue 的异步组件和 Webpack 的代码分割功能，轻松实现路由组件的懒加载。
+懒加载或者按需加载，是一种很好的优化网页或应用的方式。
 
-我们使用生成如下代码
+## 使用
 
 ```js
-new Promise(function(resolve) {
-    __webpack_require__.e(0)
-        .then((function (require) {
-            resolve(__webpack_require__("./src/a.js"));
-            }).bind(null,__webpack_require__))
-        .catch()
-}).then(function(a) {
-    ...
-})
+// print.js
+console.log('The print.js module has loaded! See the network tab in dev tools...');
+
+export default () => {
+  console.log('Button Clicked: Here\'s "some text"!');
+};
+
+// index.js
+
+button.onclick = e => import(/* webpackChunkName: "print" */ './print').then(module => {
+  const print = module.default;
+
+  print();
+});
+
+注意当调用 ES6 模块的 import() 方法（引入模块）时，必须指向模块的 .default 值，因为它才是 promise 被处理后返回的实际的 module 对象。
 
 ```
 
-  创建 promise，这个很好理解因为这里必须是要变成 promise 给后面调用的，另外一个是创建 script 标签,导入 js 文件.
+## 流程与原理
+
+![webpack 按需加载流程](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjusbi6hjoj30qy0me3zj.jpg)
+
+1. 定义一个promise数组，用来存储promise.
+1. 判断是否已经加载过，如果加载过，返回一个空数组的promise.all().
+1. 如果正在加载中，则返回存储过的此文件对应的promise.
+1. 如果没加载过，先定义一个promise，然后创建script标签，加载此js，并定义成功和失败的回调
+1. 返回一个promise
+
+创建 promise，这个很好理解因为这里必须是要变成 promise 给后面调用的，另外一个是创建 script 标签,导入 js 文件.
 
 在**0.main.js**中
 
@@ -33,7 +50,7 @@ eval('...');
 }]);
 ```
 
-webpack_require(moduleId)通过运行 modules 里的模块函数来得到模块对象，并保存到 installedModules 对象中。
+webpack_require(moduleId) 通过运行 modules 里的模块函数来得到模块对象，并保存到 installedModules 对象中。
 
 webpack_require.e(chunkId)通过建立 promise 对象来跟踪按需加载模块的加载状态，并设置超时阙值，如果加载超时就抛出js异常。如果不需要处理加载超时异常的话，就不需要这个函数和 installedChunks 对象，可以把按需加载模块当作普通模块来处理。
 
@@ -134,19 +151,10 @@ webpack_require.e(chunkId)通过建立 promise 对象来跟踪按需加载模块
             }
         })([]);
 ```
+
 a.js不仅有自己模块的代码，还会去往window["webpackJsonp"]里面把增加一个数组，chunkid和chunk模块的代码
 
 所以说这个push方法其实是被劫持了的，也就是等价于运行了webpackJsonpCallback方法。webpackJsonpCallback则会去运行installedChunks[chunkId][0]，也就是promise的resolve。到此整个webpack的代码分割也就梳理的非常清楚了
-
-
-![webpack 按需加载流程](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjusbi6hjoj30qy0me3zj.jpg)
-
-
-定义一个promise数组，用来存储promise.
-判断是否已经加载过，如果加载过，返回一个空数组的promise.all().
-如果正在加载中，则返回存储过的此文件对应的promise.
-如果没加载过，先定义一个promise，然后创建script标签，加载此js，并定义成功和失败的回调
-返回一个promise
 
 只看这个函数，我们可能还有一下疑问：
 

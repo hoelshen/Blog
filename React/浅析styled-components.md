@@ -3,7 +3,7 @@
 ## 使用 ES6 的字符串模板
 
 webComponent 的概念出现了。其中最出名的是custom Element
-什么是custom element
+什么是 custom element
 我们可以自定义html Element
 
 ```jsx

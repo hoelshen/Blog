@@ -1,6 +1,8 @@
 
 # webpack 工作原理
 
+![打包流程](https://tva1.sinaimg.cn/large/0081Kckwgy1gkc0kd9koyj316w0r678f.jpg)
+
 webpack的工作步骤如下：
 
 从入口文件开始递归地建立一个依赖关系图。
@@ -409,20 +411,4 @@ class KWebpack {
   module.exports = PluginTest
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

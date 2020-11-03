@@ -9,20 +9,20 @@ SPA应用采用的是客户端渲染，DOM节点要等待JS文件加载完毕后
 目前有 预渲染 和 服务端渲染 这两种方案
 
 ## 什么是服务端渲染
+
 当服务器接收到请求后，它把需要的组件渲染成 HTML 字符串，然后把它返回给客户端（这里统指浏览器）。之后，客户端会接手渲染控制权。
 
-## 什么是预渲染（Prerender）？
+## 什么是预渲染（Prerender）
+
 无需使用web 服务器实时动态编译 HTML，而是使用预渲染方式，在构建时 (build time) 简单地生成针对特定路由的静态HTML 文件。
 
 如果项目中使用 webpack，你可以使用 prerender-spa-plugin 轻松地添加预渲染，后面将会具体实现。
 
-
-
 ## vue ssr 原理
-  分为两个 entry, Client entry和Server entry。Client entry的功能很简单，就是挂载我们的Vue实例到指定的dom元素上；Server entry是一个使用export导出的函数。主要负责调用组件内定义的获取数据的方法，获取到SSR渲染所需数据，并存储到上下文环境中。这个函数会在每一次的渲染中重复的调用。
+
+  分为两个 entry, Client entry 和 Server entry 。Client entry 的功能很简单，就是挂载我们的 Vue 实例到指定的 dom 元素上；Server entry 是一个使用export导出的函数。主要负责调用组件内定义的获取数据的方法，获取到SSR渲染所需数据，并存储到上下文环境中。这个函数会在每一次的渲染中重复的调用。
 
 我们通过 webpack 生成 server Bundle 和 Client Bundle,  前端会进行在服务器上通过 node 生成预渲染的 html 字符串,发送到我们的客户端以便完成初始化渲染; 而客户端 bundle 就自由了, 初始化渲染完全不依赖它.客户端拿到服务端返回的 html 字符串后, 会去"激活"这些静态 html, 使其变成由 vue 动态管理的 dom, 以便响应后续数据的变化.
-
 
 ## 剖析流程
 
@@ -41,181 +41,149 @@ ssr 服务端请求不带 cookie, 需要手动拿到浏览器的 cookie 传给�
 
 ssr 要求dom 结构规范, 因为浏览器会自动给 html 添加一些结构比如 tbody,但是客户端进行混淆服务端放回的 html 时,不会添加这些标签,导致混淆后的 html 和浏览器渲染的 html 不匹配.
 
-## 常见的性能问题
 
-  vue.mixin、axios拦截请求使用不当，会内存泄露。
-  lru-cache 向内存缓存数据， 需要合理混存改动不频繁的资源。
-
-ssr 的局限
-服务端压力较大
-
-
-开发条件受限
-  在服务端渲染中，created 和 beforeCreated 之外的生命周期钩子不可用，因此项目引用的第三方的库也不用其他生命周期钩子，这对引用库的选择产生了很大的限制。
-  一些外部扩展库 (external library) 可能需要特殊处理，才能在服务器渲染应用程序中运行。
-你应该避免在 beforeCreate 和 created 生命周期时产生全局副作用的代码，例如在其中使用 setInterval 设置 timer。在纯客户端 (client-side only) 的代码中，我们可以设置一个 timer，然后在 beforeDestroy 或 destroyed 生命周期时将其销毁。为了避免这种情况，请将副作用代码移动到 beforeMount 或 mounted 生命周期中。
-
-## 访问特定平台(Platform-Specific) API
-
-## 自定义指令
-
-大多数自定义指令直接操作 DOM，因此会在服务器端渲染 (SSR) 过程中导致错误。有两种方法可以解决这个问题：
-
-推荐使用组件作为抽象机制，并运行在「虚拟 DOM 层级(Virtual-DOM level)」（例如，使用渲染函数(render function)）。
-
-如果你有一个自定义指令，但是不是很容易替换为组件，则可以在创建服务器 renderer 时，使用 directives 选项所提供"服务器端版本(server-side version)"。
-
-学习成本相对较高
-  除了对 webpack、vue 要熟悉，还需要掌握 node、express 相关技术。
-
-## 避免状态单例
-
-当编写纯客户端 (client-only) 代码时，我们习惯于每次在新的上下文中对代码进行取值。但是，Node.js 服务器是一个长期运行的进程。当我们的代码进入该进程时，它将进行一次取值并留存在内存中。这意味着如果创建一个单例对象，它将在每个传入的请求之间共享。
-
-每个请求创建一个新的根 Vue 实例.
-
-应用程序的代码分割或惰性加载，有助于减少浏览器在初始渲染中下载的资源体积，可以极大地改善大体积 bundle 的可交互时间(TTI - time-to-interactive)
-
-
-Simple fix is adding a flag on Vue to make sure you only apply the mixin once.
-
-
-## 在服务端请求 ssr 首屏数据
-
-最合适的方式是通过 Vuex 的 Store, 在 entry-server.js 
-
-```js
-      // 对所有匹配的路由组件调用 `asyncData()`
-      Promise.all(matchedComponents.map(Component => {
-        if (Component.asyncData) {
-
-          return Component.asyncData({
-            store,
-            route: router.currentRoute
-          })
-        }
-      })).then(() => {
-        // 在所有预取钩子(preFetch hook) resolve 后，
-        // 我们的 store 现在已经填充入渲染应用程序所需的状态。
-        // 当我们将状态附加到上下文，
-        // 并且 `template` 选项用于 renderer 时，
-        // 状态将自动序列化为 `window.__INITIAL_STATE__`，并注入 HTML。
-        context.state = store.state
-
-        resolve(app)
-      }).catch((err)=>{
-        console.error(err)
-        reject(err)
-      })
-```
-
-同时给首屏的第一个路由组件添加 asyncData 方法来请求数据,注意是组件的静态方法,而非在 methods 中定义的方法.
-
-```js
-export default {
-  name: 'wecircle',
-  ...
-  asyncData ({ store }) {
-    // 触发 action 后，会返回 Promise
-    return store.dispatch('setWecircleDataListSSR')
+## 开发流程： 
+```JS
+//webpack.config.server.js
+  target: 'node',
+  entry: path.join(__dirname, '../client/server-entry.js'),
+  devtool: 'source-map',
+  output: {
+    libraryTarget: 'commonjs2',
+    filename: 'server-entry.js',
+    path: path.join(__dirname, '../server-build')
   },
-  ...
-}
+  new VueServerPlugin()
+
 ```
 
-后面的 action 和 mutation 按照正常逻辑写即可, 最后, 当 ssr 数据渲染完成后,会在生成的 html 中添加一个 window.__INITIAL_STATE__ 对象, 修改 entry-client.js 可以将数据直接赋值给客户端渲染.
+VueServerPlugin 插件能够帮我们不生成 script 脚本，而是生成 json 文件
+
+![项目目录](https://tva1.sinaimg.cn/large/0081Kckwgy1gkb5o5a0l7j30cu0z80t8.jpg)
+
+第一、server.js的作用： 是node服务器启动的文件
+
+isDev 判断开发和生产
+
+
+处理服务端渲染
+
+我们创建两个文件 dev-ssr 和 ssr，分别对应开发时的服务端渲染情况、上线的服务端渲染情况
+
+第二、dev-ssr.js作用：
+
+1. 拿到 webpack.config.server.js 定义为 serverConfig
+
+在 node 环境去编译webpack，传入 serverConfig
+
+const serverCompiler = webpack(serverConfig)
+
+我们指定了我们的输出目录是在我们的内存里面
+
+我们定义一个 bundle 用来记录 webpack 每次打包生成的文件
 
 ```js
-const { app, router, store } = createApp()
+serverCompiler.watch({}, (err, stats) => {
+  if (err) throw err
+  stats = stats.toJson()
+  stats.errors.forEach(err => console.log(err))
+  stats.warnings.forEach(warn => console.warn(err))
 
-if (window.__INITIAL_STATE__) {
-  store.replaceState(window.__INITIAL_STATE__)
-}
-```
-
-## cookie 透传
-
-  当在 ssr 端请求数据时, 需要带上浏览器的 cookie, 在客户端到 ssr 服务器的请求中, 客户端是携带有 cookie 数据的,但是在 ssr 服务器请求后端接口的过程中, 相应的 cookie 数据的, 在 ssr 服务器进行接口请求的时候,我们需要手动那倒客户端的 cookie 传给后端服务器.
-
-我们有个场景就是 需要在请求数据时, 带上 immei 进行登录, 而客户端到 ssr 服务器的请求中, 客户端是携带有 cookie 数据的. 但是在 ssr 服务器 请求后端接口的过程中, 却是没有相应的 immei 数据的, 因此在 ssr 服务器进行接口请求的时候, 我们需要手动拿到客户端的 immei 传给后端服务器.
-
-在 Server.js 中获取浏览器cookie, 并利用 window 对象存储
-
-```js
-app.use('*', (req, res) => {
-  ...
-  window.ssr_cookie = req.cookie
-  ...
+  const bundlePath = path.join(
+    serverConfig.output.path,
+    'vue-ssr-server-bundle.json'
+  )
+  bundle = JSON.parse(mfs.readFileSync(bundlePath, 'utf-8'))
+  console.log('new bundle generated')
 })
 ```
 
+我们用 vueServerPlugin 生成的文件名默认为 vue-ssr-server-bundle.json
+
+我们根据我们写的 VueServerRenderer 创建一个 serverbundle，生成一个可以直接调用 renderer 的一个 function
+
+我们还要去获取 webpack.devserver.js 帮我们打包出来的JavaScript文件的地址， 我们要拿到地址之后才能在我们拼接 html 的时候。把客户端的 js 路径写在里面， 这样我们把html 返回给浏览器才能够渲染出来可以引用到客户端的js， 才能够在客户端正式的跑起来，不然只能是空 html
+inject 设置为flase ， 因为vue 会自动诸如一些要符合vue 的东西
 ```js
-在 axios 中, 添加 header 将 cookie 塞进去
+  const renderer = VueServerRenderer
+    .createBundleRenderer(bundle, {
+      inject: false,
+      clientManifest
+    })
+```
+clientmanifest包含的是js和css的文件名、路径等信息，不是内容信息。
 
-axios.create({
-  ...
-  headers: window.ssr_cookie || {}
-  ...
-})
+我们通过 axios 拿到相关的 manifest.json, 我们需要在 webpack.client.json 里面引入
+VueClientPlugin
 
+```js
+ const clientManifestResp = await axios.get(
+    'http://127.0.0.1:8000/public/vue-ssr-client-manifest.json'
+  )
 ```
 
-## 同时支持客户端渲染和服务端渲染
+服务端渲染的操作
+我们创建 server-render.js
 
-ssr 服务端渲染挂掉的时候, 需要有容错逻辑保证页面可用, 原先的客户端渲染相关的构建要保留, 即通过直接访问 inde.html 的方式能够正常使用页面, 这里通过 nginx 配置路径转发.
+```JS
+module.exports = async (ctx, renderer, template) => {
+  ctx.headers['Content-Type'] = 'text/html'
 
-```js
-location /index.html {
-     return 301 https://$server_name/;
+  const context = { url: ctx.path, user: ctx.session.user }
+
+  try {
+    const appString = await renderer.renderToString(context)
+  }
 }
 ```
 
-原先通过 http://xxx.com/index.html 变成 http://xxx.com/ .history模式的vue-router的path="/"的路由, 对客户端访问和服务端的访问, 分别设置不同的转发
+每次服务端渲染都要生成新的 app， 我们不能用上一次渲染过的对象，再去进行下次渲染， 因为这个app 已经包含了上次状态， 会影响我们下次渲染内容, 不这么做的话，会出现内存溢出的风险。
 
-```sh
- # 客户端渲染服务
-  location / {
-     # 给静态文件添加缓存
-     location ~ .*\.(js|css|png|jpeg)(.*) {
-          valid_referers *.nihaoshijie.com.cn;
-          if ($invalid_referer) {
-            return 404;
-          }
-          proxy_pass http://localhost:8080;
-          expires  3d;# 3天
-      }
-      proxy_pass http://localhost:8080; # 静态资源走8080端口
-  }
+```JS
+export default () => {
+  const router = createRouter()
+  const store = createStore()
 
-  # ssr服务
-  location  = /index_ssr {
-     proxy_pass http://localhost:8888; # ssr服务使用8888端口
-  }
-```
-
-
-只保留/index_ssr 作为 ssr 渲染的入口, 然后在 server.js 中, 将/index_ssr 处理成首页的路径, 并添加对 ssr 渲染的容错逻辑.
-
-```js
-  if (req.originalUrl === '/index_ssr' || req.originalUrl === '/index_ssr/') {
-    context.url = '/'
-  }
-  ...
-  renderer(bundle, manifest).renderToString(context, (err, html) => {
-    ...
-    if (err) {
-      // 发现报错，直接走客户端渲染
-      res.redirect('/')
-      // 记录错误信息 这部分内容可以上传到日志平台 便于统计
-      console.error(`error during render : ${req.url}`)
-      console.error(err)
-    }
-    ...
+  const app = new Vue({
+    router,
+    store,
+    render: h => h(App)
   })
+
+  return { app, router, store }
+}
+
 ```
 
+server.render.js 返回的context 会在 client/server.entry.js 里面接收
 
-遇坑1：vue 组件名尽量不要和路由重名，名字一样大小写不一样也不可（例如 组件叫component，而引用这个组建的路由叫/Component）。如果重名了，会出现路由找不到的情况
+```JS
+  const appString = await renderer.renderToString(context)
+```
+
+我们要主动的 push 我们的路由， router.onready（）只有在服务端渲染的时候才用到，比方说我们有一些异步加载路由的操作。
+
+```js
+  router.push(context.url)
+```
+
+接着我们配置启动 server.js。 在 dev-ssr.js 导入 server-render.js 在 handleSSR 中进行处理。我们在sever。js 导入dev-ssr
+
+```JS
+const router = new Router()
+router.get('*', handleSSR)
+
+module.exports = router
+```
+
+我们采用nodemon 自动重启服务
+
+concurrently 启动两个服务   "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+
+vue-meta 设置我们服务端的元信息
+
+![生产环境](https://tva1.sinaimg.cn/large/0081Kckwgy1gkbancwtjaj32180sqtdz.jpg)
 
 
-遇坑2： 一定要遵守标签的嵌套规则，尤其是<router-link>不要单独使用tag="li"属性，嵌套规则的不一致会造成client和server两端的dom树不一致，导致本地开发没问题而打包上线有问题
+
+

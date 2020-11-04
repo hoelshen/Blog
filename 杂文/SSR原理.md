@@ -102,8 +102,9 @@ serverCompiler.watch({}, (err, stats) => {
 
 我们根据我们写的 VueServerRenderer 创建一个 serverbundle，生成一个可以直接调用 renderer 的一个 function
 
-我们还要去获取 webpack.devserver.js 帮我们打包出来的JavaScript文件的地址， 我们要拿到地址之后才能在我们拼接 html 的时候。把客户端的 js 路径写在里面， 这样我们把html 返回给浏览器才能够渲染出来可以引用到客户端的js， 才能够在客户端正式的跑起来，不然只能是空 html
-inject 设置为flase ， 因为vue 会自动诸如一些要符合vue 的东西
+我们还要去获取 webpack.config.server.js 帮我们打包出来的 JavaScript 文件的地址， 我们要拿到地址之后才能在我们拼接 html 的时候。把客户端的 js 路径写在里面， 这样我们把 html 返回给浏览器才能够渲染出来可以引用到客户端的 js， 才能够在客户端正式的跑起来，不然只能是空 html
+inject 设置为 false ， 因为 vue 会自动诸如一些要符合 vue 的东西.
+
 ```js
   const renderer = VueServerRenderer
     .createBundleRenderer(bundle, {
@@ -111,6 +112,7 @@ inject 设置为flase ， 因为vue 会自动诸如一些要符合vue 的东西
       clientManifest
     })
 ```
+
 clientmanifest包含的是js和css的文件名、路径等信息，不是内容信息。
 
 我们通过 axios 拿到相关的 manifest.json, 我们需要在 webpack.client.json 里面引入

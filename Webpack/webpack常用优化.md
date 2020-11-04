@@ -4,7 +4,7 @@
 
 1. 配置时尽可能减小后缀尝试列表，不要把项目中不可能存在的情况写到列表中;
 
-1. 频率最高的文件后嘴要优先放在最前面，以做到最快推出;
+1. 频率最高的文件后缀要优先放在最前面，以做到最快推出;
 
 1. 在源码中写导入语句时，要尽可能的带上后缀，从而可以避免寻找过程。例如在你确定的情况下把 require('./data') 写成 require('./data.json')
 
@@ -17,14 +17,25 @@ resolve.modules 的默认值是 ['node_modules']，会采用向上递归搜索�
 
 resolve.alias 配置项通过别名来把原导入路径映射成一个新的导入路径。
 
+1. cache-loader
+  在一些性能开销较大的 loader 之前添加 cache-loader, 将结果缓存在磁盘中,cache-loader 的配置很简单，放在其他 loader 之前即可.
+
 1. 缩小文件匹配范围
 
 Include：需要处理的文件的位置
 
 Exclude：排除掉不需要处理的文件的位置
 
+exclude 的优先级高于 include，在 include 和 exclude 中使用绝对路径数组，尽量避免 exclude，更倾向于使用 include。
+
 1. 设置noParse
-防止 webpack 解析那些任何与给定正则表达式相匹配的文件。忽略的文件中不应该含有 import, require, define 的调用，或任何其他导入机制。忽略大型的 library 可以提高构建性能。比如jquery、elementUi
+如果一些第三方模块没有AMD/CommonJS规范版本，可以使用 noParse 来标识这个模块，防止 webpack 解析那些任何与给定正则表达式相匹配的文件。忽略的文件中不应该含有 import, require, define 的调用，或任何其他导入机制。忽略大型的 library 可以提高构建性能。比如jquery、elementUi
+
+```js
+ module: {
+        noParse: /jquery|lodash/
+ }
+```
 
 1. 给babel-loader设置缓存
 babel-loader 提供了 cacheDirectory 特定选项（默认 false）：设置时，给定的目录将用于缓存加载器的结果。
@@ -82,3 +93,25 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
     ],
   },
 ```
+
+1. ignorePlugin
+
+```js
+//webpack.config.js
+module.exports = {
+    //...
+    plugins: [
+        //忽略 moment 下的 ./locale 目录
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+    ]
+}
+
+import moment from 'moment';
+import 'moment/locale/zh-cn';// 手动引入
+```
+
+复制代码index.js 中只引入 moment，打包出来的 bundle.js 大小为 263KB，如果配置了 IgnorePlugin，单独引入 moment/locale/zh-cn，构建出来的包大小为 55KB。
+
+1. DllPlugin
+
+用专门用于编译动态链接库,  可以将 react 和 react-dom 单独打包成一个动态链接库

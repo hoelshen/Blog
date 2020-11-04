@@ -1,7 +1,81 @@
-# 
+# mobx 原理解析
+
+## 依赖收集和依赖更新
+
+```js
+function autorun(
+    view: (r: IReactionPublic) => any,
+    opts: IAutorunOptions = EMPTY_OBJECT
+): IReactionDisposer {
+    const name: string = (opts && opts.name) || (view as any).name || "Autorun@" + getNextId()
+    const runSync = !opts.scheduler && !opts.delay
+    let reaction: Reaction
 
 
-## mobx 原理解析
+    // 只看同步的autorun，异步是根据传入的delay setTimeout
+    if (runSync) {
+        // normal autorun
+        reaction = new Reaction(
+            name,
+            // reaction的onInvalidate， 用track调用reactionRunner， 也就是view(reaction)， （重新）收集依赖
+            function(this: Reaction) {
+                this.track(reactionRunner)
+            },
+            opts.onError,
+            opts.requiresObservable
+        )
+    } else {
+       // ... 处理异步
+    }
+
+    function reactionRunner() {
+        view(reaction)
+    }
+    // 将 reaction 放进全局 globalState.pendingReactions 队列，里面会执行runReactions
+    reaction.schedule()
+    // 返回取消订阅
+    return reaction.getDisposer()
+}
+
+```
+
+runReactions, runReactions 是依赖收集启动方法
+
+```js
+let reactionScheduler (fn: () => void) => void = f => f();
+
+function runReactions() {
+  // 不在事务中并且没有正在执行的reaction
+  if (globalState.inBatch > 0 || globalState.isRunningReactions) return
+  // 核心的调用runReactionsHelper
+  reactionScheduler(runReactionsHelper)
+}
+```
+
+runReactionsHelper
+
+```js
+function runReactionsHelper() {
+    globalState.isRunningReactions = true
+    const allReactions = globalState.pendingReactions
+    let iterations = 0
+
+    // 遍历所有globalState.pendingReactions中的reaction，并执行每个对象的runReaction
+    while (allReactions.length > 0) {
+        if (++iterations === MAX_REACTION_ITERATIONS) {
+            console.error(
+                `Reaction doesn't converge to a stable state after ${MAX_REACTION_ITERATIONS} iterations.` +
+                    ` Probably there is a cycle in the reactive function: ${allReactions[0]}`
+            )
+            allReactions.splice(0) // clear reactions
+        }
+        let remainingReactions = allReactions.splice(0)
+        for (let i = 0, l = remainingReactions.length; i < l; i++)
+            remainingReactions[i].runReaction()
+    }
+    globalState.isRunningReactions = false
+}
+```
 
 
 ## provider 源码分析

@@ -2,7 +2,7 @@
 
 
 
-## 
+## nextTick
 
 ```js
 // Determine (macro) task defer implementation.

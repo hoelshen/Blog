@@ -96,7 +96,7 @@ if (parent && !options.abstract) {
 vm.$parent = parent
 ```
 
-keep-alive 在 created 钩子里定义 this.cache 和 this.keys， 本质行就是去缓存已经创建过的 vnode。 keep-alive 直接实现了 render 函数，而不是我们常规模版的方式，执行 keep-alive 组件渲染的时候，就回执行到这个 render 函数。
+keep-alive 在 created 钩子里定义 this.cache 和 this.keys， 本质就是去缓存已经创建过的 vnode。 keep-alive 直接实现了 render 函数，而不是我们常规模版的方式，执行 keep-alive 组件渲染的时候，就回执行到这个 render 函数。
 首先获取第一个子元素的 vnode
 
 ```js
@@ -332,7 +332,7 @@ function reactivateComponent (vnode, insertedVnodeQueue, parentElm, refElm) {
 
 ```
 
-如果是被 <keep-alive> 包裹的组件已经 mounted，那么则执行 queueActivatedComponent(componentInstance) ，否则执行 activateChildComponent(componentInstance, true)。我们先分析非 mounted 的情况，activateChildComponent 的定义在 src/core/instance/lifecycle.js 中
+如果是被 \<keep-alive> 包裹的组件已经 mounted，那么则执行 queueActivatedComponent(componentInstance) ，否则执行 activateChildComponent(componentInstance, true)。我们先分析非 mounted 的情况，activateChildComponent 的定义在 src/core/instance/lifecycle.js 中
 
 ```js
 export function activateChildComponent (vm: Component, direct?: boolean) {
@@ -354,5 +354,46 @@ export function activateChildComponent (vm: Component, direct?: boolean) {
 }
 ```
 
+## lru算法
 
+LRU （ Least Recently Used ：最近最少使用 ）缓存淘汰策略，故名思义，就是根据数据的历史访问记录来进行淘汰数据，其核心思想是 如果数据最近被访问过，那么将来被访问的几率也更高 ，优先淘汰最近没有被访问到的数据。
 
+## 原理
+
+keep-alive 在 vue 中用于实现组件的缓存,当组件切换时不会对当前组件进行卸载.
+
+最常用的两个属性: include, exclude, 用于组件进行有条件的缓存, 可以用都好分割字符串、 正则表达式或一个数组来表示。
+
+在2.5.8版本中， keep-alive 新增了 max 属性， 用于最多可以缓存多少组件实例， 一旦这个数字达到了， 在新实例被创建之前， 已缓存组件中最久没有被访问的实例会被注销掉。这里用到了 lru 算法。
+
+在 keep-alive 缓存超过 max 时，使用的缓存淘汰算法就是 LRU 算法，它在实现的过程中用到了 cache 对象用于保存缓存的组件实例及 key 值，keys 数组用于保存缓存组件的 key ，当 keep-alive 中渲染一个需要缓存的实例时：
+
+判断缓存中是否已缓存了该实例，缓存了则直接获取，并调整 key 在 keys 中的位置（移除 keys 中 key ，并放入 keys 数组的最后一位）
+如果没有缓存，则缓存该实例，若 keys 的长度大于 max （缓存长度超过上限），则移除 keys[0] 缓存。
+
+```js
+function Lru(max) {
+  this.max = max;
+  this.arr = [];
+  this.push = function (num) {
+    if (this.max > this.arr.length) {
+      this.arr.push(num);
+    } else {
+      this.arr.splice(0, 1);
+      this.arr.push(num);
+    }
+  };
+  this.get = function (num) {
+    const idx = this.arr.indexOf(num);
+    this.arr.push(this.arr.splice(idx, 1)[0]);
+    return this.arr;
+  };
+}
+
+const lru = new Lru(2);
+lru.push("sjh");
+lru.push("shj");
+lru.push(3);
+lru.get(2);
+console.log("lru", lru)
+```

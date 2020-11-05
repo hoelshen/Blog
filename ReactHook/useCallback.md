@@ -1,6 +1,6 @@
 # useCallback
 
-这是对事件句柄进行缓存，useState的第二个返回值是dispatch，但是每次都是返回新的，使用useCallback，可以让它使用上次的函数。
+这是对事件句柄进行缓存，useState 的第二个返回值是 dispatch，但是每次都是返回新的，使用 useCallback，可以让它使用上次的函数。
 
 ## 原理
 
@@ -32,7 +32,6 @@ export function useCallback<T>(
 
 为了向下传递子组件
 
-
 ```jsx
   const onClick = useCallback(()=>{
     console.log('Click')
@@ -41,17 +40,16 @@ export function useCallback<T>(
   }, [counterRef])
 ```
 
-
 ## 遇到的坑
 
 ```jsx
 function App() {
   const [clickCount, setClickCount] = useState(0);  
- 
+
   const handleClick = useCallback(() => {
     setClickCount(clickCount + 1);
   }, [clickCount === 2]);
- 
+
   return (
     <div>
         <button onClick={handleClick}>Press</button>
@@ -63,6 +61,7 @@ function App() {
 export default App;
 
 ```
+
 clickCount === 2这个表达式的值没变，造成了handleClick没变，同时里面引用的上下文也没变，clickCount一直停留在0的状态，即使加1，最多也就变成1，并不会再变了。
 
 具体是这样的过程：
@@ -84,10 +83,7 @@ clickCount === 2这个表达式的值没变，造成了handleClick没变，同�
 setClickCount(count => count + 1)
 这样并没有引用任何上下文的数据，因此是安全的。当然把useCallback的第二个参数改成 [clickCount] 或者不加第二个参数也能解决问题。
 
-
 作为第二个依赖参数，没有满足与不满足的说法，只有变化与未变化，只有变化了才会重新执行，第一次渲染的时候，无从对比，都会先执行一次，不论useMemo/useCallback还是useEffect。
-
-
 
 那么如何定义这个依赖数组呢？严格来讲，只要用到了变量，就需要声明到里面，包括函数变量。不过也有例外，比如“setState”这一类函数，React官方已经保证，对于同一个组件的同一个state，它的setState每次都返回同一个，因此它是一种“常量”。对于其它已经被保证不会变化的变量，也不需要放到依赖数组中。
 

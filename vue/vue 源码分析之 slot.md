@@ -60,7 +60,7 @@ function processSlot (el) {
 
 ```
 
-当解析到 slot 属性的时候，会给 ast 节点添加slottarget 属性，然后在 codegen 阶段，在 gendata 中处理slotTarget
+当解析到 slot 属性的时候，会给 ast 节点添加 slottarget 属性，然后在 codegen 阶段，在 gendata 中处理slotTarget
 
 ```js
 if (el.slotTarget && !el.slotScope) {
@@ -68,7 +68,7 @@ if (el.slotTarget && !el.slotScope) {
 }
 ```
 
-接下来编译子组件， 同样在parser 阶段会执行processslot 处理函数
+接下来编译子组件， 同样在 parser 阶段会执行 processslot 处理函数
 
 ```js
 function processSlot (el) {

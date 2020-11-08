@@ -19,7 +19,7 @@
 
 ## hash
 
-  网址中的#称为位置的标识符，代表网页中的一个位置，浏览器的hash，将资源路径伪装成锚点，通过 onhashchange 事件来改变状态，同时又不会刷新浏览器。
+  网址中的 # 称为位置的标识符，代表网页中的一个位置，浏览器的 hash，将资源路径伪装成锚点，通过 onhashchange 事件来改变状态，同时又不会刷新浏览器。
 
   当#值发生变化时，就会触发 hashchange 事件
 
@@ -133,7 +133,115 @@ history 在刷新页面时，如果服务器中没有相应的响应资源，就
 
   2.history 能够修改同源下面的任意url，hash只能修改 # 后面的部分，因为只能设置当前url同文档的url。
 
+```JS
+export class HashHistory extends History{
+  constructor(router: Router, base: ?string, fallback: boolean){
+    super(router, base){
+      if(fallback && checkFallback(this.base)){
+        return
+      }
+      ensureSlash()
+    }
+  }
+}
+
+
+```
+
+接着 history.transitionTo 做路由过渡
+
+```JS
+transitionTo (
+    location: RawLocation,
+    onComplete?: Function,
+    onAbort?: Function
+  ) {
+    let route
+    // catch redirect option https://github.com/vuejs/vue-router/issues/3201
+    try {
+      route = this.router.match(location, this.current)
+    } catch (e) {
+      this.errorCbs.forEach(cb => {
+        cb(e)
+      })
+      // Exception should still be thrown
+      throw e
+    }
+    const prev = this.current
+    this.confirmTransition(
+      route,
+      () => {
+        this.updateRoute(route)
+        onComplete && onComplete(route)
+        this.ensureURL()
+        this.router.afterHooks.forEach(hook => {
+          hook && hook(route, prev)
+        })
+
+        // fire ready cbs once
+        if (!this.ready) {
+          this.ready = true
+          this.readyCbs.forEach(cb => {
+            cb(route)
+          })
+        }
+      },
+      err => {
+        if (onAbort) {
+          onAbort(err)
+        }
+
+      }
+    )
+  }
+
+```
+
+遍历路由表，将我们的路由信息加入到其中,创建路由映射表
+
+```js
+router.forEach(route => {
+  addRouteRecord(pathList, pathMap, nameMap, route)
+})
+```
+
+进行深度遍历
+
+```js
+function addRouteRecord (
+  pathList,
+  pathMap,
+  nameMap,
+  route,
+  parent,
+  matchAs
+) {
+    route.children.forEach(function (child) {
+      var childMatchAs = matchAs
+        ? cleanPath((matchAs + "/" + (child.path)))
+        : undefined;
+      addRouteRecord(pathList, pathMap, nameMap, child, record, childMatchAs);
+    });
+  }
+}
+```
+
 pushState 设置的新 url，能与当前一样，这样也会记录添加到栈中，hash设置的新值能不能与原来一样，一样的值不会触发动作将记录添加到栈中。pushstate通过stateObject参数将
+
+导航守卫
+
+```JS
+const {
+  updated，
+  deactivated,
+  activated
+} = resloveQueue(this.current.matched, route.matched){
+  const queue = [].concat()
+}
+
+
+
+```
 
 ## react router v5
 

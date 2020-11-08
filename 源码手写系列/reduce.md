@@ -28,6 +28,7 @@ Array.prototype.reduce = function(func, initState){
 ```
 
 ## 总结
+
 至此，我们可以很形象的归纳出来forEach、map以及reduce的不同点：
 
 forEach 方法是将数组中的每一个值取出做一些程序员想让他们做的事情

@@ -24,6 +24,8 @@
   }
 ```
 
+通常我们都会为插件写 install 方法，
+
 ## 官方 use 源码
 
 ``` js
@@ -174,6 +176,8 @@ export function install (Vue) {
   strats.beforeRouteEnter = strats.beforeRouteLeave = strats.beforeRouteUpdate = strats.created
 }
 ```
+
+全局注册 RouterView、RouterLink 组件
 
 通过 minxi 混入的方式，如果自身是根组件，就把根组件的_router属性映射为new Vue传入的router实例(this.$options.router)。
 如果自身不是根组件，那么层层往上找，直到找到根组件，并用_routerRoot标记出根组件。

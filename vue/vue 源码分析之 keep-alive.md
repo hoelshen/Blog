@@ -19,7 +19,7 @@ export default {
   },
 
   created () {
-    this.cache = Object.create(null)
+    this.cache = Object.create(null)  // 缓存在内存中
     this.keys = []
   },
 
@@ -187,7 +187,7 @@ function createComponent (vnode, insertedVnodeQueue, parentElm, refElm) {
 }
 ```
 
-第一次渲染的时候，vnode.componentInstance 为 undefined，vnode.data.keepAlive 为 true，因为它的父组件 <keep-alive> 的 render 函数会先执行，那么该 vnode 缓存到内存中，并且设置 vnode.data.keepAlive 为 true，因此 isReactivated 为 false，那么走正常的 init 的钩子函数执行组件的 mount。当 vnode 已经执行完 patch 后，执行 initComponent 函数：
+第一次渲染的时候，vnode.componentInstance 为 undefined，vnode.data.keepAlive 为 true，因为它的父组件 \<keep-alive> 的 render 函数会先执行，那么该 vnode 缓存到内存中，并且设置 vnode.data.keepAlive 为 true，因此 isReactivated 为 false，那么走正常的 init 的钩子函数执行组件的 mount。当 vnode 已经执行完 patch 后，执行 initComponent 函数：
 
 ```js
 function initComponent (vnode, insertedVnodeQueue) {
@@ -229,6 +229,7 @@ const componentVNodeHooks = {
   // ...
 }
 ```
+
 prepatch 核心逻辑就是执行 updateChildComponent 方法
 
 ```js
@@ -240,10 +241,10 @@ export function updateChildComponent (
   renderChildren: ?Array<VNode>
 ) {
   const hasChildren = !!(
-    renderChildren ||          
+    renderChildren ||
     vm.$options._renderChildren ||
-    parentVnode.data.scopedSlots || 
-    vm.$scopedSlots !== emptyObject 
+    parentVnode.data.scopedSlots ||
+    vm.$scopedSlots !== emptyObject
   )
 
   // ...
@@ -254,7 +255,7 @@ export function updateChildComponent (
 }
 ```
 
-updateChildComponent 方法主要是去更新组件实例的一些属性，这里我们重点关注一下 slot 部分，由于 <keep-alive> 组件本质上支持了 slot，所以它执行 prepatch 的时候，需要对自己的 children，也就是这些 slots 做重新解析，并触发 <keep-alive> 组件实例 $forceUpdate 逻辑，也就是重新执行 <keep-alive> 的 render 方法，这个时候如果它包裹的第一个组件 vnode 命中缓存，则直接返回缓存中的 vnode.componentInstance
+updateChildComponent 方法主要是去更新组件实例的一些属性，这里我们重点关注一下 slot 部分，由于 \<keep-alive> 组件本质上支持了 slot，所以它执行 prepatch 的时候，需要对自己的 children，也就是这些 slots 做重新解析，并触发 \<keep-alive> 组件实例 **$forceUpdate** 逻辑，也就是重新执行 \<keep-alive> 的 render 方法，这个时候如果它包裹的第一个组件 vnode 命中缓存，则直接返回缓存中的 vnode.componentInstance
 
 ```js
 function createComponent (vnode, insertedVnodeQueue, parentElm, refElm) {
@@ -280,7 +281,7 @@ function createComponent (vnode, insertedVnodeQueue, parentElm, refElm) {
 }
 ```
 
-isReactivated 为 true，并且在执行 init 钩子函数的时候不会再执行组件的 mount 过程
+isReactivated 如果为 true， 则执行 reactivateComponent 方法 并且在执行 init 钩子函数的时候不会再执行组件的 mount 过程
 
 ```js
 const componentVNodeHooks = {
@@ -334,6 +335,8 @@ function reactivateComponent (vnode, insertedVnodeQueue, parentElm, refElm) {
 
 如果是被 \<keep-alive> 包裹的组件已经 mounted，那么则执行 queueActivatedComponent(componentInstance) ，否则执行 activateChildComponent(componentInstance, true)。我们先分析非 mounted 的情况，activateChildComponent 的定义在 src/core/instance/lifecycle.js 中
 
+在我们 initlifecycle 中， 我们会将 directInactive 设置为 false，接着进入 activateChildComponent 方法中
+
 ```js
 export function activateChildComponent (vm: Component, direct?: boolean) {
   if (direct) {
@@ -353,6 +356,16 @@ export function activateChildComponent (vm: Component, direct?: boolean) {
   }
 }
 ```
+
+如果已经 mounted 的方法会执行 queueActivedComponent 方法
+
+销毁
+keep-alive 组件销毁的时候会执行 deactivateChildComponent 方法
+
+总结：
+通过自定义render函数并且利用了插槽
+当命中缓存，则不会执行created 和 mounted 钩子函数， 而会执行 activated 钩子 销毁deactivated
+且在 patch 过程中对于已缓存的组件不会执行 mounted，所以不会有一般的组件的生命周期函数但是又提供了 activated 和 deactivated 钩子函数。另外我们还知道了 <keep-alive> 的 props 除了 include 和 exclude 还有文档中没有提到的 max，它能控制我们缓存的个数。
 
 ## lru算法
 

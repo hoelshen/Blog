@@ -1,6 +1,6 @@
 # 手写一个 webpack loader
 
-  我们知道loader 能够将资源变成源代码的，在 js 中通过 import 引入. loader 的作用就是将不同形式的资源处理成一段通用的 js 可执行代码，执行的结果就是导出一个模块，因为运行在 node 端，用的是 commonjs 规范，比如**module.exports={...}**
+  我们知道loader 能够将资源变成源代码的，在 js 中通过 import 引入 .loader 的作用就是将不同形式的资源处理成一段通用的 js 可执行代码，执行的结果就是导出一个模块，因为运行在 node 端，用的是 commonjs 规范，比如**module.exports={...}**
 
 ## 开发 loader 原则
 
@@ -133,7 +133,7 @@ function parse(source){
 到这里，对于「如何开发一个 loader」，我相信你已经有了自己的答案。总结一下，一个 loader 在我们项目中 work 需要经历以下步骤：
 
 * 创建 loader 的目录及模块文件
-* 在 webpack 中配置 rule 及 loader 的解析路径，并且要注意 loader 的顺序，这样在 require 指定类型文件时，我们能让处理流经过指定 laoder。
+* 在 webpack 中配置 rule 及 loader 的解析路径，并且要注意 loader 的顺序，这样在 require 指定类型文件时，我们能让处理流经过指定 loader。
 * 遵循原则设计和开发 loader。
 
 

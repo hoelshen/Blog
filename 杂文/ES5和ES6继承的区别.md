@@ -11,11 +11,10 @@ super 本身是指向父类的构造函数但做函数调用后返回的是子�
 实际上做了父类.prototype.constructor.call(this)，
 做对象调用时指向父类.prototype,从而实现继承。
   
-
 ```JS
 //ES5
 function Super() {}
- 
+
 function Sub() {}
 Sub.prototype = new Super();
 Sub.prototype.constructor = Sub;
@@ -43,6 +42,5 @@ sub.__proto__ === Sub.prototype; // ⑤ true
 Sub.__proto__ === Super; // ⑥ true
 Sub.prototype.__proto__ === Super.prototype; // ⑦ true
 ```
-
 
 所以ES6和ES5的继承是一模一样的，只是多了class和extends，ES6的子类和父类，子类原型和父类原型，通过__proto__连接。

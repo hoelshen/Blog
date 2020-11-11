@@ -179,3 +179,112 @@ location /index.html {
 ## cookie 注入
 
 将 Cookies 注入到 global. 在将 cookies 注入到组件的 asyncData 方法.
+
+
+
+一套代码两套执行环境
+
+（1）在beforeCreate，created生命周期以及全局的执行环境中调用特定的api前需要判断执行环境；
+
+（2）使用adapter模式，写一套adapter兼容不同环境的api。
+
+
+
+
+```JS
+ // 在路由组件内
+ <template>
+  <div>{{ fooCount }}</div>
+ </template>
+ <script>
+ // 在这里导入模块，而不是在 `store/index.js` 中
+ import fooStoreModule from '../store/modules/foo'
+ export default {
+  // 数据预获取生命周期，在服务端运行
+  asyncData ({ store }) {
+    //惰性注册store模块
+    store.registerModule('foo', fooStoreModule)
+    //执行foo命名空间下名为inc的action操作
+    return store.dispatch('foo/inc')
+  },
+  // 重要信息：当多次访问路由时，
+  // 避免在客户端重复注册模块。
+  destroyed () {
+    this.$store.unregisterModule('foo')
+  },
+  computed: {
+    fooCount () {
+      //获取store数据
+      return this.$store.state.foo.count
+    }
+  }
+ }
+ </script>
+```
+
+因为hash模式的路由提交不到服务器上，因此ssr的路由需要采用history的方式。
+
+
+异常处理问题
+1.异常来自哪里？
+（1）服务端数据预获取过程中的异常，如接口请求的各种异常，获取到数据后对数据进行操作的过程中出现的错误异常。
+
+（2）在服务端数据预获取的生命周期结束后的渲染页面过程中出现的异常，包括各种操作数据的语法错误等，如对undefined取属性。
+
+
+2.怎么处理异常
+（1）官方处理方法
+
+抛出500错误页面，体验不友好，产品不接受。
+
+（2）目前采用的方法
+
+a.服务端数据预获取过程中出现的异常，让页面继续渲染，不抛出500异常页面，打错误日志，接入监控。同时，在页面加入标志，让前端页面再次进行一次数据获取页面渲染的尝试。
+
+b.页面渲染过程的异常。由于目前渲染过程是vue提供的一个插件进行的，异常不好捕获，同时出现问题的概率不是很大，因此还没有做专门的处理。
+
+entry-server.js服务端部分：
+
+```JS
+ Promise.all(matchedComponents.map(component => {
+    //代码略，参见官方文档
+ })).then(() => {
+    //代码略，参见官方文档
+ }).catch(err => {
+    //官方代码在这里直接抛出异常，从而走500错误页面
+    //我们做如下处理，首先打印错误日志，将日志加入监控报警，监控异常
+    console.log('rendererror','entry-server',err);
+    // 其次，增加服务端预渲染错误标识，前端拿到标志后重新渲染
+    context.serverError = true;
+    //最后，将服务端vue实例正常返回，避免抛500
+    resolve(app)
+ })
+```
+
+性能
+
+（1）页面级别的缓存 将渲染完成的页面缓存到内存中，同时设置最大缓存数量和缓存时间。 优势：大幅度提高页面的访问速度 代价：增加服务器内存的使用
+
+
+```js
+ const LRU = require('lru-cache');//删除最近最少使用条目的缓存对象
+ // 实例化配置缓存对象
+ const microCache = LRU({
+  max: 100,//最大存储100条
+  maxAge: 1000 // 存储在 1 秒后过期
+ })
+ //http请求处理
+ server.get('*', (req, res) => {
+  //根据url获取缓存页面    
+  const hit = microCache.get(req.url)
+  //如果有缓存则直接返回缓存数据
+  if (hit) {
+    return res.end(hit)
+  }
+  renderer.renderToString((err, html) => {
+    res.end(html)
+    //将页面缓存到缓存对象中
+    microCache.set(req.url, html)
+  })
+ })
+```

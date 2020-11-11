@@ -1,10 +1,9 @@
+# 迭代器
+
 标准的内置迭代器，也可以构造自己的迭代器
 消费者工具(for..of循环以及...运算)
 
-
-
 迭代有着一套属于自己的迭代协议，这规定了迭代与实现的逻辑，它之所以能够工作是因为依靠着迭代器(具体的迭代实现逻辑)、迭代对象(实现了[Symbol.iterator]方法的可被迭代对象)和迭代语句(例如for...in和for..of)
-
 
 ```js
 var obj={
@@ -16,14 +15,13 @@ for(var i of obj){ //obj is not iterable
     console.log(i,obj[i])
 }
 
-//执行的顺序为
-Uncaught TypeError: obj is not iterable
+// 执行的顺序为
+// Uncaught TypeError: obj is not iterable
 ```
 
 ![迭代器](https://tva1.sinaimg.cn/large/0081Kckwgy1gkjzsfqf2gj30u00yjdhr.jpg)
 
 来查看一下对象是否有实现[Symbol.iterator],结果是对象上默认是不支持迭代的，没有[Symbol.iterator],这也就解释了为什么通过for...of默认迭代不了对象的原因。
-
 
 ```js
 let obj = {
@@ -42,8 +40,6 @@ obj[Symbol.iterator] = function(){
   // console.log(values) //[1,2,3]
   // 用来遍历values的值  values[0]、 values[1]、 values[2]
   let index = 0;
-
-
 
   return {
       next(){

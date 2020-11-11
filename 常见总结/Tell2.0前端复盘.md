@@ -2,7 +2,7 @@
 
 ## 基础
 
-### mpvue 和 megalo 开发的生命周期还不太熟悉：
+### mpvue 和 megalo 开发的生命周期还不太熟悉
 
 ```javascript
     beforeCreate

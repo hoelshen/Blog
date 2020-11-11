@@ -1,5 +1,6 @@
+# es6 单例
 
-
+## 书写
 
 ```js
 class Singleton {

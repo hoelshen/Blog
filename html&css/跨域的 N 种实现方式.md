@@ -181,6 +181,10 @@ Jsonp的执行过程如下：
     当我们发的预处理请求并指示原始请求是否安全，如果指定原始请求时安全的，则它将允许原始请求。否则拒接。
 
 
+
+options：与head类似，是客户端用于查看服务器的性能 。JavaScript的XMLHttpRequest对象进行CORS跨域资源共享时，就是使用OPTIONS方法发送嗅探请求，以判断是否有对指定资源的访问权限
+
+
 ![OPTIONS](https://user-gold-cdn.xitu.io/2019/8/24/16cc43b86c12667c?w=1640&h=1272&f=png&s=30057)
 
 ``` js

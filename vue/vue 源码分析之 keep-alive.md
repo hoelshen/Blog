@@ -410,3 +410,33 @@ lru.push(3);
 lru.get(2);
 console.log("lru", lru)
 ```
+
+完整版
+
+```js
+// leetcode
+function Lru(capacity){
+    this.max = capacity
+    this.cache = new Map();
+
+    this.put = function(key,value){
+        const cache = this.cache
+        if (cache.has(key)) cache.delete(key)
+        if(cache.size == this.max) cache.delete(cache.keys().next().value)
+        cache.set(key, value)
+    }
+
+    this.get = function(key){
+        const cache = this.cache
+        if(cache.has(key)){
+            const value = cache.get(key);
+            cache.delete(key)
+            cache.set(key, value);
+            return value
+        } else {
+            return -1
+        }
+    }
+}
+
+```

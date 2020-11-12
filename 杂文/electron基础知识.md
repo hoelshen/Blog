@@ -4,17 +4,19 @@
 
 分发等同于打包
 
+```JS
 electron-forage package 只是打包一个目录到out目录下， 一般用来调试
 electron-forage make 
+```
+
 参数 —arch  
 —platform 参数指定系统结构和平台，到那时需要注意的是只能打包你当前机器的平台包
 
 * electron-packager；
 * electron-builder；
 
-
 electron-packager <sourcedir> <appname> <platform> <architecture> <electron version> <optional options>
-* 
+
 * sourcedir：项目所在路径
 * appname：应用名称
 * platform：确定了你要构建哪个平台的应用（Windows、Mac 还是 Linux）
@@ -40,4 +42,3 @@ asar属于一种将多个文件打包合并的文件, 类似于 Linux 中的 tar
 * .asar 格式能加快 require 访问的速度. 而.asar 只需要根据文件路径获取到文件的便宜位置 offset 以及文件长度 size,就可以直接从其中获取文件的具体信息. 一来只需要保持一个文件的读状态,无需同时读取多个文件,二来还能加快其访问速度.
 
 * 引入.asar 文件,能够隐藏项目开发的源代码.asar 属于无压缩无解密的归档类型,有意解包者能够轻松导出其中的内容
-

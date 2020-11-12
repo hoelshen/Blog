@@ -4,12 +4,12 @@
 
 ## 第一次分发
 
-先执行npm run precompile预编译部分库代码
-再执行npm run dev，生成第一次代码（如果是mac的电脑，则执行npm run mac_dev）
-再执行npm run build-pack，生成activity-builder-win32-x64目录
-再执行asar pack src src.asar
-在执行asar pack node_modules node_modules.asar
-然后复制node_modules.asar和src.asar到activity-builder-win32-x64/resource目录下
+先执行 npm run precompile预编译部分库代码
+再执行 npm run dev，生成第一次代码（如果是mac的电脑，则执行npm run mac_dev）
+再执行 npm run build-pack，生成activity-builder-win32-x64目录
+再执行 asar pack src src.asar
+在执行 asar pack node_modules node_modules.asar
+然后复制 node_modules.asar和src.asar到 activity-builder-win32-x64/resource目录下
 
 最后可以压缩activity-builder-win32-x64直接分发
 
@@ -17,14 +17,14 @@
 
 只要node_modules没有改动，可以不需要执行asar pack node_modules node_modules.asar生成node_modules.asar文件
 
-只需执行asar pack src src.asar生成src.asar文件
+只需执行 asar pack src src.asar 生成 src.asar 文件
 
 然后用XSHEEL登录内网服务器172.16.187.147
 账户：root
 密码：meizu.com
 目录：/home/meizu/game-open/update-server
 
-把src.asar复制到（如果需要更新node_modules.asar也一样复制到）/home/update-server/update目录
+把 src.asar 复制到（如果需要更新node_modules.asar也一样复制到）/home/update-server/update目录
 
 注意：（/home/update-server/dev）是测试时使用的路径 （/home/update-server/update）是正式发布使用的路径
 

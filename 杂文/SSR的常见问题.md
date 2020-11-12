@@ -275,7 +275,7 @@ entry-server.js服务端部分：
  })
  //http请求处理
  server.get('*', (req, res) => {
-  //根据url获取缓存页面    
+  //根据url获取缓存页面
   const hit = microCache.get(req.url)
   //如果有缓存则直接返回缓存数据
   if (hit) {

@@ -15,7 +15,7 @@ function asyncFunc(generator) {
   // data为第一次执行之后的返回结果，用于传给第二次执行
   const next = (data) => {
   let { value, done } = iterator.next(data); // 第二次执行，并接收第一次的请求结果 data
-    
+
     if (done) return; // 执行完毕(到第三次)直接返回
     // 第一次执行next时，yield返回的 promise实例 赋值给了 value
     value.then(data => {

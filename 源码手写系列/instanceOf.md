@@ -20,16 +20,18 @@ function myInstanceOf(left, right){
 
 接着 我们 看一下 下面的例子
 
+```JS
 [] instanceof Array; // true
 {} instanceof Object;// true
 newDate() instanceof Date;// true
- 
+
 function Person(){};
 newPerson() instanceof Person;
- 
+
 [] instanceof Object; // true
 newDate() instanceof Object;// true
 newPerson instanceof Object;// true
+```
 
 虽然 instanceof 能够判断出 [ ] 是Array的实例，但它认为 [ ] 也是Object的实例，为什么呢？
 

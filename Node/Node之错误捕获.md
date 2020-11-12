@@ -48,3 +48,14 @@ memwatch.on('leak', function(info) {
    else console.error('Wrote snapshot: ' + file);
   });
 });
+
+
+## cpu 负载检测
+
+// /app/lib/cpu.js
+const os = require('os');
+// cpu核心数
+const length = os.cpus().length;
+// 单核CPU的平均负载
+os.loadavg().map(load => load / length);
+

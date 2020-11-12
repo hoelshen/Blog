@@ -55,11 +55,11 @@ export default Menu;
 
 下面介绍一下原理
 
-整体思路是这样的，遍历所有的css文件中的selector选择器，然后去所有js代码中匹配，如果选择器没有在代码出现过，则认为该选择器是无用代码。
+整体思路是这样的，遍历所有的 css 文件中的 selector 选择器，然后去所有 js 代码中匹配，如果选择器没有在代码出现过，则认为该选择器是无用代码。
 
 首先面临的问题是，如何优雅的遍历所有的选择器呢？难道要用正则表达式很苦逼的去匹配分割吗？
 
-abel是js世界的福星，其实css世界也有利器，那就是postCss。
+babel 是 js 世界的福星，其实 css 世界也有利器，那就是postCss。
 
 PostCss 本质上是一个平台.
 
@@ -68,7 +68,7 @@ PostCSS 提供了一个解析器，它能够将 CSS 解析成AST抽象语法树�
 
 主要流程：
 
-插件监听webapck编译完成事件，webpack编译完成之后，从compilation中找出所有的css文件和js文件
+插件监听webapck编译完成事件，webpack编译完成之后，从 compilation 中找出所有的css文件和js文件
 
 
 ```js

@@ -157,3 +157,17 @@ function registerAction(store, type, handler, local) {
     })
 }
 ```
+
+如果我们去访问state，
+
+```js
+get state(){
+  return this._vm_data.$$data
+}
+```
+
+
+
+
+
+

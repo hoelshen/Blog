@@ -170,5 +170,35 @@ get state(){
 api
 
 
+```js
+beforeCreate() {
+  if (isDef(this.$options.router)) {
+    // ...
+    this._router = this.$options.router
+    this._router.init(this)
+    // ...
+  }
+}  
+```
 
+matcher 相关的实现都在 src/create-matcher.js 中，我们先来看一下 matcher 的数据结构：
 
+```js
+export type Matcher = {
+  match: (raw: RawLocation, current?: Route, redirectedFrom?: Location) => Route;
+  addRoutes: (routes: Array<RouteConfig>) => void;
+};
+```
+
+Matcher 返回了 2 个方法，match 和 addRoutes，在上一节我们接触到了 match 方法，顾名思义它是做匹配，那么匹配的是什么，在介绍之前，我们先了解路由中重要的 2 个概念，Loaction 和 Route，它们的数据结构定义在 flow/declarations.js 中。
+
+```js
+export function getHash(){
+  const href = window.location.href;
+  const index = href.indexOf('#')
+  return index === -1 ? '' : href.slice(index +1)
+
+}
+```
+
+这里不能采用 window.location.hash 因为火狐有 bug

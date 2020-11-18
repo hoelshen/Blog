@@ -15,16 +15,19 @@ var index = logA();
 
 export default index;
 
+
+```
+
+```js
 <script type = "module" >
     import index from './index.js'
 console.log('logA: ', index); <
-/script>
+</script>
 ```
-
 ## CommonJs
 
 ``` js
-For the browser
+// For the browser
 # compile to a < script > containing a self - executing
 function('iife')
 $ rollup main.js--flie bundle.js--format iife
@@ -94,6 +97,3 @@ Use webpack for apps, and Rollup for libraries
 ## 参考文献
 
 [](https://juejin.im/post/6844903924776828942)
-
-
-

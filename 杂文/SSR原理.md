@@ -41,8 +41,8 @@ ssr 服务端请求不带 cookie, 需要手动拿到浏览器的 cookie 传给�
 
 ssr 要求dom 结构规范, 因为浏览器会自动给 html 添加一些结构比如 tbody,但是客户端进行混淆服务端放回的 html 时,不会添加这些标签,导致混淆后的 html 和浏览器渲染的 html 不匹配.
 
+## 开发流程
 
-## 开发流程： 
 ```JS
 //webpack.config.server.js
   target: 'node',
@@ -64,7 +64,6 @@ VueServerPlugin 插件能够帮我们不生成 script 脚本，而是生成 json
 第一、server.js的作用： 是node服务器启动的文件
 
 isDev 判断开发和生产
-
 
 处理服务端渲染
 
@@ -115,8 +114,7 @@ inject 设置为 false ， 因为 vue 会自动诸如一些要符合 vue 的东�
 
 clientmanifest包含的是js和css的文件名、路径等信息，不是内容信息。
 
-我们通过 axios 拿到相关的 manifest.json, 我们需要在 webpack.client.json 里面引入
-VueClientPlugin
+我们通过 axios 拿到相关的 manifest.json, 我们需要在 webpack.client.json 里面引入 VueClientPlugin
 
 ```js
  const clientManifestResp = await axios.get(
@@ -180,12 +178,35 @@ module.exports = router
 
 我们采用nodemon 自动重启服务
 
-concurrently 启动两个服务   "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+concurrently 启动两个服务
+
+```js
+   "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+```
 
 vue-meta 设置我们服务端的元信息
 
 ![生产环境](https://tva1.sinaimg.cn/large/0081Kckwgy1gkbancwtjaj32180sqtdz.jpg)
 
+## 后端登录接口实现以及 session 的使用
+
+前端 Node 引入  Koa-session 生成客户状态机制
+
+当浏览器访问服务器并发送第一次请求时，服务器端会创建一个session对象，生成一个类似于key,value的键值对， 然后将key(cookie)返回到浏览器(客户)端，浏览器下次再访问时，携带key(cookie)，找到对应的session(value)。 客户的信息都保存在session中
+
+```js
+const KoaSeesion = require('koa-session')
+```
 
 
+
+节点更新
+
+入口 优化
+
+判断组件更新是否可以优化
+
+根据节点类型分发处理
+
+根据expirationTime 等信息判断是否可以跳过
 

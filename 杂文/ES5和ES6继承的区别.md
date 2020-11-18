@@ -6,7 +6,7 @@
 
 ## ES6 的继承
 
-先创建父类实例 this 通过class、extends、super关键字定义子类，并改变 this 指向,
+先创建父类实例 this 通过 class、extends、super 关键字定义子类，并改变 this 指向,
 super 本身是指向父类的构造函数但做函数调用后返回的是子类的实例，
 实际上做了父类.prototype.constructor.call(this)，
 做对象调用时指向父类.prototype,从而实现继承。
@@ -18,9 +18,9 @@ function Super() {}
 function Sub() {}
 Sub.prototype = new Super();
 Sub.prototype.constructor = Sub;
- 
+
 var sub = new Sub();
- 
+
 Sub.prototype.constructor === Sub; // ② true
 sub.constructor === Sub; // ④ true
 sub.__proto__ === Sub.prototype; // ⑤ true

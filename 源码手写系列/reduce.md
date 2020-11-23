@@ -39,3 +39,34 @@ Array.prototype.reduce = function(func, initState){
 forEach 方法是将数组中的每一个值取出做一些程序员想让他们做的事情
 map 方法 是将数组中的每一个值放入一个方法中做一些程序员想让他们做的事情后返回一个新的数组
 reduce 方法 将数组中的每一个值与前面的被返回相加的总和(初试值为数组的第一个值或者initialValue)
+
+compose  
+主要用于执行一连串不定长度的任务（方法）
+compose 方法的参数是函数数组，返回的也是一个函数。
+compose 方法的参数是任意长度的，所有的参数都是函数， 执行方向是自右向左的，因此初始函数一定要放在参数的最右面
+
+```js
+const compose = function(...args){
+  let length = args.length;
+  let count = length -1;
+  let result
+  return function f1(...args){
+    result = args[count].apply(this, arg1)
+    if(count <= 0){
+      count =  length -1;
+      return result
+    }
+    count --
+    return f1.call(null, result)
+  }
+}
+
+
+```
+
+
+
+
+
+
+

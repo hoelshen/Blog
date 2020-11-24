@@ -67,6 +67,66 @@ return true // 如果不为空，则会执行到这一步，返回true
 
 隐式装箱当读取一个基本类型值时，后台会创建一个该基本类型所对应的基本包装类型对象。
 
+类型的判断
+使用 Object.prototype.toString 判断数据类型
+
+```js
+const type = obj => {
+    var toString = object.prototype.toString;
+    var map = {
+        '[object Array]': 'array'
+        '[object Object]': 'object'
+    };
+    return map[toString.call(obj)];
+}
+```
+
+typeof 可以区分基础数据类型， 但是没办法判断对象 object
+
+```js
+console.log(typeof function () {});//function
+
+console.log(typeof null);//object
+
+console.log(typeof {});//object
+
+console.log(typeof []);//object
+```
+
+instanceof：
+
+检测一个引用数据类型属于的类,检测构造函数的 prototype 属性是否出现在某个实例对象的原型链，要注意，是检测引用数据类型，基础数据类型不能检测（引用数据类型也都是Object的子类）：
+
+```js
+console.log(1 instanceof Number);//false
+
+console.log('s' instanceof String);//false
+
+console.log(true instanceof Boolean);//false
+
+console.log(Function instanceof Function);//true
+
+console.log(Function instanceof Object);//true
+
+console.log([] instanceof Array);//true
+
+console.log([] instanceof Object);//true
+
+console.log({} instanceof Object);//true
+
+function User() {};
+
+let user = new User();
+
+console.log(user instanceof User);//true
+```
+
+* 函数参数为基本数据类型时， 函数体内复制了一份参数值，任何操作都不会影响原参数的实际值
+
+* 函数参数是引用类型时， 当在函数体内修改这个值的某个属性值时，将会对原来的参数进行修改
+
+* 函数参数是引用类型时， 如果直接修改这个值的引用地址， 则相当于在函数体内新创建了一个引用，任何操作都不会影响愿参数的实际值
+
 
 
 

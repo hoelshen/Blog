@@ -87,9 +87,147 @@ block tree 是一个将模板基于动态节点指令切割的嵌套区块， �
 在执行app.mount 的时候， 不需要传入渲染器render
 因为在执行createAppAPI 的时候 渲染器render 参数已经被保留下来了
 
-
 我们可以根据vnode 在去生成不同平台的代码
+
+1. 抽象
+2. 跨平台
 例如服务端渲染 小程序端  weex 端
 性能并不是vnode 的优势
 
 ![](https://tva1.sinaimg.cn/large/0081Kckwgy1gkzj8497i1j312a0eiado.jpg)
+
+创建入口的时候 
+
+```js
+const createApp = ((...args) => {
+  // 创建 app 对象
+  const app = ensureRenderer().createApp(...args)
+  const { mount } = app
+  // 重写 mount 方法
+  app.mount = (containerOrSelector) => {
+    // ...
+  }
+  return app
+})
+
+```
+
+创建 app 对象和重写 app.mount 方法。
+
+1.创建 app 对象
+ ensureRenderer().createApp() 来创建 app 对象 
+
+```js
+
+ const app = ensureRenderer().createApp(...args)
+```
+
+ ensureRenderer() 用来创建一个渲染器对象
+```js
+
+// 渲染相关的一些配置，比如更新属性的方法，操作 DOM 的方法
+
+const rendererOptions = {
+
+  patchProp,
+
+  ...nodeOps
+
+}
+
+let renderer
+
+// 延时创建渲染器，当用户只依赖响应式包的时候，可以通过 tree-shaking 移除核心渲染逻辑相关的代码
+
+function ensureRenderer() {
+
+  return renderer || (renderer = createRenderer(rendererOptions))
+
+}
+
+function createRenderer(options) {
+
+  return baseCreateRenderer(options)
+
+}
+
+function baseCreateRenderer(options) {
+
+  function render(vnode, container) {
+
+    // 组件渲染的核心逻辑
+
+  }
+
+  return {
+
+    render,
+
+    createApp: createAppAPI(render)
+
+  }
+
+}
+
+function createAppAPI(render) {
+
+  // createApp createApp 方法接受的两个参数：根组件的对象和 prop
+
+  return function createApp(rootComponent, rootProps = null) {
+
+    const app = {
+
+      _component: rootComponent,
+
+      _props: rootProps,
+
+      mount(rootContainer) {
+
+        // 创建根组件的 vnode
+
+        const vnode = createVNode(rootComponent, rootProps)
+
+        // 利用渲染器渲染 vnode
+
+        render(vnode, rootContainer)
+
+        app._container = rootContainer
+
+        return vnode.component.proxy
+
+      }
+
+    }
+
+    return app
+
+  }
+
+}
+```
+
+先用 ensureRenderer() 来延时创建渲染器，这样做的好处是当用户只依赖响应式包的时候，就不会创建渲染器，因此可以通过 tree-shaking 的方式移除核心渲染逻辑相关的代码。
+渲染器理解为包含平台渲染核心逻辑的 JavaScript 对象
+在 Vue.js 3.0 内部通过 createRenderer 创建一个渲染器，这个渲染器内部会有一个 createApp 方法，它是执行 createAppAPI 方法返回的函数，接受了 rootComponent 和 rootProps 两个参数，我们在应用层面执行 createApp(App) 方法时，会把 App 组件对象作为根组件传递给 rootComponent。这样，createApp 内部就创建了一个 app 对象，它会提供 mount 方法，这个方法是用来挂载组件的。
+
+
+2. 重写 app.mount 方法
+
+```js
+mount(rootContainer) {
+
+  // 创建根组件的 vnode
+
+  const vnode = createVNode(rootComponent, rootProps)
+
+  // 利用渲染器渲染 vnode
+
+  render(vnode, rootContainer)
+
+  app._container = rootContainer
+
+  return vnode.component.proxy
+
+}
+
+```

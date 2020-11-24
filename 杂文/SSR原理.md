@@ -1,6 +1,7 @@
 # SSR 原理
 
 ## vue ssr 使用
+
 SPA应用采用的是客户端渲染，DOM节点要等待JS文件加载完毕后才会生成，所以就浮现了以上几个问题。
 
 * 内容到达时间(time-to-content)
@@ -14,7 +15,7 @@ SPA应用采用的是客户端渲染，DOM节点要等待JS文件加载完毕后
 
 ## 什么是预渲染（Prerender）
 
-无需使用web 服务器实时动态编译 HTML，而是使用预渲染方式，在构建时 (build time) 简单地生成针对特定路由的静态HTML 文件。
+无需使用 web 服务器实时动态编译 HTML，而是使用预渲染方式，在构建时 (build time) 简单地生成针对特定路由的静态 HTML 文件。
 
 如果项目中使用 webpack，你可以使用 prerender-spa-plugin 轻松地添加预渲染，后面将会具体实现。
 

@@ -74,3 +74,69 @@ function generatorCalc(){
 
   return _fn
 }
+
+
+const promise = new Promise((resolve, reject)=> {
+  setTimeout(()=>{
+    resolve('lucas')
+  }, 2000)
+})
+
+promise.then(null)
+  .then(data=> {
+    console.log(data)
+  });
+
+
+// Thenable在callback之前抛出异常
+// Promise rejects
+var thenable = { then: function(resolve) {
+  throw new TypeError("Throwing");
+  resolve("Resolving");
+}};
+
+var p2 = Promise.resolve(thenable);
+p2.then(function(v) {
+  // 不会被调用
+}, function(e) {
+  console.log(e); // TypeError: Throwing
+});
+
+// Thenable在callback之后抛出异常
+// Promise resolves
+var thenable = { then: function(resolve) {
+  resolve("Resolving");
+  throw new TypeError("Throwing");
+}};
+
+var p3 = Promise.resolve(thenable);
+p3.then(function(v) {
+  console.log(v); // 输出"Resolving"
+}, function(e) {
+  // 不会被调用
+});
+
+
+
+var sum = (A,B,C,D)=>{
+  var target = 0;
+  var hashMap =  {};
+  count = 0;
+  for(let a of A){
+    for(let b of B){
+      hashMap[a+b] = hashMap.get(a+b, 0)+1
+    }
+  }
+
+  for(let c of C){
+    for(let d of D){
+      s = -(c+d)
+      if(s in hashMap);
+      count += hashMap[s]
+    }
+  }
+
+  return count
+}
+var valu = sum([1,2],[-2,-1], [-1, 2], [0,2])
+console.log('sum', value)

@@ -22,7 +22,6 @@ BFF 层
 对用户侧提供 HTTP 服务
 使用后端 RPC 服务
 
-
 module.exports和exports一开始都是一个空对象{}，实际上，这两个对象指向同一块内存。这也就是说module.exports和exports是等价的（前提是：不去改变它们指向的内存地址）。
 例如：
 exports.age = 18和module.exports.age = 18，这两种写法是一致的（都相当于给最初的空对象{}添加了一个属性，通过require得到的就是{age: 18}）。

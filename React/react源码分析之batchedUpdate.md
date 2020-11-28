@@ -108,3 +108,9 @@ export {
 ```
 
 异步任务是会交给 scheduler 来做，而这个 callback 就是交给 scheduler 的回调，回调里面其实就是 work 本身.
+
+在组件中调用setState， react 都会将这个组件标记为dirty。 再一次事件循环结束后，Reat回走所所有被标记为dirty 的组件，并对它们重新渲染。
+
+
+
+

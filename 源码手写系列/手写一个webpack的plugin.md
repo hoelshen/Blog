@@ -34,13 +34,13 @@ compilation 也是继承自 Tapable 类。有着父类相同的特性和方法�
   initHooks() {
     // 配置钩子
     this.hooks = {
-        entryOption: new SyncHook(),
-        compile: new SyncHook(),
-        afterCompile: new SyncHook(),
-        afterPlugins: new SyncHook(),
-        run: new SyncHook(),
-        emit: new SyncHook(),
-        done: new SyncHook()
+        entryOption: new SyncHook(), //  在读取entry配置后就执行某项工作。
+        compile: new SyncHook(),  //
+        afterCompile: new SyncHook(), //
+        afterPlugins: new SyncHook(), //
+        run: new SyncHook(), //
+        emit: new SyncHook(), //
+        done: new SyncHook() //
     }
   }
   ```
@@ -116,3 +116,12 @@ module.exports = myWebpackPlugin;
 ```
 
 
+entryOption 的SyncBailHook 类型的hook， 会监听入口配置信息执行完毕的事件，并在该事件触发时执行插入的自定义操作
+
+如果希望在生成的资源输出之前执行某个功能， 则可以通过下面的代码来实现。
+
+```js
+compiler.hooks.emit.tap(...)
+```
+
+这是名为 emit 的 AsyncSeriesHook 类型的 hook(钩子)， 会监听资源输出前的时间节点。并基于此节点执行插入的自定义操作

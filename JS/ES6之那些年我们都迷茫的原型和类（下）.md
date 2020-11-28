@@ -96,7 +96,7 @@ x 和 y 都是实例对象point 自身的属性（因为定义在 this 变量上
 ### class 实现原理
 
 ES5的继承，实质是先创造子类的实例对象 this， 然后再将父类的方法添加到 this 上面 Parent.apply(this),
-es6 的继承则是，将父类实例对象的属性和犯法，驾到this上面（所以必须先调用super方法）， 然后在用子类的构造函数修改this.
+es6 的继承则是，将父类实例对象的属性和方法，加到this上面（所以必须先调用super方法）， 然后在用子类的构造函数修改this.
 super在调用之后， 内部的 this 指向的是 child，
 
 ``` js

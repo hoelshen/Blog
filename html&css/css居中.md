@@ -113,3 +113,15 @@
       background-color: blue;
     }
 ```
+
+## 方案六: grid
+
+```css
+.parent{
+  display: grid
+}
+.child{
+align-self: center;
+justify-self: center
+}
+```

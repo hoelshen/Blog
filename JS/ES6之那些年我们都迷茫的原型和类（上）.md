@@ -406,10 +406,10 @@ function Animal(name) {
 Animal.prototype.species = 'animal'
 
 function Leo(name) {
-    Animal.call(this, name)
+    Animal.call(this, name)  // 1、
 }
-Leo.prototype = new Animal()
-Leo.prototype.constructor = Leo
+Leo.prototype = new Animal()  // 2
+Leo.prototype.constructor = Leo  // 3、
 
 //既然不能直接在两者之间画等号, 就造一个过渡纽带呗. 能够关联起原型链的不只有 new,  Object.create() 也是可以的.
 
@@ -451,10 +451,12 @@ Student.prototype.selfIntroduce = function() {
     console.log('my ' + this.name + ' grade ' + this.grade)
 }
 
-function inheritPrototype(subType, superType) {
-    var protoType = Object.create(superType.prototype);
-    protoType.constructor = subType;
-    subType.prototype = protoType
+function inheritPrototype(Child, Parent) {
+    // 继承原型上的属性
+    Child.prototype  = Object.create(Parent.prototype);
+
+    // 修复 constructor
+    Child.prototype.constructor = Child;
 
 }
 

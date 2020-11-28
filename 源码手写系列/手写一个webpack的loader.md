@@ -1,7 +1,8 @@
 # 手写一个 webpack loader
-
+  第一个执行的loader接收源文件中的内容作为参数， 其他loader 接收前一个执行的loader的返回值作为参数。 最后执行的loader 会返回最终结果。
   我们知道loader 能够将资源变成源代码的，在 js 中通过 import 引入 .loader 的作用就是将不同形式的资源处理成一段通用的 js 可执行代码，执行的结果就是导出一个模块，因为运行在 node 端，用的是 commonjs 规范，比如**module.exports={...}**
 
+loader 本质就是函数， 一个基于CommonJS 规范的函数模块， 它接收内容， 并返回新的内容。
 ## 开发 loader 原则
 
 ## 开始
@@ -19,7 +20,14 @@ const config = {
   },
   module: {
     rules: [
-      { test: /\.txt$/, use: 'raw-loader' }
+      { test: /\.txt$/,
+      options:{
+        "plugins": [
+          "dynamic-import-webpack"
+        ]
+      },
+      use: 'raw-loader'
+      }
     ]
   }
 };
@@ -56,7 +64,7 @@ module.exports = config;
 
 ### 使用 Loader 实用工具
 
-请好好利用 loader-utils 包，它提供了很多有用的工具，最常用的一个就是获取传入 loader 的 options。除了 loader-utils 之外包还有 schema-utils 包，我们可以用 schema-utils 提供的工具，获取用于校验 options 的 JSON Schema 常量，从而校验 loader options。下面给出的例子简要地结合了上面提到的两个工具包：
+利用 loader-utils 包，它提供了很多有用的工具，最常用的一个就是获取传入 loader 的 options。除了 loader-utils 之外包还有 schema-utils 包，我们可以用 schema-utils 提供的工具，获取用于校验 options 的 JSON Schema 常量，从而校验 loader options。下面给出的例子简要地结合了上面提到的两个工具包：
 
 ```js
 import { getOptions } from 'loader-utils';
@@ -155,3 +163,21 @@ module.exports = function (source) {
 }
 
 ```
+
+对loader 处理过程中的错误进行捕获， 或者想导出sourceMap 等信息,需要用到loader 中的 this.callback来返回内容发。
+
+* error: 当 loader 出错时向外跑出一个error
+* content: 经过loader编译后需要导出的内容
+* sourceMap: 为方便调试编译后的source map
+* ast: 本次编译生成的抽象语法树， 之后执行的 loader 可以直接使用 ast， 进而省去重复生成 ast 的过程
+
+```js
+export default function(source) {
+   var options = loaderUtils.getOptions(this) || {}; //这里拿到 webpack.config.js 的 loader 配置
+  
+    this.callback(null, header + "\n" + source);
+
+};
+```
+
+这里的 this 指向的是一个叫 loaderContext的loader-runner 特有对象。

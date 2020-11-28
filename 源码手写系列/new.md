@@ -18,10 +18,14 @@ Foo.call(o);
 
 ```js
 const myNew = function(){
+  // 取出args 数组的第一个参数， 即目标构造函数
   let Constructor = Array.prototype.shift.call(arguments);
+  // 创建一个空对象， 且使这个对象继承构造函数的 prototype 属性
   let obj = {};
-  obj.__proto__ = Constructor.prototype;
 
+  // 执行构造函数，得到构造函数返回结果
+  obj.__proto__ = Constructor.prototype;
+  // 这里使用 apply 使构造函数内的 this 指向obj
   let res = Constructor.apply(obj, arguments);
 
   return res instanceOf Object ? res : obj;

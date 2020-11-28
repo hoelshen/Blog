@@ -74,3 +74,16 @@ Object.prototype.toString.call(newRegExp()) ; // [object RegExp]
 Object.prototype.toString.call(newError()) ; // [object Error]
 Object.prototype.toString.call(document) ; // [object HTMLDocument]
 Object.prototype.toString.call(window) ; //[object global] window 是全局对象 global 的引用
+
+## hasOwnProperty
+
+hasOwnProperty() 方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性（也就是，是否有指定的键）。
+
+```js
+o = new Object();
+o.hasOwnProperty('prop'); // 返回 false
+o.prop = 'exists';
+o.hasOwnProperty('prop'); // 返回 true
+delete o.prop;
+o.hasOwnProperty('prop'); // 返回 false
+```

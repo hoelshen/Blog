@@ -1,5 +1,5 @@
 
-
+# 基于Generator函数实现async
 
 ```js
 function readFile(file) {
@@ -26,7 +26,7 @@ function asyncFunc(generator) {
 };
 
 asyncFunc(function* () {
- // 生成器函数：控制代码一步步执行 
+ // 生成器函数：控制代码一步步执行
   let data = yield readFile('a.js'); // 等这一步骤执行执行成功之后，再往下走，没执行完的时候，直接返回
   data = yield readFile(data + 'b.js');
   return data;

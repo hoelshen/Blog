@@ -330,8 +330,7 @@ setInterval(checkHash, 2000);
 <
 /script>
 //locationNameB
-<
-script >
+<script >
 
     function callBack() {
         try {
@@ -346,8 +345,7 @@ script >
         }
     }
 
-    <
-    /script>
+    <script、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、>
 
     //locationNameC
     <
@@ -383,7 +381,7 @@ ifr.onload = function() {
             console.log('收到数据:', data);
         }
         ifr.src = "http://127.0.0.1:5502/window.nameC.html";
-    } </script>  
+    } </script、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、>  
 
     //http://127.0.0.1:5501/window.nameB.html
     <script >

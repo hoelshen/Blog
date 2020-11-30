@@ -68,11 +68,15 @@ function c2(name, age) {
 // 第一步:创建父类型原型的一个副本
 // 第二步:为创建的副本添加 constructor 属性, 从而弥补因重写原型而失去的默认的 constructor 属性
 // 第三步:将新创建的对象(即副本)赋值给子类型的原型
-function inheritPrototype(superType, subType) {
-  const prototype = object(superType.prototype);
-  prototype.constructor = subType;
-  subType.prototype = prototype;
+function inheritPrototype(Child, Parent) {
+    // 继承原型上的属性
+    Child.prototype  = Object.create(Parent.prototype);
+
+    // 修复 constructor
+    Child.prototype.constructor = Child;
+
 }
+
 
 inheritPrototype(c1, c2);
 // c2的方法必须放在寄生继承之后

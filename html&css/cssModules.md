@@ -14,6 +14,7 @@
   It doesn’t really matter in the end (although shorter class names mean shorter stylesheets) because the point is that they are dynamically generated, unique, and mapped to the correct styles. 在使用 CSS 模块时，类名是动态生成的，唯一的，并准确对应到源文件中的各个类的样式。
 
 ## 为什么要 css 模块化
+
   css 的规则都是全局的，任何一个组件的样式规则， 都对整个页面有效。
 
 ** class 命名写长一点吧，降低冲突的几率

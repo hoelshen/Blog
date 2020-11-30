@@ -13,7 +13,7 @@ drag |  dragenter
 &nbsp; |  dragover
 &nbsp; |  dragleave
 &nbsp; |  drop
-dragend | 
+dragend |
 
 drag：在 drag source 被拖曳時會持續被觸發。
 dragover：當拖曳的 drag source 在 drop target 上方時會持續被觸發。

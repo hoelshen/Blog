@@ -164,7 +164,7 @@ module.exports = function (source) {
 
 ```
 
-对loader 处理过程中的错误进行捕获， 或者想导出sourceMap 等信息,需要用到loader 中的 this.callback来返回内容发。
+对 loader 处理过程中的错误进行捕获， 或者想导出sourceMap 等信息,需要用到loader 中的 this.callback来返回内容发。
 
 * error: 当 loader 出错时向外跑出一个error
 * content: 经过loader编译后需要导出的内容

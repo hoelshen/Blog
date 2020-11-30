@@ -44,12 +44,11 @@
     }
 ```
 
-
 ## 方案三： position + margin-top
+
     优点是兼容性不错
     缺点：需要提前知道子尺寸，margin-top: -(高度的一半); margin-left: -(宽度的一半);
-    
-  
+
 ``` css
 
     .parent {

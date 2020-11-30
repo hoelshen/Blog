@@ -162,7 +162,7 @@ this 通常指向一个对象  并不指向这个函数本身
 1. foo();   肺炎个模式，foo()最后会将this设置为全局对象。严格迷失下，这是为定义的行为，在访问bar属性时会出错—因此“global” 是为this.bar创建的值
 2. objj1.foo()  将this设置为对象obj1
 3. foo.call(obj2)   将this设置为对象obj2
-4. new foo()    将this设置为一个全新的空对象
+4. new foo()    将 this 设置为一个全新的空对象
 
 原型
 
@@ -216,3 +216,136 @@ document.getElement
 this关联的是对象原型机制， 这种机制是一个属性查找链，与寻找词法作用域变脸的方式类似， 但在原型中进行封装，即模拟（伪造）类和（所谓“原型化的”）继承，是对JavaScript的另一个重大误用
 
 [h5新增特性](https://www.notion.so/h5-59d12d68fb6f4928bf67115aa54278a0)
+
+
+JavaScript 中有两个机制可以『欺骗』词法作用域： eval(..) 和with.前者可以对一段包含一个或多个声明的『代码』字符串进行验算， 并借此来修改已经存在的词法作用域（在运行时）
+后者本质上是通过将一个对象的引用当做作用域来处理， 将对象的属性当做作用域中的标识符来处理，从而创建一个新的词法作用域（同样是在运行时）
+
+对象属性引用链中只有上一层或者说最后一层在调用位置中起作用
+
+```js
+function foo(){
+  console.log('this.a', this.a)
+}
+var obj2 = {
+  a: 42,
+  foo:foo
+}
+
+var obj1 = {
+  a: 2,
+  foo:foo
+}
+
+obj1.obj2.foo()
+```
+
+隐式绑定丢失 变为默认绑定
+
+```js
+function foo(){
+  console.log(this.a)
+}
+
+var obj = {
+  a:2,
+  foo: foo
+}
+
+var bar = obj.foo // 函数别名
+
+var a = 'oops, global'
+
+bar()  // oops, global
+
+```
+
+虽然bar 是obj.foo的一个引用， 但是实际上，他引用的是foo 函数本身，因此此时的bar（）其实是一个不带任何修饰的函数调用， 因此应用了默认绑定。
+
+```js
+function foo(){
+  console.log(this.a)
+}
+
+function doFoo(fn){
+
+  fn()
+}
+
+var a = 'oops, global'
+
+var obj = {
+  a:2,
+  foo: foo
+}
+
+doFoo(obj.foo)
+```
+
+参数传参其实就是一种隐士绑定
+
+显示绑定
+
+硬绑定的 bar 不可能在修改它的 this
+
+bind（）会返回一个硬编码的新函数， 它会把你指定的参数设置为this的上下文并调用原始函数。
+
+```js
+function bind(fn, obj){
+  return function(){
+    return fn.apply(obj, arguments)
+  }
+}
+
+```
+
+new 绑定
+
+当 Number 在 new 表达式中被调用时， 它是一个构造函数： 它会初始化新创建的对象
+
+优先级 
+
+显式绑定 > 隐式绑定 > 默认绑定
+
+new绑定 > 隐式绑定 > 默认绑定
+
+```js
+function foo(){
+  // 返回一个箭头函数
+  return (a)=> {
+    // this 继承自foo（）
+    console.log(this.a)
+  }
+
+}
+
+
+var obj1 = {
+  a: 2
+}
+
+var obj2 = {
+  a: 3
+}
+
+var bar = foo.call(obj1)
+
+bar.call(obj2) // 2, 不是 3
+
+```
+
+foo() 内部创建的箭头函数会捕获调用时的foo()的this。 由于foo() 的this 绑定到obj1， bar(引用箭头函数) 的this 也会绑定到obj1， 箭头函数的绑定无法被修改
+
+箭头函数的绑定无法被修改（new 也不行！）
+
+```js
+function NothingSpecial(){
+  console.log('Dont mind me')
+}
+
+var a = new NothingSpecial();
+
+a;
+```
+
+new 会劫持所有普通函数并用构造对象的形式来调用

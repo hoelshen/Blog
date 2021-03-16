@@ -529,6 +529,20 @@ MyPromise.race = function(promises) {
       });
   });
 }
+
+MyPromise.allsettle = funciton() {
+  return new Promsie(reslove, reject) =>{
+
+  }
+}
+Promise.all() 和 romise.race() 都具有 短路特性
+
+Promise.all()： 如果参数中  promise 有一个失败（rejected），此实例回调失败（reject）
+
+Promise.race()：如果参数中某个promise解决或拒绝，返回的 promise就会解决或拒绝。
+
+
+
 ```
 
 

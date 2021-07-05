@@ -29,3 +29,20 @@ map() -- 在被调用的数组基础上创建一个新数组，并对数组中�
 * forEach()允许回调函数更改当前的数组。map() 将返回一个新数组。
 
 行内元素(包括\<img>标签)，为了保证不同标签的垂直对齐和题主这种问题，都会考虑是否加上合适的vertical-align，一般取值为 middle
+
+
+## 原理
+
+```js
+function map(arr, fn){ // 接收一个函数和数组，应用函数到数组的每一项中，然后返回同样大小的数组
+    let idx  = 0;
+    let len  = arr.length;
+    let result  = new Array(len);  // 一个与输入数组同样长度的数组
+
+    while(++idx < len>){
+        result[index] = fn(array[idx], idx, arr)
+    }
+    return result;
+}
+
+```

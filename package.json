@@ -7,7 +7,9 @@
     "gitbook-plugin-emphasize": "^1.1.0",
     "gitbook-plugin-tbfed-pagefooter": "^0.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.3.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "gitbook build",
@@ -22,5 +24,10 @@
   "bugs": {
     "url": "https://github.com/JH46666/Blog/issues"
   },
-  "homepage": "https://github.com/JH46666/Blog#readme"
+  "homepage": "https://github.com/JH46666/Blog#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }

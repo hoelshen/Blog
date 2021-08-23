@@ -1,6 +1,6 @@
 {
   "name": "blog",
-  "version": "1.0.0",
+  "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
   "description": "## 自己平时写的文章，会同步更新到掘金上面",
   "main": "vue2.0.js",
   "dependencies": {
@@ -8,7 +8,9 @@
     "gitbook-plugin-tbfed-pagefooter": "^0.0.1"
   },
   "devDependencies": {
-    "cz-conventional-changelog": "^3.3.0"
+    "conventional-changelog-cli": "^2.1.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^7.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -19,7 +21,7 @@
     "type": "git",
     "url": "git+https://github.com/JH46666/Blog.git"
   },
-  "author": "sjh",
+  "author": "HoelShen",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/JH46666/Blog/issues"
@@ -28,6 +30,11 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }
 }

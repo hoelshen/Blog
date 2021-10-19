@@ -162,6 +162,9 @@ export default function(){
 export 语句输出的接口， 与其对应的值是动态绑定关系，即通过该接口，可以取到模块内部实时的值。
 CommonJS 模块输出的是值的缓存，不存在动态更新。
 
+export 语句不允许出现在if语句中，不能有条件导出或以任何方式动态导出
+
+无绑定导入最有可能被应用于创建 Polyfill 和 Shim
 
 ## CommonJS 规范的核心内容
   1. 通过 require 关键字引用模块

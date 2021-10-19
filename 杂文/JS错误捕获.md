@@ -35,7 +35,7 @@ window.addEventListener('error', msg, url, row, col, error) {
 
 ```js
 // 捕获全局 promise 错误
-window.addEventListener('unhandlerejection', function(e){
+window.addEventListener('unhandledrejection', function(e){
   e.preventDefault();
   console.log(e.reason)
   // 消化错误， 则需要显示返回true
@@ -57,3 +57,14 @@ Fundebug 的操作
 3. socket 图片 html2canvas
 4. session statck
 5. 容错 数据的时候 ajax navigator.sendBeacon('xx.php')
+
+
+
+
+在Node中，
+
+* unhandeleRejection 在一个事件循环中，当Promise被拒绝，并且没有提供任何处理程序的时候，触发该事件
+
+* rejectionHandled 在一个事件循环后，当Promise被拒绝时，若拒绝处理程序被调用，触发该事件
+
+

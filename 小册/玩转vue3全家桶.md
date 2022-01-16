@@ -16,6 +16,8 @@ react和vue的主要区别：
 
 * RFC 机制
 
+* [rfc](https://github.com/vuejs/rfcs)
+
 * 响应式系统 
 
 * 自定义渲染器
@@ -166,17 +168,86 @@ history模式
 因为 HTML5 标准发布，浏览器多了两个 API：pushState 和 replaceState。
 
 ```js
-
-
 window.addEventListener('popstate', fn)
 ```
 
 ## 调试
 
+[Vue devtool](https://devtools.vuejs.org/guide/faq.html#the-vue-devtools-don-t-show-up)
 ## jsx
 
+h 函数内部执行 createVNode，并返回虚拟 DOM，而 JSX 最终也是解析为 createVnode 执行。
+
+JSX 可以支持更动态的需求。而 template 则因为语法限制原因，不能够像 JSX 那样可以支持更动态的需求。
+
+JSX 相比于 template 还有一个优势，是可以在一个文件内返回多个组件，
+
+![](2022-01-14-23-32-07.png)
+
+比如在 p 标签上，使用 8 这个数字标记当前标签时，只有 props 是动态的。而在虚拟 DOM 计算 Diff 的过程中，可以忽略掉 class 和文本的计算，这也是 Vue 3 的虚拟 DOM 能够比 Vue 2 快的一个重要原因。
+
+一些 知识点总结 
+
+* [h函数](https://v3.cn.vuejs.org/api/global-api.html#h)
+* [element3](https://github.com/hug-sun/element3/blob/master/packages/element3/packages/timeline/Timeline.vue#L35)
+* [template explorer](https://vue-next-template-explorer.netlify.app/#eyJzcmMiOiI8ZGl2IGlkPVwiYXBwXCI+XG4gICAgPGRpdiBAY2xpY2s9XCIoKT0+Y29uc29sZS5sb2coeHgpXCIgIG5hbWU9XCJoZWxsb1wiPnt7bmFtZX19PC9kaXY+XG4gICAgPGgxID7mioDmnK/mkbjpsbw8L2gxPlxuICAgIDxwIDppZD1cIm5hbWVcIiBjbGFzcz1cImFwcFwiPuaegeWuouaXtumXtDwvcD5cbjwvZGl2PlxuIiwic3NyIjpmYWxzZSwib3B0aW9ucyI6eyJob2lzdFN0YXRpYyI6dHJ1ZSwiY2FjaGVIYW5kbGVycyI6dHJ1ZSwib3B0aW1pemVCaW5kaW5ncyI6ZmFsc2V9fQ==)
 ## TypeScript 
+
+把tapd的组件用ts重构一版
+
+1. vue3 写的 ts的组件能供vue2使用吗
+2. 市面上 有没有相关的 例如京东 小程序端的组件ui
+
+首先要讲到的进阶用法是泛型，泛型就是指有些函数的参数，你在定义的时候是不确定的类型，而返回值类型需要根据参数来确定。
+
+```ts
+function test<某种类型>(args:某种类型):某种类型{
+    return args
+}
+```
+
+```ts
+
+function getProperty<某种类型, 某种属性 extends keyof 某种类型>(o: 某种类型, name: 某种属性): 某种类型[某种属性] {
+    return o[name]
+}
+function getProperty<T, K extends keyof T>(o: T, name: K): T[K] {
+    return o[name]
+}
+```
 
 ## Vue
 
-## 
+## 开发中的权限系统
+
+那时候前后端不分家，整个应用的入口是后端控制模板的渲染。在模板渲染前，后端会直接判断路由的权限来决定是否跳转。登录的时候，后端只需要设置 setCookie 这个 header，之后浏览器会自动把 cookie 写入到我们的浏览器存起来，然后当前域名在发送请求的时候都会自动带上这个 cookie。
+
+可以把token理解为手动管理的cookie 
+
+可以用动态路由 来控制权限
+
+```js
+
+  addRoutes({ commit }, accessRoutes) {
+    // 添加动态路由，同时保存移除函数，将来如果需要重置路由可以用到它们
+    const removeRoutes = []
+    accessRoutes.forEach(route => {
+      const removeRoute = router.addRoute(route)
+      removeRoutes.push(removeRoute)
+    })
+    commit('SET_REMOVE_ROUTES', removeRoutes)
+  },
+
+```
+
+我们需要在 localStorage 中把静态路由和动态路由分开对待，在页面刷新的时候，通过 src/router/index.js 入口文件中的 routes 配置，从 localStorage 中获取完整的路由信息，并且新增到 vue-router 中，才能加载完整的路由。
+
+与新增路由对应，在页面重新设置权限的时候，我们需要用 router.removeRoute 来删除注册的路由，这也是上面的代码中我们还有一个 remoteRoutes 来管理动态路由的原因。
+
+首先，token 的过期时间认证是由后端来实现和完成的。如果登录状态过期，那么会有一个单独的报错信息，我们需要在接口拦截函数中，统一对接口的响应结果进行拦截。如果报错信息显示的是登录过期，我们需要清理所有的 token 和页面权限数据，并且跳转到登录页面。
+
+实现按钮级别的权限认证:
+1. 维护页面下需要控制权限的按钮权限标识，后台保存；
+2. 登录后，获取权限数据，将该用户的按钮权限数组存放到对应页面的路由信息里；
+3. 可编写v-auth的自定义指令（可以拿当前按钮标识去当前页面路由信息的按钮权限数组里去找，存在则显示，否则隐藏）；
+## vue3 中如何集成第三方框架

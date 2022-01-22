@@ -1,52 +1,53 @@
-## 
+##
+
 响应式数据是主动推送变化，虚拟 DOM 是被动计算数据的 Diff，一个推一个拉，它们看起来是两个方向的技术，但被 Vue 2 很好地融合在一起，采用的方式就是组件级别的划分。对于 Vue 2 来说，组件之间的变化，可以通过响应式来通知更新。组件内部的数据变化，则通过虚拟 DOM 去更新页面。这样就把响应式的监听器，控制在了组件级别，而虚拟 DOM 的量级，也控制在了组件的大小。
 
 在模板的书写上，除了 Vue 和 React 走出的 template 和 JSX 两个路线，还出现了 Svelte 这种框架，没有虚拟 DOM 的库，直接把模板编译成原生 DOM，几乎没有 Runtime，所有的逻辑都在 Compiler 层优化，算是另外一个极致。
 
 Vue 不需要 React 的 Fiber，因为更新系统中的 Watcher 控制在组件级。
 
-1. Vue3把虚拟Dom控制在组件级别，组件之间使用响应式，这就让Vue3的虚拟Dom不会过于庞大
-2. Vue3虚拟Dom的静态标记和自动缓存功能，让静态的节点和属性可以直接绕过Diff逻辑，也大大减少了虚拟Dom的Diff事件
+1. Vue3 把虚拟 Dom 控制在组件级别，组件之间使用响应式，这就让 Vue3 的虚拟 Dom 不会过于庞大
+2. Vue3 虚拟 Dom 的静态标记和自动缓存功能，让静态的节点和属性可以直接绕过 Diff 逻辑，也大大减少了虚拟 Dom 的 Diff 事件
 3. 时间切片也会带来额外的系统复杂性
 
-react和vue的主要区别：
-1 数据更新上：react 采用fiber架构，使用链表表示DOM结构可以在diff时随时中断和继续，利用requestIdleCallback在空闲时diff，防止数据量大diff时间长导致卡顿；vue采用响应式，一个组件对应一个观察者对象，数据变更触发dom diff，将dom diff控制在组件级别；
+react 和 vue 的主要区别：
+1 数据更新上：react 采用 fiber 架构，使用链表表示 DOM 结构可以在 diff 时随时中断和继续，利用 requestIdleCallback 在空闲时 diff，防止数据量大 diff 时间长导致卡顿；vue 采用响应式，一个组件对应一个观察者对象，数据变更触发 dom diff，将 dom diff 控制在组件级别；
 
 ## vue3 的新特性
 
-* RFC 机制
+- RFC 机制
 
-* [rfc](https://github.com/vuejs/rfcs)
+- [rfc](https://github.com/vuejs/rfcs)
 
-* 响应式系统 
+- 响应式系统
 
-* 自定义渲染器
+- 自定义渲染器
 
-* 使用最近流行的 monorepo 管理方式，响应式，编译和运行时全部独立
+- 使用最近流行的 monorepo 管理方式，响应式，编译和运行时全部独立
 
-* 平台无关渲染逻辑和浏览器渲染 API
+- 平台无关渲染逻辑和浏览器渲染 API
 
 ![monorepo架构](2022-01-09-16-25-29.png)
 
 ![拆开渲染逻辑](2022-01-09-16-27-12.png)
 
-* 全部模块使用ts重构
+- 全部模块使用 ts 重构
 
-* Composition API 组合语法
+- Composition API 组合语法
 
-关于composition api 的优势
+关于 composition api 的优势
 
-* 所有 API 都是 import 引入的（现在我们的例子还没有工程化，后续会加入）。用到的功能都 import 进来，对 Tree-shaking 很友好，我的例子里没用到功能，打包的时候会被清理掉 ，减小包的大小。
+- 所有 API 都是 import 引入的（现在我们的例子还没有工程化，后续会加入）。用到的功能都 import 进来，对 Tree-shaking 很友好，我的例子里没用到功能，打包的时候会被清理掉 ，减小包的大小。
 
-* 不再上下反复横跳，我们可以把一个功能模块的 methods、data 都放在一起书写，维护更轻松。
+- 不再上下反复横跳，我们可以把一个功能模块的 methods、data 都放在一起书写，维护更轻松。
 
-* 代码方便复用，可以把一个功能所有的 methods、data 封装在一个独立的函数里，复用代码非常容易。
+- 代码方便复用，可以把一个功能所有的 methods、data 封装在一个独立的函数里，复用代码非常容易。
 
-* Composotion API 新增的 return 等语句，在实际项目中使用
+- Composotion API 新增的 return 等语句，在实际项目中使用
 
 ![关于composition](2022-01-09-16-34-16.png)
 
-* 新的组件
+- 新的组件
 
 Vue 3 还内置了 Fragment、Teleport 和 Suspense 三个新组件。
 
@@ -104,23 +105,22 @@ Vue 3 的 reactive 函数可以把一个对象变成响应式数据，而 reacti
 利用对象的 get 和 set 函数来进行监听，这种响应式的实现方式，只能拦截某一个属性的修改，这也是 Vue 3 中 ref 这个 API 的实现。在下面的代码中，我们拦截了 count 的 value 属性，并且拦截了 set 操作，也能实现类似的功能。
 
 ```js
-let getDouble = n => n * 2
-let _value = 1
-double = getDouble(_value)
+let getDouble = (n) => n * 2;
+let _value = 1;
+double = getDouble(_value);
 
 let count = {
-    get value() {
-        return _value
-    },
-    set value(val) {
-        _value = val
-        double = getDouble(_value)
-
-    }
-}
-console.log(count.value, double)
-count.value = 2
-console.log(count.value, double)
+  get value() {
+    return _value;
+  },
+  set value(val) {
+    _value = val;
+    double = getDouble(_value);
+  },
+};
+console.log(count.value, double);
+count.value = 2;
+console.log(count.value, double);
 ```
 
 ![](2022-01-09-22-23-07.png)
@@ -130,9 +130,9 @@ console.log(count.value, double)
          setter” 实现的，我的认识是，一个是“初始化”时的行为，一个是“改变行为”。
 
 3. useXXX 为什么会这么灵活？
-像之前的 Composition API 我理解的是 Vue 的组织单位由 “组件” 变成 “数据” 了，
-现在组件在引入 useXXX，关注点在 XXX，至于 XXX 跟什么有联系，那是你的事情，在
-你自己的 useXXX 里去实现。
+   像之前的 Composition API 我理解的是 Vue 的组织单位由 “组件” 变成 “数据” 了，
+   现在组件在引入 useXXX，关注点在 XXX，至于 XXX 跟什么有联系，那是你的事情，在
+   你自己的 useXXX 里去实现。
 
 本节提到的 React Hooks 也有异曲同工的意思，Hooks 直接翻译成什么？“钩子”，用来
 做什么？“钩东西”，钩什么？那先说下这个东西出来之前有什么。
@@ -157,23 +157,24 @@ Vuex 的出现，让我们整个项目中的数据流动变得非常自然。数
 在 vue-router 中对应两个函数，分别是 createWebHashHistory 和 createWebHistory。
 ![](2022-01-13-22-41-46.png)
 
-hash模式
+hash 模式
 
 ```js
-window.addEventListener('hashchange', fn)
+window.addEventListener("hashchange", fn);
 ```
 
-history模式
+history 模式
 
 因为 HTML5 标准发布，浏览器多了两个 API：pushState 和 replaceState。
 
 ```js
-window.addEventListener('popstate', fn)
+window.addEventListener("popstate", fn);
 ```
 
 ## 调试
 
 [Vue devtool](https://devtools.vuejs.org/guide/faq.html#the-vue-devtools-don-t-show-up)
+
 ## jsx
 
 h 函数内部执行 createVNode，并返回虚拟 DOM，而 JSX 最终也是解析为 createVnode 执行。
@@ -186,33 +187,36 @@ JSX 相比于 template 还有一个优势，是可以在一个文件内返回多
 
 比如在 p 标签上，使用 8 这个数字标记当前标签时，只有 props 是动态的。而在虚拟 DOM 计算 Diff 的过程中，可以忽略掉 class 和文本的计算，这也是 Vue 3 的虚拟 DOM 能够比 Vue 2 快的一个重要原因。
 
-一些 知识点总结 
+一些 知识点总结
 
-* [h函数](https://v3.cn.vuejs.org/api/global-api.html#h)
-* [element3](https://github.com/hug-sun/element3/blob/master/packages/element3/packages/timeline/Timeline.vue#L35)
-* [template explorer](https://vue-next-template-explorer.netlify.app/#eyJzcmMiOiI8ZGl2IGlkPVwiYXBwXCI+XG4gICAgPGRpdiBAY2xpY2s9XCIoKT0+Y29uc29sZS5sb2coeHgpXCIgIG5hbWU9XCJoZWxsb1wiPnt7bmFtZX19PC9kaXY+XG4gICAgPGgxID7mioDmnK/mkbjpsbw8L2gxPlxuICAgIDxwIDppZD1cIm5hbWVcIiBjbGFzcz1cImFwcFwiPuaegeWuouaXtumXtDwvcD5cbjwvZGl2PlxuIiwic3NyIjpmYWxzZSwib3B0aW9ucyI6eyJob2lzdFN0YXRpYyI6dHJ1ZSwiY2FjaGVIYW5kbGVycyI6dHJ1ZSwib3B0aW1pemVCaW5kaW5ncyI6ZmFsc2V9fQ==)
-## TypeScript 
+- [h 函数](https://v3.cn.vuejs.org/api/global-api.html#h)
+- [element3](https://github.com/hug-sun/element3/blob/master/packages/element3/packages/timeline/Timeline.vue#L35)
+- [template explorer](https://vue-next-template-explorer.netlify.app/#eyJzcmMiOiI8ZGl2IGlkPVwiYXBwXCI+XG4gICAgPGRpdiBAY2xpY2s9XCIoKT0+Y29uc29sZS5sb2coeHgpXCIgIG5hbWU9XCJoZWxsb1wiPnt7bmFtZX19PC9kaXY+XG4gICAgPGgxID7mioDmnK/mkbjpsbw8L2gxPlxuICAgIDxwIDppZD1cIm5hbWVcIiBjbGFzcz1cImFwcFwiPuaegeWuouaXtumXtDwvcD5cbjwvZGl2PlxuIiwic3NyIjpmYWxzZSwib3B0aW9ucyI6eyJob2lzdFN0YXRpYyI6dHJ1ZSwiY2FjaGVIYW5kbGVycyI6dHJ1ZSwib3B0aW1pemVCaW5kaW5ncyI6ZmFsc2V9fQ==)
 
-把tapd的组件用ts重构一版
+## TypeScript
 
-1. vue3 写的 ts的组件能供vue2使用吗
-2. 市面上 有没有相关的 例如京东 小程序端的组件ui
+把 tapd 的组件用 ts 重构一版
+
+1. vue3 写的 ts 的组件能供 vue2 使用吗
+2. 市面上 有没有相关的 例如京东 小程序端的组件 ui
 
 首先要讲到的进阶用法是泛型，泛型就是指有些函数的参数，你在定义的时候是不确定的类型，而返回值类型需要根据参数来确定。
 
 ```ts
-function test<某种类型>(args:某种类型):某种类型{
-    return args
+function test<某种类型>(args: 某种类型): 某种类型 {
+  return args;
 }
 ```
 
 ```ts
-
-function getProperty<某种类型, 某种属性 extends keyof 某种类型>(o: 某种类型, name: 某种属性): 某种类型[某种属性] {
-    return o[name]
+function getProperty<某种类型, 某种属性 extends keyof 某种类型>(
+  o: 某种类型,
+  name: 某种属性
+): 某种类型[某种属性] {
+  return o[name];
 }
 function getProperty<T, K extends keyof T>(o: T, name: K): T[K] {
-    return o[name]
+  return o[name];
 }
 ```
 
@@ -222,7 +226,7 @@ function getProperty<T, K extends keyof T>(o: T, name: K): T[K] {
 
 那时候前后端不分家，整个应用的入口是后端控制模板的渲染。在模板渲染前，后端会直接判断路由的权限来决定是否跳转。登录的时候，后端只需要设置 setCookie 这个 header，之后浏览器会自动把 cookie 写入到我们的浏览器存起来，然后当前域名在发送请求的时候都会自动带上这个 cookie。
 
-可以把token理解为手动管理的cookie 
+可以把 token 理解为手动管理的 cookie
 
 可以用动态路由 来控制权限
 
@@ -247,7 +251,82 @@ function getProperty<T, K extends keyof T>(o: T, name: K): T[K] {
 首先，token 的过期时间认证是由后端来实现和完成的。如果登录状态过期，那么会有一个单独的报错信息，我们需要在接口拦截函数中，统一对接口的响应结果进行拦截。如果报错信息显示的是登录过期，我们需要清理所有的 token 和页面权限数据，并且跳转到登录页面。
 
 实现按钮级别的权限认证:
+
 1. 维护页面下需要控制权限的按钮权限标识，后台保存；
 2. 登录后，获取权限数据，将该用户的按钮权限数组存放到对应页面的路由信息里；
-3. 可编写v-auth的自定义指令（可以拿当前按钮标识去当前页面路由信息的按钮权限数组里去找，存在则显示，否则隐藏）；
+3. 可编写 v-auth 的自定义指令（可以拿当前按钮标识去当前页面路由信息的按钮权限数组里去找，存在则显示，否则隐藏）；
+
 ## vue3 中如何集成第三方框架
+
+
+## vue3 项目中的性能优化
+
+网络请求优化和代码效率优化
+
+网络请求优化： 对其他域名去做dns的预解析 
+
+```js
+dns-prefetch
+```
+
+首先是 First Contentful Paint，通常简写为 FCP，它表示的是页面上呈现第一个 DOM 元素的时间。在此之前，页面都是白屏的状态；然后是 Time to interactive，通常简写为 TTI，也就是页面可以开始交互的时间；还有和用户体验相关的 Largest Contentful Paint，通常简写为 LCP，这是页面视口上最大的图片或者文本块渲染的时间，在这个时间，用户能看到渲染基本完成后的首页，这也是用户体验里非常重要的一个指标。
+
+```js
+
+let timing = window.performance && window.performance.timing
+let navigation = window.performance && window.performance.navigation
+
+// DNS 解析：
+let dns = timing.domainLookupEnd - timing.domainLookupStart
+
+// 总体网络交互耗时：
+let network = timing.responseEnd - timing.navigationStart
+
+// 渲染处理：
+let processing = (timing.domComplete || timing.domLoading) - timing.domLoading
+
+// 可交互：
+let active = timing.domInteractive - timing.navigationStart
+
+
+```
+
+资料：
+
+[浏览器工作原理与实践](https://time.geekbang.org/column/intro/100033601?tab=catalog)
+
+## 项目的优化
+
+![](2022-01-16-21-48-37.png)
+
+当你开始考虑上图中每一个环节的优化项，当你开始思考左侧的组件如何能在多个项目复用？整体项目的性能如何优化？项目打包上线的过程如何更稳定？如何提前发现项目中的报错等等问题的时候，亮点也就随之诞生了
+
+参照react 的fiber 架构：requestIdleCallback
+
+
+```js
+
+let count = 0
+const workLoop = async deadline => {
+  // 计算，并且当前帧还没结束
+  while (count < chunks.length && deadline.timeRemaining() > 1) {
+    await appendToSpark(chunks[count].file)
+    count++
+    // 没有了 计算完毕
+    if (count < chunks.length) {
+      // 计算中
+      this.hashProgress = Number(
+        ((100 * count) / chunks.length).toFixed(2)
+      )
+      // console.log(this.hashProgress)
+    } else {
+      // 计算完毕
+      this.hashProgress = 100
+      resolve(spark.end())
+    }
+  }
+  window.requestIdleCallback(workLoop)
+}
+window.requestIdleCallback(workLoop)
+
+```

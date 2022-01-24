@@ -61,8 +61,6 @@ Suspense: 异步组件，更方便开发有异步请求的组件。
 
 ![总结](2022-01-09-16-38-11.png)
 
-##
-
 我们使用引入的 ref 函数包裹数字，返回的 count 变量就是响应式的数据，使用 add 函数实现数字的修改。需要注意的是，对于 ref 返回的响应式数据，我们需要修改 .value 才能生效，而在
 
 ✿ Options API vs Composition API
@@ -193,7 +191,7 @@ JSX 相比于 template 还有一个优势，是可以在一个文件内返回多
 - [element3](https://github.com/hug-sun/element3/blob/master/packages/element3/packages/timeline/Timeline.vue#L35)
 - [template explorer](https://vue-next-template-explorer.netlify.app/#eyJzcmMiOiI8ZGl2IGlkPVwiYXBwXCI+XG4gICAgPGRpdiBAY2xpY2s9XCIoKT0+Y29uc29sZS5sb2coeHgpXCIgIG5hbWU9XCJoZWxsb1wiPnt7bmFtZX19PC9kaXY+XG4gICAgPGgxID7mioDmnK/mkbjpsbw8L2gxPlxuICAgIDxwIDppZD1cIm5hbWVcIiBjbGFzcz1cImFwcFwiPuaegeWuouaXtumXtDwvcD5cbjwvZGl2PlxuIiwic3NyIjpmYWxzZSwib3B0aW9ucyI6eyJob2lzdFN0YXRpYyI6dHJ1ZSwiY2FjaGVIYW5kbGVycyI6dHJ1ZSwib3B0aW1pemVCaW5kaW5ncyI6ZmFsc2V9fQ==)
 
-## TypeScript
+## TypeScript 
 
 把 tapd 的组件用 ts 重构一版
 
@@ -231,17 +229,17 @@ function getProperty<T, K extends keyof T>(o: T, name: K): T[K] {
 可以用动态路由 来控制权限
 
 ```js
-
-  addRoutes({ commit }, accessRoutes) {
+addRoutes({
+    commit
+}, accessRoutes) {
     // 添加动态路由，同时保存移除函数，将来如果需要重置路由可以用到它们
     const removeRoutes = []
     accessRoutes.forEach(route => {
-      const removeRoute = router.addRoute(route)
-      removeRoutes.push(removeRoute)
+        const removeRoute = router.addRoute(route)
+        removeRoutes.push(removeRoute)
     })
     commit('SET_REMOVE_ROUTES', removeRoutes)
-  },
-
+},
 ```
 
 我们需要在 localStorage 中把静态路由和动态路由分开对待，在页面刷新的时候，通过 src/router/index.js 入口文件中的 routes 配置，从 localStorage 中获取完整的路由信息，并且新增到 vue-router 中，才能加载完整的路由。
@@ -254,7 +252,7 @@ function getProperty<T, K extends keyof T>(o: T, name: K): T[K] {
 
 1. 维护页面下需要控制权限的按钮权限标识，后台保存；
 2. 登录后，获取权限数据，将该用户的按钮权限数组存放到对应页面的路由信息里；
-3. 可编写 v-auth 的自定义指令（可以拿当前按钮标识去当前页面路由信息的按钮权限数组里去找，存在则显示，否则隐藏）；
+3. 可编写v-auth的自定义指令（可以拿当前按钮标识去当前页面路由信息的按钮权限数组里去找，存在则显示，否则隐藏）；
 
 ## vue3 中如何集成第三方框架
 
@@ -328,5 +326,84 @@ const workLoop = async deadline => {
   window.requestIdleCallback(workLoop)
 }
 window.requestIdleCallback(workLoop)
+
+```
+
+## 深入TypeScript 
+
+[type T = arg 的类型]
+
+```ts
+
+function identity0(arg: any): any {
+    return arg
+}
+// 相当于type T = arg的类型
+function identity<T>(arg: T): T {
+    return arg
+}
+identity<string>('玩转vue 3全家桶') // 这个T就是string，所以返回值必须得是string
+identity<number>(1)
+```
+
+keyof 可以帮助我们拆解已有类型，下一步我们需要使用 extends 来实现类型系统中的条件判断。我们定义类型函数 ExtendsType，接受泛型参数 T 后，通过判断 T 是不是布尔值来返回不同的类型字符串，我们就可以通过 ExtendsType 传入不同的参数去返回不同的类型。
+
+extends 相当于 TypeScript 世界中的条件语句，然后 in 关键字可以理解为 TypeScript 世界中的遍历。
+
+
+```ts
+
+// T extends U ? X : Y 类型三元表达式
+
+type ExtendsType<T> = T extends boolean ? "重学前端" : "玩转Vue 3"
+type ExtendsType1 = ExtendsType<boolean> // type ExtendsType1='重学前端'
+type ExtendsType2 = ExtendsType<string> // type ExtendsType2='玩转Vue 3'
+
+```
+
+```ts
+
+type Courses = '玩转Vue 3'|'重学前端'
+type CourseObj = {
+    [k in Courses]:number // 遍历Courses类型作为key
+}
+// 上面的代码等于下面的定义
+// type CourseObj = {
+//     玩转Vue 3: number;
+//     重学前端: number;
+// }
+
+```
+
+想问一下type和interface有什么区别?什么时候用type,什么时候用interface?
+ 
+ type和interface都可以描述一个对象或者函数，并且都可以扩展，有几个小区别，首先type可以设置类型的别名，比如type Vue = string ,还可以用typeof获取实例的类型，interface可以直接合并申明，默认直接用interface即可
+
+![提交流程](2022-01-21-13-18-02.png)
+
+关于样式scss
+```scss
+
+// bem
+
+$namespace: 'el';
+@mixin b($block) {
+  $B: $namespace + '-' + $block !global;
+  .#{$B} {
+    @content;
+  }
+}
+
+// 添加ben后缀啥的
+@mixin when($state) {
+  @at-root {
+    &.#{$state-prefix + $state} {
+      @content;
+    }
+  }
+}
+
+
+
 
 ```

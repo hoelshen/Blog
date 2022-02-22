@@ -1,0 +1,162 @@
+{
+    "root": {
+        "data": {
+            "id": "ci0gt1z7slk0",
+            "created": 1645318712653,
+            "text": "算法"
+        },
+        "children": [
+            {
+                "data": {
+                    "id": "ci0h4vi4yog0",
+                    "created": 1645319638930,
+                    "text": "理论",
+                    "expandState": "expand"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "ci0h0jomlwg0",
+                            "created": 1645319299744,
+                            "text": "动态规划"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "ci0h0mfjlk00",
+                            "created": 1645319305725,
+                            "text": "二分法"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "ci0h0ozm24o0",
+                            "created": 1645319311292,
+                            "text": "贪心算法"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "ci0h6v8hudc0",
+                            "created": 1645319795075,
+                            "text": "递归、分治"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "ci0h74foqu80",
+                            "created": 1645319815101,
+                            "text": "广度优先搜索"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "ci0h78w0vc00",
+                            "created": 1645319824796,
+                            "text": "深度优先搜索"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "ci0h51j9rww0",
+                    "created": 1645319652059,
+                    "text": "实操"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "ci0h5bz48u80",
+                            "created": 1645319674785,
+                            "text": "数组和"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "ci0h5d00aao0",
+                            "created": 1645319677016,
+                            "text": "topic"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "ci0h5dkz8bk0",
+                            "created": 1645319678284,
+                            "text": "topic"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "ci0h5kfdyu80",
+                    "created": 1645319693183,
+                    "text": "类型"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "ci0h5m8at600",
+                            "created": 1645319697108,
+                            "text": "数组和链表"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "ci0h5mmv5mo0",
+                            "created": 1645319697989,
+                            "text": "堆栈和队列"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "ci0h5nmzog80",
+                            "created": 1645319700173,
+                            "text": "优先队列"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "ci0h6d630gw0",
+                            "created": 1645319755747,
+                            "text": "哈希表"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "ci0h6dnvj340",
+                            "created": 1645319756823,
+                            "text": "树、二叉树、二叉搜索树"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "ci0h6e3hf2g0",
+                            "created": 1645319757767,
+                            "text": "topic"
+                        },
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    },
+    "template": "default",
+    "theme": "fresh-blue",
+    "version": "1.4.43"
+}

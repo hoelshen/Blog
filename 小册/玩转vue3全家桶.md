@@ -15,39 +15,39 @@ react 和 vue 的主要区别：
 
 ## vue3 的新特性
 
-- RFC 机制
+* RFC 机制
 
-- [rfc](https://github.com/vuejs/rfcs)
+* [rfc](https://github.com/vuejs/rfcs)
 
-- 响应式系统
+* 响应式系统
 
-- 自定义渲染器
+* 自定义渲染器
 
-- 使用最近流行的 monorepo 管理方式，响应式，编译和运行时全部独立
+* 使用最近流行的 monorepo 管理方式，响应式，编译和运行时全部独立
 
-- 平台无关渲染逻辑和浏览器渲染 API
+* 平台无关渲染逻辑和浏览器渲染 API
 
 ![monorepo架构](2022-01-09-16-25-29.png)
 
 ![拆开渲染逻辑](2022-01-09-16-27-12.png)
 
-- 全部模块使用 ts 重构
+* 全部模块使用 ts 重构
 
-- Composition API 组合语法
+* Composition API 组合语法
 
 关于 composition api 的优势
 
-- 所有 API 都是 import 引入的（现在我们的例子还没有工程化，后续会加入）。用到的功能都 import 进来，对 Tree-shaking 很友好，我的例子里没用到功能，打包的时候会被清理掉 ，减小包的大小。
+* 所有 API 都是 import 引入的（现在我们的例子还没有工程化，后续会加入）。用到的功能都 import 进来，对 Tree-shaking 很友好，我的例子里没用到功能，打包的时候会被清理掉 ，减小包的大小。
 
-- 不再上下反复横跳，我们可以把一个功能模块的 methods、data 都放在一起书写，维护更轻松。
+* 不再上下反复横跳，我们可以把一个功能模块的 methods、data 都放在一起书写，维护更轻松。
 
-- 代码方便复用，可以把一个功能所有的 methods、data 封装在一个独立的函数里，复用代码非常容易。
+* 代码方便复用，可以把一个功能所有的 methods、data 封装在一个独立的函数里，复用代码非常容易。
 
-- Composotion API 新增的 return 等语句，在实际项目中使用
+* Composotion API 新增的 return 等语句，在实际项目中使用
 
 ![关于composition](2022-01-09-16-34-16.png)
 
-- 新的组件
+* 新的组件
 
 Vue 3 还内置了 Fragment、Teleport 和 Suspense 三个新组件。
 
@@ -108,13 +108,13 @@ let _value = 1;
 double = getDouble(_value);
 
 let count = {
-  get value() {
-    return _value;
-  },
-  set value(val) {
-    _value = val;
-    double = getDouble(_value);
-  },
+    get value() {
+        return _value;
+    },
+    set value(val) {
+        _value = val;
+        double = getDouble(_value);
+    },
 };
 console.log(count.value, double);
 count.value = 2;
@@ -187,9 +187,9 @@ JSX 相比于 template 还有一个优势，是可以在一个文件内返回多
 
 一些 知识点总结
 
-- [h 函数](https://v3.cn.vuejs.org/api/global-api.html#h)
-- [element3](https://github.com/hug-sun/element3/blob/master/packages/element3/packages/timeline/Timeline.vue#L35)
-- [template explorer](https://vue-next-template-explorer.netlify.app/#eyJzcmMiOiI8ZGl2IGlkPVwiYXBwXCI+XG4gICAgPGRpdiBAY2xpY2s9XCIoKT0+Y29uc29sZS5sb2coeHgpXCIgIG5hbWU9XCJoZWxsb1wiPnt7bmFtZX19PC9kaXY+XG4gICAgPGgxID7mioDmnK/mkbjpsbw8L2gxPlxuICAgIDxwIDppZD1cIm5hbWVcIiBjbGFzcz1cImFwcFwiPuaegeWuouaXtumXtDwvcD5cbjwvZGl2PlxuIiwic3NyIjpmYWxzZSwib3B0aW9ucyI6eyJob2lzdFN0YXRpYyI6dHJ1ZSwiY2FjaGVIYW5kbGVycyI6dHJ1ZSwib3B0aW1pemVCaW5kaW5ncyI6ZmFsc2V9fQ==)
+* [h 函数](https://v3.cn.vuejs.org/api/global-api.html#h)
+* [element3](https://github.com/hug-sun/element3/blob/master/packages/element3/packages/timeline/Timeline.vue#L35)
+* [template explorer](https://vue-next-template-explorer.netlify.app/#eyJzcmMiOiI8ZGl2IGlkPVwiYXBwXCI+XG4gICAgPGRpdiBAY2xpY2s9XCIoKT0+Y29uc29sZS5sb2coeHgpXCIgIG5hbWU9XCJoZWxsb1wiPnt7bmFtZX19PC9kaXY+XG4gICAgPGgxID7mioDmnK/mkbjpsbw8L2gxPlxuICAgIDxwIDppZD1cIm5hbWVcIiBjbGFzcz1cImFwcFwiPuaegeWuouaXtumXtDwvcD5cbjwvZGl2PlxuIiwic3NyIjpmYWxzZSwib3B0aW9ucyI6eyJob2lzdFN0YXRpYyI6dHJ1ZSwiY2FjaGVIYW5kbGVycyI6dHJ1ZSwib3B0aW1pemVCaW5kaW5ncyI6ZmFsc2V9fQ==)
 
 ## TypeScript 
 
@@ -256,7 +256,6 @@ addRoutes({
 
 ## vue3 中如何集成第三方框架
 
-
 ## vue3 项目中的性能优化
 
 网络请求优化和代码效率优化
@@ -264,13 +263,12 @@ addRoutes({
 网络请求优化： 对其他域名去做dns的预解析 
 
 ```js
-dns-prefetch
+dns - prefetch
 ```
 
 首先是 First Contentful Paint，通常简写为 FCP，它表示的是页面上呈现第一个 DOM 元素的时间。在此之前，页面都是白屏的状态；然后是 Time to interactive，通常简写为 TTI，也就是页面可以开始交互的时间；还有和用户体验相关的 Largest Contentful Paint，通常简写为 LCP，这是页面视口上最大的图片或者文本块渲染的时间，在这个时间，用户能看到渲染基本完成后的首页，这也是用户体验里非常重要的一个指标。
 
 ```js
-
 let timing = window.performance && window.performance.timing
 let navigation = window.performance && window.performance.navigation
 
@@ -285,8 +283,6 @@ let processing = (timing.domComplete || timing.domLoading) - timing.domLoading
 
 // 可交互：
 let active = timing.domInteractive - timing.navigationStart
-
-
 ```
 
 资料：
@@ -301,32 +297,29 @@ let active = timing.domInteractive - timing.navigationStart
 
 参照react 的fiber 架构：requestIdleCallback
 
-
 ```js
-
-let count = 0
-const workLoop = async deadline => {
-  // 计算，并且当前帧还没结束
-  while (count < chunks.length && deadline.timeRemaining() > 1) {
-    await appendToSpark(chunks[count].file)
-    count++
-    // 没有了 计算完毕
-    if (count < chunks.length) {
-      // 计算中
-      this.hashProgress = Number(
-        ((100 * count) / chunks.length).toFixed(2)
-      )
-      // console.log(this.hashProgress)
-    } else {
-      // 计算完毕
-      this.hashProgress = 100
-      resolve(spark.end())
+    let count = 0
+    const workLoop = async deadline => {
+        // 计算，并且当前帧还没结束
+        while (count < chunks.length && deadline.timeRemaining() > 1) {
+            await appendToSpark(chunks[count].file)
+            count++
+            // 没有了 计算完毕
+            if (count < chunks.length) {
+                // 计算中
+                this.hashProgress = Number(
+                    ((100 * count) / chunks.length).toFixed(2)
+                )
+                // console.log(this.hashProgress)
+            } else {
+                // 计算完毕
+                this.hashProgress = 100
+                resolve(spark.end())
+            }
+        }
+        window.requestIdleCallback(workLoop)
     }
-  }
-  window.requestIdleCallback(workLoop)
-}
-window.requestIdleCallback(workLoop)
-
+    window.requestIdleCallback(workLoop)
 ```
 
 ## 深入TypeScript 
@@ -349,7 +342,6 @@ identity<number>(1)
 keyof 可以帮助我们拆解已有类型，下一步我们需要使用 extends 来实现类型系统中的条件判断。我们定义类型函数 ExtendsType，接受泛型参数 T 后，通过判断 T 是不是布尔值来返回不同的类型字符串，我们就可以通过 ExtendsType 传入不同的参数去返回不同的类型。
 
 extends 相当于 TypeScript 世界中的条件语句，然后 in 关键字可以理解为 TypeScript 世界中的遍历。
-
 
 ```ts
 
@@ -375,13 +367,14 @@ type CourseObj = {
 
 ```
 
-想问一下type和interface有什么区别?什么时候用type,什么时候用interface?
+想问一下type和interface有什么区别? 什么时候用type, 什么时候用interface?
  
- type和interface都可以描述一个对象或者函数，并且都可以扩展，有几个小区别，首先type可以设置类型的别名，比如type Vue = string ,还可以用typeof获取实例的类型，interface可以直接合并申明，默认直接用interface即可
+ type和interface都可以描述一个对象或者函数，并且都可以扩展，有几个小区别，首先type可以设置类型的别名，比如type Vue = string , 还可以用typeof获取实例的类型，interface可以直接合并申明，默认直接用interface即可
 
 ![提交流程](2022-01-21-13-18-02.png)
 
 关于样式scss
+
 ```scss
 
 // bem
@@ -403,7 +396,131 @@ $namespace: 'el';
   }
 }
 
-
-
-
 ```
+
+## 配置husy
+
+```JS
+const msg = require('fs')
+    .readFileSync('.git/COMMIT_EDITMSG', 'utf-8')
+    .trim()
+
+const commitRE = /^(revert: )?(feat|fix|docs|dx|style|refactor|perf|test|workflow|build|ci|chore|types|wip|release)(\(.+\))?: .{1,50}/
+const mergeRe = /^(Merge pull request|Merge branch)/
+if (!commitRE.test(msg)) {
+    if (!mergeRe.test(msg)) {
+        console.log('git commit信息校验不通过')
+
+        console.error(`git commit的信息格式不对, 需要使用 title(scope): desc的格式
+      比如 fix: xxbug
+      feat(test): add new 
+      具体校验逻辑看 scripts/verifyCommit.js
+    `)
+        process.exit(1)
+    }
+
+} else {
+    console.log('git commit信息校验通过')
+}
+```
+
+![husky提交规范](2022-03-12-12-29-12.png)
+
+### 单测
+
+  TDD 开发一个组件
+
+```JS
+module.exports = {
+    transform: {
+        // .vue文件用 vue-jest 处理
+        '^.+\\.vue$': 'vue-jest',
+        // .js或者.jsx用 babel-jest处理
+        '^.+\\.jsx?$': 'babel-jest',
+        //.ts文件用ts-jest处理
+        '^.+\\.ts$': 'ts-jest'
+    },
+    testMatch: ['**/?(*.)+(spec).[jt]s?(x)']
+}
+```
+
+我们首先要从 @vue/test-utils 库中导入 mount 函数，这个函数可以在命令行里模拟 Vue 的组件渲染。在 Button 的 slot 传递了文本之后，wrapper.text() 就能获取到文本内容，然后对 Button 渲染结果进行判断。
+
+通过scss控制浏览器页面内的大小
+
+```scss
+
+@include b(button){
+  display: inline-block;
+  cursor: pointer;
+  background: $--button-default-background-color;
+  color: $--button-default-font-color;
+  @include button-size(
+    $--button-padding-vertical,
+    $--button-padding-horizontal,
+    $--button-font-size,
+    $--button-border-radius
+  );
+  @include m(small) {
+    @include button-size(
+      $--button-medium-padding-vertical,
+      $--button-medium-padding-horizontal,
+      $--button-medium-font-size,
+      $--button-medium-border-radius
+    );
+  }
+  @include m(large) {
+    @include button-size(
+      $--button-large-padding-vertical,
+      $--button-large-padding-horizontal,
+      $--button-large-font-size,
+      $--button-large-border-radius
+    );
+  }
+}
+```
+
+还可以通过全局配置的方式设置默认大小。我们进入到代码文件 src/main.ts 中，设置全局变量 $AILEMENTE 中的 size 为 large，
+
+```JS
+const app = createApp(App)
+app.config.globalProperties.$AILEMENTE = {
+    size: 'large'
+}
+app.use(ElContainer)
+    .use(ElButton)
+    .mount('#app')
+```
+
+首先我们要支持全局的 size 配置，在 src 目录下新建 util.ts，写入下面的代码。我们通过 vue 提供的 getCurrentInstance 获取当前的实例，然后返回全局配置的 $AILEMENTE。这里请注意，由于很多组件都需要读取全局配置，所以我们封装了 useGlobalConfig 函数。
+
+```JS
+import {
+    getCurrentInstance,
+    ComponentInternalInstance
+} from 'vue'
+
+export function useGlobalConfig() {
+    const instance: ComponentInternalInstance | null = getCurrentInstance()
+    if (!instance) {
+        console.log('useGlobalConfig 必须得在setup里面整')
+        return
+    }
+    return instance.appContext.config.globalProperties.$AILEMENTE || {}
+
+}
+```
+
+### 实现一个表单组件
+
+拆分成三个部分
+form 提供了所有的数据对象和配置规则；
+input 负责具体的输入交互；
+form-item 负责中间的数据和规则管理，以及显示具体的报错信息。
+这就需要一个强有力的组件通信机制，在 Vue 中组件之间的通信机制有这么几种。
+
+那么 form 和 input 组件如何通信呢？这种祖先元素和后代元素，中间可能嵌套了很多层的关系，Vue 则提供了 provide 和 inject 两个 API 来实现这个功能
+
+在组件中我们可以使用 provide 函数向所有子组件提供数据，子组件内部通过 inject 函数注入使用。注意这里 provide 提供的只是普通的数据，并没有做响应式的处理，如果子组件内部需要响应式的数据，那么需要在 provide 函数内部使用 ref 或者 reative 包裹才可以。
+
+关于 prvide 和 inject 的类型系统，我们可以使用 Vue 提供的 InjectiveKey 来声明。我们在 form 目录下新建 type.ts 专门管理表单组件用到的相关类型，在下面的代码中，我们定义了表单 form 和表单管理 form-item 的上下文，并且通过 InjectionKey 管理提供的类型。

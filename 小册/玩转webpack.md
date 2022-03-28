@@ -9,7 +9,9 @@ plugin 就是任何loader 没办法做的事情都可以通过plugin 去完成
 用于 bundle 文件的优化，资源管理和环境变量注入
 
 作用于整个构建过程
+
 ## 解析ECMAScript和 React jsx
+
  babel-loader  去解析
  plugin 是一个plugin对应一个功能
 
@@ -28,8 +30,7 @@ watchOptions: {
 
 热更新： 使用webpack-dev-middleware
 
+![](2022-03-14-23-36-18.png)
 ##
 
-
 ###
-

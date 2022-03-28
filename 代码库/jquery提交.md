@@ -1,4 +1,3 @@
-
 ```js
 if (typeof jQuery !== 'undefined') {
     jQuery(() => {
@@ -22,7 +21,4 @@ if (typeof jQuery !== 'undefined') {
         });
     });
 }
-
-
-
 ```

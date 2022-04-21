@@ -177,3 +177,35 @@ function composedPath(event) {
 
 
 ```
+
+## dom的一些操作
+
+![dom.domQuery](https://www.tiny.cloud/docs-4x/api/tinymce.dom/tinymce.dom.domquery/)
+
+```javascript
+var test = tinymce.dom.$('p').attr('attr', 'value').addClass('class');
+```
+
+## 获取当前元素的个数
+![dom.domUtil](https://www.tiny.cloud/docs-4x/api/tinymce.dom/tinymce.dom.domutils/)
+
+```javascript
+tinymce.activeEditor.dom.select('div.cherry-choose-workitem') && editor.dom.select('div.cherry-choose-workitem').length;
+```
+
+## 设置某元素的样式
+![dom.domUtil](https://www.tiny.cloud/docs-4x/api/tinymce.dom/tinymce.dom.domutils/)
+```javascript
+
+setStyle
+
+tinymce.activeEditor.dom.setStyle(tinymce.activeEditor.dom.select('p'), 'background-color', 'red');
+
+setStyles
+// Sets styles on all paragraphs in the currently active editor
+tinymce.activeEditor.dom.setStyles(tinymce.activeEditor.dom.select('p'), {'background-color': 'red', 'color': 'green'});
+
+// Sets styles to an element by id in the current document
+tinymce.DOM.setStyles('mydiv', {'background-color': 'red', 'color': 'green'});
+
+```

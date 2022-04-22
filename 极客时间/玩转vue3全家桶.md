@@ -524,3 +524,297 @@ form-item 负责中间的数据和规则管理，以及显示具体的报错信�
 在组件中我们可以使用 provide 函数向所有子组件提供数据，子组件内部通过 inject 函数注入使用。注意这里 provide 提供的只是普通的数据，并没有做响应式的处理，如果子组件内部需要响应式的数据，那么需要在 provide 函数内部使用 ref 或者 reative 包裹才可以。
 
 关于 prvide 和 inject 的类型系统，我们可以使用 Vue 提供的 InjectiveKey 来声明。我们在 form 目录下新建 type.ts 专门管理表单组件用到的相关类型，在下面的代码中，我们定义了表单 form 和表单管理 form-item 的上下文，并且通过 InjectionKey 管理提供的类型。
+
+
+## 自定义渲染器
+渲染器是围绕虚拟 Dom 存在的。在浏览器中，我们把虚拟 Dom 渲染成真实的 Dom 对象，Vue 源码内部把一个框架里所有和平台相关的操作，抽离成了独立的方法。
+
+基本上做的事情:
+
+首先用 createElement 创建标签，还有用 createText 创建文本。创建之后就需要用 insert 新增元素，通过 remote 删除元素，通过 setText 更新文本和 patchProps 修改属性。然后再实现 parentNode、nextSibling 等方法实现节点的查找关系。
+
+```js
+
+export const nodeOps: Omit<RendererOptions<Node, Element>, 'patchProp'> = {
+  //插入元素
+  insert: (child, parent, anchor) => {
+    parent.insertBefore(child, anchor || null)
+  },
+  // 删除元素
+  remove: child => {
+    const parent = child.parentNode
+    if (parent) {
+      parent.removeChild(child)
+    }
+  },
+  // 创建元素
+  createElement: (tag, isSVG, is, props): Element => {
+    const el = isSVG
+      ? doc.createElementNS(svgNS, tag)
+      : doc.createElement(tag, is ? { is } : undefined)
+
+    if (tag === 'select' && props && props.multiple != null) {
+      ;(el as HTMLSelectElement).setAttribute('multiple', props.multiple)
+    }
+
+    return el
+  }
+  //...其他操作函数
+}
+
+```
+上面这段代码是vue提供浏览器端操作的函数, 这些DOM编程接口完成了浏览器端的增加、删除和添加操作
+
+
+但是  若想实现跨端能力，渲染器则本身不能依赖任何平台下特有的接口
+
+```js
+
+export default function createRenderer(options) {
+  const {
+      insert: hostInsert,
+      remove: hostRemove,
+      patchProp: hostPatchProp,
+      createElement: hostCreateElement,
+      createText: hostCreateText,
+      createComment: hostCreateComment,
+      setText: hostSetText,
+      setElementText: hostSetElementText,
+      parentNode: hostParentNode,
+      nextSibling: hostNextSibling,
+      setScopeId: hostSetScopeId = NOOP,
+      cloneNode: hostCloneNode,
+      insertStaticContent: hostInsertStaticContent
+   } = options
+
+  function render(vnode, container) {  }
+
+  function mount(vnode, container, isSVG, refNode) {  }
+
+  function mountElement(vnode, container, isSVG, refNode) {  }
+
+  function mountText(vnode, container) {  }
+
+  function patch(prevVNode, nextVNode, container) {  }
+
+  function replaceVNode(prevVNode, nextVNode, container) {  }
+  function patchElement(prevVNode, nextVNode, container) {  }
+  function patchChildren(
+    prevChildFlags,
+    nextChildFlags,
+    prevChildren,
+    nextChildren,
+    container
+  ) {  }
+
+  function patchText(prevVNode, nextVNode) {  }
+  function patchComponent(prevVNode, nextVNode, container) {  }
+
+  return { render }
+}
+
+
+```
+
+对比一下：经过渲染器抽离之后，内部的 mountElement 就会把所有 document 的操作全部换成 options 传递进来的 hostCreate 函数。
+
+```js
+
+function mountElement(vnode, container, isSVG, refNode) {
+  const el = isSVG
+    ? document.createElementNS(....)
+    : document.createElement(vnode.tag)
+}
+
+
+```
+
+```javascript
+
+function mountElement(vnode, container, isSVG, refNode) {
+  const el = hostCreateElement(vnode.tag, isSVG)
+}
+```
+
+runtime-core 包还可以封装其他平台的渲染器，Vue 组件和 Vue 的各种API
+
+```javascript
+
+const { render } = createRenderer({
+  nodeOps: {
+    createElement() {   },
+    createText() {   }
+    // more...
+  },
+  patchData
+})
+```
+
+  上面的代码创建一个具体平台的渲染器， 例如：runtime-dom 中实现具体的步骤， 其功能包括处理原生DOM API和DOM 事件和 DOM 属性等
+
+自定义渲染
+
+自定义渲染器让 Vue 脱离了浏览器的限制，我们只需要实现平台内部的增删改查函数后，就可以直接对接 Vue 3。比方说，我们可以把 Vue 渲染到小程序平台，实现 Vue 3-minipp；也可以渲染到 Canvas，实现 vue 3-canvas，把虚拟 dom 渲染成 Canvas；甚至还可以尝试把 Vue 3 渲染到 threee.js 中，在 3D 世界使用响应式开发。
+
+
+首先我们了解了自定义渲染器的原理，就是把所有的增删改查操作暴露出去，使用的时候不需要知道内部的实现细节，我们只需要针对每个平台使用不同的 API 即可。
+
+```javascript
+
+const { createApp: originCa } = createRenderer({
+  insert: (child, parent, anchor) => {
+    if (typeof child == 'string') {
+      parent.text = child
+    } else {
+      child.parent = parent
+      if (!parent.child) {
+        parent.child = [child]
+      } else {
+        parent.child.push(child)
+      }
+    }
+    if (parent.nodeName) {
+      draw(child)
+      if (child.onClick) {
+        ctx.canvas.addEventListener('click', () => {
+          child.onClick()
+          setTimeout(() => {
+            draw(child)
+          })
+        }, false)
+      }
+    }
+  },
+  createElement(type, isSVG, isCustom) {
+    return {
+      type
+    }
+  },
+  setElementText(node, text) {
+    node.text = text
+  },
+  patchProp(el, key, prev, next) {
+    el[key] = next
+  },
+
+});
+
+```
+
+
+```js
+
+import { createRenderer } from '@vue/runtime-core'
+import * as THREE from 'three'
+import {nextTick} from '@vue/runtime-core'
+
+let renderer
+
+function draw(obj) {
+    const {camera,cameraPos, scene, geometry,geometryArg,material,mesh,meshY,meshX} = obj
+    if([camera,cameraPos, scene, geometry,geometryArg,material,mesh,meshY,meshX].filter(v=>v).length<9){
+        return 
+    }
+    let cameraObj = new THREE[camera]( 40, window.innerWidth / window.innerHeight, 0.1, 10 )
+    Object.assign(cameraObj.position,cameraPos)
+
+    let sceneObj = new THREE[scene]()
+
+    let geometryObj = new THREE[geometry]( ...geometryArg)
+    let materialObj = new THREE[material]()
+
+    let meshObj = new THREE[mesh]( geometryObj, materialObj )
+    meshObj.rotation.x = meshX
+    meshObj.rotation.y = meshY
+    sceneObj.add( meshObj )
+    renderer.render( sceneObj, cameraObj );
+
+}
+
+const { createApp: originCa } = createRenderer({
+  insert: (child, parent, anchor) => {
+    if(parent.domElement){
+        draw(child)
+    }
+  },
+  createElement(type, isSVG, isCustom) {
+    return {
+      type
+    }
+  },
+  setElementText(node, text) {
+  },
+  patchProp(el, key, prev, next) {
+    el[key] = next
+    draw(el)
+  },
+  parentNode: node => node,
+  nextSibling: node => node,
+  createText: text => text,
+  remove:node=>node
+
+});
+function createApp(...args) {
+  const app = originCa(...args)
+  return {
+    mount(selector) {
+        renderer = new THREE.WebGLRenderer( { antialias: true } );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+        app.mount(renderer)
+    }
+  }
+}
+export { createApp }
+```
+
+在Vue渲染器的设计中就是把document所有的操作都抽离成nodeOps, 并且通过调用Vue的createRenderer 函数创建平台的渲染器。
+
+## 响应式
+
+响应式机制的主要功能就是，可以把普通的 JavaScript 对象封装成为响应式对象，拦截数据的获取和修改操作，实现依赖数据的自动化更新。
+
+一个最简单的响应式模型，我们可以通过 reactive 或者 ref 函数，把数据包裹成响应式对象，并且通过 effect 函数注册回调函数，然后在数据修改之后，响应式地通知 effect 去执行回调函数即可。
+
+
+![reactive的生命周期](2022-04-15-23-08-41.png)
+
+
+上图的依赖地图 targetMap 把每个对象 拥有的属性 -> 映射的effect
+
+在 effect 中获取 counter.num1 和 counter.num2 的时候，就会触发 counter 的 get 拦截函数；get 函数，会把当前的 effect 函数注册到一个全局的依赖地图中去。这样 counter.num1 在修改的时候，就会触发 set 拦截函数，去依赖地图中找到注册的 effect 函数，然后执行。
+
+我们
+
+```javascript
+
+const get = createGetter();
+const set = createSetter();
+
+function createGetter(shallow = false) {
+  return function get(target, key, receiver) {
+    const res = Reflect.get(target, key, receiver)
+    track(target, "get", key)
+    if (isObject(res)) {
+      // 值也是对象的话，需要嵌套调用reactive
+      // res就是target[key]
+      // 浅层代理，不需要嵌套
+      return shallow ? res : reactive(res)
+    }
+    return res
+  }
+}
+
+function createSetter() {
+  return function set(target, key, value, receiver) {
+    const result = Reflect.set(target, key, value, receiver)
+    // 在触发 set 的时候进行触发依赖
+    trigger(target, "set", key)
+    return result
+  }
+}
+export const mutableHandles = {
+  get,
+  set,
+};
+```

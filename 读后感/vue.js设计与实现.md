@@ -146,3 +146,17 @@ function mountElement(vnode, container){
 响应函数和副作用
 
 指的是会产生副作用的函数
+
+```js
+// 用一个全局变量存储被注册的副作用函数
+let activeEffect
+
+function effect(fn){
+    activeEffect = fn
+    // 执行副作用
+fn();
+};
+
+```
+
+调度执行

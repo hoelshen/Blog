@@ -126,7 +126,7 @@ location /index.html {
 }
 ```
 
-原先通过 http://xxx.com/index.html 变成 http://xxx.com/ .history模式的vue-router的path="/"的路由, 对客户端访问和服务端的访问, 分别设置不同的转发
+原先通过 <http://xxx.com/index.html> 变成 <http://xxx.com/> .history模式的vue-router的path="/"的路由, 对客户端访问和服务端的访问, 分别设置不同的转发
 
 ```sh
  # 客户端渲染服务
@@ -149,7 +149,6 @@ location /index.html {
   }
 ```
 
-
 只保留/index_ssr 作为 ssr 渲染的入口, 然后在 server.js 中, 将/index_ssr 处理成首页的路径, 并添加对 ssr 渲染的容错逻辑.
 
 ```js
@@ -170,9 +169,7 @@ location /index.html {
   })
 ```
 
-
 遇坑1：vue 组件名尽量不要和路由重名，名字一样大小写不一样也不可（例如 组件叫component，而引用这个组建的路由叫/Component）。如果重名了，会出现路由找不到的情况
-
 
 遇坑2： 一定要遵守标签的嵌套规则，尤其是<router-link>不要单独使用tag="li"属性，嵌套规则的不一致会造成client和server两端的dom树不一致，导致本地开发没问题而打包上线有问题
 
@@ -180,16 +177,11 @@ location /index.html {
 
 将 Cookies 注入到 global. 在将 cookies 注入到组件的 asyncData 方法.
 
-
-
 一套代码两套执行环境
 
 （1）在beforeCreate，created生命周期以及全局的执行环境中调用特定的api前需要判断执行环境；
 
 （2）使用adapter模式，写一套adapter兼容不同环境的api。
-
-
-
 
 ```JS
  // 在路由组件内
@@ -230,7 +222,6 @@ location /index.html {
 
 （2）在服务端数据预获取的生命周期结束后的渲染页面过程中出现的异常，包括各种操作数据的语法错误等，如对undefined取属性。
 
-
 2.怎么处理异常
 （1）官方处理方法
 
@@ -264,7 +255,6 @@ entry-server.js服务端部分：
 
 （1）页面级别的缓存 将渲染完成的页面缓存到内存中，同时设置最大缓存数量和缓存时间。 优势：大幅度提高页面的访问速度 代价：增加服务器内存的使用
 
-
 ```js
  const LRU = require('lru-cache');//删除最近最少使用条目的缓存对象
  // 实例化配置缓存对象
@@ -287,3 +277,5 @@ entry-server.js服务端部分：
   })
  })
 ```
+
+## 处理高并发 和 容易挂的问题

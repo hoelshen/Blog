@@ -5,7 +5,6 @@
 渲染：真正把对象绘制出来。
 JavaScript 调用 DOM API（包括 Canvas API）以进行渲染。
 浏览器 把渲染后的结果呈现在屏幕上的过程。
- 
 
 2.canvas 绘制间隔策略
 主动触发刷新 canvas （电子表格）
@@ -17,7 +16,6 @@ JavaScript 调用 DOM API（包括 Canvas API）以进行渲染。
 分层 Canvas 的出发点是，动画中的元素（层），对渲染和动画的要求是不一样的
 实现 UI 重叠的视觉效果（案例：腾讯文档 word 画布）
 4. canvas scale() 天然支持放大缩小
- 
 
 5.离屏绘制，使用缓存
 绘制同样的一块区域，如果数据源是一张大图上的一部分，性能就会比较差，因为每一次绘制还包含了裁剪工作。可以先把待绘制的区域裁剪好，保存起来，这样每次绘制时就能轻松很多。
@@ -46,3 +44,56 @@ drawImage 方法的第一个参数不仅可以接收 Image 对象，也可以接
 使用 Web Worker，在另一个线程里进行计算。
 将任务拆分为多个较小的任务，插在多帧中进行。
 Web Worker 是好东西，性能很好，兼容性也不错。浏览器用另一个线程来运行 Worker 中的 JavaScript 代码，完全不会阻碍主线程的运行。动画（尤其是游戏）中难免会有一些时间复杂度比较高的算法，用 Web Worker 来运行再合适不过了。
+
+尽可能少调用api
+// 减少stroke();
+
+减少beginpath和stroke
+
+```javascript
+context.beginPath();
+      for (var i = 0; i < points.length - 1; i++) {
+          var p1 = points[i];
+          var p2 = points[i + 1];
+          context.moveTo(p1.x, p1.y);
+          context.lineTo(p2.x, p2.y);
+      }
+      context.stroke();
+```
+
+// 在左侧的tale表格改变 开始时间和结束时间的时候 右侧的甘特图时间条也会相应移动
+局部重绘
+
+由于canvas 的绘制方式是画笔式的，在canvas上绘图时没调用一次api就会在画布上进行绘制，一旦绘制就成为画布的一部分，绘制图形时并没有对象保存下来，一旦图形需要更新， 需要清楚整个画布重新绘制。
+
+canvas 局部刷新的方案：
+
+1. 清除指定区域的颜色，并设置clip。
+1. 所有同这个区域香蕉的图形重新绘制
+
+要实现局部渲染时，需要考虑的两个因素是：
+
+单次刷新时影响的范围最小
+刷新的图形不会影响其他图形的正确绘制
+
+清除画布内容
+
+```javascript
+context.fillRect()//颜色填充
+context.clearRect(0, 0, w, h)
+canvas.width = canvas.width; // 一种画布专用的技巧
+```
+
+坐标值尽量使用整数
+
+避免使用浮点数坐标，使用非整数的坐标绘制内容，系统会自动使用抗锯齿功能，尝试对线条进行平滑处理，这又是一种性能消耗。
+
+当然性能最优越的方法莫过于将数值加0.5然后对所得结果进行移位运算以消除小数部分。
+
+```javascript
+1 rounded = (0.5 + somenum) | 0;
+2 rounded = ~~ (0.5 + somenum);
+3 rounded = (0.5 + somenum) << 0;
+```
+
+可以调用 Math.round 四舍五入取整，或者floor向上ceil向下取整，trunc直接丢弃小数位

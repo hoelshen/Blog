@@ -15,7 +15,6 @@ Cookie 是由客户端保存的小型文本文件，其内容为一系列的键�
 
 服务器通过Set-Cookie响应头字段来指示浏览器保存Cookie， 浏览器通过Cookie请求头字段来告诉服务器之前的状态。 Cookie中包含若干个键值对，每个键值对可以设置过期时间。
 
-
 ### cookie 防篡改机制
 
   服务器可以为每个 cookie 项生成签名, 由于用户篡改 cookie 后无法生成对应的签名, 服务器便可以得知用户对 cookie 进行了篡改
@@ -38,7 +37,23 @@ Session 是存储在服务器端的，避免了在客户端Cookie中存储敏感
 3. 如果正确则把当前用户名存储到 redis 中,并生成它在 redis 中的 id.这个ID称为Session ID，通过Session ID可以从Redis中取出对应的用户对象， 敏感数据（比如authed=true）都存储在这个用户对象中。
 4. 设置Cookie为sessionId=xxxxxx|checksum并发送HTTP响应， 仍然为每一项Cookie都设置签名。
 5. 用户收到HTTP响应后，便看不到任何敏感数据了。在此后的请求中发送该Cookie给服务器。
-6. 服务器收到此后的HTTP请求后，发现Cookie中有SessionID，进行放篡改验证。
+6. 服务器收到此后的HTTP请求后，发现Cookie中有SessionID，进行防篡改验证。
 7. 如果通过了验证，根据该ID从Redis中取出对应的用户对象， 查看该对象的状态并继续执行业务逻辑。
 
 Web应用框架都会实现上述过程，在Web应用中可以直接获得当前用户。 相当于在HTTP协议之上，通过Cookie实现了持久的会话。这个会话便称为Session。
+
+# 简单对比
+
+1、cookie：4K，可以手动设置失效期
+2、localStorage：5M，除非手动清除，否则一直存在
+3、sessionStorage：5M，不可以跨标签访问，页面关闭就清理
+4、indexedDB：浏览器端数据库，无限容量，除非手动清除，否则一直存在
+5、service worker 实现离线缓存
+
+SW 除了 work 线程的限制外，由于可拦截页面请求，为了保证页面安全，浏览器端对 sw 的使用限制也不少。
+
+1）无法直接操作 DOM 对象，也无法访问 window、document、parent 对象。可以访问 location、navigator；
+
+2）可代理的页面作用域限制。默认是 sw.js 所在文件目录及子目录的请求可代理，可在注册时手动设置作用域范围；
+
+3）必须在 https 中使用，允许在开发调试的 localhost 使用。

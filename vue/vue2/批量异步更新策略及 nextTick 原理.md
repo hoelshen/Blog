@@ -1,11 +1,14 @@
-# 
-
+#
 
 ## 为什么要异步更新
 
 setter -> Dep -> Watcher -> patch -> 视图
 
 Vue.js在默认情况下，每次触发某个数据的 setter 方法后，对应的 Watcher 对象其实会被 push 进一个队列 queue 中，在下一个 tick 的时候将这个队列 queue 全部拿出来 run（ Watcher 对象的一个方法，用来触发 patch 操作） 一遍。
+
+虽然知道要通过异步来解决，但具体是如何解决的呢？Vue的做法是把调用cb放到了一个micro task或者macro task队列中，具体放到微任务队列还是宏任务队列要看当前的运行环境是否支持Promise、MutationObserver、setImmediate这几个相当于放入微任务队列的api，支持就会放在微任务队列，不支持则使用setTimeout这个api把调用cb放到宏任务队列里。
+
+不管放到微任务队列还是宏任务队列，调用cb都会在所有的同步代码执行完毕后执行。这一点涉及到event loop的知识，因为总是先执行所有的同步代码，然后从微任务队列中按顺序执行，微任务队列空了才会从宏任务队列中取出一条执行。如果此时微任务队列还有任务，那么就会继续按照这个循环执行，这个就是event loop。
 
 ## nextTick
 
@@ -66,6 +69,7 @@ class Watcher {
 queueWatcher
 
 将 Watcher 对象自身传递给 queueWatcher 方法。
+
 ```js
 let has = {};
 let queue = [];

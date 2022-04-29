@@ -82,9 +82,9 @@ rollup 配置里面format有三种形式: 'iife', 'esm', 'cjs'
 带有 -bundler 字样的 ESM 资源是在rollup.js 或webpack等打包工具使用,而带有 -browser 字样的ESM资源是直接给 "<script type='module'>" 使用的
 它们的区别在与__DEV__常量替换为字面量true或者false, 后者将_DEV_常量替换为process.env.NODE_ENV !== 'production' 语句
 
-**使用模板和 JavaScript 对象描述UI有何不同: 使用 JavaScript 对象描述UI更加灵活.**
+__使用模板和 JavaScript 对象描述UI有何不同: 使用 JavaScript 对象描述UI更加灵活.__
 
-**而使用 JavaScript 对象描述UI的方式, 其实就是所谓的虚拟DOM**
+__而使用 JavaScript 对象描述UI的方式, 其实就是所谓的虚拟DOM__
 
 所以vue.js 除了支持使用模板描述UI外,还支持使用虚拟DOM描述UI.
 
@@ -113,6 +113,7 @@ export default {
 组件就是一组DOM元素的封装,它可以返回虚拟DOM的函数,也可以是一个对象,但这个对象下必须要有一个函数用来产生组件要渲染的虚拟DOM.
 
 render 函数 要处理 组件
+
 ```js
 function mountElement(vnode, container){
     const el = document.element(vnode.tag);
@@ -159,4 +160,61 @@ fn();
 
 ```
 
+effect函数来注册副作用函数，
+用来追踪和收集依赖的track函数
+用来触发副作用函数重新执行的trigger函数
+
+懒执行
+
+```JS
+//JavaScript
+function effect(fn, options = {}){
+    const effectFn = () => {
+        cleanup(effectFn);
+        activeEffect = effectFn
+        effectStack.push(effectFn)
+        fn()
+        effectStack.pop()
+        activeEffect = effectStack[effectStack.length - 1]
+    }
+    effectFn.options = options
+    effectFn.deps = [];
+    if(!options.lazy) {  //只有非lazy的时候，才执行
+        effectFn();
+    } 
+
+    return effectFn //  新增
+}
+```
+
+如果我们能够实现自定义调度
+
+```JS
+//JavaScript
+function effect(fn, options = {}){
+    const effectFn = () => {
+        cleanup(effectFn);
+        activeEffect = effectFn
+        effectStack.push(effectFn)
+        // 将 fn 的执行结果存储到 res 中 
+        const res = fn();
+        effectStack.pop()
+        activeEffect = effectStack[effectStack.length - 1]
+        // 将res 做为effectFn的返回值
+        return res
+    }
+    effectFn.options = options
+    effectFn.deps = [];
+    if(!options.lazy) {  //只有非lazy的时候，才执行
+        effectFn();
+    } 
+
+    return effectFn //  新增
+}
+```
+
 调度执行
+
+## 简单的 diff 算法
+
+渲染器更改完之后 会去改变真实的DOM，然后再去移动节点 完成真实的DOM更新

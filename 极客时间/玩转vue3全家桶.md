@@ -27,9 +27,9 @@ react 和 vue 的主要区别：
 
 * 平台无关渲染逻辑和浏览器渲染 API
 
-![monorepo架构](2022-01-09-16-25-29.png)
+![monorepo架构](./picture/2022-01-09-16-25-29.png)
 
-![拆开渲染逻辑](2022-01-09-16-27-12.png)
+![拆开渲染逻辑](./picture/2022-01-09-16-27-12.png)
 
 * 全部模块使用 ts 重构
 
@@ -45,7 +45,7 @@ react 和 vue 的主要区别：
 
 * Composotion API 新增的 return 等语句，在实际项目中使用
 
-![关于composition](2022-01-09-16-34-16.png)
+![关于composition](./picture/2022-01-09-16-34-16.png)
 
 * 新的组件
 
@@ -59,7 +59,7 @@ Suspense: 异步组件，更方便开发有异步请求的组件。
 
 新一代工程化工具 Vite
 
-![总结](2022-01-09-16-38-11.png)
+![总结](./picture/2022-01-09-16-38-11.png)
 
 我们使用引入的 ref 函数包裹数字，返回的 count 变量就是响应式的数据，使用 add 函数实现数字的修改。需要注意的是，对于 ref 返回的响应式数据，我们需要修改 .value 才能生效，而在
 
@@ -92,9 +92,9 @@ Suspense: 异步组件，更方便开发有异步请求的组件。
 
 本次课程的知识点可以在 Vue3 官网进行详细学习：
 
-1. 组合式 API ： https://v3.cn.vuejs.org/api/composition-api.html#setup
-2. 单文件组件 <script setup> ：https://v3.cn.vuejs.org/api/sfc-script-setup.html
-3. 单文件组件样式特性：https://v3.cn.vuejs.org/api/sfc-style.html
+1. 组合式 API ： <https://v3.cn.vuejs.org/api/composition-api.html#setup>
+2. 单文件组件 <script setup> ：<https://v3.cn.vuejs.org/api/sfc-script-setup.html>
+3. 单文件组件样式特性：<https://v3.cn.vuejs.org/api/sfc-style.html>
 
 将值封装在一个对象中，看似没有必要，但为了保持 JavaScript 中不同数据类型的行为统一，这是必须的。这是因为在 JavaScript 中，Number 或 String 等基本类型是通过值而非引用传递的：在任何值周围都有一个封装对象，这样我们就可以在整个应用中安全地传递它，而不必担心在某个地方失去它的响应性
 
@@ -121,7 +121,7 @@ count.value = 2;
 console.log(count.value, double);
 ```
 
-![](2022-01-09-22-23-07.png)
+![](./picture/2022-01-09-22-23-07.png)
 
 至于文中说的 Vue 3 的 ref 是用 “getter
 
@@ -153,7 +153,7 @@ Vuex 的出现，让我们整个项目中的数据流动变得非常自然。数
 ## 路由
 
 在 vue-router 中对应两个函数，分别是 createWebHashHistory 和 createWebHistory。
-![](2022-01-13-22-41-46.png)
+![](./picture/2022-01-13-22-41-46.png)
 
 hash 模式
 
@@ -181,7 +181,7 @@ JSX 可以支持更动态的需求。而 template 则因为语法限制原因，
 
 JSX 相比于 template 还有一个优势，是可以在一个文件内返回多个组件，
 
-![](2022-01-14-23-32-07.png)
+![](./picture/2022-01-14-23-32-07.png)
 
 比如在 p 标签上，使用 8 这个数字标记当前标签时，只有 props 是动态的。而在虚拟 DOM 计算 Diff 的过程中，可以忽略掉 class 和文本的计算，这也是 Vue 3 的虚拟 DOM 能够比 Vue 2 快的一个重要原因。
 
@@ -191,7 +191,7 @@ JSX 相比于 template 还有一个优势，是可以在一个文件内返回多
 * [element3](https://github.com/hug-sun/element3/blob/master/packages/element3/packages/timeline/Timeline.vue#L35)
 * [template explorer](https://vue-next-template-explorer.netlify.app/#eyJzcmMiOiI8ZGl2IGlkPVwiYXBwXCI+XG4gICAgPGRpdiBAY2xpY2s9XCIoKT0+Y29uc29sZS5sb2coeHgpXCIgIG5hbWU9XCJoZWxsb1wiPnt7bmFtZX19PC9kaXY+XG4gICAgPGgxID7mioDmnK/mkbjpsbw8L2gxPlxuICAgIDxwIDppZD1cIm5hbWVcIiBjbGFzcz1cImFwcFwiPuaegeWuouaXtumXtDwvcD5cbjwvZGl2PlxuIiwic3NyIjpmYWxzZSwib3B0aW9ucyI6eyJob2lzdFN0YXRpYyI6dHJ1ZSwiY2FjaGVIYW5kbGVycyI6dHJ1ZSwib3B0aW1pemVCaW5kaW5ncyI6ZmFsc2V9fQ==)
 
-## TypeScript 
+## TypeScript
 
 把 tapd 的组件用 ts 重构一版
 
@@ -260,7 +260,7 @@ addRoutes({
 
 网络请求优化和代码效率优化
 
-网络请求优化： 对其他域名去做dns的预解析 
+网络请求优化： 对其他域名去做dns的预解析
 
 ```js
 dns - prefetch
@@ -291,7 +291,7 @@ let active = timing.domInteractive - timing.navigationStart
 
 ## 项目的优化
 
-![](2022-01-16-21-48-37.png)
+![](./picture/2022-01-16-21-48-37.png)
 
 当你开始考虑上图中每一个环节的优化项，当你开始思考左侧的组件如何能在多个项目复用？整体项目的性能如何优化？项目打包上线的过程如何更稳定？如何提前发现项目中的报错等等问题的时候，亮点也就随之诞生了
 
@@ -322,7 +322,7 @@ let active = timing.domInteractive - timing.navigationStart
     window.requestIdleCallback(workLoop)
 ```
 
-## 深入TypeScript 
+## 深入TypeScript
 
 [type T = arg 的类型]
 
@@ -368,10 +368,10 @@ type CourseObj = {
 ```
 
 想问一下type和interface有什么区别? 什么时候用type, 什么时候用interface?
- 
+
  type和interface都可以描述一个对象或者函数，并且都可以扩展，有几个小区别，首先type可以设置类型的别名，比如type Vue = string , 还可以用typeof获取实例的类型，interface可以直接合并申明，默认直接用interface即可
 
-![提交流程](2022-01-21-13-18-02.png)
+![提交流程](./picture/2022-01-21-13-18-02.png)
 
 关于样式scss
 
@@ -424,7 +424,7 @@ if (!commitRE.test(msg)) {
 }
 ```
 
-![husky提交规范](2022-03-12-12-29-12.png)
+![husky提交规范](./picture/2022-03-12-12-29-12.png)
 
 ### 单测
 
@@ -525,8 +525,8 @@ form-item 负责中间的数据和规则管理，以及显示具体的报错信�
 
 关于 prvide 和 inject 的类型系统，我们可以使用 Vue 提供的 InjectiveKey 来声明。我们在 form 目录下新建 type.ts 专门管理表单组件用到的相关类型，在下面的代码中，我们定义了表单 form 和表单管理 form-item 的上下文，并且通过 InjectionKey 管理提供的类型。
 
-
 ## 自定义渲染器
+
 渲染器是围绕虚拟 Dom 存在的。在浏览器中，我们把虚拟 Dom 渲染成真实的 Dom 对象，Vue 源码内部把一个框架里所有和平台相关的操作，抽离成了独立的方法。
 
 基本上做的事情:
@@ -563,8 +563,8 @@ export const nodeOps: Omit<RendererOptions<Node, Element>, 'patchProp'> = {
 }
 
 ```
-上面这段代码是vue提供浏览器端操作的函数, 这些DOM编程接口完成了浏览器端的增加、删除和添加操作
 
+上面这段代码是vue提供浏览器端操作的函数, 这些DOM编程接口完成了浏览器端的增加、删除和添加操作
 
 但是  若想实现跨端能力，渲染器则本身不能依赖任何平台下特有的接口
 
@@ -656,7 +656,6 @@ const { render } = createRenderer({
 
 自定义渲染器让 Vue 脱离了浏览器的限制，我们只需要实现平台内部的增删改查函数后，就可以直接对接 Vue 3。比方说，我们可以把 Vue 渲染到小程序平台，实现 Vue 3-minipp；也可以渲染到 Canvas，实现 vue 3-canvas，把虚拟 dom 渲染成 Canvas；甚至还可以尝试把 Vue 3 渲染到 threee.js 中，在 3D 世界使用响应式开发。
 
-
 首先我们了解了自定义渲染器的原理，就是把所有的增删改查操作暴露出去，使用的时候不需要知道内部的实现细节，我们只需要针对每个平台使用不同的 API 即可。
 
 ```javascript
@@ -700,7 +699,6 @@ const { createApp: originCa } = createRenderer({
 });
 
 ```
-
 
 ```js
 
@@ -776,9 +774,7 @@ export { createApp }
 
 一个最简单的响应式模型，我们可以通过 reactive 或者 ref 函数，把数据包裹成响应式对象，并且通过 effect 函数注册回调函数，然后在数据修改之后，响应式地通知 effect 去执行回调函数即可。
 
-
-![reactive的生命周期](2022-04-15-23-08-41.png)
-
+![reactive的生命周期](./picture/2022-04-15-23-08-41.png)
 
 上图的依赖地图 targetMap 把每个对象 拥有的属性 -> 映射的effect
 
@@ -818,3 +814,12 @@ export const mutableHandles = {
   set,
 };
 ```
+
+1. 好奇心
+2. 充当的角色
+3. 抗压能力
+4. 处理问题的能力
+
+我觉得我的优势是
+
+平时会比较注重用户体验，加入你完成了个非常酷炫的功能，没有给用户带来任何体验上的增强的话，都是没有用的。

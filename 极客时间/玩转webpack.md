@@ -1,6 +1,6 @@
 # 玩转webpack
 
-![](2022-03-04-22-19-51.png)
+![](./picture/2022-03-04-22-19-51.png)
 
 常见的loader 有 babel-loader css-loader less-loader ts-loader  file-loader
 
@@ -30,7 +30,8 @@ watchOptions: {
 
 热更新： 使用webpack-dev-middleware
 
-![](2022-03-14-23-36-18.png)
+![](./picture/2022-03-14-23-36-18.png)
+
 ##
 
 ###

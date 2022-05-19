@@ -1,3 +1,5 @@
+# labuladong的算法小抄
+
 1.
 
 最底层的就是数组和链表
@@ -183,7 +185,7 @@ def backtrack(路径， 选择列表)：
 
 // 全排列
 
-我们定义的backtrack 函数其实就像一个指针，在这颗树上遍历，同时要正确维护每个节点的属性，每当走到树的底层，其『路径』就是一个全排列
+我们定义的 backtrack 函数其实就像一个指针，在这颗树上遍历，同时要正确维护每个节点的属性，每当走到树的底层，其『路径』就是一个全排列
 
 // 遍历
 前序遍历的代码在进入某一个节点之前的那个时间点执行，后序遍历的代码在离开某个节点之后的那个时间点执行
@@ -237,6 +239,203 @@ function backtrack(nums, track, result) {
 1.4 BFS算法框架
  BFS(broad first search) ，广度优先搜索和DFS(深度优先搜索)
 
+## BFS算法框架套路
+
+问题的本质就是让你在一副『图』中找到起点start和终点target的最近距离
+
+队列需要回头，visited的主要作用就是防止走回头路，大部分都是必需的，但是像一般的二叉树结构，没有子节点到父节点的指针，不会走回头路就不需要visited。
+
+寻找二叉树最小节点
+
+```javascript
+function minDepth(Q){
+    if(root == null) return 0;
+    let depth = 1;
+    let size = q.size();
+    while (!q.isEmpty()){
+        for(let i = 0; i < size; i++){
+            let node = q.dequeue();
+            if(node.left == null && node.right == null){
+                return depth;
+            }
+            if(node.left != null){
+                q.enqueue(node.left);
+            }
+            if(node.right != null){
+                q.enqueue(node.right);
+            }
+        }
+        depth++;
+    }
+}
+```
+
+形象点说，DFS是线，BFS是面；DFS是单打独斗，BFS是集体行动。
+
+既然BFS这么好，为什么要用DFS？
+ 一般来说在寻找最短路径的时候使用BFS，其他时候用DFS多一些。
+
+## 双指针技巧套路框架
+
+双指针技巧分为两类：一类是『快、慢』指针， 一类是『左右指针』
+快慢指针：主要解决链表的问题，比如典型的判定链表中是否存在包含环；后者主要解决数组（或者字符串）中的问题，比如二分搜索
+
+1.XUNZ
+
+```js
+function hasCycle(head){
+    // 初始化快、慢指针指向头节点
+    fast  = slow = head;
+    while(fast !=null && fast.next != null){
+        // 慢指针每次走一步
+        slow = slow.next;
+        // 快指针每次前进两步
+        fast = fast.next.next;
+        if(slow == fast){
+            return true;
+        }
+    }
+    return false
+}
+
+```
+
+2.寻找这个环的起始位置
+
+```javascript
+    function detectCycle(head){
+        // 初始化快、慢指针指向头节点
+        fast  = slow = head;
+        while(fast !=null && fast.next != null){
+            // 慢指针每次走一步
+            slow = slow.next;
+            // 快指针每次前进两步
+            fast = fast.next.next;
+            if(slow == fast){
+                return true;
+            }
+        }        
+        slow = head;
+        while (slow != fast) {
+            // 两个指针以相同的速度前进
+            fast = fast.next;
+            slow = slow.next;
+        }
+        // 两个指针相遇的那个单链表节点就是环的起点
+        return slow;
+    }
+```
+
+3.寻找无环单链表的中点
+
+```javascript
+ while(fast !=null && fast.next !=null){
+    fast = fast.next.next;
+    slow = slow.nextl
+
+}
+return slow;
+```
+
+4. 寻找单链表的倒数第K个元素
+
+```javascript
+    while (k -- > 0) {
+        fast = fast.next;
+    }
+    while(fast !=null){
+        slow = slow.next;
+        fast = fast.next
+    }
+    return slow;
+```
+
+## 左右指针的常用算法
+
+左右指针一般运用在数组问题上，实际上是指两个索引值，一般初始化为left = 0,right = len(nums) - 1
+
+1.二分搜索
+
+```JS
+// 二分搜索
+    function binarySearch(){
+        // 左、右指针在数组的两端初始化
+        var left = 0;
+        var right = nums.length - 1;
+        while(left <= right){
+            var mid = Math.floor((left + right) / 2);
+            if(nums[mid] == target){
+                return mid;
+            }
+            if(nums[mid] < target){
+                left = mid + 1;
+            }else{
+                right = mid - 1;
+            }
+        }
+        return -1
+    }
+
+```
+
+为什么while的循环的条件是<=,而不是<？
+因为初始化right的时候，nums.length - 1，即最后一个元素的索引，而不是nums.length
+
+nums.length -1 :相当于左闭右开[left, right)，因为索引大小为nums.length是越界的。
+nums.length: 相当于两端都闭区间[left， right]
+
+理解下左闭右开的概念：
+
+开闭区间是一个数学概念，开区间使用符号小括号()表示，闭区间使用符号中括号[]表示，闭区间包含了两个端点，而开区间则不包含两个端点
+
+一共四种情况：
+(a,b)：区间范围内，不包含a和b
+[a,b]：区间范围内，包含a，也包含b
+(a,b]：区间范围内，不包含a，包含b
+[a,b)：区间范围内，包含a，不包含b
+
+2.两数之和
+
+只要数组有序，就应该想到双指针技巧
+
+```javascript
+function twoSum(nums, target){
+    let left = 0;
+    let right = nums.length - 1;
+    while(left < right){
+        let sum = nums[left] + nums[right];
+        if(sum == target){
+            //题目要求索引从1开始的
+            return [left + 1, right + 1];
+        } else if(sum < target){
+            left++; //让sum大一点
+        }else{
+            right--; // 让sum小一点
+        }
+    }
+    return [-1, -1];
+}
+```
+
+3.反转数组
+
+```javascript
+function reverseArray(nums){
+    let left = 0;
+    let right = nums.length - 1;
+    while(left < right){
+        let temp = nums[left];
+        nums[left] = nums[right];
+        nums[right] = temp;
+        left++;
+        right--;
+    }
+    return nums;
+}
+```
+
+4.滑动窗口算法
+
 1.6 二分搜索框架
 
 ```javascript
@@ -260,8 +459,110 @@ let binarySearch(){
 分析二分搜索的一个技巧是： 不要出现else， 而是把所有情况用else if写清楚，这样可以清楚展现所有细节。
 js 中找mid的 有以下几种形式
 
-``````JS
+```JS
     var point = Math.ceil(arr.length / 2);
     let mid = Math.round((leftIndex + rightIndex) / 2);
     let mid = left + (right -left) / 2  // 解决 left 和 right 太大 溢出
 ```
+
+1. 寻找一个数（基本的二分搜索）
+
+2. 寻找左侧边界的二分搜索
+
+搜索左、右边界的二分搜索算法和常规二分搜索算法的区别。让搜索区间变成左闭右开
+
+模板总结：
+
+1. 分析二分搜索代码，不要出现else，全部展开改成else if，方便理解。
+1. 主义『搜索区间』和while的终止条件，搞清楚『搜索区间』的开闭情况非常重要，left和right的更新完全取决与『搜索区间』，如果存在漏掉的元素，记得在最后检查。
+1. 若需要定义左闭右开的『搜索区间』搜索左、右边界，只要在nums【mid】==target时做修改即可，搜索右侧边界时需要减一。
+1. 如果将『搜索区间』全都统一成两端都闭，好记，只要稍微改nums[mid]==target条件处的代码和函数返回的代码逻辑即可。
+
+## 滑动窗口算法框架
+
+```javascript
+function slidingWindow(s, t){
+    var left = 0; right = 0;
+    var valid = 0;
+    while(right < s.length){
+        if(s[right] == t){
+            valid++;
+        }
+        // 右移窗口
+        right++;
+        // 进行窗口内数据的一系列更新
+        //...
+        if(valid > 0){
+            valid--;
+        }
+        // 判断左侧窗口是否要收缩
+        while(window < s.length && valid < 0){
+            if(s[left] == t){
+                valid++;
+            }
+            left++;
+            // ...
+        }
+    }
+
+
+}
+```
+
+ 首先，初始化window和needs两个哈希表，记录窗口中的字符和需要凑齐的字符：
+
+ ```JS
+function minWindow(s, t) {
+    var needs = {}; // 需要凑齐的字符
+    var window = {}; //窗口中字符
+    for(let a of t){
+        //统计需要的字符
+        needs[a] = (needs[a] || 0) + 1;
+    }
+    var left = 0; right = 0, valid = 0;
+    // 最小覆盖子串的起始索引及长度
+    var start = 0, min =  Number.MAX_VALUE;
+    while(right < s.length){
+        // 即将移入窗口的字符
+        var c = s[right];
+        // 其中valid变量表示窗口中满足needs条件的字符个数，如果valid和needs.length的大小相同，则说明窗口以满足条件，已经完全覆盖子串
+        right++;
+        if(needs[c]){
+            // 当前字符在需要的字符中，则更新当前窗口统计
+            window[c] = (window[c] || 0) + 1;
+            if(window[c] == needs[c]){
+                // 当前窗口和需要的字符匹配时，验证数量增加1
+                valid++;
+            }
+
+        }
+        // 判断左侧窗口是否要收缩，当验证数量与需要的字符个数一直时，就应该收缩窗口了
+        while(valid == Object.keys(needs).length){
+            // 更新最小覆盖子串
+            if(right - left < min){
+                start = left;
+                min = right - left;
+            }
+            // d是将移出窗口的字符
+            var d = s[left];
+            left++;
+            //进行窗口内数据的一系列更新
+            if(needs[d]){
+                if(window[d] == needs[d]){
+                    valid--;
+                }
+                window[d]--;
+            }
+        }
+    }
+    //返回最小覆盖子串
+    return min == Number.MAX_VALUE ? "" : s.substr(start, min);
+}
+ ```
+
+套用模板：
+
+1. 当移动right扩大窗口，即加入字符时，应该更新哪些数据？
+2.什么条件下，窗口应该暂停扩大，开始移动left缩小窗口？
+3.当移动left缩小窗口，即移除字符时，应该更新哪些数据？
+4.我们要的结果应该在扩大窗口时还是缩小窗口时进行更新？

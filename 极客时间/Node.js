@@ -1,2 +1,2 @@
-module.exports = {name: 'jikebang'}
-exports = {name: 'liuhua'}
+module.exports = { name: "jikebang" };
+exports = { name: "liuhua" };

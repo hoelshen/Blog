@@ -1,4 +1,5 @@
 1. 方法一：在 index.html 或者 main.js 中添加以下代码：
+
 ```js
 const setHtmlFontSize = () => {
   const htmlDom = document.getElementsByTagName('html')[0];
@@ -14,15 +15,18 @@ const setHtmlFontSize = () => {
 window.onresize = setHtmlFontSize;
 setHtmlFontSize();
 ```
+
 注： 这里设置的比例是 100px = 1rem，例如：元素宽度为 100px 时,可以直接写成 1rem
 
 2. 方法二：使用 lib-flexible 和 px2rem-loader 自动转换
 
 安装插件
+
 ```js
 npm install lib-flexible --save
 npm install px2rem-loader --save-dev
 ```
+
 配置插件
 在入口文件 main.js 中引入 lib-flexible：
 引入 lib-flexible
@@ -33,11 +37,13 @@ npm install px2rem-loader --save-dev
 ![](http://pvt7l4h05.bkt.clouddn.com/2019-11-19-173312.png)
 
 另外，px 写法上会有些不同，大家可以参考 px2rem![https://www.npmjs.com/package/px2rem] 官方介绍，下面简单介绍一下。
+
 1. 直接写 px，编译后会直接转化成 rem；---- 【除下面两种情况，其他长度用这个】
 2. 在 px 后面添加 /*no*/，不会转化 px，会原样输出； ---- 【一般 border 用这个】
 3. 在 px 后面添加 /*px*/，会根据 dpr 的不同，生成三套代码。---- 【一般 font-size 用这个】
 
 示例代码如下：
+
 ```js
 /* 编译前 */
 .selector {

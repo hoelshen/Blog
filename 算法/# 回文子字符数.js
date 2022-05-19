@@ -32,7 +32,6 @@ var countSubstrings = function(s) {
   var num = 1;
   var sumArr = [];
   while(num <= countArr.length){
-    debugger
     // 获取一步 从num 截止到数组索引point  每次获得n个数字的切割值
     for(var i =num; i<countArr.length; i++) {
       sumArr.push(countArr[i]);

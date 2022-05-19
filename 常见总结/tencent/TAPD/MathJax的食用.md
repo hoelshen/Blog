@@ -11,7 +11,7 @@
 
 ## 如何使用
 
-### 加载Mathjax不同的模块 
+### 加载Mathjax不同的模块
 
 * tex-chtml  会加载 ams, newcommand, require, autoload, configMacros, 和 noundefined。这意味着大部分情况下能满足你基本需求。你也可以使用 require 自己加载更多模块。
 

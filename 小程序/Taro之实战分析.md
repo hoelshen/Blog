@@ -73,10 +73,13 @@ componentwillMount 将被舍弃
 
 当组件的 props 或 state 发生变化时会触发更新。组件更新的生命周期调用顺序如下：
 
--	static getDerivedStateFromProps()
-+	shouldComponentUpdate()
+*	static getDerivedStateFromProps()
+
+*	shouldComponentUpdate()
+
 *	render()
--	getSnapshotBeforeUpdate()
+
+*	getSnapshotBeforeUpdate()
 
 * componentDidUpdate()
 
@@ -95,8 +98,8 @@ componentwillMount 将被舍弃
 
 class 属性
 
--	defaultProps
--	displayName
+*	defaultProps
+*	displayName
 
 ``` js
 class CustomButton extends React.Component {
@@ -261,7 +264,6 @@ const App = () => {
 
       <MList />
 ```
-
 
 ``` jsx
 // JSX 语法
@@ -525,8 +527,6 @@ render () {
 
 ```
 
-
-
 ```jsx
     Taro.chooseImage({
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -549,9 +549,9 @@ render () {
     })
 
 ```
+
     const refDay = (node) => this.MDay = node // `this.MDay` 会变成 `MDay` 组件实例的引用
     const refDialog = (node) => this.MDialog = node // `this.MDialog` 会变成 `MDialog` 组件实例的引用
-
 
 ```jsx
 二) 常量定义
@@ -587,6 +587,7 @@ render () {
 
 taro组件使用keys
 小程序原生组件使用taroKeys
+
 ```jsx
 const numbers = [...Array(100).keys()] // [0, 1, 2, ..., 98, 99]
 const listItems = numbers.map((number) => {
@@ -709,4 +710,5 @@ this.setState(prevState => ({ value: prevState.value + 1 }))    // ✓ 正确
 
 r//ender 方法必须有返回值
 ```
+
 值为 true 的属性可以省略书写值

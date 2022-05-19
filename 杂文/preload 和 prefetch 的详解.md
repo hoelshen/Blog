@@ -1,4 +1,5 @@
 # preload 和 prefetch 的详解
+
   prefetch 是一个声明式 fetch, 可以强制浏览器在不阻塞 document 的 onload 事件的情况下请求资源
   prefetch 告诉浏览器这个资源将来可能需要,但是什么时候加载这个资源是有浏览器来决定的.
 
@@ -21,6 +22,7 @@ prefetch 要注意的点
 script 脚本资源根据它们在文件中的未知是否异步、延迟或阻塞
 
 ## 其他加载方式对比
+
 async、 defer
 使用时不阻塞 html 的解析， defer 加载脚本执行会在所有元素解析完成，domContentLoaded 事件触发之前完成执行。它的用途其实跟 preload 十分相似。你可以使用 defer 加载脚本在 head 末尾，这比将脚本放在 body 底部效果来的更好。
 
@@ -55,7 +57,6 @@ prerender
 script defer 页面已加载后才会运行脚本
 defer 属性是个布尔值
 
-* 		如果 async="async"：脚本相对于页面的其余部分异步地执行（当页面继续进行解析时，脚本将被执行）
-* 		如果不使用 async 且 defer="defer"：脚本将在页面完成解析时执行
-* 		如果既不使用 async 也不使用 defer：在浏览器继续解析页面之前，立即读取并执行脚本
-
+* 如果 async="async"：脚本相对于页面的其余部分异步地执行（当页面继续进行解析时，脚本将被执行）
+* 如果不使用 async 且 defer="defer"：脚本将在页面完成解析时执行
+* 如果既不使用 async 也不使用 defer：在浏览器继续解析页面之前，立即读取并执行脚本

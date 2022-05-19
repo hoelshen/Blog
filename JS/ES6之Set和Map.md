@@ -23,14 +23,13 @@ weakMap
 1. 健名所指向的对象，不计入垃圾回收机制
 1. 不能遍历，方法同get,set,has,delete
 
-
 Set 实例属性
 
 constructor： 构造函数
 
 size：元素数量
 
-```js      
+```js
 let set = new Set([1, 2, 3, 2, 1])
 
 console.log(set.length)	// undefined
@@ -97,3 +96,40 @@ WeakMap
 键名是弱引用，键值可以是任意的，键名所指向的对象可以被垃圾回收，此时键名是无效的
 不能遍历，方法有get、set、has、delete
 
+## 模拟weakMap
+
+```javascript
+// weakmap：处理对象关联引用
+function SimpleWeakmap (){
+    this.cacheArray = [];
+}
+
+SimpleWeakmap.prototype.set = function(key, value){
+    this.cacheArray.push(key);
+    key[UNIQUE_KEY] = value;
+};
+SimpleWeakmap.prototype.get = function(key){
+    return key[UNIQUE_KEY];
+};
+SimpleWeakmap.prototype.clear = function(){
+    for (let i = 0; i < this.cacheArray.length; i++) {
+        let key = this.cacheArray[i];
+        delete key[UNIQUE_KEY];
+    }
+    this.cacheArray.length = 0;
+};
+
+function getWeakMap(){
+    let result;
+    if(typeof WeakMap !== 'undefined' && type(WeakMap)== 'function'){
+        result = new WeakMap();
+        if(type(result) == 'weakmap'){
+            return result;
+        }
+    }
+    result = new SimpleWeakmap();
+
+    return result;
+}
+
+```

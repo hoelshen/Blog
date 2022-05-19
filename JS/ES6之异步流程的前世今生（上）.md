@@ -21,9 +21,9 @@
     事件循环和回调队列
     调用栈和回调队列，当栈为空时，它会调取出队列中的第一个事件，放到调用栈中执行;
     
-    常见的 macro-task（这个队列也被叫做 task queue） 比如： setTimeout、setInterval、 setImmediate、script（整体代码）、 I/O 操作、UI 渲染等。
+    常见的 宏任务(macro-task)（这个队列也被叫做 task queue） 比如： setTimeout、setInterval、 setImmediate、script（整体代码）、 I/O 操作、UI 渲染等。
 
-    常见的 micro-task 比如: process.nextTick、Promise、Object.observe、MutationObserver 等。
+    常见的 微任务(micro-task) 比如: process.nextTick、Promise、Object.observe、MutationObserver 等。
 
     promise 永远会在队列尾部添加微观任务
 
@@ -37,6 +37,7 @@
   4. promise对象
 
 ## 环境配置
+
   一双能敲代码的手、一台能执行代码的电脑。
 需要预先引入的库
 
@@ -153,7 +154,6 @@ Promise.prototype.then() = function (success, fail) {
 ```
 
 一般情况下，只传 success 回调函数即可，fail函数可选，使用catch来捕获函数异常比通过fail函数进行处理更加可控。
-
 
 ``` javascript
 const requireDirectory = require(require-directory )
@@ -535,7 +535,7 @@ MyPromise.allsettle = funciton() {
 
   }
 }
-Promise.all() 和 romise.race() 都具有 短路特性
+Promise.all() 和 Promise.race() 都具有 短路特性
 
 Promise.all()： 如果参数中  promise 有一个失败（rejected），此实例回调失败（reject）
 
@@ -544,7 +544,6 @@ Promise.race()：如果参数中某个promise解决或拒绝，返回的 promise
 
 
 ```
-
 
 ```js
 // 生成一个Promise对象的数组

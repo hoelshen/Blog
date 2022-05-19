@@ -9,7 +9,7 @@
 
 content-type 是请求消息头中的一个请求参数, 标识请求消息数据的格式.
 
-## 响应;
+## 响应
 
 HTTP 消息头允许客户端和服务器通过 request和 response传递附加信息。
 
@@ -32,8 +32,3 @@ content-type是响应消息报头中的一个参数，标识响应正文数据�
     逐跳消息头
     
     这类消息头包括 connection keep-alive  proxy-authenticate, proxy-authorization, te,trailer, transfer-encoding 及 upgrade
-
-
-
-
-

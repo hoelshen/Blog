@@ -17,35 +17,50 @@
 //             }  else{
 //                 return arr
 //             }
-//         }       
+//         }
 //     }
 // };
 
 var longestCommonPrefix = function (strs) {
-  if (!strs.length) return '';
-  let result = '';
+  if (!strs.length) return "";
+  let result = "";
   for (let i = 0; i < strs[0].length; i++) {
-    let s = strs[0][i];  
-    console.log('s: ', s);
-    console.log('s: ', strs);
-    if (strs.every(item => item[i] == s)) {
+    let s = strs[0][i];
+    if (strs.every((item) => item[i] == s)) {
       result += s;
     } else {
       break;
     }
   }
   return result;
-}
-var val = longestCommonPrefix(["flower", "flow", "flight"])
+};
+
+var val = longestCommonPrefix(["flower", "flow", "flight"]);
 // var val = longestCommonPrefix(["a"])
 // var val = longestCommonPrefix([""])
-console.log('val: ', val);
+console.log("val: ", val);
 
 // ["dog","racecar","car"]
-
 
 //解析 将得到的数组项一个个拆分：将 item 进行，
 //这里有一个要注意的我有一点没有考虑到就是字符串也可以取[0] 跟数组的类似
 
 //这里还有一个考虑错误： 以为一定要每个都考虑全面 但是这是一个误区 ，我们取得是交集  而不是并集 只要我们考虑的哪个元素能够匹配所有值。
 
+/**
+ * @param {string[]} strs
+ * @return {string}
+ */
+var longestCommonPrefix = function (strs) {
+  if (strs.length == 0) return "";
+  let ans = strs[0];
+  for (let i = 1; i < strs.length; i++) {
+    let j = 0;
+    for (; j < ans.length && j < strs[i].length; j++) {
+      if (ans[j] != strs[i][j]) break;
+    }
+    ans = ans.substr(0, j);
+    if (ans === "") return ans;
+  }
+  return ans;
+};

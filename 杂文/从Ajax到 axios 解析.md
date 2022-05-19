@@ -39,13 +39,11 @@ xhr.ontimeout = () => console.log('请求超时')
 * xhr.readyStatus==3 已接收到请求返回的数据
 * xhr.readyStatus==4 请求已完成
 
-
-
-
 XMLHttpRequest.responseType 属性是一个枚举属性, 返回响应式数据的类型.
 
 responseType 支持以下几种值:
-* "" 
+
+* ""
     responseType 为空字符串时，采用默认类型 DOMString，与设置为 text 相同。
 * arraybuffer
     response 是一个包含二进制数据的 JavaScript arrayBuffer
@@ -54,9 +52,10 @@ responseType 支持以下几种值:
 * document
     response是一个 html document 或 xmldocument, 这取决于接收到的数据的 mime 类型.
 * json
-    response 是一个 JavaScript 对象。这个对象是通过将接收到的数据类型视为 JSON 解析得到的     
+    response 是一个 JavaScript 对象。这个对象是通过将接收到的数据类型视为 JSON 解析得到的
 * text
     response 是一个以 DOMString 对象表示的文本。
+
 ## ajax
 
 ``` js
@@ -142,7 +141,23 @@ fetch(url)
     .catch(err => console.log(err))
 ```
 
+```js
+const controller = new AbortController();
+const { signal } = controller;
+fetch('/foo', { signal }).then(...);
+signal.onabort = () => { ... };
+controller.abort();
+
+
+
+```
+
+Fetch API 也能像 XHR 那样中断一个请求了，只是稍微绕了一点。通过创建一个 AbortController 实例，我们得到了一个 Fetch API 原生支持的控制中断的控制器。这个实例的 signal 参数是一个 AbortSignal 实例，还提供了一个 abort() 方法发送中断信号。只需要将 signal 参数传递进 fetch() 的初始化参数中，就可以在 fetch 请求之外控制请求的中断了：
+
+过去 FileReader 只能在 onload 事件上拿到整个文件的数据，或者对文件使用 slice() 方法得到 Blob 文件片段。
+
 ## axios
+
 ![](https://tva1.sinaimg.cn/large/0081Kckwgy1gk4tak223cj30gm0gw0tf.jpg)
   我们可以为 axios 处理一下错误
 
@@ -322,7 +337,6 @@ demo
 ```
 
 接下来是 ant-design-pro 的代码
-
 
 ```js
 // adapter.js

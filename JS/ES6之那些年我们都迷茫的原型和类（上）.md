@@ -262,6 +262,8 @@ p1.myAge();// 报错 age is not defined
 
 ## 继承 多态 封装
 
+//todo
+
 ### 子类继承父类
 
 1. 借用构造函数继承

@@ -53,16 +53,15 @@
 
   html5 的 history api
 
-  + history.pushState 
-  + history.replaceState
-  + history.back()
-  + history.forward()
-  + history.go()
++ history.pushState
++ history.replaceState
++ history.back()
++ history.forward()
++ history.go()
 
-  
   可以在不刷新页面的前提下动态改变浏览器地址栏中的 url 地址，动态修改页面上所显示资源。
 
-  **pushState(state, title, url); ** //添加一条历史记录，不刷新页面
+  **pushState(state, title, url);** //添加一条历史记录，不刷新页面
 
   state: 一个于执行网址相关的状态对象，popstate事件触发时，该对象会传回调函数， 如果不需要这个对象，此处可以填 null
 
@@ -115,13 +114,13 @@ window.addEventListener('popstate', function(e) {
 
 ## hash 和 history 两者之间区别
 
-* hash前端路由，无刷新 #
-* history  会去请求接口 /
++ hash前端路由，无刷新 #
++ history  会去请求接口 /
 
 1. hash  改变hash不会加载页面
 2. history 修改页面url时，浏览器不会向后端发送请求。
 
-hash模式下，# 之前的内容包含在 http 请求中，对后端来说，即使没有对路由做到全面覆盖，也不会报 404; 
+hash模式下，# 之前的内容包含在 http 请求中，对后端来说，即使没有对路由做到全面覆盖，也不会报 404;
 
 history 在刷新页面时，如果服务器中没有相应的响应资源，就会出现 404，如果 url 匹配不到任何静态资源，则应该返回同一个 index.html 页面。
 
@@ -243,6 +242,10 @@ const {
 
 ```
 
+1、业务
+2、性能、
+3、技术栈 、vue、 java
+
 ## react router v5
 
 两个基础组件 **BrowserRouter, Route**
@@ -258,7 +261,7 @@ component = {
 />
 ```
 
-当我们在浏览器地址栏中输入  **http://localhost:3000/help** 的时候，React Router 会匹配到 <Route path="/help" component={Help} /> 这一条记录，然后就会在当前位置渲染对应的component。
+当我们在浏览器地址栏中输入  **<http://localhost:3000/help>** 的时候，React Router 会匹配到 <Route path="/help" component={Help} /> 这一条记录，然后就会在当前位置渲染对应的component。
 
 还可以导入 Link 组件进行链接的跳转
 
@@ -268,19 +271,19 @@ component = {
 
 ## 配置方式
 
-* <Route component={Index} />
++ <Route component={Index} />
 
 如果没有指定 path 属性, 这时只要你打开项目, 无论访问什么, 都是匹配到这个 Route.
 
-* <Route path="/" component={Index} />
++ <Route path="/" component={Index} />
 
 跟上面一样那个, 我们访问的路径, 都包含"/"的路径. 无论访问什么, 都是匹配到这个 Route.
 
-* <Route exact path="/" component={Index} />
++ <Route exact path="/" component={Index} />
 
  我们可以设置 exact , 匹配规则就是匹配上才会走这个路由.
 
-* <Route path="/render" render={ () => { return <h1>我是匹配到的路由</h1> } } />
++ <Route path="/render" render={ () => { return <h1>我是匹配到的路由</h1> } } />
 
 render属性。该属性是一个函数，当匹配到这个Route的时候，页面将会渲染出这个函数返回的内容。
 

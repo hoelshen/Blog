@@ -17,11 +17,9 @@
 
   css 的规则都是全局的，任何一个组件的样式规则， 都对整个页面有效。
 
-** class 命名写长一点吧，降低冲突的几率
+**class 命名写长一点吧，降低冲突的几率
 ** 加个父元素的选择器，限制范围
 ** 重新命名个 class 吧，比较保险
-
-
 
 ## css modules 使用教程
 
@@ -105,6 +103,7 @@ class Table extends React.Component {
 export default CSSModules(Table, styles);
 
 ```
+
 在react 中使用
 
 ```js
@@ -154,7 +153,9 @@ export default Table；
 3. 遍历所有 JSX 元素声明
 4. 把 styleName 属性解析成匿名和命名的局部 css 模块引用
 5. 查找与 CSS 模块引用相匹配的 CSS 类名称：
+
 * 如果 styleName 的值是一个字符串字面值，生成一个字符串字面值。
 * 如果是 JSXExpressionContainer，在运行时使用 helper 函数来构建如果 styleName 的值是一个 jSXExpressionContainer, 使用辅助函数（[getClassName] 在运行时构造 className 值。
+
 6. 从元素上移除 styleName 属性。
 7. 将生成的 className 添加到现有的 className 值中（如果不存在则创建 className 属性）。

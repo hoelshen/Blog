@@ -18,7 +18,7 @@
 
 变量的主要用途： 管理程序状态  状态跟踪了值随着程序运行的变化。
 
-变量的另一个常见用法是集中设置值 
+变量的另一个常见用法是集中设置值
 
 在JavaScript中常量的变量用大写表示，多个单词之间用下划线_分割
 
@@ -190,11 +190,11 @@ polyfilling 根据新特性的定义，创建一段与之行为等价但能够�
 
 我们就使用到
 
-Babel(https://babeljs.io)  从ES6编译到ES5
+Babel(<https://babeljs.io>)  从ES6编译到ES5
 
-Traceur(https://github.com/google/traceur-compiler)
+Traceur(<https://github.com/google/traceur-compiler>)
 
-transpiling 
+transpiling
 
 ```jsx
 fucntion foo(){
@@ -205,7 +205,7 @@ fucntion foo(){
 
 非JavaScript
 
-例如dom api 
+例如dom api
 
 document.getElement
 
@@ -216,7 +216,6 @@ document.getElement
 this关联的是对象原型机制， 这种机制是一个属性查找链，与寻找词法作用域变脸的方式类似， 但在原型中进行封装，即模拟（伪造）类和（所谓“原型化的”）继承，是对JavaScript的另一个重大误用
 
 [h5新增特性](https://www.notion.so/h5-59d12d68fb6f4928bf67115aa54278a0)
-
 
 JavaScript 中有两个机制可以『欺骗』词法作用域： eval(..) 和with.前者可以对一段包含一个或多个声明的『代码』字符串进行验算， 并借此来修改已经存在的词法作用域（在运行时）
 后者本质上是通过将一个对象的引用当做作用域来处理， 将对象的属性当做作用域中的标识符来处理，从而创建一个新的词法作用域（同样是在运行时）
@@ -303,7 +302,7 @@ new 绑定
 
 当 Number 在 new 表达式中被调用时， 它是一个构造函数： 它会初始化新创建的对象
 
-优先级 
+优先级
 
 显式绑定 > 隐式绑定 > 默认绑定
 

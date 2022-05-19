@@ -137,9 +137,9 @@ customElements.define('word-count', WordCount, { extends: 'p' });
 
 3. Element.attachShadow  将一个shadow Dom附加到自定义元素上。使用通常的dom方法向shadow DOM 中添加子元素、事件监听器。
 
-shadow dom 
+shadow dom
 
-Element.attachShadow 的功能尚不完整 
+Element.attachShadow 的功能尚不完整
 
 ```jsx
 var shadowroot = element.attachShadow(shadowRootInit);
@@ -158,7 +158,7 @@ let templateContent = template.content;
 document.body.appendChild(templateContent);
 ```
 
-5.  使用自定义元素
+5. 使用自定义元素
 
 定义一个 web 组件使用模版作为阴影 DOM的内容  我们叫它<my-paragraph>
 

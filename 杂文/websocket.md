@@ -1,5 +1,4 @@
 
-
 websocket
 必须要先安装package.json
 HTTP和WebSocket两者的差距不大
@@ -8,8 +7,8 @@ HTTP和WebSocket两者的差距不大
 2、web服务器返回响应
 3、浏览器通过四次握手主动断开链接
 因为第三步导致不能持久链接，那我们去掉第三步不就可以了实现持久链接了吗？这就是WebSocket与HTTP最大的不同（Web服务器是不会主动断开连接的），当然还有更多的数据封装格式的不同。
-可以看到WebSocket是在HTTP上做的改动，有人曾经用单片机的TCP/IP协议栈封装符合HTTP协议格式的字符串，去连接Web服务器。WebSocket和HTML5没有多大关系。 
-如果要搭建一个Web服务器，我们会有很多选择，市场上也有很多成熟的产品供我们应用，比如开源的Apache，安装后只需简单的配置（或者默认配置）就可以工作了。但是如果想搭建一个WebSocket服务器就没有那么轻松了，因为WebSocket是一种新的通信协议，目前还是草案，没有成为标准，市场上也没有成熟的WebSocket服务器或者Library实现WebSocket协议，我们就必须自己动手写代码去解析和组装WebSocket的数据包。要这样完成一个WebSocket服务器，估计所有的人都想放弃，幸好的是市场上有几款比较好的开源库供我们使用，我们可以调用这些接口，这在很大程度上减少了我们的工作量。 
+可以看到WebSocket是在HTTP上做的改动，有人曾经用单片机的TCP/IP协议栈封装符合HTTP协议格式的字符串，去连接Web服务器。WebSocket和HTML5没有多大关系。
+如果要搭建一个Web服务器，我们会有很多选择，市场上也有很多成熟的产品供我们应用，比如开源的Apache，安装后只需简单的配置（或者默认配置）就可以工作了。但是如果想搭建一个WebSocket服务器就没有那么轻松了，因为WebSocket是一种新的通信协议，目前还是草案，没有成为标准，市场上也没有成熟的WebSocket服务器或者Library实现WebSocket协议，我们就必须自己动手写代码去解析和组装WebSocket的数据包。要这样完成一个WebSocket服务器，估计所有的人都想放弃，幸好的是市场上有几款比较好的开源库供我们使用，我们可以调用这些接口，这在很大程度上减少了我们的工作量。
 百万websocket常连接的服务器
 Netty服务器
 Spray服务器
@@ -27,7 +26,7 @@ Host: server.example.com
 Upgrade: websocket
 Connection: Upgrade
 Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
-Origin: http://example.com
+Origin: <http://example.com>
 Sec-WebSocket-Protocol: chat,  superchat
 Sec-WebSocket-Version: 13
 2、返回握手应答
@@ -48,14 +47,14 @@ Adobe® Flash® Socket
 AJAX long polling
 AJAX multipart streaming
 Forever Iframe
-JSONP Polling                  
+JSONP Polling
 
 1. 创建项目，文件夹下创建package.json文件
 
 {
-  "name": "socket", 
-  "version": "0.0.1", 
-  "description": "myproject", 
+  "name": "socket",
+  "version": "0.0.1",
+  "description": "myproject",
   "dependencies": {}
 }
 
@@ -65,112 +64,117 @@ G:\www\nodejs\socket>npm install net --save-dev
 
 3. SocketServer.js
 
-var net = require('net');   
-var chatServer = net.createServer(),       
-    clientList = [];   
-    clientMap=new Object(); 
+```javascript
 
-var ii=0; 
+var net = require('net');
+var chatServer = net.createServer(),
+    clientList = [];
+    clientMap=new Object();
+
+var ii=0;
 chatServer.on('connection',  function(client) {  
   // JS 可以为对象自由添加属性。这里我们添加一个 name 的自定义属性，用于表示哪个客户端（客户端的地址+端口为依据）  
-  //client.name = client.remoteAddress + ':' + client.remotePort;     
-  //client.write('Hi ' + client.name + '!\n');     
-  //clientList.push(client); 
-    client.name=++ii; 
-    clientMap[client.name]=client; 
-  //client.setEncoding('utf-8'); 
-   //超时事件
-//    client.setTimeout(timeout, function(){
-//        console.log('连接超时'); 
-//        client.end(); 
-//    }); 
+  client.name = client.remoteAddress + ':' + client.remotePort;
+  client.write('Hi ' + client.name + '!\n');
+  clientList.push(client);
+  client.name=++ii;
+  clientMap[client.name]=client;
+  client.setEncoding('utf-8');
+  //超时事件
+  client.setTimeout(timeout, function(){
+        console.log('连接超时');
+        client.end();
+    });
 
   client.on('data',  function(data) {
-     console.log('客户端传来:'+data); 
-     //client.write('你发来:'+data); 
+     console.log('客户端传来:'+data);
+     //client.write('你发来:'+data);
      broadcast(data,  client); // 接受来自客户端的信息
-  }); 
+  });
   //数据错误事件
     client.on('error', function(exception){
-        console.log('client error:' + exception); 
-        client.end(); 
-    }); 
+        console.log('client error:' + exception);
+        client.end();
+    });
     //客户端关闭事件
     client.on('close', function(data){
-        delete clientMap[client.name]; 
-        console.log(client.name+'下线了'); 
-        broadcast(client.name+'下线了', client); 
+        delete clientMap[client.name];
+        console.log(client.name+'下线了');
+        broadcast(client.name+'下线了', client);
 
-    }); 
+    });
   
-});   
+});
 function broadcast(message,  client) {
     for(var key in clientMap){
-        clientMap[key].write(client.name+'say:'+message+'\n'); 
+        clientMap[key].write(client.name+'say:'+message+'\n');
     }
 }  
 chatServer.listen(9000);  
 
 4. SocketClient.js
 
-var net = require('net'); 
-var port = 9000; 
-var host = '127.0.0.1'; 
+var net = require('net');
+var port = 9000;
+var host = '127.0.0.1';
 
-var client= new net. Socket(); 
-client.setEncoding('UTF-8'); 
-//client.setEncoding('binary'); 
+var client= new net. Socket();
+client.setEncoding('UTF-8');
+//client.setEncoding('binary');
 //连接到服务端
 client.connect(port, host, function(){
-    client.write('你好'); 
-}); 
+    client.write('你好');
+});
 
 client.on('data', function(data){
-    console.log('服务端传来:'+ data); 
-    say(); 
-}); 
+    console.log('服务端传来:'+ data);
+    say();
+});
 client.on('error', function(error){
-    console.log('error:'+error); 
-    //client.destory(); 
+    console.log('error:'+error);
+    //client.destory();
 
-}); 
+});
 client.on('close', function(){
-    console.log('Connection closed'); 
-}); 
+    console.log('Connection closed');
+});
 //----------------------------------------------------------
-const readline = require('readline'); 
+const readline = require('readline');
 
 const rl = readline.createInterface({
-  input: process.stdin, 
+  input: process.stdin,
   output: process.stdout
-}); 
+});
 
 function say(){
     rl.question('请输入： ',  (inputStr) => {
       if(inputStr!='bye'){
-        client.write(inputStr+'\n'); 
-        say(); 
+        client.write(inputStr+'\n');
+        say();
       }else{
         client.destroy();      //关闭连接
-        rl.close(); 
+        rl.close();
       }
-    }); 
-}                   
+    });
+}
+```
 
 基本上用在手机，电脑端用的比较少
 WS模块
 
 要支持websocket的浏览器才能用
 
-1. 安装ws(IE8不支持)   
+```javascript
 
-G:\www\nodejs\socket>npm install ws --save-dev   
+1. 安装ws(IE8不支持)
 
-2. WsServer.js   
+G:\www\nodejs\socket>npm install ws --save-dev
 
-var WebSocketServer = require('ws'). Server   
-  , wss = new WebSocketServer({port: 9000}); 
-wss.on('connection', function(ws) {   
+2. WsServer.js
+
+var WebSocketServer = require('ws'). Server
+  , wss = new WebSocketServer({port: 9000});
+wss.on('connection', function(ws) {
 
     console.log(ws+'上线');   
     ws.on('message', function(message) {   
@@ -182,49 +186,43 @@ wss.on('connection', function(ws) {
         console.log("leave");   
     });   
 
-}); 
-   
-//运行：node --expose-gc WsServer.js   //让global.gc()可以执行   
+});
+
+//运行：node --expose-gc WsServer.js   //让global.gc()可以执行
 
 客户端
-WsClient.js   
-var ws = new WebSocket("ws://127.0.0.1:8080/"); 
-ws.onopen = function() {       
-   alert("Opened"); 
-   ws.send("I'm client"); 
-}; 
+WsClient.js
+var ws = new WebSocket("ws://127.0.0.1:8080/");
+ws.onopen = function() {
+   alert("Opened");
+   ws.send("I'm client");
+};
 
-       
-
-ws.onmessage = function (evt) {        
+ws.onmessage = function (evt) {
 
     alert(evt.data);       
 
-}; 
+};
 
-       
+ws.onclose = function() {
+   alert("Closed");
+};
 
-ws.onclose = function() {       
-   alert("Closed"); 
-}; 
+ws.onerror = function(err) {
+   alert("Error: " + err);
+};
 
-       
+3.wsclient.js
 
-ws.onerror = function(err) {       
-   alert("Error: " + err); 
-}; 
-   
-3.wsclient.js   
-   
-<! DOCTYPE html>   
-<html>   
+<! DOCTYPE html>
+<html>
 
     <body>   
         <h1>WebSocket</h1>   
         <script src="WsClient.js"></script>   
     </body>   
 
-</html> 
+</html>
 
 wschat聊天室
 <script src="WsClient.js"></script>
@@ -245,33 +243,28 @@ wschat聊天室
     </body>
 
 </html>
+```
 
 socket.io
 
 socket.io包含websocket
-. 安装socket.io    
-G:\www\nodejs\socket>npm install "socket.io" --save-dev    
+安装socket.io
+G:\www\nodejs\socket>npm install "socket.io" --save-dev
 
-    
+2. 安装Express
 
-    
+G:\www\nodejs\socket>npm install express --save-dev
 
-2. 安装Express    
+3. 创建服务端SocketIoServer.js
 
-G:\www\nodejs\socket>npm install express --save-dev    
+```javascript
 
-    
+var app = require('express')();
+var http = require('http'). Server(app);
+var io = require('socket.io')(http);
+var  fs=  require('fs');
 
-3. 创建服务端SocketIoServer.js    
-
-var app = require('express')(); 
-var http = require('http'). Server(app); 
-var io = require('socket.io')(http); 
-var  fs=  require('fs'); 
-
-    
-
-app.get('/', function(req, res){    
+app.get('/', function(req, res){
 
     function recall(data){    
             res.send(data.toString());    
@@ -287,11 +280,9 @@ app.get('/', function(req, res){
         });    
     //res.send('<h1>Welcome Realtime Server</h1>');    
 
-}); 
+});
 
-    
-
-app.get('/socketio/jquery-2.1.0.min.js', function(req, res){    
+app.get('/socketio/jquery-2.1.0.min.js', function(req, res){
 
     function recall(data){    
             res.send(data.toString());    
@@ -306,8 +297,8 @@ app.get('/socketio/jquery-2.1.0.min.js', function(req, res){
             }    
         });    
 
-}); 
-app.get('/socketio/socket.io.js', function(req, res){    
+});
+app.get('/socketio/socket.io.js', function(req, res){
 
     function recall(data){    
             res.send(data.toString());    
@@ -322,18 +313,14 @@ app.get('/socketio/socket.io.js', function(req, res){
             }    
         });    
 
-}); 
+});
 
-    
+//在线用户
+var onlineUsers = {};
+//当前在线人数
+var onlineCount = 0;
 
-//在线用户    
-var onlineUsers = {}; 
-//当前在线人数    
-var onlineCount = 0; 
-
-    
-
-io.on('connection', function(socket){    
+io.on('connection', function(socket){
 
     console.log('有人连上来了');
 	//监听新用户加入  
@@ -353,9 +340,8 @@ io.on('connection', function(socket){
         console.log(obj.username+'说：'+obj.content);
 	sayall(msg,socket);
     });    
-      
 
-}); 
+});
 function sayall(msg, socket){
 
 	for(var key in onlineUsers){
@@ -366,16 +352,14 @@ function sayall(msg, socket){
 
 }
 
-    
-
-http.listen(9000, function(){    
+http.listen(9000, function(){
 
     console.log('listening on *:9000');    
 
-}); 
+});
 
 socket.io客户端
-创建客户端socketIoClient.html    
+创建客户端socketIoClient.html
 <html>  
 <head>  
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
@@ -417,3 +401,4 @@ socket.io客户端
 </html>
 
 ![](http://pvt7l4h05.bkt.clouddn.com/2019-09-03-Pasted%20Graphic%2027.tiff)
+```

@@ -13,7 +13,6 @@
 第二步：挑选相应图标并获取类名，应用于页面：
 <i class="iconfont icon-xxx"></i>
 
-
 ### symbol
 
 第一步：拷贝项目下面生成的symbol代码：
@@ -32,30 +31,14 @@
     <use xlink:href="#icon-xxx"></use>
 </svg>
 
+##
 
-## 
-
-
-
-
-
-
-
-##  react  
-
+## react  
 
  <svg width="10" height="10">  <rect x="0" y="0" width="10" height="10" fill="blue" /></svg>
 
 xlinkHref
 
-
-
-
 ##
-
-
-
-
-
 
 ##

@@ -1,5 +1,7 @@
 # 跨域的 N 种实现方式
 
+解决跨域的几种方案
+
 跨域， 什么是跨域？跨域有什么好处？跨域有什么不好？怎么实现跨域？
 
 ## 什么是跨域
@@ -40,11 +42,11 @@ Content-Security-Policy: child-src 'none'
 
 节点的方法向不同域提交HTTP请求的方法称为JSONP，这项技术可以解决跨域提交Ajax请求的问题。JSONP的工作原理如下所述
 
-假设在 http://example1.com/index.php
+假设在 <http://example1.com/index.php>
 
-这个页面中向 http://example2.com/getinfo.php 提交 GET 请求，我们可以将下面的 JavaScript 代码
+这个页面中向 <http://example2.com/getinfo.php> 提交 GET 请求，我们可以将下面的 JavaScript 代码
 
-放在 http://example1.com/index.php 这个页面中来实现：
+放在 <http://example1.com/index.php> 这个页面中来实现：
 
 代码如下:
 
@@ -73,7 +75,7 @@ function jsonpCallback(data) {
 script src = "http://127.0.0.1:3000?callback=jsonpCallback" > < /script>
 ```
 
-当GET请求从 http://xx1.html 返回时，可以返回一段 JavaScript 代码，这段代码会自动执行，可以用来负责调用 http://xxx2.html 页面中的一个 callback 函数
+当GET请求从 <http://xx1.html> 返回时，可以返回一段 JavaScript 代码，这段代码会自动执行，可以用来负责调用 <http://xxx2.html> 页面中的一个 callback 函数
 
 JSONP的优点是：它不像XMLHttpRequest对象实现的Ajax请求那样受到同源策略的限制；它的兼容性更好，在更加古老的浏览器中都可以运行，不需要XMLHttpRequest或ActiveX的支持；并且在请求完毕后可以通过调用 callback 的方式回传结果。
 
@@ -134,12 +136,12 @@ XmlHttpRequest没什么关系了，这种跨域方式其实与ajax XmlHttpReques
 Jsonp的执行过程如下：
 首先在客户端注册一个callback (如:'jsoncallback'), 然后把callback的名字(如:jsonp1236827957501)传给服务器。注意：服务端得到callback的数值后，要用jsonp1236827957501(......)把将要输出的json内容包括起来，此时，服务器生成 json 数据才能被客户端正确接收。
 
-然后以 javascript 语法的方式，生成一个function， function 名字就是传递上来的参数 'jsoncallback'的值 jsonp1236827957501 . 
+然后以 javascript 语法的方式，生成一个function， function 名字就是传递上来的参数 'jsoncallback'的值 jsonp1236827957501 .
 最后将 json 数据直接以入参的方式，放置到 function 中，这样就生成了一段 js 语法的文档，返回给客户端。
 
-客户端浏览器，解析script标签，并执行返回的 javascript 文档，此时javascript文档数据，作为参数， 传入到了客户端预先定义好的 callback 函数(如上例中jquery $.ajax()方法封装的的success: function (json))里。 
+客户端浏览器，解析script标签，并执行返回的 javascript 文档，此时javascript文档数据，作为参数， 传入到了客户端预先定义好的 callback 函数(如上例中jquery $.ajax()方法封装的的success: function (json))里。
 
-可以说jsonp的方式原理上和<script src="http://跨/...xx.js"></>是一致的(qq空间就是大量采用这种方式来实现跨域数据交换的)。JSONP是一种脚本注入(Script Injection)行为，所以有一定的安全隐患。 
+可以说jsonp的方式原理上和<script src="http://跨/...xx.js"></>是一致的(qq空间就是大量采用这种方式来实现跨域数据交换的)。JSONP是一种脚本注入(Script Injection)行为，所以有一定的安全隐患。
 
 那jquery为什么不支持post方式跨域呢？
 
@@ -176,7 +178,7 @@ Jsonp的执行过程如下：
 
   当我们发送 GET 请求时，大多数情况浏览器头会 Access-Control-Allow-Origin: * 。意思是能够共享资源在任何域名下。否则就是只能在特定的情况下了。
 
-  app.use(cors()); 
+  app.use(cors());
   当请求时以下时，将在原始请求前先进行标准预请求，使用 OPTIONS 头，
 
 * PUT
@@ -308,7 +310,7 @@ function a() {
 
 以下三种都是通过 iframe 方式来，我们根据 iframe 能够在浏览器下能够跨域的特点，进行通信。  
 
-在 url 中，http://www.a.com#la 的 "#la" 就是 location.hash，改变 hash 值不会导致页面刷新，所以可以利用 hash 值来进行数据的传递，当然数据量是有限的。
+在 url 中，<http://www.a.com#la> 的 "#la" 就是 location.hash，改变 hash 值不会导致页面刷新，所以可以利用 hash 值来进行数据的传递，当然数据量是有限的。
 
 ```js
 //locationNameA
@@ -397,9 +399,9 @@ ifr.onload = function() {
 
 6.3 windows.postMessage
 
-otherWindow.postMessage(message, targetOrigin, [transfer]); 
+otherWindow.postMessage(message, targetOrigin, [transfer]);
 
-接收数据：data、type：类型、source：对象、origin：源; 
+接收数据：data、type：类型、source：对象、origin：源;
 
 ```js
 //postMessageChild.html

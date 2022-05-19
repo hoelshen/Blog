@@ -70,18 +70,17 @@ javaScript引擎会常驻于内存中
 闭包其实只是一个绑定了执行环境的函数
 
 * 环境部分
-  - 环境: 函数的词法环境（执行上下文的一部分）
-  - 标识符列表： 函数中用到的未声明的变量
+    * 环境: 函数的词法环境（执行上下文的一部分）
+    * 标识符列表： 函数中用到的未声明的变量
 * 表达式部分： 函数体
 
-javaScript中的函数完全符合必包的定义。
+javaScript中的函数完全符合闭包的定义。
 
 它的环境部分是函数词法环境部分组成，  它的标识符列表是函数中用到的为声明变量， 它的表达式部分就是函数体
 
 闭包对应的概念是“函数”
 
 ![untitled%206](https://tva1.sinaimg.cn/large/00831rSTgy1gd3uq3xfv0j30zc0lmq3p.jpg)
-
 
 ![untitled%207](https://tva1.sinaimg.cn/large/00831rSTgy1gd3uq1tbx5j312s0l675i.jpg)
 
@@ -247,7 +246,7 @@ Compltion Record表示一个语句执行完之后的结果
 
 语句块  内部的语句的completion Record的[[type]] 不为normal， 就打断语句块后续的语句执行。
 
-return 语句可能产生 return 或者 throw  类型的 Completion Record 
+return 语句可能产生 return 或者 throw  类型的 Completion Record
 
 ``` js
     {
@@ -261,7 +260,7 @@ return 语句可能产生 return 或者 throw  类型的 Completion Record
 
 控制类型语句分两部分:
 
-1.  对内部造成影响， 如 if\switch\while / for\try
+1. 对内部造成影响， 如 if\switch\while / for\try
 
 2. 对外部产生影响  break、continue、return 、throw
 

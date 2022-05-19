@@ -5,7 +5,7 @@
 // var isPalindrome = function(x) {
 //   if(0<= x && x <10) return true;
 //   if(x< 0) return false;
-//   const num = x.toString() ;  
+//   const num = x.toString() ;
 //   const len = num.length;
 //   const arr = num.split('');
 //   const newArr1 = [];
@@ -21,13 +21,13 @@
 //     cen = Math.ceil(len/2)-1
 //   }
 //   for(let i = 0; i<= cen;i ++){
-//     newArr1.push(arr[i])    
+//     newArr1.push(arr[i])
 //   }
 //   for(let i = (len-1); i >= cen; i--){
 //     newArr2.push(arr[i])
 //   }
 //   console.log('cen-1: ', cen-1);
-  
+
 //   for(let i = 0; i <= cen-1; i++ ){
 //     if(newArr1[i] == newArr2[i]) {
 //       console.log('newArr1[i] == newArr2[i]: ', newArr1[i],newArr2[i]);
@@ -44,24 +44,20 @@
 //   return flag;
 // };
 
-
 //新的解法
-var isPalindrome = function(x) {
-  if(0<= x && x <10) return true;
-  if(x< 0) return false;
+var isPalindrome = function (x) {
+  if (0 <= x && x < 10) return true;
+  if (x < 0) return false;
   let cur = 0;
-  let num = x;  
-  while(num >=1) {
-    console.log('num: ', num);
-    cur = cur * 10 + num % 10;
-    num = Math.floor(num / 10)
-    console.log('num: ', num);
+  let num = x;
+  while (num >= 1) {
+    cur = cur * 10 + (num % 10);
+    num = Math.floor(num / 10);
   }
 
-  console.log('cur: ', cur);
   return cur == x;
 };
-//1221  %10 122 
+//1221  %10 122
 // 122 %10 12
 //12 %10 1
 
@@ -90,7 +86,4 @@ const flag = isPalindrome(1221); // true 为回文
 
 // const flag = isPalindrome(9);
 
-console.log('flag: ', flag);
-
-
-
+console.log("flag: ", flag);

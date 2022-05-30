@@ -42,20 +42,19 @@ function diffChildren(oldChildren, newChildren, index,patches){
 
 }
 ```
+
 将差异保存在 patches 对象中.
+
 1. 插入: patches[0]:{type:'INSERT_MARKUP',node: newNode }
 2. 移动: patches[0]: {type: 'MOVE_EXISTING'}
 3. 删除: patches[0]: {type: 'REMOVE_NODE'}
 4. 文本内容改变: patches[0]: {type: 'TEXT_CONTENT',content: 'virtual DOM2'}
 5. 属性改变: patches[0]: {type: 'SET_MARKUP',props: {className:''}}
 
-
-
 React 对树的比较算法 实际上只对树进行分层比较，两棵树只会对同一层次的节点进行比较。这样只要对树进行一次遍历，便能完成整棵 DOM 树的比较。基于第一点，
 React 在进行 diff 时，如果发现对比两项是同一类型的组件，则按照原策略继续比较. 如果类型不同，则直接进行替换，而不再对组件下的其他节点进行比较. 基于第三点 React 表节点组件.通过开发者设置的唯一 key ,来协助实现添加、删除和排序的操作。
 
 React 最新的 reconciliation 引擎是 Fiber ，隐藏在 Fiber 之后的思想非常有趣：旧的 reconciliation 过程是线性的、同步的.即一旦 reconciliation 过程开始就不能中断 Fiber 却不一样，它打破了阻塞设计。
-
 
 React的开发者结合Web界面的特点做出了两个大胆的假设，使得Diff算法复杂度直接从O(n^3)降低到O(n)，假设如下：
 
@@ -72,40 +71,3 @@ vue的diff 采取了相似的节点操作
 2.判断2：oldEndVnode是否为空，若为true则oldEndIdx向前移动。
 3.判断3：使用 sameVnode判断before和after未判断的头节点是否为相同节点，若为true，则按照上面思路说的，对相同类型节点进行节点的属性的更新并修改哨兵位置。
 4.判断4：使用上一步相同的方法对oldEndVnode和newEndVnode进行判断。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

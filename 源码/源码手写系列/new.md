@@ -28,7 +28,7 @@ const myNew = function(){
   // 这里使用 apply 使构造函数内的 this 指向obj
   let res = Constructor.apply(obj, arguments);
 
-  return res instanceOf Object ? res : obj;
+  return res instanceof Object ? res : obj;
 }
 
 ```

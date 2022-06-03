@@ -1,8 +1,9 @@
-# 
+#
 
 错误边界就是 一个生命周期，用来监听当前组件的children渲染过程，并可以返回一个降级的UI来渲染。
 
-https://live.bytedance.com/9788/9071260
+<https://live.bytedance.com/9788/9071260>
+
 ```js
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -97,16 +98,3 @@ throwException
 completeUnitOfWork 方法也类似，从父节点开始冒泡，找到 ShouldCapture 标记的节点，如果有就标记为已捕获 DidCapture ，如果没找到，则一路把所有的节点都标记为 Incomplete 直到根节点，并把 workInProgress 指向当前捕获的节点。
 
 之后从当前捕获的节点（也有可能没捕获是根节点）开始重新走流程，由于其状态 react 只会渲染其降级 UI，如果有 sibling 节点则会继续走下面的流程。我们看看上述例子最终得到的 FiberNode 树：
-
-
-
-
-
-
-
-
-
-
-
-
-

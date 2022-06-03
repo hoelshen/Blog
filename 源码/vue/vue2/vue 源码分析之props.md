@@ -33,7 +33,6 @@ function normalizeProps (options: Object, vm: ?Component) {
 
 判断props 是不是数组， 在进行驼峰化， 数组形式我们 type 都设置为null
 
-
 ## 初始化
 
 ```JS
@@ -87,10 +86,10 @@ function initProps (vm: Component, propsOptions: Object) {
     ? def.call(vm)
     : def
 ```
+
 只针对对象和数组类型的 prop，要求必须是一个工厂函数，它的值是工厂函数返回的值，所以要执行。
 对于函数类型的 prop，那么它的值就是这个函数本身，所以不需要执行。
 如果直接返回对象，那么多个组件实例的相应的默认 prop 值会共享这个对象，一旦修改这个对象，则会影响所有实例，是不符合预期的。
-
 
 子组件重新渲染 分为props发生改变 或者内部属性发生变动
 
@@ -106,6 +105,7 @@ function initProps (Comp) {
 ```
 
 ## props 更新
+
 子组件创建的时候会触发 prepatch 方法
 
 ```js
@@ -150,14 +150,3 @@ toggleObserving 在响应式中的优化
 defineReactive(props)是为了给值类型用哦？
 值类型props变化触发重新渲染执行 patchVnode ==>updateComponent，改变值类型props值触发setter。
 对象类型props属性变化不会触发父组件的重新渲染也就不会触发updateComponent，直接通过访问的对象属性dep通知子组件watcher更新了
-
-
-
-
-
-
-
-
-
-
-

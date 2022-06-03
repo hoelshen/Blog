@@ -38,7 +38,3 @@ extends(Demo1.prototype, SetIntervalMixin );
 
 
 ```
-
-
-
-

@@ -36,7 +36,6 @@ function fetchNewBook(book) {
 
 ![redux-thunk](https://tva1.sinaimg.cn/large/007S8ZIlgy1gircrpw14jj30po0bataw.jpg)
 
-
 ## 实例
 
 ```js
@@ -129,7 +128,6 @@ var thunk = createThunkMiddleware();
 ```
 
 从源码我们可以看出，chain就是以next作为形参的匿名函数，至于compose只是不断传递每个函数的返回值给下一个执行函数，然后依次去执行它所有传入的函数而已，它源码中的注释说的很清楚:For example, compose(f, g, h) is identical to doing (...args) => f(g(h(...args))).
-
 
 ```js
 function (action) {

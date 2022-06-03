@@ -81,7 +81,6 @@ function genDefaultModel (
 }
 ```
 
-
 ```JS
 /**
  * Cross-platform codegen helper for generating v-model value assignment code.
@@ -113,6 +112,5 @@ addHandler(el, event, code, null, true)
 ```
 
 其实就是动态绑定了 input 的 value 指向了 message 变量， 并且在触发 input 事件的时候去动态把 message 设置为目标值。
-
 
 ## 组件

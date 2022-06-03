@@ -2,7 +2,7 @@
   let rootDOMElement, rootReactElement;
   const classMap = {};
   let classCounter = 0;
-  const REACT_CLASS = 'REACT_CLASS';
+  const REACT_CLASS = "REACT_CLASS";
 
   function anElement(element, props, children) {
     if (isClass(element)) {
@@ -32,7 +32,7 @@
 
   function handleHtmlElement(element, props, children) {
     const anElement = document.createElement(element);
-    children.forEach(child => appendChild(anElement, child));
+    children.forEach((child) => appendChild(anElement, child));
     _.forEach(props, (value, name) => appendProp(anElement, name, value));
     return anElement;
   }
@@ -41,8 +41,8 @@
     if (child.type === REACT_CLASS) {
       appendChild(element, child.render());
     } else if (Array.isArray(child)) {
-      child.forEach(ch => appendChild(element, ch));
-    } else if (typeof(child) === 'object') {
+      child.forEach((ch) => appendChild(element, ch));
+    } else if (typeof child === "object") {
       element.appendChild(child);
     } else {
       element.innerHTML += child;
@@ -79,7 +79,7 @@
 
   window.React = {
     createElement,
-    Component
+    Component,
   };
   window.ReactDOM = {
     render: (el, domEl) => {
@@ -87,6 +87,6 @@
       rootDOMElement = domEl;
       const currentDOM = rootReactElement.render();
       rootDOMElement.appendChild(currentDOM);
-    }
+    },
   };
 })();

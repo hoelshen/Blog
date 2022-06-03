@@ -1,9 +1,5 @@
 
-
-
-## 
-
-
+##
 
 ## 更新
 
@@ -14,7 +10,6 @@ export type SuspenseState = {|
   timedOutAt: ExpirationTime,
 |}
 ```
-
 
 ```js
 if (finishedWork.effectTag & Callback) {

@@ -102,8 +102,7 @@ link prefetch 是预加载下一页面可能会用到的资源的意思，目的
 
 prefetch 和 preload 不要混用
 
-prerender
-预渲染
+prerender 预渲染
 预渲染意味着我们提前加载好用户即将访问的下一个页面
 浏览器会帮我们渲染但隐藏指定的页面，一旦我们访问这个页面，则秒开。
 
@@ -113,9 +112,6 @@ prerender
 3.post、put等ajax请求
 4.http认证authentication
 5.https
-
-script defer 页面已加载后才会运行脚本
-defer 属性是个布尔值
 
 * 如果 async="async"：脚本相对于页面的其余部分异步地执行（当页面继续进行解析时，脚本将被执行）
 * 如果不使用 async 且 defer="defer"：脚本将在页面完成解析时执行

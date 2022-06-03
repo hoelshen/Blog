@@ -234,6 +234,5 @@ useLayoutEffect，因为从源码中调用的位置来看，useLayoutEffect的 c
 当组件销毁时，运行最后一次 Effect 的 Cleanup 函数
 
 ## 参考资料
+
 [用动画和实战打开 React Hooks（一）：useState 和 useEffect](https://tuture.blog.csdn.net/article/details/105744082?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param)
-
-

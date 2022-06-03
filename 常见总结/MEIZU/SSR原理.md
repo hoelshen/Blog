@@ -11,7 +11,15 @@ SPA应用采用的是客户端渲染，DOM节点要等待JS文件加载完毕后
 
 ## 什么是服务端渲染
 
-当服务器接收到请求后，它把需要的组件渲染成 HTML 字符串，然后把它返回给客户端（这里统指浏览器）。之后，客户端会接手渲染控制权。
+SSR模式下，后端拦截到路由，找到对应组件，准备渲染组件，所有的JS资源在本地，排除了JS资源的网络加载时间，接着只需要对当前路由的组件进行渲染，而页面的ajax请求，可能在同一台服务器上，如果是的话速度也会快很多。最后后端把渲染好的页面反回给前端。
+
+注意：页面能很快的展示出来，但是由于当前返回的只是单纯展示的DOM、CSS，其中的JS相关的事件等在客户端其实并没有绑定，所以最终还是需要JS加载完以后，对当前的页面再进行一次渲染，称为同构。 所以SSR就是更快的先展示出页面的内容，先让用户能够看到。
+
+两种技术有大量可重用的代码，客户端路由、服务器端路由、客户端Redux、服务器端Redux等，最大程度的复用这些代码，就是同构
+
+--------------------------------------------------------------------------------------------------------
+
+服务端渲染是相对于客户端渲染而言的(Client Side Render), 它的渲染行为发生在服务器端, 渲染完成之后再将完整页面以HTML字符串的形式交给浏览器, 最后经过『注水』hydrate过程将一些事件绑定和Vue状态等注入到输出的静态的页面中, 由同步下发给浏览器的的Vue bundle接管状态, 继续处理接下来的交互逻辑. 这也是一种同构应用的实现(代码可以运行在客户端和服务端中).
 
 ## 什么是预渲染（Prerender）
 
@@ -27,9 +35,17 @@ Prerender 原理是在构建阶段就将 html 页面渲染完毕，不会进行�
 
 我们通过 webpack 生成 server Bundle 和 Client Bundle,  前端会进行在服务器上通过 node 生成预渲染的 html 字符串,发送到我们的客户端以便完成初始化渲染; 而客户端 bundle 就自由了, 初始化渲染完全不依赖它.客户端拿到服务端返回的 html 字符串后, 会去"激活"这些静态 html, 使其变成由 vue 动态管理的 dom, 以便响应后续数据的变化.
 
+## 构建逻辑
+
+  在vue-SSR中，会将代码打包分成两个部分： 服务端：bundle，客户端：bundle，Node.js会处理服务端bundle用于SSR，客户端bundle会在用户请求时和已经由SSR渲染出的页面一起返回给用户，然后在浏览器执行『注水』，接管Vue接下来的业务逻辑。
+
+**这里就会有一个问题, 服务端是如何将store状态交给客户端的呢, 因为整个构建流程是彼此独立的, 数据预取(在进入渲染页面之前获取到页面所需要的数据)之后交给了store, 而注水过程怎么接收store数据?**
+
+window.**INITIAL_STATE**, 这个 state 会在服务端渲染执行 context.state = store.state;的时候自动写入window中, 所以在客户端代码中就就可以直接通过 store.replaceState() 接收服务端预取的数据了.
+
 ## 剖析流程
 
-node 服务器启动, 跑服务端 entry 里的函数,将构建好的 vue 实例渲染成 html 字符串,然后将拿到的数据混入我们的 html 字符串中,最后发送到我们客户端.
+node 服务器启动, 跑服务端 entry 里的函数,将构建好的 vue 实例渲染成 html 字符串,然后将拿到的数据混入（注入）我们的 html 字符串中,最后发送到我们客户端.
 
 里面有初始化的 dom 结构, 有 css, 还有一个 script 标签. script 标签里把我们在服务端 entry 拿到的数据挂载了 window 上.
 服务端的 vue 只是混入了个数据渲染了静态页面,客户端的 vue 才是去实现交互的!
@@ -42,7 +58,23 @@ SSR 独特之处
 
 ssr 服务端请求不带 cookie, 需要手动拿到浏览器的 cookie 传给服务端的请求.
 
-ssr 要求dom 结构规范, 因为浏览器会自动给 html 添加一些结构比如 tbody,但是客户端进行混淆服务端放回的 html 时,不会添加这些标签,导致混淆后的 html 和浏览器渲染的 html 不匹配.
+ssr 要求dom 结构规范, 因为浏览器会自动给 html 添加一些结构比如 tbody,但是客户端进行混淆服务端放回的 html 时,不会添加这些标签,导致混淆后的 html 和浏览器渲染的 html 不匹配
+
+----------------------------------------------------------------------------------------------
+
+SSR的核心思路就是使用vue-server-renderer创建一个渲染器(renderer), 然后给这个渲染器传入Vue实例, 渲染器会得到HTML页面, 最后由Egg.js将HTML返回, 实现代码有些繁杂这
+
+// 第 1 步：创建一个 Vue 实例
+const app = new Vue({ template: `<div>Hello World</div>` })
+
+// 第 2 步：创建一个 renderer
+const renderer = require('vue-server-renderer').createRenderer()
+
+// 第 3 步：将 Vue 实例渲染为 HTML
+const html = await renderer.renderToString(app)
+
+// 第 4 步, 返回 HTML
+this.ctx.body = await this.ctx.renderString(html)
 
 ## 开发流程
 
@@ -140,7 +172,7 @@ module.exports = async (ctx, renderer, template) => {
 }
 ```
 
-每次服务端渲染都要生成新的 app， 我们不能用上一次渲染过的对象，再去进行下次渲染， 因为这个app 已经包含了上次状态， 会影响我们下次渲染内容, 不这么做的话，会出现内存溢出的风险。
+**每次服务端渲染都要生成新的 app， 我们不能用上一次渲染过的对象，再去进行下次渲染， 因为这个app 已经包含了上次状态， 会影响我们下次渲染内容, 不这么做的话，会出现内存溢出的风险。**
 
 ```JS
 export default () => {
@@ -201,15 +233,109 @@ vue-meta 设置我们服务端的元信息
 const KoaSeesion = require('koa-session')
 ```
 
+## react ssr原理
+
+实现思想
+核心实现分为以下几步：
+
+1. 后端拦截路由，根据路径找到需要渲染的react页面组件X
+2. 调用组件X初始化时需要请求的接口，同步获取到数据后，使用react的renderToString方法对组件进行渲染，使其渲染出节点字符串。
+3. 后端获取基础HTML文件，把渲染出的节点字符串插入到body之中，同时也可以操作其中的title，script等节点。返回完整的HTML给客户端。
+4. 客户端获取后端返回的HTML，展示并加载其中的JS，最后完成react同构。
+
+1。 注册路由 配置路由路径和组件的映射，使其能够被客户端路由和服务端路由同时调用
+
+```js
+import Index from "../pages/index";
+import List from "../pages/list";
+
+const routers = [
+  { exact: true, path: "/", component: Index },
+  { exact: true, path: "/list", component: List }
+];
+
+//注册页面和引入组件，存在对象中，server路由匹配后渲染
+export const clientPages = (() => {
+  const pages = {};
+  routers.forEach(route => {
+    pages[route.path] = route.component;
+  });
+  return pages;
+})();
+export default routers;
 
 
-节点更新
+```
 
-入口 优化
+服务端
 
-判断组件更新是否可以优化
+```JS
+import { clientPages } from "./../../client/router/pages";
 
-根据节点类型分发处理
+router.get("*", (ctx, next) => {
+    let component = clientPages[ctx.path];
+    if (component) {
+        const data = await component.getInitialProps();
+        //因为component是变量，所以需要create
+        const dom = renderToString(
+            React.createElement(component, {
+                ssrData: data
+            })
+        )
+    }
+})
 
-根据expirationTime 等信息判断是否可以跳过
+```
 
+匹配到组件以后，执行了组件的getInitialProps方法，此方法是一个封装的静态方法，主要用于获取初始化所需要的ajax数据，在服务端会同步获取，而后通过ssrData参数传入组件props并执行组件渲染。 此方法在客户端依然是异步请求。
+
+2. 客户端渲染
+
+```JS
+import React from "react";
+export default class Base extends React.Component {
+  //override 获取需要服务端首次渲染的异步数据，也可以是api请求
+  static async getInitialProps() {
+    return null;
+  }
+  static title = "react ssr";
+  //page组件中不要重写constructor
+  constructor(props) {
+    super(props);
+    //如果定义了静态state,按照生命周期，state应该优先于ssrData 
+   if (this.constructor.state) {
+      this.state = {
+        ...this.constructor.state
+      };
+    }
+    //如果是首次渲染，会拿到ssrData
+    if (props.ssrData) {
+      if (this.state) {
+        this.state = {
+          ...this.state,
+          ...props.ssrData
+        };
+      } else {
+        this.state = {
+          ...props.ssrData
+        };
+      }
+    }
+  }
+  async componentWillMount() {
+    //客户端运行时
+    if (typeof window != "undefined") {
+      if (!this.props.ssrData) {
+        //静态方法，通过构造函数获取
+        const data = await this.constructor.getInitialProps();
+        if (data) {
+          this.setState({ ...data });
+        }
+      }
+      //设置标题
+      document.title = this.constructor.title;
+    }
+  }
+}
+
+```

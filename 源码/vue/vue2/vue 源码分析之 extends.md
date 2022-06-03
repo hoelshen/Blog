@@ -1,12 +1,6 @@
-# extends 
-
-
-
+# extends
 
 ## 用法
-
-
-
 
 ## 原理
 

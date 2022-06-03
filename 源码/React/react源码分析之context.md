@@ -94,8 +94,6 @@ Child1.contextTypes = {
 个人的建议是对所有组件共享的一些只读信息可以采用 context 来传递，比如登录用户信息
 等， react Router 路由就是通过 context 来传递路由属性的。
 
-
-
 如果你只是想避免层层传递一些属性，组件组合（component composition）有时候是一个比 context 更好的解决方案。
 
 还可以传成 props.children
@@ -158,5 +156,3 @@ React.createContext
 每个 Context 对象都会返回一个 Provider React 组件，它允许消费组件订阅 context 的变化。
 
 Provider 接收一个 value 属性，传递给消费组件。一个 Provider 可以和多个消费组件有对应关系。多个 Provider 也可以嵌套使用，里层的会覆盖外层的数据。
-
-

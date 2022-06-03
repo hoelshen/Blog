@@ -408,4 +408,3 @@ function mergeDataOrFn(
 ```
 
 vm.$options.provide 就是 mergedInstanceDataFn 函数。通过调用这个函数我们 _provided 就成为了 {"parentValue":"here is parent data"}。
-

@@ -1,5 +1,4 @@
 
-
 FiberRoot
 我们会创建一个 reactelement 它会有一个 fiberroot
 Fiber
@@ -7,12 +6,13 @@ Fiber
 每一个reactElement 对应一个Fiber 对象
 
 ## Fiber
+
 记录节点的各种状态
 串联整个应用形成树结构
 不是直接调理reactElement,先是在 fiber 上面进行的，例如 state props 最后更新的时候才对应到this上面。
 
-
 fiber有 下面几个比较重要的属性：
+
 ```js
 {
   //标记不同类型的tag
@@ -53,6 +53,7 @@ export function updateContainer(
 * 多个Update可以同时存在
 
 update 和 updateQueue
+
 ```js
 export type Update<State> = {
   // 更新的过期时间
@@ -103,10 +104,10 @@ export type UpdateQueue<State> = {
 };
 
 ```
+
 在当前节点对应的Fiber对象上创建了Update之后，进就如scheduleWork调度阶段。
 
 现在workInProgress上更新，更新完之后在鱼current 交换， 更新出错还可以回滚。
-
 
 expirationTime
 
@@ -118,7 +119,6 @@ React 中有两种类型的ExpirationTime，一个是Interactive的，另一种�
 
 suspendedTime
 同样的在ReactFiber上有两个值earliestSuspendedTime和lastestSuspendedTime，这两个值是用来记录被挂起的任务的过期时间的
-
 
 不同的expirationTime
 
@@ -138,16 +138,15 @@ export const StrictMode = 0b010;
 export const ProfileMode = 0b100;
 
 ```
+
 Mode = Mode | b; 代表将b 赋值给 mode
 设置一个Mode 如果Mode & b 为1 则代表没有这个属性 如果为 0 则有
-
 
 核心
 
 给节点的Fiber创建更新
 
 更新的类型不同
-
 
 setState时把组件的rootFiber 加入到调度队列,我们有barchedUpdate,每次setState并不一定只有一个组件被更新，第二把root加入队列是为了更好得进行调度，我们可以把所有更新的优先级都列在root上，以便删选。
 
@@ -156,70 +155,3 @@ setState时把组件的rootFiber 加入到调度队列,我们有barchedUpdate,�
 16.7统一按照越大的优先级越高的模式走了，之前Sync是等一1，16.7里面Sync是maxIntxxxxx了。但是原理是一样的，就是判断优先级换了个方法，不需要先判断是否等于Sync
 
 你需要区别FiberRoot和RootFiber，后者是Fiber对象，前者则是RootFiber的stateNode
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

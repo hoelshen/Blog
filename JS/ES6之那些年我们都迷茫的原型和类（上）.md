@@ -151,7 +151,7 @@ prototype 是构造函数的属性，构造函数也是对象。 而 __proto__ �
 
   原型(prototype)是构造函数的一个属性，是一个对象。constructor 是绑在实例上面的，不是绑在原型链上面的。，constructor 则代表实例拥有的方法。可以浅显的认为 prototype 向下指， constructor 向上指， 这里的向上指代表的是往父类或者原型上面。
 
-![构造函数](http: //pvt7l4h05.bkt.clouddn.com/2019-08-26-175034.png)
+![构造函数](http://pvt7l4h05.bkt.clouddn.com/2019-08-26-175034.png)
 
 ``` js
 var obj = new Object();
@@ -159,7 +159,7 @@ console.log('Object.prototype.constructor == Objcect && Objcect === obj.construc
 //这个答案是什么
 ```
 
- 在前面说过，prototype 是让你知道用什么属性，Object.prototype 指的是 Object类原型的 constructor方法。
+ 在前面说过，prototype 是让你知道用什么属性，Object.prototype 指的是 Object类原型的 constructor 方法。
 
 ``` js
     function Bottle() {
@@ -176,8 +176,6 @@ console.log('Object.prototype.constructor == Objcect && Objcect === obj.construc
     console.log(Bottle.prototype.constructor == Bottle); //ture
     console.log(bot1);
 ```
-
-![原型链](http://pvt7l4h05.bkt.clouddn.com/2019-08-26-%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-08-27%20%E4%B8%8A%E5%8D%881.52.11.png)
 
   构造函数实例出来的对象，可以得到构造函数对象中的属性，方法。等等还有一个什么 __proto__。我们仔细点进去，有两个东西 constructor: Bottle（）。这是因为我们是由 Bottle，new出来。我们在继续点下去，还有__proto_: 的constructor： Object（）。
 
@@ -237,15 +235,6 @@ console.log(arr.name); // ar1
 ```
 
 当构造函数自定义的属性名与该构造函数下原型属性名相同时，构造函数的自定义属性优先于原型属性(可以把构造函数理解为内联样式), 而原型属性或者原型方法可以看做是class)
-
-``` js
-var obj = {}; //创建空对象
-obj.__proto__ = MyFunc.prototype; //将这个空对象的__proto__成员指向了构造函数对象的prototype成员对象
-
-MyFunc.call(obj); //将构造函数的作用域赋给新对象
-
-return obj //返回新对象obj
-```  
 
 所以在这里简单总结下构造函数、原型、隐式原型和实例的关系：每个构造函数都有一个原型属性(prototype)，该属性指向构造函数的原型对象；而实例对象有一个隐式原型属性(__proto__)，其指向构造函数的原型对象(obj.__proto__==Object.prototype)；同时实例对象的原型对象中有一个constructor属性，其指向构造函数。
 
@@ -512,7 +501,6 @@ student.hasOwnProperty(‘name’); //true
 ### 封装
 
 ```js
-
 function Person(name, age) {
     this.name = name;
     var age = age;// 在实例中无法被调用

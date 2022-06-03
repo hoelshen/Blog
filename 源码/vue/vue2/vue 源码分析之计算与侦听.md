@@ -131,6 +131,7 @@ export function queueWatcher (watcher: Watcher) {
 ```
 
 清理操作，把自身从vm._watch中移出，然后遍历它收集的依赖，删除对它的订阅
+
 ```js
   teardown () {
     if (this.active) {
@@ -149,11 +150,9 @@ export function queueWatcher (watcher: Watcher) {
   }
 ```
 
-computed(lazy) watcher 给计算属性用的，render watcher 是监听组件重新渲染用的，user watcher 是给用户自定义监听器用的。 
+computed(lazy) watcher 给计算属性用的，render watcher 是监听组件重新渲染用的，user watcher 是给用户自定义监听器用的。
 
 deep 决定是否 watch 内部深层属性的变化，immediate 表示 watcher 创建后是否立刻执行回调函数，sync 表示这个 watcher 观测到变化是不是同步（当前 tick）执行，这仨主要是给 user watcher 用的。
-
-
 
 因为先initState在$mounted前面，所以初始化的computerWatcher和userWatcher的id都比渲染watcher的id小，异步执行flushSchedulerQueue过程中它们做了一个id的排序，所以渲染watcher的getter是最后才执行的。
 
@@ -170,9 +169,7 @@ Virtual DOM 更大的意义是跨平台，它对 DOM 的更新算法是相对高
 新旧虚拟Dom diff比对，对vnode.elm做出修改。vnode.elm是真实dom。它是边比修改，边更新Dom
 
 计算属性的本质是computed watcher
-侦听属性的本质是userwatcher， 他支持 deep sync immediate 
-
-
+侦听属性的本质是userwatcher， 他支持 deep sync immediate
 
 ![update](https://tva1.sinaimg.cn/large/007S8ZIlgy1gics2dsolnj30dw08cgls.jpg)
 
@@ -180,5 +177,6 @@ Virtual DOM 更大的意义是跨平台，它对 DOM 的更新算法是相对高
 //计算属性 
 
 ```
+
 ![computed](https://tva1.sinaimg.cn/large/007S8ZIlgy1gics18crznj30dw0553yk.jpg)
 也仅仅是把 this.dirty 设置为 false并不会触发计算属性的重新计算也不会让页面重新渲染。所以我们需要把计算属性中的依赖收集到当前渲染 watcher 中。这样一旦计算属性的依赖发生变化就会触发 render watcher 的 update就会触发重新渲染在重新渲染的过程中会再次访问到计算属性的 getter。然后又回到最初。

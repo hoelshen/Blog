@@ -1,6 +1,6 @@
-#  使用方式
+# 使用方式
 
-1. string 
+1. string
 2. function
 3. createRef
 
@@ -41,7 +41,6 @@ export default () => <p>Lazy Comp</p>
 
 ```
 
-
 ```js
 import type {LazyComponent, Thenable} from 'shared/ReactLazyComponent';
 
@@ -59,4 +58,5 @@ export function lazy<T, R>(ctor: () => Thenable<T, R>): LazyComponent<T> {
 
 
 ```
+
 Suspense的主要解决问题其实是对于异步操作会多次state变化的问题。

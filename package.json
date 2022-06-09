@@ -10,7 +10,8 @@
   "devDependencies": {
     "conventional-changelog-cli": "^2.1.1",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^7.0.1"
+    "husky": "^7.0.1",
+    "jest": "^28.1.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

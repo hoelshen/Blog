@@ -230,3 +230,9 @@ mount(rootContainer) {
 }
 
 ```
+
+## vue3删除的点
+
+**$listeners 在 Vue 3 中，$listeners 对象已经被删除。事件监听器现在是 $attrs 的一部分**
+
+**在 vue3 中完全删除了 on off 和 once 语法**

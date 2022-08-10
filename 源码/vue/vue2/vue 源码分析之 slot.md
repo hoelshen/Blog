@@ -103,6 +103,7 @@ function genSlot (el: ASTElement, state: CodegenState): string {
 ```
 
 renderSlot 方法
+
 ```js
 /**
  * Runtime helper for rendering <slot>
@@ -253,6 +254,7 @@ function processSlot (el) {
   // ...
 }
 ```
+
 读取scoped-slot 属性并赋值给当前 ast 元素节点的 slotScoped 属性
 
 ```js
@@ -306,6 +308,7 @@ function genScopedSlot (
 ```
 
 genScopedSlots 就是对 scopedSlots 对象遍历，执行 genScopedSlot，并把结果用逗号拼接，而 genScopedSlot 是先生成一段函数代码，并且函数的参数就是我们的 slotScope，也就是写在标签属性上的 scoped-slot 对应的值，然后再返回一个对象，key 为插槽名称，fn 为生成的函数代码。
+
 ```js
 with(this){
   return _c('div',

@@ -39,4 +39,3 @@ Function.prototype.bind(context){
 原因在于bind函数返回了一个新的函数fBound，fBound执行时，内部fToBind绑定所需要的this都已经确定下来了，当我们进行二次绑定时，操作的对象已经是fBound了，此时再进行bind操作时，我们只能改变fBound的this，但函数不作为构造函数执行时fBound内部的绑定操作并不依赖于fBound的this，而是依赖于第一次传入的oThis。所以不管我们再怎么绑定，都不能再改变绑定的结果了。
 
 简单来说，再次bind的时候，我们已经无法对最原始的待绑定函数进行操作了，我们操作的只是它的代理。
-

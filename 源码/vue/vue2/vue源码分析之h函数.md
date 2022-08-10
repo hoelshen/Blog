@@ -1,4 +1,5 @@
 ## 什么是h
+
 ```js
 new Vue({
  render: h => h(App)
@@ -21,11 +22,9 @@ render(h) {
 }
 ```
 
-
 1. 第一个是元素的类型 元素的类型
 2. 第二个是数据对象 ：props, attrs, dom props, class 和 style.
 3. 第三个是一组子节点
-
 
 这实际上是引用这个库 HyperScript 的
 [HyperScript](https://github.com/hyperhype/hyperscript#ecosystem)
@@ -50,7 +49,6 @@ h('div#page',
 
 ```
 
-
 ```js
 var h = require('hyperscript')
 var obj = {
@@ -74,25 +72,3 @@ h('table',
 
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

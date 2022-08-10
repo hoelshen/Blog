@@ -11,13 +11,11 @@
 
 全局状态管理工具: 借助Redux或者Mobx等全局状态管理工具进行通信,这种工具会维护一个全局状态中心Store,并根据不同的事件产生新的状态
 
-
 ## 你是如何理解fiber的?
 
 React Fiber 是一种基于浏览器的单线程调度算法.
 React 16之前 ，reconcilation 算法实际上是递归，想要中断递归是很困难的，React 16 开始使用了循环来代替之前的递归.
 Fiber：一种将 recocilation （递归 diff），拆分成无数个小任务的算法；它随时能够停止，恢复。停止恢复的时机取决于当前的一帧（16ms）内，还有没有足够的时间允许计算。
-
 
 ## react-redux是如何工作的
 
@@ -46,13 +44,11 @@ redux适合有回溯需求的应用: 比如一个画板应用、一个表格应�
 
 mobx适合短平快的项目: mobx上手简单,样板代码少,可以很大程度上提高开发效率.
 
-
 ## redux 中如何进行异步操作?
 
 可以在componentDidmount中直接进行请求无须借助redux.
 
 或者使用异步流的管理, 通常我们会借助 redux 的异步中间件进行异步处理
-
 
 ## 为什么取消了 UNSAFE 前缀
 
@@ -60,19 +56,14 @@ mobx适合短平快的项目: mobx上手简单,样板代码少,可以很大程�
 
 React官网上的计划是：
 
-
 16.3：为不安全生命周期引入别名UNSAFE_componentWillMount，UNSAFE_componentWillReceiveProps和UNSAFE_componentWillUpdate。 （旧的生命周期名称和新的别名都可以在此版本中使用。）
-
 
 未来的16.x版本：为componentWillMount，componentWillReceiveProps和componentWillUpdate启用弃用警告。 （旧的生命周期名称和新的别名都可以在此版本中使用，但旧名称会记录DEV模式警告。）
 
-
 17.0：删除componentWillMount，componentWillReceiveProps和componentWillUpdate。 （从现在开始，只有新的“UNSAFE_”生命周期名称将起作用。)
-
 
 React意识到componentWillMount、componentWillReceiveProps和componentWillUpdate这三个生命周期函数有缺陷，比较容易导致崩溃。但是由于旧的项目已经在用以及有些老开发者习惯用这些生命周期函数，于是通过给它加UNSAFE_来提醒用它的人要注意它们的缺陷。
 2、React加入了两个新的生命周期函数getSnapshotBeforeUpdate和getDerivedStateFromProps，目的为了即使不使用这三个生命周期函数，也能实现只有这三个生命周期能实现的功能。
-
 
 ```js
 

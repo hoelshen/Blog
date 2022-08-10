@@ -1,6 +1,6 @@
-#  使用方式
+# 使用方式
 
-1. string 
+1. string
 2. function
 3. createRef
 

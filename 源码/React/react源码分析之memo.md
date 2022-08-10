@@ -1,4 +1,5 @@
 跟purecomponent 差不多
+
 ```js
 export default function memo<Props>(
   type: React$ElementType,

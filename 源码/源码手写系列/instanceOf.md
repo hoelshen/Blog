@@ -1,7 +1,5 @@
 # instanceOf
 
-
-
 ```js
 function myInstanceOf(left, right){
   let left = left.__proto__; // 取左表达式的__proto__值

@@ -36,8 +36,6 @@ asyncFunc(function* () {
 
 ```
 
-
-
 ```js
 function ajax(url, method) {
   return new Promise((resolve, reject) => {

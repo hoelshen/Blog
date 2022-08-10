@@ -94,20 +94,3 @@ setCount(1 + count)
 
 setCount(count => count + 1)
 上面这种只引用了setCount函数，而我们讲到它是“常量”，因此依赖数组中什么都不必写。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,8 +1,10 @@
 # 手写一个 webpack loader
+
   第一个执行的loader接收源文件中的内容作为参数， 其他loader 接收前一个执行的loader的返回值作为参数。 最后执行的loader 会返回最终结果。
   我们知道loader 能够将资源变成源代码的，在 js 中通过 import 引入 .loader 的作用就是将不同形式的资源处理成一段通用的 js 可执行代码，执行的结果就是导出一个模块，因为运行在 node 端，用的是 commonjs 规范，比如**module.exports={...}**
 
 loader 本质就是函数， 一个基于CommonJS 规范的函数模块， 它接收内容， 并返回新的内容。
+
 ## 开发 loader 原则
 
 ## 开始
@@ -143,7 +145,6 @@ function parse(source){
 * 创建 loader 的目录及模块文件
 * 在 webpack 中配置 rule 及 loader 的解析路径，并且要注意 loader 的顺序，这样在 require 指定类型文件时，我们能让处理流经过指定 loader。
 * 遵循原则设计和开发 loader。
-
 
 ```js
 var Minimize = require('minimize');

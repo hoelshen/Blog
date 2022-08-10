@@ -83,13 +83,78 @@ export default {
 }
 ```
 
+## 注水
+
 后面的 action 和 mutation 按照正常逻辑写即可, 最后, 当 ssr 数据渲染完成后,会在生成的 html 中添加一个 window.__INITIAL_STATE__ 对象, 修改 entry-client.js 可以将数据直接赋值给客户端渲染.
+
+entry-client.js: 客户端 entry 只需创建应用程序, 并且将其挂载到DOM, 然后将Store状态同步给客户端bundle：
 
 ```js
 const { app, router, store } = createApp()
 
+// 同步store
+
 if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
+}
+
+router.onReady(() => {
+	router.beforeResolve((to, from, next) => {
+    const matched = router.getMatchedComponents(to);
+    const prevMatched = router.getMatchedComponents(from);
+    let diffed = false;
+    const activated = matched.filter((c, i) => {
+      return diffed || (diffed = prevMatched[i] !== c);
+    });
+
+    const asyncDataHooks = activated.map(c => c.asyncData).filter(_ => _);
+    if (!asyncDataHooks.length) {
+      return next();
+    }
+
+    Promise.all(asyncDataHooks.map(hook => hook({ store, route: to })))
+      .then(() => {
+        console.log('client entry asyncData function emit');
+        next();
+      })
+      .catch(next);
+  });
+
+	app.$mount('#app');
+})
+
+```
+
+服务端
+
+entry-server.js: 服务端入口需要处理路由, 并触发数据预取逻辑
+
+```JS
+import { createApp } from '../main';
+
+export default context => {
+  return new Promise((resolve, reject) => {
+    let { app, router, store } = createApp();
+
+    router.push(context.url);
+
+	  router.onReady(() => {
+      const matchedComponents = router.getMatchedComponents();
+
+      // 对所有匹配的路由组件调用 `asyncData()`
+      Promise.all(
+        matchedComponents.map(Component => {
+          if (Component.asyncData) {
+            return Component.asyncData({ store, route: router.currentRoute });
+          }
+        })
+      ).then(() => {
+          context.state = store.state;
+          resolve(app);
+        })
+        .catch(reject);
+    }, reject);
+	})
 }
 ```
 

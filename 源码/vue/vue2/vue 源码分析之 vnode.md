@@ -26,7 +26,6 @@
   }
 ```
 
-
 ```js
 function sameVnode (a, b) {
   return (
@@ -79,4 +78,4 @@ if (isUndef(vnode.text)) {
     }
 ```
 
-父组件的 props 改变会触发到子组件的 patch 
+父组件的 props 改变会触发到子组件的 patch

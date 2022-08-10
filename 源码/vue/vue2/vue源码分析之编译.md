@@ -76,12 +76,10 @@ export function parse (
 
 AST 元素节点总共有 3 种类型，type 为 1 表示是普通元素，为 2 表示是表达式，为 3 表示是纯文本。其实这里我觉得源码写的不够友好，这种是典型的魔术数字，如果转换成用常量表达会更利于源码阅读。
 
-总结： 
+总结：
 parse 的目标是把 template 模板解析 ast 树，
 
 整个parse 过程就是利用正则表达式顺序解析模板， 对不同的标签和节点有不同的处理过程，直到模板解析完毕。
-
-
 
 optimize
 
@@ -125,7 +123,6 @@ function isStatic (node: ASTNode): boolean {
 }
 ```
 
-
 解析子节点是不是static 只要有一个不是的话就跳出
 
 ```JS
@@ -158,10 +155,8 @@ function isStatic (node: ASTNode): boolean {
 
 * optimize的过程就是深度遍历这个ast 树， 先标记静态节点， 在标记静态根。
 
-
 make static 就是为了后续 make static root
 make static root 会在渲染过程中生成一个静态子 tree，也就是给 vnode 标记 isStatic，这样在 patchVnode 过程中就可以判断并跳过子树的对比。
-
 
 ## codegen
 

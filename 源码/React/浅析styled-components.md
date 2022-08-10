@@ -33,6 +33,7 @@ class HelloCustomElement extends HTMLElement {
 ## CSS in JS
 
   使用 styled 变量中包含的函数可以表示所有已知的 HTML 元素
+
 ```js
 import styled from 'styled-components;
 

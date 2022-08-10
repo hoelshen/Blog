@@ -1,6 +1,7 @@
-#  vue 源码分析
+# vue 源码分析
 
 ## 题记
+
  这是 vue 源码分析的第一节，学习 vue 有接近两年时间了，入手的第一份工作，就是从 vue 开始，本着自我驱动能力，渡人渡己。现在分析一下vue源码。组里老大经常说不管做什么事先想清楚，哪怕你一天只做一件事也好，所以文章可能出的比较慢，敬请耐心等待。本系列采用周更形式，每周三准时发车。
 分析课会按照以下大纲来： 每周一篇的形式（算是立了个 flag 吗😂）。
 
@@ -24,15 +25,16 @@
       ├── methods
       └── watch
 
-
-
 ## 双向绑定
+
 实现双向绑定的方式有很多。
+
 ### [data](#data)
 
  监听者（observer）: 对数据增加 getter  和  setter，以及往观察者列表中增加观察者，当数据变动时去通知观察者列表。
   观察者列表(Dep): 这个模块的主要作用是维护一个属性的观察者列表，当这个属性触发getter时将观察者添加到列表中，当属性触发setter造成数据变化时通知所有观察者，
   观察者（watch）：这个对数据进行观察，一旦收到数据变化的通知就会去改变视图.
+
 ```js
 
 
@@ -44,6 +46,7 @@
 
 
 ```
+
 ## [props](#props)
 
 ```js
@@ -54,10 +57,7 @@
 
 ```
 
-
 ## [computed](#computed)
-
-
 
 ```js
 
@@ -65,7 +65,6 @@
 
 
 ```
-
 
 为什么data必须是函数呢
 
@@ -92,7 +91,7 @@ component2.data.b // 5
 
 ```
 
-如果两个实力同时引用同一个对象，那么当你修改其中一个属性的时候， 另外一个实力也会跟着改。
+如果两个实例同时引用同一个对象，那么当你修改其中一个属性的时候， 另外一个实例也会跟着改。
 
 ```js
 var MyComponent = function() {
@@ -123,7 +122,6 @@ vue为了保证每个实例上的data数据的独立性，规定了必须使用�
 
 通过 Vue 构造器传入的各种选项大多数都可以在组件里用。data 是一个例外，它必须是函数。如果定义了一个对象，那么 Vue 会停止，并在控制台发出警告，告诉你在组件中 data 必须是一个函数。
 
-
 有一点觉得很奇怪，明明new Vue()的时候，data是可以传入一个对象的，为什么在组件这里，data就必须为函数了呢？
 
 简而言之，组件的配置（options）和实例（instance）是需要分开的。最根本原因是js对于对象（以及数组等）是传引用的，因为如果直接写一个对象进去，那么当依此配置初始化了多个实例之后，这个对象必定是多个实例共享的。
@@ -131,6 +129,7 @@ vue为了保证每个实例上的data数据的独立性，规定了必须使用�
 举两个例子就明白了
 
 例子1
+
 ```js
 config = {
   data: {
@@ -149,6 +148,7 @@ let c2 = new someComponent(config);
 c1.data.name = 'bar';
 console.log(c2.data.name); // 'bar'
 ```
+
 例子2
 
 ```js
@@ -172,6 +172,7 @@ c1.data.name = 'bar';
  
 console.log(c2.data.name); // 'foo'
 ```
+
 为了加深印象，还是把相关部分都扯一点。
 
 组件（Component）定义方式
@@ -186,6 +187,7 @@ new Vue({
   }
 })
 ```
+
 两种方法并没有本质区别，都需要在data属性里传入对象。局部注册只是放在了new Vue的options处理部分，仍然是Vue.extend(definition)里判断。
 
 下面以全局注册为例过一遍Vue源码。
@@ -206,6 +208,7 @@ if (typeof childVal !== 'function') {
 }
 ...
 ```
+
 这个函数简单来说，是负责data字段内容处理的，不管是new Vue的参数里data还是组件初始化的data，都要经过这里。
 
 简单起见，从这个位置往上倒（二声）到开头：
@@ -234,6 +237,7 @@ Vue.component('button-counter', {
 definition内容：
 
 ```
+
 {
   data: function () {...},
   "template": "<button v-on:click=\"count++\">You clicked me {{ count }} times.</button>",
@@ -246,7 +250,8 @@ Sub.options = mergeOptions(Super.options,  definition)
 -mergeField('data')
 -strats.data
 ```
-这一步就是前面报错的那一步，会判断data是否为函数，是则执行并挂载函数方法。否则返回父级属性。
+
+这一步就是前面报错的那一步，会判断 data 是否为函数，是则执行并挂载函数方法。否则返回父级属性。
 
 vue-component-config
 
@@ -266,6 +271,7 @@ function VueComponent (options) {
       this._init(options)
 }
 ```
+
 ## 初始化Vue实例时的处理
 
 new Vue的时候，也会调用mergeOptions，不同的是这时候传入了vm实例。这时在mergeField('data')里走了另外一条路线：

@@ -239,7 +239,10 @@ function isApiError(error: Error) {
 
 ## 将任何一个类型断言为 any
 
+```js
 (window as any).foo = 1;
+```
+
 在 any 类型的变量上，访问任何属性都是允许的。
 
 举例来说，历史遗留的代码中有个 getCacheData，它的返回值是 any：
@@ -537,8 +540,19 @@ interface Alarm {
 }
 ```
 
+## TypeScript内置的工具类型 Record
 
+```TypeScript
+// type Record<K extends string | number | symbol, T> = { [P in K]: T; }
+interface Developer extends Record<string, any> {
+  name: string;
+  age?: number;
+}
 
+let developer: Developer = { name: "semlinker" };
+developer.age = 30;
+developer.city = "XiaMen";
+```
 
 ## 参考文献
 

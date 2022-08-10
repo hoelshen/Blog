@@ -2,7 +2,7 @@
 
 ## 提取自定义 hook
 
-自定义 Hook 是一个 JavaScript 函数，其名称以 ”use” 开头，可以调用其他 Hook。 
+自定义 Hook 是一个 JavaScript 函数，其名称以 ”use” 开头，可以调用其他 Hook。
 
 ```js
 import { useState, useEffect } from 'react';
@@ -25,14 +25,6 @@ function useFriendStatus(friendID) {
 }
 ```
 
-## 
+## 给自定义的 hook 做单测
 
-
-
-
-
-
-
-
-
-
+使用工具 ： [@testing-library/react-hooks](https://github.com/testing-library/react-hooks-testing-library)

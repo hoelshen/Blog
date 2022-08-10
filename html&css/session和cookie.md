@@ -42,7 +42,7 @@ Session 是存储在服务器端的，避免了在客户端Cookie中存储敏感
 
 Web应用框架都会实现上述过程，在Web应用中可以直接获得当前用户。 相当于在HTTP协议之上，通过Cookie实现了持久的会话。这个会话便称为Session。
 
-# 简单对比
+## 本地存储的几种简单对比
 
 1、cookie：4K，可以手动设置失效期
 2、localStorage：5M，除非手动清除，否则一直存在
@@ -105,3 +105,11 @@ None 无论是否跨站都会发送 Cookie
 如果你想加 SameSite=none 属性，那么该 Cookie 就必须同时加上 Secure 属性，表示只有在 HTTPS 协议下该 Cookie 才会被发送。
 
 2. 需要 UA 检测，部分浏览器不能加 SameSite=none
+
+Window.sessionStorage
+sessionStorage 属性允许你访问一个，对应当前源的 session Storage 对象。它与 localStorage 相似，不同之处在于 localStorage 里面存储的数据没有过期时间设置，而存储在 sessionStorage 里面的数据在页面会话结束时会被清除。
+
+页面会话在浏览器打开期间一直保持，并且重新加载或恢复页面仍会保持原来的页面会话。
+在新标签或窗口打开一个页面时会复制顶级浏览会话的上下文作为新会话的上下文，这点和 session cookies 的运行方式不同。
+打开多个相同的 URL 的 Tabs 页面，会创建各自的 sessionStorage。
+关闭对应浏览器标签或窗口，会清除对应的 sessionStorage。

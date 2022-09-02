@@ -6,8 +6,7 @@
 function extend(obj1, obj2) {
     Object.keys(obj2).forEach(function(key) {
             obj1[key] = obj2[key]
-        )
-    }
+        })
 }
 class People {}
 ```

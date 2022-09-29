@@ -32,9 +32,11 @@ ecma-262 把 原生对象（native object）定义为“独立于宿主环境的
 
 一个内置的构造器函数是一个内置的对象，也是一个构造函数
 常见的有
+
+```js
 native Objects： object(constructor), date, math, parseInt, val.
 host objects: window, documents, location, history, XMLhttpRequest, settimeout, getElementTagName, querySelectorAll
-
+```
 ## 对象的扩展
 
 ``` javascript

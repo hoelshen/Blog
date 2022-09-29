@@ -18,7 +18,7 @@ Foo.call(o);
 
 ```js
 const myNew = function(){
-  // 取出args 数组的第一个参数， 即目标构造函数
+  // 取出 args 数组的第一个参数， 即目标构造函数
   let Constructor = Array.prototype.shift.call(arguments);
   // 创建一个空对象， 且使这个对象继承构造函数的 prototype 属性
   let obj = {};

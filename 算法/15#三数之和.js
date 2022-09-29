@@ -16,9 +16,6 @@ var threeSum = function (nums) {
 
   //新建一个array
   var arr = [];
-  //三个数 a,b,c
-  //a = b+c
-
   var len = nums.length;
   var r = nums.length - 1;
   var sum = 0;
@@ -74,3 +71,5 @@ var threeSum = function (nums) {
 var nums = [-1, 0, 1, 2, -1, -4];
 var val = threeSum(nums);
 console.log("val: ", val);
+
+

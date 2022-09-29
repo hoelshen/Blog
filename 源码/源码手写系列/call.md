@@ -27,7 +27,6 @@ Function.prototype.call = function(context) {
   }
 
   let res = eval(`${context.fn(args)}`)
-  console.log('res: ', res);
   delete context.fn;
 
   return res

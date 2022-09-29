@@ -62,7 +62,7 @@ Block tree
 block tree 是一个将模板基于动态节点指令切割的嵌套区块， 每个区块内部的节点结构是固定的
 每个区块只需要以一个array 来追踪自身包含的动态节点
 
-借助block tree， vue。js 将vnode 更新性能由模板整体大小相关提升为与动态内容的数量相关。
+借助block tree， vue.js 将vnode 更新性能由模板整体大小相关提升为与动态内容的数量相关。
 
 ## 编译优化
 
@@ -207,7 +207,7 @@ function createAppAPI(render) {
 ```
 
 先用 ensureRenderer() 来延时创建渲染器，这样做的好处是当用户只依赖响应式包的时候，就不会创建渲染器，因此可以通过 tree-shaking 的方式移除核心渲染逻辑相关的代码。
-渲染器理解为包含平台渲染核心逻辑的 JavaScript 对象
+渲染器理解为包含平台渲染核心逻辑的 JavaScript 对象。
 在 Vue.js 3.0 内部通过 createRenderer 创建一个渲染器，这个渲染器内部会有一个 createApp 方法，它是执行 createAppAPI 方法返回的函数，接受了 rootComponent 和 rootProps 两个参数，我们在应用层面执行 createApp(App) 方法时，会把 App 组件对象作为根组件传递给 rootComponent。这样，createApp 内部就创建了一个 app 对象，它会提供 mount 方法，这个方法是用来挂载组件的。
 
 2. 重写 app.mount 方法

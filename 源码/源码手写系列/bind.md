@@ -3,7 +3,7 @@
 bind 函数的实现，需要了解 this 的绑定。this 绑定有 4 种绑定规则: 默认绑定、 隐式绑定、 显示绑定、 new 绑定
 
 ```js
-Function.prototype.bind(context){
+Function.prototype.bind = function(context) {
   
   // 1. 需要修改this
   let that = this;

@@ -1,4 +1,4 @@
-# 玩转vue全家桶
+# 玩转 vue 全家桶
 
 响应式数据是主动推送变化，虚拟 DOM 是被动计算数据的 Diff，一个推一个拉，它们看起来是两个方向的技术，但被 Vue 2 很好地融合在一起，采用的方式就是组件级别的划分。对于 Vue 2 来说，组件之间的变化，可以通过响应式来通知更新。组件内部的数据变化，则通过虚拟 DOM 去更新页面。这样就把响应式的监听器，控制在了组件级别，而虚拟 DOM 的量级，也控制在了组件的大小。
 
@@ -15,39 +15,39 @@ react 和 vue 的主要区别：
 
 ## vue3 的新特性
 
-* RFC 机制
+- RFC 机制
 
-* [rfc](https://github.com/vuejs/rfcs)
+- [rfc](https://github.com/vuejs/rfcs)
 
-* 响应式系统
+- 响应式系统
 
-* 自定义渲染器
+- 自定义渲染器
 
-* 使用最近流行的 monorepo 管理方式，响应式，编译和运行时全部独立
+- 使用最近流行的 monorepo 管理方式，响应式，编译和运行时全部独立
 
-* 平台无关渲染逻辑和浏览器渲染 API
+- 平台无关渲染逻辑和浏览器渲染 API
 
 ![monorepo架构](./picture/2022-01-09-16-25-29.png)
 
 ![拆开渲染逻辑](./picture/2022-01-09-16-27-12.png)
 
-* 全部模块使用 ts 重构
+- 全部模块使用 ts 重构
 
-* Composition API 组合语法
+- Composition API 组合语法
 
 关于 composition api 的优势
 
-* 所有 API 都是 import 引入的（现在我们的例子还没有工程化，后续会加入）。用到的功能都 import 进来，对 Tree-shaking 很友好，我的例子里没用到功能，打包的时候会被清理掉 ，减小包的大小。
+- 所有 API 都是 import 引入的（现在我们的例子还没有工程化，后续会加入）。用到的功能都 import 进来，对 Tree-shaking 很友好，我的例子里没用到功能，打包的时候会被清理掉 ，减小包的大小。
 
-* 不再上下反复横跳，我们可以把一个功能模块的 methods、data 都放在一起书写，维护更轻松。
+- 不再上下反复横跳，我们可以把一个功能模块的 methods、data 都放在一起书写，维护更轻松。
 
-* 代码方便复用，可以把一个功能所有的 methods、data 封装在一个独立的函数里，复用代码非常容易。
+- 代码方便复用，可以把一个功能所有的 methods、data 封装在一个独立的函数里，复用代码非常容易。
 
-* Composotion API 新增的 return 等语句，在实际项目中使用
+- Composotion API 新增的 return 等语句，在实际项目中使用
 
 ![关于composition](./picture/2022-01-09-16-34-16.png)
 
-* 新的组件
+- 新的组件
 
 Vue 3 还内置了 Fragment、Teleport 和 Suspense 三个新组件。
 
@@ -108,13 +108,13 @@ let _value = 1;
 double = getDouble(_value);
 
 let count = {
-    get value() {
-        return _value;
-    },
-    set value(val) {
-        _value = val;
-        double = getDouble(_value);
-    },
+  get value() {
+    return _value;
+  },
+  set value(val) {
+    _value = val;
+    double = getDouble(_value);
+  },
 };
 console.log(count.value, double);
 count.value = 2;
@@ -187,13 +187,11 @@ JSX 相比于 template 还有一个优势，是可以在一个文件内返回多
 
 一些 知识点总结
 
-* [h 函数](https://v3.cn.vuejs.org/api/global-api.html#h)
-* [element3](https://github.com/hug-sun/element3/blob/master/packages/element3/packages/timeline/Timeline.vue#L35)
-* [template explorer](https://vue-next-template-explorer.netlify.app/#eyJzcmMiOiI8ZGl2IGlkPVwiYXBwXCI+XG4gICAgPGRpdiBAY2xpY2s9XCIoKT0+Y29uc29sZS5sb2coeHgpXCIgIG5hbWU9XCJoZWxsb1wiPnt7bmFtZX19PC9kaXY+XG4gICAgPGgxID7mioDmnK/mkbjpsbw8L2gxPlxuICAgIDxwIDppZD1cIm5hbWVcIiBjbGFzcz1cImFwcFwiPuaegeWuouaXtumXtDwvcD5cbjwvZGl2PlxuIiwic3NyIjpmYWxzZSwib3B0aW9ucyI6eyJob2lzdFN0YXRpYyI6dHJ1ZSwiY2FjaGVIYW5kbGVycyI6dHJ1ZSwib3B0aW1pemVCaW5kaW5ncyI6ZmFsc2V9fQ==)
+- [h 函数](https://v3.cn.vuejs.org/api/global-api.html#h)
+- [element3](https://github.com/hug-sun/element3/blob/master/packages/element3/packages/timeline/Timeline.vue#L35)
+- [template explorer](https://vue-next-template-explorer.netlify.app/#eyJzcmMiOiI8ZGl2IGlkPVwiYXBwXCI+XG4gICAgPGRpdiBAY2xpY2s9XCIoKT0+Y29uc29sZS5sb2coeHgpXCIgIG5hbWU9XCJoZWxsb1wiPnt7bmFtZX19PC9kaXY+XG4gICAgPGgxID7mioDmnK/mkbjpsbw8L2gxPlxuICAgIDxwIDppZD1cIm5hbWVcIiBjbGFzcz1cImFwcFwiPuaegeWuouaXtumXtDwvcD5cbjwvZGl2PlxuIiwic3NyIjpmYWxzZSwib3B0aW9ucyI6eyJob2lzdFN0YXRpYyI6dHJ1ZSwiY2FjaGVIYW5kbGVycyI6dHJ1ZSwib3B0aW1pemVCaW5kaW5ncyI6ZmFsc2V9fQ==)
 
 ## TypeScript
-
-把 tapd 的组件用 ts 重构一版
 
 1. vue3 写的 ts 的组件能供 vue2 使用吗
 2. 市面上 有没有相关的 例如京东 小程序端的组件 ui
@@ -252,7 +250,7 @@ addRoutes({
 
 1. 维护页面下需要控制权限的按钮权限标识，后台保存；
 2. 登录后，获取权限数据，将该用户的按钮权限数组存放到对应页面的路由信息里；
-3. 可编写v-auth的自定义指令（可以拿当前按钮标识去当前页面路由信息的按钮权限数组里去找，存在则显示，否则隐藏）；
+3. 可编写 v-auth 的自定义指令（可以拿当前按钮标识去当前页面路由信息的按钮权限数组里去找，存在则显示，否则隐藏）；
 
 ## vue3 中如何集成第三方框架
 
@@ -260,29 +258,29 @@ addRoutes({
 
 网络请求优化和代码效率优化
 
-网络请求优化： 对其他域名去做dns的预解析
+网络请求优化： 对其他域名去做 dns 的预解析
 
 ```js
-dns - prefetch
+dns - prefetch;
 ```
 
 首先是 First Contentful Paint，通常简写为 FCP，它表示的是页面上呈现第一个 DOM 元素的时间。在此之前，页面都是白屏的状态；然后是 Time to interactive，通常简写为 TTI，也就是页面可以开始交互的时间；还有和用户体验相关的 Largest Contentful Paint，通常简写为 LCP，这是页面视口上最大的图片或者文本块渲染的时间，在这个时间，用户能看到渲染基本完成后的首页，这也是用户体验里非常重要的一个指标。
 
 ```js
-let timing = window.performance && window.performance.timing
-let navigation = window.performance && window.performance.navigation
+let timing = window.performance && window.performance.timing;
+let navigation = window.performance && window.performance.navigation;
 
 // DNS 解析：
-let dns = timing.domainLookupEnd - timing.domainLookupStart
+let dns = timing.domainLookupEnd - timing.domainLookupStart;
 
 // 总体网络交互耗时：
-let network = timing.responseEnd - timing.navigationStart
+let network = timing.responseEnd - timing.navigationStart;
 
 // 渲染处理：
-let processing = (timing.domComplete || timing.domLoading) - timing.domLoading
+let processing = (timing.domComplete || timing.domLoading) - timing.domLoading;
 
 // 可交互：
-let active = timing.domInteractive - timing.navigationStart
+let active = timing.domInteractive - timing.navigationStart;
 ```
 
 资料：
@@ -295,31 +293,29 @@ let active = timing.domInteractive - timing.navigationStart
 
 当你开始考虑上图中每一个环节的优化项，当你开始思考左侧的组件如何能在多个项目复用？整体项目的性能如何优化？项目打包上线的过程如何更稳定？如何提前发现项目中的报错等等问题的时候，亮点也就随之诞生了
 
-参照react 的fiber 架构：requestIdleCallback
+参照 react 的 fiber 架构：requestIdleCallback
 
 ```js
-    let count = 0
-    const workLoop = async deadline => {
-        // 计算，并且当前帧还没结束
-        while (count < chunks.length && deadline.timeRemaining() > 1) {
-            await appendToSpark(chunks[count].file)
-            count++
-            // 没有了 计算完毕
-            if (count < chunks.length) {
-                // 计算中
-                this.hashProgress = Number(
-                    ((100 * count) / chunks.length).toFixed(2)
-                )
-                // console.log(this.hashProgress)
-            } else {
-                // 计算完毕
-                this.hashProgress = 100
-                resolve(spark.end())
-            }
-        }
-        window.requestIdleCallback(workLoop)
+let count = 0;
+const workLoop = async (deadline) => {
+  // 计算，并且当前帧还没结束
+  while (count < chunks.length && deadline.timeRemaining() > 1) {
+    await appendToSpark(chunks[count].file);
+    count++;
+    // 没有了 计算完毕
+    if (count < chunks.length) {
+      // 计算中
+      this.hashProgress = Number(((100 * count) / chunks.length).toFixed(2));
+      // console.log(this.hashProgress)
+    } else {
+      // 计算完毕
+      this.hashProgress = 100;
+      resolve(spark.end());
     }
-    window.requestIdleCallback(workLoop)
+  }
+  window.requestIdleCallback(workLoop);
+};
+window.requestIdleCallback(workLoop);
 ```
 
 ## 代码效率的优化
@@ -332,13 +328,12 @@ let active = timing.domInteractive - timing.navigationStart
 
 还有很多组件库也会提供骨架图的组件，能够在页面还没有解析完成之前，先渲染一个页面的骨架和 loading 的状态，这样用户在页面加载的等待期就不至于一直白屏，下图所示就是 antd-vue 组件库骨架图渲染的结果。
 
-## 如何打包发布你的Vue3应用
+## 如何打包发布你的 Vue3 应用
 
-## 深入TypeScript
-
-[type T = arg 的类型]
+## 深入 TypeScript
 
 ```ts
+[type T = arg 的类型]
 
 function identity0(arg: any): any {
     return arg
@@ -356,44 +351,40 @@ keyof 可以帮助我们拆解已有类型，下一步我们需要使用 extends
 extends 相当于 TypeScript 世界中的条件语句，然后 in 关键字可以理解为 TypeScript 世界中的遍历。
 
 ```ts
-
 // T extends U ? X : Y 类型三元表达式
 
-type ExtendsType<T> = T extends boolean ? "重学前端" : "玩转Vue 3"
-type ExtendsType1 = ExtendsType<boolean> // type ExtendsType1='重学前端'
-type ExtendsType2 = ExtendsType<string> // type ExtendsType2='玩转Vue 3'
-
+type ExtendsType<T> = T extends boolean ? "重学前端" : "玩转Vue 3";
+type ExtendsType1 = ExtendsType<boolean>; // type ExtendsType1='重学前端'
+type ExtendsType2 = ExtendsType<string>; // type ExtendsType2='玩转Vue 3'
 ```
 
 ```ts
-
-type Courses = '玩转Vue 3'|'重学前端'
+type Courses = "玩转Vue 3" | "重学前端";
 type CourseObj = {
-    [k in Courses]:number // 遍历Courses类型作为key
-}
+  [k in Courses]: number; // 遍历Courses类型作为key
+};
 // 上面的代码等于下面的定义
 // type CourseObj = {
 //     玩转Vue 3: number;
 //     重学前端: number;
 // }
-
 ```
 
-想问一下type和interface有什么区别? 什么时候用type, 什么时候用interface?
+## 想问一下 type 和 interface 有什么区别? 什么时候用 type, 什么时候用 interface?
 
- type和interface都可以描述一个对象或者函数，并且都可以扩展，有几个小区别，首先type可以设置类型的别名，比如type Vue = string , 还可以用typeof获取实例的类型，interface可以直接合并申明，默认直接用interface即可
+// todo 归纳下区别
+type 和 interface 都可以描述一个对象或者函数，并且都可以扩展，有几个小区别，首先 type 可以设置类型的别名，比如 type Vue = string , 还可以用 typeof 获取实例的类型，interface 可以直接合并申明，默认直接用 interface 即可
 
 ![提交流程](./picture/2022-01-21-13-18-02.png)
 
-关于样式scss
+关于样式 scss
 
 ```scss
-
 // bem
 
-$namespace: 'el';
+$namespace: "el";
 @mixin b($block) {
-  $B: $namespace + '-' + $block !global;
+  $B: $namespace + "-" + $block !global;
   .#{$B} {
     @content;
   }
@@ -407,10 +398,9 @@ $namespace: 'el';
     }
   }
 }
-
 ```
 
-## 配置husy
+## 配置 husy
 
 ```JS
 const msg = require('fs')
@@ -425,7 +415,7 @@ if (!commitRE.test(msg)) {
 
         console.error(`git commit的信息格式不对, 需要使用 title(scope): desc的格式
       比如 fix: xxbug
-      feat(test): add new 
+      feat(test): add new
       具体校验逻辑看 scripts/verifyCommit.js
     `)
         process.exit(1)
@@ -440,7 +430,7 @@ if (!commitRE.test(msg)) {
 
 ### 单测
 
-  TDD 开发一个组件
+TDD 开发一个组件
 
 ```JS
 module.exports = {
@@ -458,11 +448,10 @@ module.exports = {
 
 我们首先要从 @vue/test-utils 库中导入 mount 函数，这个函数可以在命令行里模拟 Vue 的组件渲染。在 Button 的 slot 传递了文本之后，wrapper.text() 就能获取到文本内容，然后对 Button 渲染结果进行判断。
 
-通过scss控制浏览器页面内的大小
+通过 scss 控制浏览器页面内的大小
 
 ```scss
-
-@include b(button){
+@include b(button) {
   display: inline-block;
   cursor: pointer;
   background: $--button-default-background-color;
@@ -576,56 +565,53 @@ export const nodeOps: Omit<RendererOptions<Node, Element>, 'patchProp'> = {
 
 ```
 
-上面这段代码是vue提供浏览器端操作的函数, 这些DOM编程接口完成了浏览器端的增加、删除和添加操作
+上面这段代码是 vue 提供浏览器端操作的函数, 这些 DOM 编程接口完成了浏览器端的增加、删除和添加操作
 
-但是  若想实现跨端能力，渲染器则本身不能依赖任何平台下特有的接口
+但是 若想实现跨端能力，渲染器则本身不能依赖任何平台下特有的接口
 
 ```js
-
 export default function createRenderer(options) {
   const {
-      insert: hostInsert,
-      remove: hostRemove,
-      patchProp: hostPatchProp,
-      createElement: hostCreateElement,
-      createText: hostCreateText,
-      createComment: hostCreateComment,
-      setText: hostSetText,
-      setElementText: hostSetElementText,
-      parentNode: hostParentNode,
-      nextSibling: hostNextSibling,
-      setScopeId: hostSetScopeId = NOOP,
-      cloneNode: hostCloneNode,
-      insertStaticContent: hostInsertStaticContent
-   } = options
+    insert: hostInsert,
+    remove: hostRemove,
+    patchProp: hostPatchProp,
+    createElement: hostCreateElement,
+    createText: hostCreateText,
+    createComment: hostCreateComment,
+    setText: hostSetText,
+    setElementText: hostSetElementText,
+    parentNode: hostParentNode,
+    nextSibling: hostNextSibling,
+    setScopeId: hostSetScopeId = NOOP,
+    cloneNode: hostCloneNode,
+    insertStaticContent: hostInsertStaticContent,
+  } = options;
 
-  function render(vnode, container) {  }
+  function render(vnode, container) {}
 
-  function mount(vnode, container, isSVG, refNode) {  }
+  function mount(vnode, container, isSVG, refNode) {}
 
-  function mountElement(vnode, container, isSVG, refNode) {  }
+  function mountElement(vnode, container, isSVG, refNode) {}
 
-  function mountText(vnode, container) {  }
+  function mountText(vnode, container) {}
 
-  function patch(prevVNode, nextVNode, container) {  }
+  function patch(prevVNode, nextVNode, container) {}
 
-  function replaceVNode(prevVNode, nextVNode, container) {  }
-  function patchElement(prevVNode, nextVNode, container) {  }
+  function replaceVNode(prevVNode, nextVNode, container) {}
+  function patchElement(prevVNode, nextVNode, container) {}
   function patchChildren(
     prevChildFlags,
     nextChildFlags,
     prevChildren,
     nextChildren,
     container
-  ) {  }
+  ) {}
 
-  function patchText(prevVNode, nextVNode) {  }
-  function patchComponent(prevVNode, nextVNode, container) {  }
+  function patchText(prevVNode, nextVNode) {}
+  function patchComponent(prevVNode, nextVNode, container) {}
 
-  return { render }
+  return { render };
 }
-
-
 ```
 
 对比一下：经过渲染器抽离之后，内部的 mountElement 就会把所有 document 的操作全部换成 options 传递进来的 hostCreate 函数。
@@ -642,27 +628,25 @@ function mountElement(vnode, container, isSVG, refNode) {
 ```
 
 ```javascript
-
 function mountElement(vnode, container, isSVG, refNode) {
-  const el = hostCreateElement(vnode.tag, isSVG)
+  const el = hostCreateElement(vnode.tag, isSVG);
 }
 ```
 
-runtime-core 包还可以封装其他平台的渲染器，Vue 组件和 Vue 的各种API
+runtime-core 包还可以封装其他平台的渲染器，Vue 组件和 Vue 的各种 API
 
 ```javascript
-
 const { render } = createRenderer({
   nodeOps: {
-    createElement() {   },
-    createText() {   }
+    createElement() {},
+    createText() {},
     // more...
   },
-  patchData
-})
+  patchData,
+});
 ```
 
-  上面的代码创建一个具体平台的渲染器， 例如：runtime-dom 中实现具体的步骤， 其功能包括处理原生DOM API和DOM 事件和 DOM 属性等
+上面的代码创建一个具体平台的渲染器， 例如：runtime-dom 中实现具体的步骤， 其功能包括处理原生 DOM API 和 DOM 事件和 DOM 属性等
 
 自定义渲染
 
@@ -671,114 +655,138 @@ const { render } = createRenderer({
 首先我们了解了自定义渲染器的原理，就是把所有的增删改查操作暴露出去，使用的时候不需要知道内部的实现细节，我们只需要针对每个平台使用不同的 API 即可。
 
 ```javascript
-
 const { createApp: originCa } = createRenderer({
   insert: (child, parent, anchor) => {
-    if (typeof child == 'string') {
-      parent.text = child
+    if (typeof child == "string") {
+      parent.text = child;
     } else {
-      child.parent = parent
+      child.parent = parent;
       if (!parent.child) {
-        parent.child = [child]
+        parent.child = [child];
       } else {
-        parent.child.push(child)
+        parent.child.push(child);
       }
     }
     if (parent.nodeName) {
-      draw(child)
+      draw(child);
       if (child.onClick) {
-        ctx.canvas.addEventListener('click', () => {
-          child.onClick()
-          setTimeout(() => {
-            draw(child)
-          })
-        }, false)
+        ctx.canvas.addEventListener(
+          "click",
+          () => {
+            child.onClick();
+            setTimeout(() => {
+              draw(child);
+            });
+          },
+          false
+        );
       }
     }
   },
   createElement(type, isSVG, isCustom) {
     return {
-      type
-    }
+      type,
+    };
   },
   setElementText(node, text) {
-    node.text = text
+    node.text = text;
   },
   patchProp(el, key, prev, next) {
-    el[key] = next
+    el[key] = next;
   },
-
 });
-
 ```
 
 ```js
+import { createRenderer } from "@vue/runtime-core";
+import * as THREE from "three";
+import { nextTick } from "@vue/runtime-core";
 
-import { createRenderer } from '@vue/runtime-core'
-import * as THREE from 'three'
-import {nextTick} from '@vue/runtime-core'
-
-let renderer
+let renderer;
 
 function draw(obj) {
-    const {camera,cameraPos, scene, geometry,geometryArg,material,mesh,meshY,meshX} = obj
-    if([camera,cameraPos, scene, geometry,geometryArg,material,mesh,meshY,meshX].filter(v=>v).length<9){
-        return 
-    }
-    let cameraObj = new THREE[camera]( 40, window.innerWidth / window.innerHeight, 0.1, 10 )
-    Object.assign(cameraObj.position,cameraPos)
+  const {
+    camera,
+    cameraPos,
+    scene,
+    geometry,
+    geometryArg,
+    material,
+    mesh,
+    meshY,
+    meshX,
+  } = obj;
+  if (
+    [
+      camera,
+      cameraPos,
+      scene,
+      geometry,
+      geometryArg,
+      material,
+      mesh,
+      meshY,
+      meshX,
+    ].filter((v) => v).length < 9
+  ) {
+    return;
+  }
+  let cameraObj = new THREE[camera](
+    40,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    10
+  );
+  Object.assign(cameraObj.position, cameraPos);
 
-    let sceneObj = new THREE[scene]()
+  let sceneObj = new THREE[scene]();
 
-    let geometryObj = new THREE[geometry]( ...geometryArg)
-    let materialObj = new THREE[material]()
+  let geometryObj = new THREE[geometry](...geometryArg);
+  let materialObj = new THREE[material]();
 
-    let meshObj = new THREE[mesh]( geometryObj, materialObj )
-    meshObj.rotation.x = meshX
-    meshObj.rotation.y = meshY
-    sceneObj.add( meshObj )
-    renderer.render( sceneObj, cameraObj );
-
+  let meshObj = new THREE[mesh](geometryObj, materialObj);
+  meshObj.rotation.x = meshX;
+  meshObj.rotation.y = meshY;
+  sceneObj.add(meshObj);
+  renderer.render(sceneObj, cameraObj);
 }
 
 const { createApp: originCa } = createRenderer({
   insert: (child, parent, anchor) => {
-    if(parent.domElement){
-        draw(child)
+    if (parent.domElement) {
+      draw(child);
     }
   },
   createElement(type, isSVG, isCustom) {
     return {
-      type
-    }
+      type,
+    };
   },
-  setElementText(node, text) {
-  },
+  setElementText(node, text) {},
   patchProp(el, key, prev, next) {
-    el[key] = next
-    draw(el)
+    el[key] = next;
+    draw(el);
   },
-  parentNode: node => node,
-  nextSibling: node => node,
-  createText: text => text,
-  remove:node=>node
-
+  parentNode: (node) => node,
+  nextSibling: (node) => node,
+  createText: (text) => text,
+  remove: (node) => node,
 });
 function createApp(...args) {
-  const app = originCa(...args)
+  const app = originCa(...args);
   return {
     mount(selector) {
-        renderer = new THREE.WebGLRenderer( { antialias: true } );
-        renderer.setSize( window.innerWidth, window.innerHeight );
-        document.body.appendChild( renderer.domElement );
-        app.mount(renderer)
-    }
-  }
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+      app.mount(renderer);
+    },
+  };
 }
-export { createApp }
+export { createApp };
 ```
 
-在Vue渲染器的设计中就是把document所有的操作都抽离成nodeOps, 并且通过调用Vue的createRenderer 函数创建平台的渲染器。
+在 Vue 渲染器的设计中就是把 document 所有的操作都抽离成 nodeOps, 并且通过调用 Vue 的 createRenderer 函数创建平台的渲染器。
 
 ## 响应式
 
@@ -788,38 +796,37 @@ export { createApp }
 
 ![reactive的生命周期](./picture/2022-04-15-23-08-41.png)
 
-上图的依赖地图 targetMap 把每个对象 拥有的属性 -> 映射的effect
+上图的依赖地图 targetMap 把每个对象 拥有的属性 -> 映射的 effect
 
 在 effect 中获取 counter.num1 和 counter.num2 的时候，就会触发 counter 的 get 拦截函数；get 函数，会把当前的 effect 函数注册到一个全局的依赖地图中去。这样 counter.num1 在修改的时候，就会触发 set 拦截函数，去依赖地图中找到注册的 effect 函数，然后执行。
 
 我们
 
 ```javascript
-
 const get = createGetter();
 const set = createSetter();
 
 function createGetter(shallow = false) {
   return function get(target, key, receiver) {
-    const res = Reflect.get(target, key, receiver)
-    track(target, "get", key)
+    const res = Reflect.get(target, key, receiver);
+    track(target, "get", key);
     if (isObject(res)) {
       // 值也是对象的话，需要嵌套调用reactive
       // res就是target[key]
       // 浅层代理，不需要嵌套
-      return shallow ? res : reactive(res)
+      return shallow ? res : reactive(res);
     }
-    return res
-  }
+    return res;
+  };
 }
 
 function createSetter() {
   return function set(target, key, value, receiver) {
-    const result = Reflect.set(target, key, value, receiver)
+    const result = Reflect.set(target, key, value, receiver);
     // 在触发 set 的时候进行触发依赖
-    trigger(target, "set", key)
-    return result
-  }
+    trigger(target, "set", key);
+    return result;
+  };
 }
 export const mutableHandles = {
   get,
@@ -834,11 +841,10 @@ export const mutableHandles = {
 所以，一个最简单的响应式模型，我们可以通过 reactive 或者 ref 函数，把数据包裹成响应式对象，并且通过 effect 函数注册回调函数，然后在数据修改之后，响应式地通知 effect 去执行回调函数即可。
 
 ```js
-
 export function reactive(target) {
-  if (typeof target!=='object') {
+  if (typeof target !== "object") {
     console.warn(`reactive  ${target} 必须是一个对象`);
-    return target
+    return target;
   }
 
   return new Proxy(target, mutableHandlers);
@@ -850,31 +856,30 @@ reactive 是通过 ES6 中的 Proxy 特性实现的属性拦截
 Vue3 中除了 reactive 还有很多别的函数需要实现，比如只读的响应式数据、浅层代理的响应式数据等，并且 reactive 中针对 ES6 的代理也需要单独的处理。
 
 ```js
-
 const get = createGetter();
 const set = createSetter();
 
 function createGetter(shallow = false) {
   return function get(target, key, receiver) {
-    const res = Reflect.get(target, key, receiver)
-    track(target, "get", key)
+    const res = Reflect.get(target, key, receiver);
+    track(target, "get", key);
     if (isObject(res)) {
       // 值也是对象的话，需要嵌套调用reactive
       // res就是target[key]
       // 浅层代理，不需要嵌套
-      return shallow ? res : reactive(res)
+      return shallow ? res : reactive(res);
     }
-    return res
-  }
+    return res;
+  };
 }
 
 function createSetter() {
   return function set(target, key, value, receiver) {
-    const result = Reflect.set(target, key, value, receiver)
+    const result = Reflect.set(target, key, value, receiver);
     // 在触发 set 的时候进行触发依赖
-    trigger(target, "set", key)
-    return result
-  }
+    trigger(target, "set", key);
+    return result;
+  };
 }
 export const mutableHandles = {
   get,
@@ -882,36 +887,35 @@ export const mutableHandles = {
 };
 ```
 
-* get 中直接返回读取的数据，这里的 Reflect.get 和 target[key]实现的结果是一致的；并且返回值是对象的话，还会嵌套执行 reactive，并且调用 track 函数收集依赖。
+- get 中直接返回读取的数据，这里的 Reflect.get 和 target[key]实现的结果是一致的；并且返回值是对象的话，还会嵌套执行 reactive，并且调用 track 函数收集依赖。
 
-* set 中调用 trigger 函数，执行 track 收集的依赖。
+- set 中调用 trigger 函数，执行 track 收集的依赖。
 
 ```js
-
 const get = createGetter();
 const set = createSetter();
 
 function createGetter(shallow = false) {
   return function get(target, key, receiver) {
-    const res = Reflect.get(target, key, receiver)
-    track(target, "get", key)
+    const res = Reflect.get(target, key, receiver);
+    track(target, "get", key);
     if (isObject(res)) {
       // 值也是对象的话，需要嵌套调用reactive
       // res就是target[key]
       // 浅层代理，不需要嵌套
-      return shallow ? res : reactive(res)
+      return shallow ? res : reactive(res);
     }
-    return res
-  }
+    return res;
+  };
 }
 
 function createSetter() {
   return function set(target, key, value, receiver) {
-    const result = Reflect.set(target, key, value, receiver)
+    const result = Reflect.set(target, key, value, receiver);
     // 在触发 set 的时候进行触发依赖
-    trigger(target, "set", key)
-    return result
-  }
+    trigger(target, "set", key);
+    return result;
+  };
 }
 export const mutableHandles = {
   get,
@@ -933,21 +937,19 @@ targetMap = {
  }  ,
   target1: {
    key3: [回调函数5]
- }  
+ }
 
 }
 ```
 
 #### triggerMap
 
-用map才可以把target作为key来管理管理target
+用 map 才可以把 target 作为 key 来管理管理 target
 
 ```js
-
-const targetMap = new WeakMap()
+const targetMap = new WeakMap();
 
 export function track(target, type, key) {
-
   // console.log(`触发 track -> target: ${target} type:${type} key:${key}`)
 
   // 1. 先基于 target 找到对应的 dep
@@ -957,29 +959,29 @@ export function track(target, type, key) {
   //     key:[effect1,effect2]
   //   }
   // }
-  let depsMap = targetMap.get(target)
+  let depsMap = targetMap.get(target);
   if (!depsMap) {
     // 初始化 depsMap 的逻辑
     // depsMap = new Map()
     // targetMap.set(target, depsMap)
     // 上面两行可以简写成下面的
-    targetMap.set(target, (depsMap = new Map()))
+    targetMap.set(target, (depsMap = new Map()));
   }
-  let deps = depsMap.get(key)
+  let deps = depsMap.get(key);
   if (!deps) {
-    deps = new Set()
+    deps = new Set();
   }
   if (!deps.has(activeEffect) && activeEffect) {
     // 防止重复注册
-    deps.add(activeEffect)
+    deps.add(activeEffect);
   }
-  depsMap.set(key, deps)
+  depsMap.set(key, deps);
 }
 ```
 
 #### trigger
 
- trigger函数实现的思路就是从targetMap中，根据target和key找到对应的依赖函数集合deps，然后遍历deps执行依赖函数
+trigger 函数实现的思路就是从 targetMap 中，根据 target 和 key 找到对应的依赖函数集合 deps，然后遍历 deps 执行依赖函数
 
 ```JS
 
@@ -1003,7 +1005,7 @@ export function trigger(target, type, key) {
       effectFn()
     }
   })
-  
+
 }
 ```
 
@@ -1014,25 +1016,23 @@ export function trigger(target, type, key) {
 我们把传递进来的 fn 函数通过 effectFn 函数包裹执行，在 effectFn 函数内部，把函数赋值给全局变量 activeEffect；然后执行 fn() 的时候，就会触发响应式对象的 get 函数，get 函数内部就会把 activeEffect 存储到依赖地图中，完成依赖的收集：
 
 ```js
-
 export function effect(fn, options = {}) {
   // effect嵌套，通过队列管理
   const effectFn = () => {
     try {
-      activeEffect = effectFn
+      activeEffect = effectFn;
       //fn执行的时候，内部读取响应式数据的时候，就能在get配置里读取到activeEffect
-      return fn()
+      return fn();
     } finally {
-      activeEffect = null
+      activeEffect = null;
     }
-  }
+  };
   if (!options.lazy) {
     //没有配置lazy 直接执行
-    effectFn()
+    effectFn();
   }
-  effectFn.scheduler = options.scheduler // 调度时机 watchEffect回用到
-  return effectFn
-  
+  effectFn.scheduler = options.scheduler; // 调度时机 watchEffect回用到
+  return effectFn;
 }
 ```
 
@@ -1043,65 +1043,67 @@ scheduler 存在的意义就是我们可以手动控制函数执行的时机，�
 scheduler 怎么用你可以看下面的代码，我们使用数组管理传递的执行任务，最后使用 Promise.resolve 只执行最后一次，这也是 Vue 中 watchEffect 函数的大致原理。
 
 ```js
-
-const obj = reactive({ count: 1 })
-effect(() => {
-  console.log(obj.count)
-}, {
-  // 指定调度器为 queueJob
-  scheduler: queueJob
-})
+const obj = reactive({ count: 1 });
+effect(
+  () => {
+    console.log(obj.count);
+  },
+  {
+    // 指定调度器为 queueJob
+    scheduler: queueJob,
+  }
+);
 // 调度器实现
-const queue: Function[] = []
-let isFlushing = false
+const queue: Function[] = [];
+let isFlushing = false;
 function queueJob(job: () => void) {
   if (!isFlushing) {
-    isFlushing = true
+    isFlushing = true;
     Promise.resolve().then(() => {
-      let fn
-      while(fn = queue.shift()) {
-        fn()
+      let fn;
+      while ((fn = queue.shift())) {
+        fn();
       }
-    })
+    });
   }
 }
 ```
 
 ### ref
 
-ref的执行逻辑要比reactive要简单一些，不需要使用Proxy代理语法，直接使用对象语法的getter和setter配置，监听value属性即可
+ref 的执行逻辑要比 reactive 要简单一些，不需要使用 Proxy 代理语法，直接使用对象语法的 getter 和 setter 配置，监听 value 属性即可
 
 在 ref 函数返回的对象中，对象的 get value 方法，使用 track 函数去收集依赖，set value 方法中使用 trigger 函数去触发函数的执行。
 
 ```js
 export function ref(val) {
-  if(isRef(val)){
-    return val
+  if (isRef(val)) {
+    return val;
   }
-  return new RefImpl(val)
+  return new RefImpl(val);
 }
 
-export function isRef(val){
-  return !!(val && val.__v_isRef)
+export function isRef(val) {
+  return !!(val && val.__v_isRef);
 }
 
 // ref就是利用面向对象的getter和setters进行track和trigget
-class RefImpl{
-  constructor(val){
-    this.__isRef = true
-    this._val = convert(val)
+class RefImpl {
+  constructor(val) {
+    this.__isRef = true;
+    this._val = convert(val);
   }
-  get value(){
-    track(this, 'value')
-    return this._val
+  get value() {
+    track(this, "value");
+    return this._val;
   }
 
-  set value(newVal){
-    if(this._val === newVal){
-      return
+  set value(newVal) {
+    if (this._val === newVal) {
+      return;
     }
-    this._val = convert(newVal)
-    trigger(this, 'value')
+    this._val = convert(newVal);
+    trigger(this, "value");
   }
 }
 
@@ -1114,51 +1116,50 @@ class RefImpl{
 
 ### computed
 
-拦截 computed 的 value 属性，并且定制了 effect 的 lazy 和 scheduler 配置，computed 注册的函数就不会直接执行，而是要通过 scheduler 函数中对 _dirty 属性决定是否执行。
+拦截 computed 的 value 属性，并且定制了 effect 的 lazy 和 scheduler 配置，computed 注册的函数就不会直接执行，而是要通过 scheduler 函数中对 \_dirty 属性决定是否执行。
 
 ```js
-
 export function computed(getterOrOptions) {
   // getterOrOptions可以是函数，也可以是一个对象，支持get和set
   // 还记得清单应用里的全选checkbox就是一个对象配置的computed
-  let getter, setter
-  if (typeof getterOrOptions === 'function') {
-    getter = getterOrOptions
+  let getter, setter;
+  if (typeof getterOrOptions === "function") {
+    getter = getterOrOptions;
     setter = () => {
-      console.warn('计算属性不能修改')
-    }
+      console.warn("计算属性不能修改");
+    };
   } else {
-    getter = getterOrOptions.get
-    setter = getterOrOptions.set
+    getter = getterOrOptions.get;
+    setter = getterOrOptions.set;
   }
-  return new ComputedRefImpl(getter, setter)
+  return new ComputedRefImpl(getter, setter);
 }
 class ComputedRefImpl {
   constructor(getter, setter) {
-    this._setter = setter
-    this._val = undefined
-    this._dirty = true
+    this._setter = setter;
+    this._val = undefined;
+    this._dirty = true;
     // computed就是一个特殊的effect，设置lazy和执行时机
     this.effect = effect(getter, {
       lazy: true,
       scheduler: () => {
         if (!this._dirty) {
-          this._dirty = true
-          trigger(this, 'value')
+          this._dirty = true;
+          trigger(this, "value");
         }
       },
-    })
+    });
   }
   get value() {
-    track(this, 'value')
+    track(this, "value");
     if (this._dirty) {
-      this._dirty = false
-      this._val = this.effect()
+      this._dirty = false;
+      this._val = this.effect();
     }
-    return this._val
+    return this._val;
   }
   set value(val) {
-    this._setter(val)
+    this._setter(val);
   }
 }
 ```
@@ -1171,7 +1172,7 @@ dependsMap 中存储的也不是直接存储 effect 中传递的函数，而是�
 
 dependsMap 中存储的也不是直接存储 effect 中传递的函数，而是包装了一层对象对这个函数的执行实际进行管理，内部可以通过 active 管理执行状态，还可以通过全局变量 shouldTrack 控制监听状态，并且执行的方式也是判断 scheduler 和 run 方法，实现了对性能的提升
 
-## 运行时： Vue在浏览器里是怎么跑起来的？
+## 运行时： Vue 在浏览器里是怎么跑起来的？
 
 最核心的两个流程: 首次渲染和数据更新后的渲染
 
@@ -1180,57 +1181,55 @@ dependsMap 中存储的也不是直接存储 effect 中传递的函数，而是�
 ![首次渲染流程](2022-05-23-12-57-20.png)
 
 ```js
-
-export const createApp = ((...args) => {
-  const app = ensureRenderer().createApp(...args)
-  const { mount } = app
+export const createApp = (...args) => {
+  const app = ensureRenderer().createApp(...args);
+  const { mount } = app;
   // 重写mount
   app.mount = (containerOrSelector: Element | ShadowRoot | string): any => {
-    const container = normalizeContainer(containerOrSelector)
-    if (!container) return
+    const container = normalizeContainer(containerOrSelector);
+    if (!container) return;
 
-    const component = app._component
+    const component = app._component;
     if (!isFunction(component) && !component.render && !component.template) {
-      component.template = container.innerHTML
+      component.template = container.innerHTML;
     }
-    container.innerHTML = ''
-    const proxy = mount(container, false, container instanceof SVGElement)
+    container.innerHTML = "";
+    const proxy = mount(container, false, container instanceof SVGElement);
     if (container instanceof Element) {
-      container.removeAttribute('v-cloak')
-      container.setAttribute('data-v-app', '')
+      container.removeAttribute("v-cloak");
+      container.setAttribute("data-v-app", "");
     }
-    return proxy
-  }
-  return app
-}) 
-function normalizeContainer(container){
+    return proxy;
+  };
+  return app;
+};
+function normalizeContainer(container) {
   if (isString(container)) {
-    const res = document.querySelector(container)
+    const res = document.querySelector(container);
   }
-  return container
+  return container;
 }
 ```
 
 这里 ensureRenderer 函数，内部通过 createRenderer 函数，创建了一个浏览器的渲染器，并且缓存了渲染器 renderer，
 
 ```js
-
 // 浏览器dom操作
-import { nodeOps } from './nodeOps'
+import { nodeOps } from "./nodeOps";
 // 浏览器dom属性更新
-import { patchProp } from './patchProp'
-import { createRenderer } from '@vue/runtime-core'
-const rendererOptions = extend({ patchProp }, nodeOps)
+import { patchProp } from "./patchProp";
+import { createRenderer } from "@vue/runtime-core";
+const rendererOptions = extend({ patchProp }, nodeOps);
 
-let renderer: Renderer<Element | ShadowRoot> | HydrationRenderer
+let renderer: Renderer<Element | ShadowRoot> | HydrationRenderer;
 
 function ensureRenderer() {
   return (
     renderer ||
-    (renderer = createRenderer<Node, Element | ShadowRoot>(rendererOptions))
-  )
-}  
-
+    ((renderer = createRenderer < Node),
+    Element | (ShadowRoot > rendererOptions))
+  );
+}
 ```
 
 createRenderer 函数传递的参数是 nodeOps 和 patchProp 的合并对象。
@@ -1272,7 +1271,7 @@ export const nodeOps: Omit<RendererOptions<Node, Element>, 'patchProp'> = {
   parentNode: node => node.parentNode as Element | null,
   nextSibling: node => node.nextSibling,
   querySelector: selector => doc.querySelector(selector),
-... 
+...
 }
 ```
 
@@ -1282,7 +1281,7 @@ createRenderer 是调用 baseCreateRenderer 创建的
 
 ![整个 createApp 函数的执行逻辑](2022-05-23-13-03-20.png)
 
-最后返回的 createApp 方法，实际上是 createAPI 的返回值，并且给 createAPI 传递了 render 方法。render 方法内部很简单，就是判断 container 容器上有没有 _vnode 属性，如果有的话就执行 unmout 方法，没有的话就执行 patch 方法，最后把 vnode 信息存储在 container._vnode 上。
+最后返回的 createApp 方法，实际上是 createAPI 的返回值，并且给 createAPI 传递了 render 方法。render 方法内部很简单，就是判断 container 容器上有没有 \_vnode 属性，如果有的话就执行 unmout 方法，没有的话就执行 patch 方法，最后把 vnode 信息存储在 container.\_vnode 上。
 
 那 createAppAPI 又做了什么呢？我们继续进入 createAppAPI 源码，看下面的代码。内部创建了一个 app 对象，app 上注册了我们熟悉的 use、component 和 mount 等方法：
 
@@ -1326,7 +1325,7 @@ export function createAppAPI<HostElement>(
             render(vnode, rootContainer, isSVG)
           }
           return getExposeProxy(vnode.component!) || vnode.component!.proxy
-        } 
+        }
       },
 
       provide(key, value) {
@@ -1344,7 +1343,7 @@ export function createAppAPI<HostElement>(
 
 #### patch 函数
 
-patch 函数patch 传递的是 container._vnode，也就是上一次渲染缓存的 vnode、本次渲染组件的 vnode，以及容器 container。
+patch 函数 patch 传递的是 container.\_vnode，也就是上一次渲染缓存的 vnode、本次渲染组件的 vnode，以及容器 container。
 
 其中 n1 是上次渲染的虚拟 DOM，n2 是下次要渲染的虚拟 DOM。
 
@@ -1352,7 +1351,7 @@ patch 函数patch 传递的是 container._vnode，也就是上一次渲染缓存
 
 如果 n1 和 n2 类型相同，比如都是 Button 组件或者都是 div 标签，我们需要判断具体的类型再去执行不同的函数，比如 processText、processFragment、processElement 以及 processComponent 等函数。
 
-**第55行，这里用到了位运算的知识，ShapeFlags 可以帮助我们快速判断需要操作的类型就可以了。**
+**第 55 行，这里用到了位运算的知识，ShapeFlags 可以帮助我们快速判断需要操作的类型就可以了。**
 
 ```js
 
@@ -1526,44 +1525,32 @@ patch 函数patch 传递的是 container._vnode，也就是上一次渲染缓存
 所以我们进入 mountComponent 函数中，可以看到 mountComponent 函数内部会对组件的类型进行一系列的判断，还有一些对 Vue 2 的兼容代码，核心的渲染逻辑就是 **setupComponent** 函数和 **setupRenderEffect** 函数。
 
 ```js
-
-import {setupComponent} from './component'
-  const mountComponent: MountComponentFn = (
-  ) => {
-    // 2.x compat may pre-creaate the component instance before actually
-    // mounting
-    const compatMountInstance =
-      __COMPAT__ && initialVNode.isCompatRoot && initialVNode.component
-    const instance: ComponentInternalInstance =
-      compatMountInstance ||
-      (initialVNode.component = createComponentInstance(
-        initialVNode,
-        parentComponent,
-        parentSuspense
-      ))
-
-    // resolve props and slots for setup context
-    if (!(__COMPAT__ && compatMountInstance)) {
-
-      setupComponent(instance)
-
-    }
-     (
-      instance,
+import { setupComponent } from "./component";
+const mountComponent: MountComponentFn = () => {
+  // 2.x compat may pre-creaate the component instance before actually
+  // mounting
+  const compatMountInstance =
+    __COMPAT__ && initialVNode.isCompatRoot && initialVNode.component;
+  const instance: ComponentInternalInstance =
+    compatMountInstance ||
+    (initialVNode.component = createComponentInstance(
       initialVNode,
-      container,
-      anchor,
-      parentSuspense,
-      isSVG,
-      optimized
-    )
+      parentComponent,
+      parentSuspense
+    ));
 
-    if (__DEV__) {
-      popWarningContext()
-      endMeasure(instance, `mount`)
-    }
+  // resolve props and slots for setup context
+  if (!(__COMPAT__ && compatMountInstance)) {
+    setupComponent(instance);
   }
-  ```
+  instance, initialVNode, container, anchor, parentSuspense, isSVG, optimized;
+
+  if (__DEV__) {
+    popWarningContext();
+    endMeasure(instance, `mount`);
+  }
+};
+```
 
 ![setupComponent 和 setupRenderEffect](picture/玩转vue3全家桶/2022-05-23-13-32-32.png)
 
@@ -1668,19 +1655,19 @@ update()
 
 ```
 
-#### 更新DOM
+#### 更新 DOM
 
 Vue 通过 createApp 创建应用，并且执行返回的 mount 方法实现在浏览器中的挂载，在 createApp 中，通过传递浏览器平台的操作方法 nodeOps 创建了浏览器的渲染器 renderer。
 
 首次执行 Vue 项目的时候，通过 patch 实现组件的渲染，patch 函数内部根据节点的不同类型，去分别执行 processElement、processComponent、processText 等方法去递归处理不同类型的节点，最终通过 setupComponent 执行组件的 setup 函数，setupRenderEffect 中使用响应式的 effect 函数监听数据的变化。
 
-Vue 虚拟Dom 执行流程
+Vue 虚拟 Dom 执行流程
 
 Vue 内部的虚拟 DOM，也就是 vnode，就是一个对象，通过 type、props、children 等属性描述整个节点：
 
 ```js
 
-const vnode = createVNode(    
+const vnode = createVNode(
   rootComponent as ConcreteComponent,
   rootProps
 )
@@ -1746,24 +1733,23 @@ function createBaseVNode(type,props,children,...){
 
 为了最大化减少 DOM 操作，patchKeyedChildren 使用了最长递增子序列来实现，并且相比于 React 的虚拟 DOM diff，新增了双端的预先判断 + 最长递增子序列算法来实现，这也是 Vue 性能比较优秀的另外一个原因。
 
-#### 虚拟Dom
+#### 虚拟 Dom
 
 方法就是使用 & 操作符来判断操作的类型，比如 patchFlag & PatchFlags.CLASS 来判断当前元素的 class 是否需要计算 diff；shapeFlag & ShapeFlags.ELEMENT 来判断当前虚拟 DOM 是 HTML 元素还是 Component 组件。这个“&”其实就是位运算的按位与。
 
 ```js
-
 // class
 // this flag is matched when the element has dynamic class bindings.
 if (patchFlag & PatchFlags.CLASS) {
   if (oldProps.class !== newProps.class) {
-    hostPatchProp(el, 'class', null, newProps.class, isSVG)
+    hostPatchProp(el, "class", null, newProps.class, isSVG);
   }
 }
 
 // style
 // this flag is matched when the element has dynamic style bindings
 if (patchFlag & PatchFlags.STYLE) {
-  hostPatchProp(el, 'style', oldProps.style, newProps.style, isSVG)
+  hostPatchProp(el, "style", oldProps.style, newProps.style, isSVG);
 }
 if (shapeFlag & ShapeFlags.ELEMENT) {
   processElement(
@@ -1776,7 +1762,7 @@ if (shapeFlag & ShapeFlags.ELEMENT) {
     isSVG,
     slotScopeIds,
     optimized
-  )
+  );
 } else if (shapeFlag & ShapeFlags.COMPONENT) {
   processComponent(
     n1,
@@ -1788,7 +1774,7 @@ if (shapeFlag & ShapeFlags.ELEMENT) {
     isSVG,
     slotScopeIds,
     optimized
-  )
+  );
 }
 ```
 
@@ -1802,22 +1788,22 @@ patchKeyedChildren 的核心逻辑就是在进行双端对比后，对无法预�
 
 使用位运算对 Vue 中的动态属性和节点进行标记，实现高效判断；对于两个数组的 diff 计算使用了最长递增子序列算法实现，优化了 diff 的时间复杂度。
 
-获取最长递增子序列的目的 就是为了减少dom移动的次数，最长递增子序列的位置不动，把其他元素移动到正确的位置就可以
+获取最长递增子序列的目的 就是为了减少 dom 移动的次数，最长递增子序列的位置不动，把其他元素移动到正确的位置就可以
 
-### 手写一个vue3 Compiler
+### 手写一个 vue3 Compiler
 
 ![](picture/玩转vue3全家桶/2022-05-24-15-36-54.png)
 
-代码会被解析成一个对象，这个对象就是抽象语法树，然后通过transform模块对代码进行优化，比如识别vue中的语法、静态标记、最后通过generate模块生成最终的render函数
+代码会被解析成一个对象，这个对象就是抽象语法树，然后通过 transform 模块对代码进行优化，比如识别 vue 中的语法、静态标记、最后通过 generate 模块生成最终的 render 函数
 
 其中 parse 函数负责生成抽象语法树 AST，transform 函数负责语义转换，generate 函数负责最终的代码生成。
 
 ```js
 function compiler(template) {
   const ast = parse(template);
-  transform(ast)
-  const code = generate(ast)
-  return code
+  transform(ast);
+  const code = generate(ast);
+  return code;
 }
 
 let template = `<div id="app">
@@ -1825,57 +1811,57 @@ let template = `<div id="app">
   <h1 :name="title">玩转vue3</h1>
   <p >编译原理</p>
 </div>
-`
+`;
 
-const renderFunction = compiler(template)
-console.log(renderFunction)
-
+const renderFunction = compiler(template);
+console.log(renderFunction);
 ```
 
-使用tokens数组存储解析的结果，然后对模板字符串进行循环，在template中,< > / 和空格都是关键的分隔符，如果碰见 < 字符，我们需要判断下一个字符的状态。如果是字符串我们就标记 tagstart；如果是 /，我们就知道是结束标签，标记为 tagend，最终通过 push 方法把分割之后的 token 存储在数组 tokens 中返回。
+使用 tokens 数组存储解析的结果，然后对模板字符串进行循环，在 template 中,< > / 和空格都是关键的分隔符，如果碰见 < 字符，我们需要判断下一个字符的状态。如果是字符串我们就标记 tagstart；如果是 /，我们就知道是结束标签，标记为 tagend，最终通过 push 方法把分割之后的 token 存储在数组 tokens 中返回。
 
 ```js
-
 function tokenizer(input) {
-  let tokens = []
-  let type = ''
-  let val = ''
+  let tokens = [];
+  let type = "";
+  let val = "";
   // 粗暴循环
   for (let i = 0; i < input.length; i++) {
-    let ch = input[i]
-    if (ch === '<') {
-      push()
-      if (input[i + 1] === '/') {
-        type = 'tagend'
+    let ch = input[i];
+    if (ch === "<") {
+      push();
+      if (input[i + 1] === "/") {
+        type = "tagend";
       } else {
-        type = 'tagstart'
+        type = "tagstart";
       }
-    } if (ch === '>') {
-      if(input[i-1]=='='){
-        //箭头函数
-      }else{
-        push()
-        type = "text"
-        continue
-      }
-    } else if (/[\s]/.test(ch)) { // 碰见空格截断一下
-      push()
-      type = 'props'
-      continue
     }
-    val += ch
+    if (ch === ">") {
+      if (input[i - 1] == "=") {
+        //箭头函数
+      } else {
+        push();
+        type = "text";
+        continue;
+      }
+    } else if (/[\s]/.test(ch)) {
+      // 碰见空格截断一下
+      push();
+      type = "props";
+      continue;
+    }
+    val += ch;
   }
-  return tokens
+  return tokens;
 
   function push() {
     if (val) {
-      if (type === "tagstart") val = val.slice(1) // <div => div
-      if (type === "tagend") val = val.slice(2)   //  </div  => div
+      if (type === "tagstart") val = val.slice(1); // <div => div
+      if (type === "tagend") val = val.slice(2); //  </div  => div
       tokens.push({
         type,
-        val
-      })
-      val = ''
+        val,
+      });
+      val = "";
     }
   }
 }
@@ -1886,15 +1872,14 @@ function tokenizer(input) {
 我们使用 context 对象存储 AST 所需要的上下文，如果我们用到了变量{{}}，就需要引入 toDisplayString 函数，上下文中的 helpers 存储的就是我们用到的工具函数。
 
 ```js
-
 function transform(ast) {
   // 优化一下ast
   let context = {
     // import { toDisplayString , createVNode , openBlock , createBlock } from "vue"
-    helpers:new Set(['openBlock','createVnode']), // 用到的工具函数 
-  }
-  traverse(ast, context)
-  ast.helpers = context.helpers
+    helpers: new Set(["openBlock", "createVnode"]), // 用到的工具函数
+  };
+  traverse(ast, context);
+  ast.helpers = context.helpers;
 }
 ```
 
@@ -1905,64 +1890,61 @@ function transform(ast) {
 然后冒号开头的就是动态的属性传递，并且把 class 和 style 标记了不同的 flag。如果都没有命中的话，就使用 static:true，标记当前节点位是静态节点。
 
 ```js
-
-function traverse(ast, context){
-  switch(ast.type){
+function traverse(ast, context) {
+  switch (ast.type) {
     case "root":
-      context.helpers.add('createBlock')
-      // log(ast)
+      context.helpers.add("createBlock");
+    // log(ast)
     case "element":
-      ast.children.forEach(node=>{
-        traverse(node,context)
-      })
-      ast.flag = 0
-      ast.props = ast.props.map(prop=>{
-        const {key,val} = prop
-        if(key[0]=='@'){
-          ast.flag |= PatchFlags.EVENT // 标记event需要更新
+      ast.children.forEach((node) => {
+        traverse(node, context);
+      });
+      ast.flag = 0;
+      ast.props = ast.props.map((prop) => {
+        const { key, val } = prop;
+        if (key[0] == "@") {
+          ast.flag |= PatchFlags.EVENT; // 标记event需要更新
           return {
-            key:'on'+key[1].toUpperCase()+key.slice(2),
-            val
-          }
+            key: "on" + key[1].toUpperCase() + key.slice(2),
+            val,
+          };
         }
-        if(key[0]==':'){
-          const k = key.slice(1)
-          if(k=="class"){
-            ast.flag |= PatchFlags.CLASS // 标记class需要更新
-
-          }else if(k=='style'){
-            ast.flag |= PatchFlags.STYLE // 标记style需要更新
-          }else{
-            ast.flag |= PatchFlags.PROPS // 标记props需要更新
+        if (key[0] == ":") {
+          const k = key.slice(1);
+          if (k == "class") {
+            ast.flag |= PatchFlags.CLASS; // 标记class需要更新
+          } else if (k == "style") {
+            ast.flag |= PatchFlags.STYLE; // 标记style需要更新
+          } else {
+            ast.flag |= PatchFlags.PROPS; // 标记props需要更新
           }
-          return{
-            key:key.slice(1),
-            val
-          }
+          return {
+            key: key.slice(1),
+            val,
+          };
         }
-        if(key.startsWith('v-')){
-          // pass such as v-model 
+        if (key.startsWith("v-")) {
+          // pass such as v-model
         }
         //标记static是true 静态节点
-        return {...prop,static:true} 
-      })
-      break
+        return { ...prop, static: true };
+      });
+      break;
     case "text":
       // trnsformText
-      let re = /\{\{(.*)\}\}/g
-      if(re.test(ast.val)){
+      let re = /\{\{(.*)\}\}/g;
+      if (re.test(ast.val)) {
         //有{{
-          ast.flag |= PatchFlags.TEXT // 标记props需要更新
-          context.helpers.add('toDisplayString')
-          ast.val = ast.val.replace(/\{\{(.*)\}\}/g,function(s0,s1){
-            return s1
-          })
-      }else{
-        ast.static = true
+        ast.flag |= PatchFlags.TEXT; // 标记props需要更新
+        context.helpers.add("toDisplayString");
+        ast.val = ast.val.replace(/\{\{(.*)\}\}/g, function (s0, s1) {
+          return s1;
+        });
+      } else {
+        ast.static = true;
       }
   }
-}  
-
+}
 ```
 
 我们通过在 compiler 阶段的标记，让 template 产出的虚拟 DOM 有了更精确的状态，可以越过大部分的虚拟 DOM 的 diff 计算，极大提高 Vue 的运行时效率，这个思想我们日常开发中也可以借鉴学习。
@@ -1970,10 +1952,10 @@ function traverse(ast, context){
 ```JS
 
 if(vnode.static){
-  return 
+  return
 }
 if(vnode.flag & patchFlag.CLASS){
-  遍历class 计算diff  
+  遍历class 计算diff
 }else if(vnode.flag & patchFlag.STYLE){
   计算style的diff
 }else if(vnode.flag & patchFlag.TEXT){
@@ -1986,56 +1968,59 @@ if(vnode.flag & patchFlag.CLASS){
 我们首先把 helpers 拼接成 import 语句，并且使用 walk 函数遍历整个 AST，在遍历的过程中收集 helper 集合的依赖。最后，在 createVnode 的最后一个参数带上 ast.flag 进行状态的标记。
 
 ```js
-
 function generate(ast) {
-  const {helpers} = ast 
+  const { helpers } = ast;
 
   let code = `
-import {${[...helpers].map(v=>v+' as _'+v).join(',')}} from 'vue'\n
+import {${[...helpers].map((v) => v + " as _" + v).join(",")}} from 'vue'\n
 export function render(_ctx, _cache, $props){
-  return(_openBlock(), ${ast.children.map(node=>walk(node))})}`
+  return(_openBlock(), ${ast.children.map((node) => walk(node))})}`;
 
-  function walk(node){
-    switch(node.type){
-      case 'element':
-        let {flag} = node // 编译的标记
-        let props = '{'+node.props.reduce((ret,p)=>{
-          if(flag.props){
-            //动态属性
-            ret.push(p.key +':_ctx.'+p.val.replace(/['"]/g,'') )
-          }else{
-            ret.push(p.key +':'+p.val )
-          }
+  function walk(node) {
+    switch (node.type) {
+      case "element":
+        let { flag } = node; // 编译的标记
+        let props =
+          "{" +
+          node.props
+            .reduce((ret, p) => {
+              if (flag.props) {
+                //动态属性
+                ret.push(p.key + ":_ctx." + p.val.replace(/['"]/g, ""));
+              } else {
+                ret.push(p.key + ":" + p.val);
+              }
 
-          return ret
-        },[]).join(',')+'}'
+              return ret;
+            }, [])
+            .join(",") +
+          "}";
         return `_createVnode("${node.tag}",${props}),[
-          ${node.children.map(n=>walk(n))}
-        ],${JSON.stringify(flag)}`
-        break
-      case 'text':
-        if(node.static){
-          return '"'+node.val+'"'
-        }else{
-          return `_toDisplayString(_ctx.${node.val})`
+          ${node.children.map((n) => walk(n))}
+        ],${JSON.stringify(flag)}`;
+        break;
+      case "text":
+        if (node.static) {
+          return '"' + node.val + '"';
+        } else {
+          return `_toDisplayString(_ctx.${node.val})`;
         }
-        break
+        break;
     }
   }
-  return code
+  return code;
 }
 ```
 
 我们也实现了一个非常迷你的 Vue compiler，这个产出的 render 函数最终会和组件的 setup 函数一起组成运行时的组件对象。
 
 ```js
-
 function compiler(template) {
   const ast = parse(template);
-  transform(ast)
+  transform(ast);
 
-  const code = generate(ast)
-  return code
+  const code = generate(ast);
+  return code;
 }
 
 let template = `<div id="app">
@@ -2043,31 +2028,42 @@ let template = `<div id="app">
   <h1 :name="title">玩转vue3</h1>
   <p >编译原理</p>
 </div>
-`
+`;
 
-const renderFunction = compiler(template)
-console.log(renderFunction)
+const renderFunction = compiler(template);
+console.log(renderFunction);
 
 // 下面是输出结果
-import { openBlock as _openBlock, createVnode as _createVnode, createBlock as _createBlock, toDisplayString as _toDisplayString } from 'vue'
+import {
+  openBlock as _openBlock,
+  createVnode as _createVnode,
+  createBlock as _createBlock,
+  toDisplayString as _toDisplayString,
+} from "vue";
 
 export function render(_ctx, _cache, $props) {
-  return (_openBlock(), _createVnode("div", { id: "app" }), [
-    _createVnode("div", { onClick: "()=>console.log(xx)", id: "name" }), [
-      _toDisplayString(_ctx.name)
-    ], 24, _createVnode("h1", { name: "title" }), [
-      "玩转vue3"
-    ], 8, _createVnode("p", {}), [
-      "编译原理"
-    ], 0
-  ], 0)
+  return (
+    _openBlock(),
+    _createVnode("div", { id: "app" }),
+    [
+      _createVnode("div", { onClick: "()=>console.log(xx)", id: "name" }),
+      [_toDisplayString(_ctx.name)],
+      24,
+      _createVnode("h1", { name: "title" }),
+      ["玩转vue3"],
+      8,
+      _createVnode("p", {}),
+      ["编译原理"],
+      0,
+    ],
+    0
+  );
 }
-
 ```
 
 通过这个迷你的 compiler，我们学习了编译原理的入门知识：包括 parser 的实现、AST 是什么，AST 的语义化优化和代码生成 generate 模块，这给我们下一讲弄清楚 Vue 的 compiler 的核心逻辑打下了良好的理论基础。
 
-#### Vue Compiler模块全解析
+#### Vue Compiler 模块全解析
 
 Vue 3 内部有 4 个和 compiler 相关的包
 
@@ -2077,7 +2073,6 @@ compiler-ssr 负责服务器端渲染，我们后面讲 ssr 的时候再研究�
 compiler 函数有两个参数，第一个参数 template，它是我们项目中的模板字符串；第二个参数 options 是编译的配置，内部调用了 baseCompile 函数。
 
 ```js
-
 export function compile(
   template: string,
   options: CompilerOptions = {}
@@ -2091,18 +2086,17 @@ export function compile(
         // by compiler-ssr to generate vnode fallback branches
         ignoreSideEffectTags,
         ...DOMNodeTransforms,
-        ...(options.nodeTransforms || [])
+        ...(options.nodeTransforms || []),
       ],
       directiveTransforms: extend(
         {},
         DOMDirectiveTransforms,
         options.directiveTransforms || {}
       ),
-      transformHoist: __BROWSER__ ? null : stringifyStatic
+      transformHoist: __BROWSER__ ? null : stringifyStatic,
     })
-  )
+  );
 }
-
 ```
 
 compiler-dom 负责传入浏览器 Dom 相关的 API，实际编译的 baseCompile 是由 compiler-core 提供的
@@ -2211,7 +2205,7 @@ function parseChildren(
 
     const s = context.source
     let node: TemplateChildNode | TemplateChildNode[] | undefined = undefined
-    
+
     if (mode === TextModes.DATA || mode === TextModes.RCDATA) {
       if (!context.inVPre && startsWith(s, context.options.delimiters[0])) {
         // 处理vue的变量标识符，两个大括号 '{{'
@@ -2226,7 +2220,7 @@ function parseChildren(
           if (startsWith(s, '<!--')) {
             node = parseComment(context)
           } else if (startsWith(s, '<!DOCTYPE')) {
-              
+
             // DOCTYPE
             node = parseBogusComment(context)
           }
@@ -2237,7 +2231,7 @@ function parseChildren(
             emitError(context, ErrorCodes.X_INVALID_END_TAG)
             parseTag(context, TagType.End, parent)
             continue
-          } 
+          }
         } else if (/[a-z]/i.test(s[1])) {
           // 解析节点
           node = parseElement(context, ancestors)
@@ -2270,65 +2264,64 @@ parseInterpolation 和 parseText 函数的逻辑比较简单。parseInterpolatio
 接着我们看看处理节点的 parseElement 函数都做了什么。首先要判断 pre 和 v-pre 标签，然后通过 isVoidTag 判断标签是否是自闭合标签，这个函数是从 compiler-dom 中传来的，之后会递归调用 parseChildren，接着再解析开始标签、解析子节点，最后解析结束标签。
 
 ```js
-
 const VOID_TAGS =
-  'area,base,br,col,embed,hr,img,input,link,meta,param,source,track,wbr'
+  "area,base,br,col,embed,hr,img,input,link,meta,param,source,track,wbr";
 
-export const isVoidTag = /*#__PURE__*/ makeMap(VOID_TAGS)
+export const isVoidTag = /*#__PURE__*/ makeMap(VOID_TAGS);
 function parseElement(
   context: ParserContext,
   ancestors: ElementNode[]
 ): ElementNode | undefined {
   // Start tag.
   // 是不是pre标签和v-pre标签
-  const wasInPre = context.inPre
-  const wasInVPre = context.inVPre
-  const parent = last(ancestors)
+  const wasInPre = context.inPre;
+  const wasInVPre = context.inVPre;
+  const parent = last(ancestors);
   // 解析标签节点
-  const element = parseTag(context, TagType.Start, parent)
-  const isPreBoundary = context.inPre && !wasInPre
-  const isVPreBoundary = context.inVPre && !wasInVPre
+  const element = parseTag(context, TagType.Start, parent);
+  const isPreBoundary = context.inPre && !wasInPre;
+  const isVPreBoundary = context.inVPre && !wasInVPre;
 
   if (element.isSelfClosing || context.options.isVoidTag(element.tag)) {
     // #4030 self-closing <pre> tag
     if (isPreBoundary) {
-      context.inPre = false
+      context.inPre = false;
     }
     if (isVPreBoundary) {
-      context.inVPre = false
+      context.inVPre = false;
     }
-    return element
+    return element;
   }
 
   // Children.
-  ancestors.push(element)
-  const mode = context.options.getTextMode(element, parent)
-  const children = parseChildren(context, mode, ancestors)
-  ancestors.pop()
-  element.children = children
+  ancestors.push(element);
+  const mode = context.options.getTextMode(element, parent);
+  const children = parseChildren(context, mode, ancestors);
+  ancestors.pop();
+  element.children = children;
 
   // End tag.
   if (startsWithEndTagOpen(context.source, element.tag)) {
-    parseTag(context, TagType.End, parent)
+    parseTag(context, TagType.End, parent);
   } else {
-    emitError(context, ErrorCodes.X_MISSING_END_TAG, 0, element.loc.start)
-    if (context.source.length === 0 && element.tag.toLowerCase() === 'script') {
-      const first = children[0]
-      if (first && startsWith(first.loc.source, '<!--')) {
-        emitError(context, ErrorCodes.EOF_IN_SCRIPT_HTML_COMMENT_LIKE_TEXT)
+    emitError(context, ErrorCodes.X_MISSING_END_TAG, 0, element.loc.start);
+    if (context.source.length === 0 && element.tag.toLowerCase() === "script") {
+      const first = children[0];
+      if (first && startsWith(first.loc.source, "<!--")) {
+        emitError(context, ErrorCodes.EOF_IN_SCRIPT_HTML_COMMENT_LIKE_TEXT);
       }
     }
   }
 
-  element.loc = getSelection(context, element.loc.start)
+  element.loc = getSelection(context, element.loc.start);
 
   if (isPreBoundary) {
-    context.inPre = false
+    context.inPre = false;
   }
   if (isVPreBoundary) {
-    context.inVPre = false
+    context.inVPre = false;
   }
-  return element
+  return element;
 }
 ```
 
@@ -2513,7 +2506,7 @@ genModulePreamble 函数生成 import 风格的代码，这也是我们迷你版
 
 ```js
 
-// 生成这个 
+// 生成这个
 // import { toDisplayString as _toDisplayString, createElementVNode as _createElementVNode, openBlock as _openBlock, createElementBlock as _createElementBlock } from "vue"
 
 function genModulePreamble(
@@ -2629,13 +2622,13 @@ Babel 提供了完整的编译代码的功能后函数，包括 AST 的解析、
 
 webpack 的核心原理就是通过分析 JavaScript 中的 require 语句，分析出当前 JavaScript 文件所有的依赖文件，然后递归分析之后，就得到了整个项目的一个依赖图。对图中不同格式的文件执行不同的 loader，比如会把 CSS 文件解析成加载 CSS 标签的 JavaScript 代码，最后基于这个依赖图获取所有的文件。
 
-前端的项目之所以需要webpack打包，是因为浏览器里的JavaScript没有很哈的方式去引入其他文件。webpack提供的打包功能可以帮助我们更好的组织开发代码。
+前端的项目之所以需要 webpack 打包，是因为浏览器里的 JavaScript 没有很哈的方式去引入其他文件。webpack 提供的打包功能可以帮助我们更好的组织开发代码。
 
-浏览器的module功能有一些限制需要额外处理，浏览器识别出JavaScript中的import语句后，会发起一个新的网络请求去获取新的文件，所以只支持/、./和../开头的路径
+浏览器的 module 功能有一些限制需要额外处理，浏览器识别出 JavaScript 中的 import 语句后，会发起一个新的网络请求去获取新的文件，所以只支持/、./和../开头的路径
 
-* 首先浏览器并不知道 Vue 是从哪来，我们第一个要做的，就是分析文件中的 import 语句。如果路径不是一个相对路径或者绝对路径，那就说明这个模块是来自 node_modules，我们需要去 node_modules 查找这个文件的入口文件后返回浏览器。
-* 然后 ./App.vue 是相对路径，可以找到文件，但是浏览器不支持 .vue 文件的解析，
-* ，并且 index.css 也不是一个合法的 JavaScript 文件。
+- 首先浏览器并不知道 Vue 是从哪来，我们第一个要做的，就是分析文件中的 import 语句。如果路径不是一个相对路径或者绝对路径，那就说明这个模块是来自 node_modules，我们需要去 node_modules 查找这个文件的入口文件后返回浏览器。
+- 然后 ./App.vue 是相对路径，可以找到文件，但是浏览器不支持 .vue 文件的解析，
+- ，并且 index.css 也不是一个合法的 JavaScript 文件。
 
 ![@module](picture/玩转vue3全家桶/2022-05-24-23-29-14.png)
 
@@ -2691,14 +2684,14 @@ if(url.indexOf('.vue')>-1){
 
       ctx.body = rewriteImport(render)
     }
-    
+
 ```
 
 接下来我们再来实现对 CSS 文件的支持。下面的代码中，如果 url 是 CSS 结尾，我们就返回一段 JavaScript 代码。这段 JavaScript 代码会在浏览器里创建一个 style 标签，标签内部放入我们读取的 CSS 文件代码。这种对 CSS 文件的处理方式，让 CSS 以 JavaScript 的形式返回，这样我们就实现了在 Node 中对 Vue 组件的渲染。
 
 ![Vite更新](picture/玩转vue3全家桶/2022-05-24-23-35-07.png)
 
-### Vite热更新原理
+### Vite 热更新原理
 
 热更新的目的就是在我们修改代码之后，浏览器能够自动渲染更新的内容，所以我们要在客户端注入一个额外的 JavaScript 文件，这个文件用来和后端实现 WebSocket 通信。然后后端启动 WebSocket 服务，通过 chokidar 库监听文件夹的变化后，再通过 WebSocket 去通知浏览器即可。
 
@@ -2756,7 +2749,7 @@ async function handleMessage(payload: any) {
       payload.updates.forEach((update: Update) => {
         if (update.type === 'js-update') {
           fetchUpdate(update);
-        } 
+        }
       });
       break;
   }
@@ -2764,15 +2757,7 @@ async function handleMessage(payload: any) {
 
 ```
 
-流程
-1.先请求index.html
-2.加载script为type=module的main.js
-3.识别里面的vue，改变为相对路径 替换为node_modules/vue
-4.获取@module内的package.json中module定义的入口文件
-5.请求./App.vue
-6.将vue里面单文件的引入方式compileSFC.parse解析 Vue 组件，通过返回的 descriptor.script 获取 js 代码
-7.请求./App.vue?type=template
-8.调用compilerDom.compile解析template内容，直接返回render函数
+流程 1.先请求 index.html 2.加载 script 为 type=module 的 main.js 3.识别里面的 vue，改变为相对路径 替换为 node_modules/vue 4.获取@module 内的 package.json 中 module 定义的入口文件 5.请求./App.vue 6.将 vue 里面单文件的引入方式 compileSFC.parse 解析 Vue 组件，通过返回的 descriptor.script 获取 js 代码 7.请求./App.vue?type=template 8.调用 compilerDom.compile 解析 template 内容，直接返回 render 函数
 
 ### vuex5
 
@@ -2781,29 +2766,28 @@ Vuex5 能够同时支持 Composition API 和 Option API，并且去掉了 namesp
 ### Pinia
 
 ```js
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import App from './App.vue'
-const pinia = createPinia()
-const app = createApp(App)
-app.use(pinia).mount('#app')
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import App from "./App.vue";
+const pinia = createPinia();
+const app = createApp(App);
+app.use(pinia).mount("#app");
 ```
 
 ```js
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
-export const useCounterStore = defineStore('count', {
-  id:'count',
+export const useCounterStore = defineStore("count", {
+  id: "count",
   state: () => {
-    return { count: 1 }
+    return { count: 1 };
   },
   actions: {
     add() {
-      this.count++
+      this.count++;
     },
   },
-})
-
+});
 ```
 
 我们也可以使用 Composition 风格的语法，去创建一个 store。使用 ref 或者 reactive 包裹后，通过 defineStore 返回，这样 store 就非常接近我们自己分装的 Composition 语法了，
@@ -2861,19 +2845,19 @@ export function createPinia(): Pinia {
 }
 ```
 
-通过上面的代码，我们可以看到 Pinia 实例就是 ref({}) 包裹的响应式对象，项目中用到的 state 都会挂载到 Pinia 这个响应式对象内部。然后我们去看下创建 store 的 defineStore 方法,  defineStore 内部通过 useStore 方法去定义 store，并且每个 store 都会标记唯一的 ID。
+通过上面的代码，我们可以看到 Pinia 实例就是 ref({}) 包裹的响应式对象，项目中用到的 state 都会挂载到 Pinia 这个响应式对象内部。然后我们去看下创建 store 的 defineStore 方法, defineStore 内部通过 useStore 方法去定义 store，并且每个 store 都会标记唯一的 ID。
 
 首先通过 getCurrentInstance 获取当前组件的实例，如果 useStore 参数没有 Pinia 的话，就使用 inject 去获取 Pinia 实例，这里 inject 的数据就是 createPinia 函数中 install 方法提供的。
 
-## 前端路由原理：vue-router源码剖析
+## 前端路由原理：vue-router 源码剖析
 
 vue-router 入口分析
 
 vue-router 提供了 createRouter 方法来创建路由配置，我们传入每个路由地址对应的组件后，使用 app.use 在 Vue 中加载 vue-router 插件，并且给 Vue 注册了两个内置组件，router-view 负责渲染当前路由匹配的组件，router-link 负责页面的跳转
 
-参数 RouteOptions 是规范我们配置的路由对象，主要包含history、routes等数据
+参数 RouteOptions 是规范我们配置的路由对象，主要包含 history、routes 等数据
 
-currentRoute 就是我们在 install 方法中注册的全局变量 route，每次页面跳转currentRoute都会更新为toLocation，在任意组件中都可以通过route 变量来获取当前路由的数据，最后在 handleScroll 设置滚动行为。
+currentRoute 就是我们在 install 方法中注册的全局变量 route，每次页面跳转 currentRoute 都会更新为 toLocation，在任意组件中都可以通过 route 变量来获取当前路由的数据，最后在 handleScroll 设置滚动行为。
 
 routerHistory 在 createRouter 中通过 option.history 获取，就是我们创建 vue-router 应用时通过 createWebHistory 或者 createWebHashHistory 创建的对象。createWebHistory 返回的是 HTML5 的 history 模式路由对象，createWebHashHistory 是 Hash 模式的路由对象。
 
@@ -2907,7 +2891,7 @@ routerHistory 在 createRouter 中通过 option.history 获取，就是我们创
 
     markAsReady()
   }
-  
+
   function markAsReady(err?: any): void {
     if (ready) return
     ready = true
@@ -2922,35 +2906,32 @@ routerHistory 在 createRouter 中通过 option.history 获取，就是我们创
 createWebHashHistory 和 createWebHistory 的实现，内部都是通过 useHistoryListeners 实现路由的监听，通过 useHistoryStateNavigation 实现路由的切换。useHistoryStateNavigation 会返回 push 或者 replace 方法来更新路由
 
 ```js
-
 export function createWebHashHistory(base?: string): RouterHistory {
-  base = location.host ? base || location.pathname + location.search : ''
+  base = location.host ? base || location.pathname + location.search : "";
   // allow the user to provide a `#` in the middle: `/base/#/app`
-  if (!base.includes('#')) base += '#'
-  return createWebHistory(base)
+  if (!base.includes("#")) base += "#";
+  return createWebHistory(base);
 }
 
-
-
 export function createWebHistory(base?: string): RouterHistory {
-  base = normalizeBase(base)
+  base = normalizeBase(base);
 
-  const historyNavigation = useHistoryStateNavigation(base)
+  const historyNavigation = useHistoryStateNavigation(base);
   const historyListeners = useHistoryListeners(
     base,
     historyNavigation.state,
     historyNavigation.location,
     historyNavigation.replace
-  )
+  );
   function go(delta: number, triggerListeners = true) {
-    if (!triggerListeners) historyListeners.pauseListeners()
-    history.go(delta)
+    if (!triggerListeners) historyListeners.pauseListeners();
+    history.go(delta);
   }
 
   const routerHistory: RouterHistory = assign(
     {
       // it's overridden right after
-      location: '',
+      location: "",
       base,
       go,
       createHref: createHref.bind(null, base),
@@ -2958,26 +2939,25 @@ export function createWebHistory(base?: string): RouterHistory {
 
     historyNavigation,
     historyListeners
-  )
+  );
 
-  Object.defineProperty(routerHistory, 'location', {
+  Object.defineProperty(routerHistory, "location", {
     enumerable: true,
     get: () => historyNavigation.location.value,
-  })
+  });
 
-  Object.defineProperty(routerHistory, 'state', {
+  Object.defineProperty(routerHistory, "state", {
     enumerable: true,
     get: () => historyNavigation.state.value,
-  })
+  });
 
-  return routerHistory
+  return routerHistory;
 }
-
 ```
 
 首先我们分析了 createRouter 函数入口函数，createRouter 函数返回了 router 对象，router 对象提供了 addRoute、push 等方法，并且在 install 方法中实现了路由，注册了组件 router-link 和 router-view。
 
-然后通过 createRouterMatcher 创建路由匹配对象，并且在路由变化的时候维护 currentRoute，让你可以在每个组件内部 router和route 获取路由匹配的数据，并且动态渲染当前路由匹配的组件到 router-view 组件内部，实现了前端的路由系统。
+然后通过 createRouterMatcher 创建路由匹配对象，并且在路由变化的时候维护 currentRoute，让你可以在每个组件内部 router 和 route 获取路由匹配的数据，并且动态渲染当前路由匹配的组件到 router-view 组件内部，实现了前端的路由系统。
 
 ### SSR
 
@@ -2985,28 +2965,36 @@ export function createWebHistory(base?: string): RouterHistory {
 
 ### Vue SSR 源码剖析
 
-在 CSR 环境下，template 解析的 render 函数用来返回**组件的虚拟 DOM**，而 SSR 环境下 template 解析的 **ssrRender 函数**，函数内部是通过 _push 对字符串进行拼接，最终生成组件渲染的结果的。
+在 CSR 环境下，template 解析的 render 函数用来返回**组件的虚拟 DOM**，而 SSR 环境下 template 解析的 **ssrRender 函数**，函数内部是通过 \_push 对字符串进行拼接，最终生成组件渲染的结果的。
 
 ```js
+const { mergeProps: _mergeProps } = require("vue");
+const {
+  ssrRenderAttrs: _ssrRenderAttrs,
+  ssrInterpolate: _ssrInterpolate,
+  ssrRenderList: _ssrRenderList,
+} = require("vue/server-renderer");
 
-const { mergeProps: _mergeProps } = require("vue")
-const { ssrRenderAttrs: _ssrRenderAttrs, ssrInterpolate: _ssrInterpolate, ssrRenderList: _ssrRenderList } = require("vue/server-renderer")
-
-return function ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  const _cssVars = { style: { color: _ctx.color }}
-  _push(`<div${_ssrRenderAttrs(_mergeProps(_attrs, _cssVars))}><ul><!--[-->`)
+return function ssrRender(
+  _ctx,
+  _push,
+  _parent,
+  _attrs,
+  $props,
+  $setup,
+  $data,
+  $options
+) {
+  const _cssVars = { style: { color: _ctx.color } };
+  _push(`<div${_ssrRenderAttrs(_mergeProps(_attrs, _cssVars))}><ul><!--[-->`);
   _ssrRenderList(_ctx.todos, (todo, n) => {
-    _push(`<li>${
-      _ssrInterpolate(n+1)
-    }--${
-      _ssrInterpolate(todo)
-    }</li>`)
-  })
-  _push(`<!--]--></ul></div>`)
-}
+    _push(`<li>${_ssrInterpolate(n + 1)}--${_ssrInterpolate(todo)}</li>`);
+  });
+  _push(`<!--]--></ul></div>`);
+};
 ```
 
-可以看到 ssrRender 函数内部通过传递的 _push 函数拼接组件渲染的结果后，直接返回 renderToString 函数的执行结果。
+可以看到 ssrRender 函数内部通过传递的 \_push 函数拼接组件渲染的结果后，直接返回 renderToString 函数的执行结果。
 
 ```JS
 export async function renderToString(

@@ -4,10 +4,7 @@ var addString = function(num1, num2){
   if(num1 === num2 && num1 === '0') {
     return num1
   }
-
   //  切成数组倒过来，
-
-
 }
 
 

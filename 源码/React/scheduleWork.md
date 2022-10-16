@@ -116,10 +116,13 @@ callback
 let frameDeadline; // 当前帧的结束时间
 let penddingCallback; // requestIdleCallback的回调方法
 let channel = new MessageChannel();
+```
 
-// 当执行此方法时，说明requestAnimationFrame的回调已经执行完毕，此时就能算出当前帧的剩余时间了，直接调用timeRemaining()即可。
-// 因为MessageChannel是宏任务，需要等主线程任务执行完后才会执行。我们可以理解requestAnimationFrame的回调执行是在当前的主线程中，只有回调执行完毕onmessage这个方法才会执行。
-// 这里可以根据setTimeout思考一下，setTimeout也是需要等主线程任务执行完毕后才会执行。
+当执行此方法时，说明 requestAnimationFrame 的回调已经执行完毕，此时就能算出当前帧的剩余时间了，直接调用 timeRemaining()即可。
+因为 MessageChannel 是宏任务，需要等主线程任务执行完后才会执行。我们可以理解 requestAnimationFrame 的回调执行是在当前的主线程中，只有回调执行完毕 onmessage 这个方法才会执行。
+这里可以根据 setTimeout 思考一下，setTimeout 也是需要等主线程任务执行完毕后才会执行。
+
+```js
 channel.port2.onmessage = function () {
   // 判断当前帧是否结束
   // timeRemaining()计算的是当前帧的剩余时间 如果大于0 说明当前帧还有剩余时间
@@ -194,6 +197,81 @@ window.requestIdleCallback = function(callback) {
 	})
 }
 
+```
+
+```js
+聊聊 requestIdleCallback 接口
+解题：
+● 初阶：
+  ○ 是什么：用于在浏览器空闲时间执行回调代码的接口
+  ○ 怎么做：
+function work(deadline) {
+  console.log(`当前帧剩余时间: ${deadline.timeRemaining()}`);
+  if (deadline.timeRemaining() > 1 || deadline.didTimeout) {
+     // 走到这里，说明时间有余，我们就可以在这里写自己的代码逻辑
+  }
+  // 走到这里，说明时间不够了，就让出控制权给主线程，下次空闲时继续调用
+  requestIdleCallback(work);
+}
+requestIdleCallback(work, { timeout: 1000 });
+    ■ 注册回调
+    ■ 回调中关注 deadline.timeRemaining，尽可能保证回调执行时间小于这个 dl
+  ○ 为什么：可以让我们在不妨碍页面响应的情况下，执行一些代码操作
+  ○ 应用场景：例如 react concurrent 模式就强依赖于该 api 实现时间分片调度
+● 中阶：
+  ○ 如何计算空闲时间
+    ■ 浏览器一帧的事件为 16ms
+    ■ 浏览器一帧中需要做很多事情：
+
+      ● input 事件处理
+      ● js 定时器、宏/微任务等
+      ● resize、scroll 等事件处理
+      ● rAF 回调
+      ● 布局
+      ● 绘制
+    ■ 假如在 16ms 内完成上述事项，还有剩余时间，则进入 idle 状态，调用 ric
+
+    ■ 第二种情况：长时间没有操作时
+
+      ● 理论上到下一次动作之前都属于 idle 时间，但浏览器会将 deadline 设定为 50ms，以免过长的任务影响响应速度
+      ● 所以，deadline < 50ms
+  ○ 适用场景：适合做一些低优的、可拆分的任务
+    ■ 数据上报
+    ■ 数据同步、分析等
+    ■ 检测卡顿
+    ■ react 的 scheduler 调度器
+    ■ qiankun 源码中的预加载
+  ○ 问题：
+    ■ 尽量避免在 rIC 中调用 dom 接口
+      ● dom 操作可能导致重排重绘，时间不可控，可能会超出 deadline 定义的时间长度，因此不应该在 rIC 操作，可使用 rAF 代替
+    ■ 避免使用 promise
+      ● promise 优先级很高，会在 idle 后立即执行，可能影响下一帧时间
+    ■ 兼容性差，至今依然处于实验阶段
+      ● 使用 setTimeout 代替
+window.requestIdleCallback =
+    window.requestIdleCallback ||
+    function (cb) {
+    var start = Date.now();
+    return setTimeout(function () {
+        cb({
+        didTimeout: false,
+        timeRemaining: function () {
+            return Math.max(0, 50 - (Date.now() - start));
+        }
+        });
+    }, 1);
+    }
+
+window.cancelIdleCallback =
+    window.cancelIdleCallback ||
+    function (id) {
+    	clearTimeout(id);
+    }
+      ● 但很显然这种行为与 rIC 的逻辑差异很大：rIC 是指没有任务可做的时候；setTimeout 是指尽快执行
+● 高阶：我们已经有 setTimeout、rAF 等时间相关的接口，为什么还需要设计 rIC？
+  ○ setTimeout 的逻辑是：在多久之后执行；在遵循事件循环机制下，尽快执行；这些都不能确保浏览器进入空闲状态，因此可能影响用户交互
+  ○ rAF 发生在 frame 的头部，在此之后还需要计算样式、布局、重绘、执行其它浏览器内部逻辑等，raf 回调时间越长对帧率影响越大
+  ○ 其它如 setImediate 等，都是差不多的逻辑，都基本会在一帧中执行，都无法确保浏览器已经进入空闲状态
 ```
 
 ## scheduleWork

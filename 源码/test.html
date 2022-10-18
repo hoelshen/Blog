@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    body {
+      font-size: 16px;
+    }
+    p {  
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+
+  -webkit-hyphenate-limit-before: 3; /* For Safari */
+  -webkit-hyphenate-limit-after: 4; /* For Safari */
+  -ms-hyphenate-limit-chars: 10 3 4;
+  -webkit-hyphenate-limit-chars: 10 3 4;
+     }
+  </style>
+</head>
+
+<body>
+  <div>
+    <svg width="10em" height="10em" aria-hidden="true" focusable="false">
+      <!-- <text dominant-baseline="middle" fill="green" font-size="8" x="0" y="0">12</text> -->
+      <!-- <text
+          x="10"
+          y="10"
+          style="
+            font-family: impact, georgia, times, serif;
+            font-weight: normal;
+            font-style: normal;
+          "
+        >
+          Text using web safe font
+        </text> -->
+      <!-- <rect x="1" y="1" width="20" height="20" fill="none" stroke="1" stroke-width="2" /> -->
+    </svg>
+
+
+  </div>
+  <div>
+    <!-- <svg width="660" height="220" style="outline: 1px solid red; overflow: visible;"> <text x="0,20,40,60,70"
+        y="20">Some SVG Text 234234得起</text> </svg>
+
+    </svg> -->
+  </div>
+  <div>
+    <!-- <svg width="600" height="300" style="outline: 5px solid #630;width:600; height:300"> <rect width="200" height="100" fill="#f00" /> </svg> -->
+  </div>
+  <div>
+    <!-- <svg width="24" height="24" x="6" y="-3.25" style="outline: 5px solid #630;width:24; height:24">
+      <g transform="translate(scale(0.8)">
+        <rect height="16" width="12" rx="2" fill="#f00" style="width:16px; height:12px;"></rect></svg>
+      </g> -->
+  </div>
+
+  <div>
+    <p>2222--some-----text---</p>
+  </div>
+  <div lang="en-us" id="container">
+    <div>example</div>
+    <div style="hyphenate-limit-chars: 8 ; -webkit-hyphenate-chars: 8">example</div>
+    <div style="hyphenate-limit-chars: auto 2 2 ; -webkit-hyphenate-chars: auto 2 2 ;">example</div>
+    <div style="hyphenate-limit-chars: auto 3 2 ; -webkit-hyphenate-chars: auto 3 2">example</div>
+    <div style="hyphenate-limit-chars: auto 4 2 ; -webkit-hyphenate-chars:  auto 4 2 ">example</div>
+    <div style="hyphenate-limit-chars: auto 5 2 ; -webkit-hyphenate-chars:  auto 5 2 ;">example</div>
+    <div style="hyphenate-limit-chars: auto 2 3 ; -webkit-hyphenate-chars:  auto 2 3;">example</div>
+    <div style="hyphenate-limit-chars: auto 2 4 ; -webkit-hyphenate-chars:  auto 2 4 ;">example</div>
+    <div style="hyphenate-limit-chars: auto 3 4 ; -webkit-hyphenate-chars:  auto 3 4 ;">example</div>
+  </div>
+</body>
+</html>

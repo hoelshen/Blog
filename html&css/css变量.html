@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>css变量</title>
+  <style>
+    :root{
+      --bg: white;
+      --prink-bg: pink;
+      --text-color: #555;
+      --link-color: #639A67; 
+      --link-hover: #205D67
+    }
+
+    body{
+      background-color: var(--bg);
+      color: var(--text-color)
+    }
+    .pink-theme{
+      background-color: var(--prink-bg);
+    }
+    .a, a:link{
+      color: var(--link-color);
+    }
+    a:hover{
+      color: var(--link-hover)
+    }
+    .red{
+      color: var(--text-color);
+    }
+  </style>
+
+</head>
+<body>
+  <div><p class="red toggle-theme">test</p></div>
+  <script>
+    const toggleBtn = document.querySelector('.toggle-theme');
+
+    toggleBtn.addEventListener('click', e => {
+      e.preventDefault();
+
+      if(document.body.classList.contains('pink-theme')){
+        document.body.classList.remove('pink-theme')
+
+        toggleBtn.innerHTML = '切换正常'
+      } else {
+        document.body.classList.add('pink-theme')
+
+        toggleBtn.innerHTML = '切换粉色'
+      }
+    })
+
+
+  </script>
+</body>
+</html>

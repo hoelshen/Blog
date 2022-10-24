@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      requestIdleCallback(myWork);
+      // 一个任务队列
+      let tasks = [
+        function t1() {
+          console.log("执行任务1");
+        },
+        function t2() {
+          console.log("执行任务2");
+        },
+      ];
+      // deadline是requestIdleCallback返回的一个对象
+      function myWork(deadline) {
+        console.log(`当前帧剩余时间: ${deadline.timeRemaining()}`);
+        // 方法timeRemaining返回的是当前帧的剩余时间
+        if (deadline.timeRemaining() > 0 && tasks.length) {
+          // 可以在这里做一些事情了
+          const task = tasks.shift();
+          task();
+        }
+        // 如果还有任务没有被执行，那就放到下一帧调度中去继续执行，类似递归
+        if (tasks.length) {
+          requestIdleCallback(myWork);
+        }
+      }
+    </script>
+  </body>
+</html>
+111

@@ -73,15 +73,64 @@ Independent 模式
 默认情况下，lerna 初始化 packages 值为["packages/"], 但是也可以使用自定义目录
 ["modules/"]或["package1", "package2"].
 
-### 遇到的坑
+## 标准的 lerna 目录结构
 
-![未登录](2022-10-23-01-18-58.png)
+- 每个单独的包下面都有一个 packkage.json 文件
+- 如果包名是带 scope 的，例如@test/lerna，package.json 中，必须配置"publishConfig": {"access": "public"}。
 
-lerna publish  主要做了以下几件事：
+```bash
+my-lerna-repo/
+
+    package.json
+
+    lerna.json
+
+    LICENSE
+
+    packages/
+
+        package-1/
+
+            package.json
+
+        package-2/
+
+            package.json
+```
+
+### 启用 yarn workspace
+
+默认是 npm，每个子 package 下都有自己的 node_modules，如果使用 yarn workspace，可以共享 node_modules，减少安装时间
+
+```json
+"private": true,
+
+"workspaces": [
+
+    "packages/*"
+
+],
+```
+
+### lerna publish  主要做了以下几件事：
+
+- Run the equivalent of `lerna updated` to determine which packages need to be published.
+- If necessary, increment the `version` key in `lerna.json`.
+- Update the `package.json` of all updated packages to their new versions.
+- Update all dependencies of the updated packages with the new versions, specified with a [caret (^)](https://docs.npmjs.com/files/package.json#dependencies).
+- Create a new git commit and tag for the new version.
+- Publish updated packages to npm.
+
 • 检查从上一个  git tag  之后是否有提交，没有提交就会显示  No changed packages to publish  的信息，然后退出
 • 检查依赖了修改过的包的包，并更新依赖信息
 • 提交相应版本的  git tag
 • 发布修改的包及依赖它们的包
+
+### 遇到的坑
+
+lerna publish 失败
+
+![未登录](2022-10-23-01-18-58.png)
 
 lerna publish --force-publish '\*'
 
@@ -148,3 +197,12 @@ pnpm remove @codemao/hooks --filter @codemao/components
 lerna publish
 
 ![重新发布](2022-10-23-11-26-41.png)
+
+### lerna 最佳实践
+
+1. 采用 independent 模式
+2. 根据 Gi 提交信息，自动生成 changelog
+3. eslint 规则检查
+4. prettier 自动格式化代码
+5. 提交代码，代码检查 hook
+6. 遵循 semver 版本规范

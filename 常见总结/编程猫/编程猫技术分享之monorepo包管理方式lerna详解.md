@@ -64,6 +64,20 @@ Workspaces 是设置包架构的一种新方式。他的目的是更方便的使
 
 在项目根目录中执行 npm install 或 yarn install 后，您会发现在项目根目录中出现了 node_modules 目录，并且该目录不仅拥有所有子项目共用的 npm 包，还包含了我们的子项目。因此，我们可以在子项目中通过各种模块引入机制，像引入一般的 npm 模块一样引入其他子项目的代码
 
+### 启用 yarn workspace
+
+默认是 npm，每个子 package 下都有自己的 node_modules，如果使用 yarn workspace，可以共享 node_modules，减少安装时间
+
+```json
+"private": true,
+
+"workspaces": [
+
+    "packages/*"
+
+],
+```
+
 ## pnpm-workspace
 
 安装依赖包
@@ -296,6 +310,13 @@ pnpm dlx lerna init
 
 lerna publish  主要做了以下几件事：
 
+- Run the equivalent of `lerna updated` to determine which packages need to be published.
+- If necessary, increment the `version` key in `lerna.json`.
+- Update the `package.json` of all updated packages to their new versions.
+- Update all dependencies of the updated packages with the new versions, specified with a [caret (^)](https://docs.npmjs.com/files/package.json#dependencies).
+- Create a new git commit and tag for the new version.
+- Publish updated packages to npm.
+
 • 检查从上一个  git tag  之后是否有提交，没有提交就会显示  No changed packages to publish  的信息，然后退出
 • 检查依赖了修改过的包的包，并更新依赖信息
 • 提交相应版本的  git tag
@@ -312,6 +333,15 @@ lerna publish。
 ```zsh
 lerna publish --force-publish '\*'
 ```
+
+## lerna 最佳实践
+
+1. 采用 independent 模式
+2. 根据 Gi 提交信息，自动生成 changelog
+3. eslint 规则检查
+4. prettier 自动格式化代码
+5. 提交代码，代码检查 hook
+6. 遵循 semver 版本规范
 
 ## 参考文献
 

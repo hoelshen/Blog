@@ -74,7 +74,7 @@ Context 只能存储一个值，而不能存储一组不确定的值，让每个
 
 ## Mobx 的状态管理的用法
 
-以下是 mbox 的具体用法
+以下是 MobX 的具体用法
 
 ```js
 import { observable, autorun } from "mobx";

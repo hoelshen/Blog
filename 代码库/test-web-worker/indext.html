@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+  
+      $("#btnStart").click(function () {
+        // var worker = new Worker("./worker.js");
+        const blob = new Blob([document.querySelector('#worker').textContent], { type: "application/javascript" });
+        const url = window.URL.createObjectURL(blob);
+
+        const worker = new Worker(url);
+
+     
+        console.log("🚀 ~ file: indext.html:12 ~ worker:", worker)
+        worker.addEventListener(
+          "message",
+          function (evt) {
+            alert(evt.data);
+          },
+          false
+        );
+        worker.postMessage(10000);
+      });
+    });
+</script>
+</head>
+
+<body>
+    <script id="worker" type="app/worker">
+                self.addEventListener('message', function (event) {
+                  postMessage('Got a message from the main thread');
+                }, false);
+        </script>
+  <form>
+    <input type="button" id="btnStart" value="Start Processing" />
+  </form>
+</body>
+
+</html>
+<!-- 
+上面代码中，先将嵌入网页的脚本代码，转换为一个二进制对象，然后为这个二进制对象生成 URL，再让 Worker 加载这个 URL。这样就做到了，主线程和 Worker 的代码都在同一个网页上面
+-->

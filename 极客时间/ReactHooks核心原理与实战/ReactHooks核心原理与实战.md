@@ -199,3 +199,27 @@ function counterReducer(state = initialState, action) {
       return state
   }
 ```
+
+在全局状态管理中：如何在函数组件中使用 redux
+所以从这张对比图，我们可以看到 Redux Store 的两个特点：
+
+1. Redux Store 是全局唯一的。即整个应用程序一般只有一个 Store。
+2. Redux Store 是树状结构，可以更天然地映射到组件树的结构，虽然不是必须的。
+
+我们通过把状态放在组件之外，就可以让 React 组件成为更加纯粹的表现层，那么很多对于业务数据和状态数据的管理，就都可以在组件之外去完成（后面课程会介绍的 Reducer 和 Action）。同时这也天然提供了状态共享的能力，有两个场景可以典型地体现出这一点。
+
+- 跨组件的状态共享：当某个组件发起一个请求时，将某个 Loading 的数据状态设为 True，另一个全局状态组件则显示 Loading 的状态。
+
+- 同组件多个实例的状态共享：某个页面组件初次加载时，会发送请求拿回了一个数据，切换到另外一个页面后又返回。这时数据已经存在，无需重新加载。设想如果是本地的组件 state，那么组件销毁后重新创建，state 也会被重置，就还需要重新获取数据。
+
+Redux 引入的概念其实并不多，主要就是三个：State、Action 和 Reducer。其中 State 即 Store，一般就是一个纯 JavaScript Object。Action 也是一个 Object，用于描述发生的动作。而 Reducer 则是一个函数，接收 Action 和 State 并作为参数，通过计算得到新的 Store。
+
+![](2023-05-16-10-07-59.png)
+
+实现自己的 API client
+
+一些通用的 Header。比如 Authorization Token。
+
+服务器地址的配置。前端在开发和运行时可能会连接不同的服务器，比如本地服务器或者测试服务器，此时这个 API Client 内部可以根据当前环境判断该连接哪个 URL。
+
+请求未认证的处理。比如如果 Token 过期了，需要有一个统一的地方进行处理，这时就会弹出对话框提示用户重新登录。

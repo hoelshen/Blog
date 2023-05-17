@@ -1,3 +1,48 @@
+1. 如何正确理解函数组件的生命周期
+   从 Model 到 View 的映射。假设状态永远不变，那么实际上函数组件就相当于是一个模板引擎，只执行一次。但是 React 本身正是为动态的状态变化而设计的，而可能引起状态变化的原因基本只有两个：
+   -. 用户操作产生的事件，比如点击了某个按钮。
+   -. 副作用产生的事件，比如发起某个请求正确返回了。
+
+这两种事件本身并不会导致组件的重新渲染，但我们在这两种事件处理函数中，一定是因为改变了某个状态，这个状态可能是 State 或者 Context，从而导致了 UI 的重新渲染。
+
+构造函数和函数式组件
+
+这时候我们不妨思考下构造函数的本质，其实就是：在所以其它代码执行之前的一次性初始化工作。在函数组件中，因为没有生命周期的机制，那么转换一下思路，其实我们要实现的是：一次性的代码执行。
+
+虽然没有直接的机制可以做到这一点，但是利用 useRef 这个 Hook，我们可以实现一个 useSingleton 这样的一次性执行某段代码的自定义 Hook，代码如下：
+
+```JS
+
+import { useRef } from 'react';
+
+// 创建一个自定义 Hook 用于执行一次性代码
+function useSingleton(callback) {
+  // 用一个 called ref 标记 callback 是否执行过
+  const called = useRef(false);
+  // 如果已经执行过，则直接返回
+  if (called.current) return;
+  // 第一次调用时直接执行
+  callBack();
+  // 设置标记为已执行过
+  called.current = true;
+}
+```
+
+```JS
+import useSingleton from './useSingleton';
+
+const MyComp = () => {
+  // 使用自定义 Hook
+  useSingleton(() => {
+    console.log('这段代码只执行一次');
+  });
+
+  return (
+    <div>My Component</div>
+  );
+};
+```
+
 复杂状态处理：保持状态的一致性
 
 1. 原则一：“保证状态最小化
@@ -199,3 +244,88 @@ function counterReducer(state = initialState, action) {
       return state
   }
 ```
+
+```JS
+
+import axios from "axios";
+
+// 定义相关的 endpoint
+const endPoints = {
+  test: "https://60b2643d62ab150017ae21de.mockapi.io/",
+  prod: "https://prod.myapi.io/",
+  staging: "https://staging.myapi.io/"
+};
+
+// 创建 axios 的实例
+const instance = axios.create({
+  // 实际项目中根据当前环境设置 baseURL
+  baseURL: endPoints.test,
+  timeout: 30000,
+  // 为所有请求设置通用的 header
+  headers: { Authorization: "Bear mytoken" }
+});
+
+// 听过 axios 定义拦截器预处理所有请求
+instance.interceptors.response.use(
+  (res) => {
+    // 可以假如请求成功的逻辑，比如 log
+    return res;
+  },
+  (err) => {
+    if (err.response.status === 403) {
+      // 统一处理未授权请求，跳转到登录界面
+      document.location = '/login';
+    }
+    return Promise.reject(err);
+  }
+);
+
+export default instance;
+```
+
+将业务逻辑的操作 换了个地方，也就是写到了 hook 里面
+
+```JS
+
+import { useState, useEffect } from "react";
+import apiClient from "./apiClient";
+
+// 将获取文章的 API 封装成一个远程资源 Hook
+const useArticle = (id) => {
+  // 设置三个状态分别存储 data, error, loading
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    // 重新获取数据时重置三个状态
+    setLoading(true);
+    setData(null);
+    setError(null);
+    apiClient
+      .get(`/posts/${id}`)
+      .then((res) => {
+        // 请求成功时设置返回数据到状态
+        setLoading(false);
+        setData(res.data);
+      })
+      .catch((err) => {
+        // 请求失败时设置错误状态
+        setLoading(false);
+        setError(err);
+      });
+  }, [id]); // 当 id 变化时重新获取数据
+
+  // 将三个状态作为 Hook 的返回值
+  return {
+    loading,
+    error,
+    data
+  };
+};
+```
+
+但是我们知道，React 函数组件是一个同步的函数，没有办法直接使用 await 这样的同步方法，而是要把请求通过副作用去触发。因此如果按照上面这种传统的思维，是很难把逻辑理顺的。
+
+然后，我们需要充分利用 Hooks 能让数据源变得可绑定的能力，让一个远程 API 对应的数据成为一个语义化的数据源，既可以把业务逻辑和 UI 展现很好地分开，也有利于测试和维护。最后呢，我们学习了针对多请求的处理，怎么利用状态的组合变化来实现并发和串行请求。
+
+11 ｜事件处理：如何创建自定义事件？

@@ -329,3 +329,103 @@ const useArticle = (id) => {
 然后，我们需要充分利用 Hooks 能让数据源变得可绑定的能力，让一个远程 API 对应的数据成为一个语义化的数据源，既可以把业务逻辑和 UI 展现很好地分开，也有利于测试和维护。最后呢，我们学习了针对多请求的处理，怎么利用状态的组合变化来实现并发和串行请求。
 
 11 ｜事件处理：如何创建自定义事件？
+
+删除一个功能，就像删除一个文件夹那么简单。
+
+在这里，我跟你介绍一种架构，这是我参与的项目基本上都会采用的，那就是扩展点机制：在任何可能产生单点复杂度的模块中，通过扩展点的方式，允许其它模块为其增加功能。
+
+首先我们来看下受控组件应该如何使用。下面的例子展示了受控组件的用法：
+
+```JS
+
+function MyForm() {
+  const [value, setValue] = useState('');
+  const handleChange = useCallback(evt => {
+    setValue(evt.target.value);
+  }, []);
+  return <input value={value} onChange={handleChange} />;
+}
+```
+
+可以看到，输入框的值是由传入的 value 属性决定的。在 onChange 的事件处理函数中，我们设置了 value 这个状态的值，这样输入框就显示了用户的输入。
+
+需要注意的是，React 统一了表单组件的 onChange 事件，这样的话，用户不管输入什么字符，都会触发 onChange 事件。而标准的 input 的 onchange 事件，则只有当输入框失去焦点时才会触发。
+
+React 的这种 onChange 的机制，其实让我们对表单组件有了更灵活的控制。不过，受控组件的这种方式虽然统一了表单元素的处理，有时候却会产生性能问题。因为用户每输入一个字符，React 的状态都会发生变化，那么整个组件就会重新渲染。所以如果表单比较复杂，那么每次都重新渲染，就可能会引起输入的卡顿。在这个时候，我们就可以将一些表单元素使用非受控组件去实现，从而避免性能问题。
+
+所谓非受控组件，就是表单元素的值不是由父组件决定的，而是完全内部的状态。联系第 8 讲提到的唯一数据源的原则，一般我们就不会再用额外的 state 去保存某个组件的值。而是在需要使用的时候，直接从这个组件获取值。
+
+非受控组件
+
+```JS
+
+import { useRef } from "react";
+
+export default function MyForm() {
+  // 定义一个 ref 用于保存 input 节点的引用
+  const inputRef = useRef();
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    // 使用的时候直接从 input 节点获取值
+    alert("Name: " + inputRef.current.value);
+  };
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input type="text" ref={inputRef} />
+      </label>
+      <input type="submit" value="Submit" />
+    </form>
+  );
+}
+```
+
+# 14 对话框
+
+对话框在本质上，其实是独立于其他界面的一个窗口，用于完成一个独立的功能。
+
+```JS
+// 通过 create API 创建一个对话框，主要为了能够全局的控制对话框的展现
+const UserInfoModal = NiceModal.create(
+  'user-info-modal',
+  RealUserInfoModal
+);
+
+// 创建一个 useNiceModal 这样的 Hook，用于获取某个 id 的对话框的操作对象
+const modal = useNiceModal('user-info-modal');
+// 通过 modal.show 显示一个对话框，并能够给它传递参数
+modal.show(args);
+// 通过 modal.hide 关闭对话框
+modal.hide();
+```
+
+我们需要将 show 和 resolve 两个函数通过 Promise 联系起来。因为两个函数的调用位置不一样，所以我们使用了一个局部的临时变量，来存放 resolve 回调函数。
+
+使用 react-lodable，实现组件的异步加载上面的例子你已经看到了如何去实现一个 React 组件的动态加载，它的总体思路其实主要就是三个部分：
+
+定义一个加载器组件，在使用的地方依赖于这个加载器组件而不是原组件；
+在加载器组件的执行过程中，使用 import 去动态加载真实的实现代码；
+处理加载过程，和加载出错的场景，确保用户体验。
+
+```JS
+
+import Loadable from "react-loadable";
+
+
+// 创建一个显示加载状态的组件
+function Loading({ error }) {
+  return error ? 'Failed' : 'Loading';
+}
+// 创建加载器组件
+const HelloLazyLoad = Loadable({
+  loader: () => import("./RealHelloLazyLoad"),
+  loading: Loading,
+});
+```
+
+在代码中，我们可以看到 Loadable 这个高阶组件主要就是两个 API。
+
+loader：用于传入一个加载器回调，在组件渲染到页面时被执行。在这个回调函数中，我们只需要直接使用 import 语句去加载需要的模块就可以了。
+
+loading：表示用于显示加载状态的组件。在模块加载完成之前，加载器就会渲染这个组件。如果模块加载失败，那么 react-loadable 会将 errors 属性传递给 Loading 组件，方便你根据错误状态来显示不同的信息给用户。

@@ -149,6 +149,73 @@ z-index 还可以指定为负值。
 
 ⚠️： 层叠等级需要在相同的层叠上下文中比较才有意义，不同层叠上下文中比较层叠等级是没有意义的。
 
+##   响应式图片
+
+- 使用 <img> 和它的 sizes 及 srcset 属性，加载不同尺寸的图片，并且可以针对用户的使用环境，指定图片呈现时的尺寸；
+- 使用 <picture> ，在 <source> 标签元素上使用 srcset、sizes、media、type 加载不同图片，并且可以针对用户的使用环境，加载不同图片；
+- 使用 image-set() 函数，可以像 <img> 和 <picture> ，在 CSS 中使用不同图片。
+
+![Web图片技术选型](2023-08-30-23-33-38.png)
+
+图片的挤压、变形 主要原因是，设置图片尺寸时和原始尺寸比例不相匹配。
+
+CSS 中为 img 提供了 object-fit 和 object-position 两个属性，可以帮助 Web 开发者更好处理图片的适配：
+
+![图片填充方式](2023-08-30-23-44-37.png)
+
+对于背景图片，也有一个相似的属性： background-size
+
+如果图片的尺寸不一致， 也会造成布局的偏移
+
+在 CSS 中，我们可以给图片指定一个 aspect-ratio 值，避免源图片因尺寸比例不一致，造成布局的偏移：
+
+```CSS
+.card img {
+    display: block;
+    max-width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 20px 20px 0 0;
+    object-fit: cover;
+    objeft-position: center;
+}
+
+```
+
+需要注意的是，CSS 的 aspect-ratio 需要和 width （inline-size），或 height （block-size），或 min-width （min-inline-size），或 min-height （min-block-size），或 max-height （max-block-size）中的一个属性结合在一起使用。如果同时和元素的宽高一起使用的话，那么 aspect-ratio 将不会起任何作用。
+
+但是很多时候，web 开发者并不知道图片的容器 figure 尺寸。 这时候我们可以通过 max-width:100% 来实现
+
+```CSS
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+```
+
+在这个基础上添加 object-fit: cover; 可以在维持原图片比例下，填满整个容器
+
+```CSS
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+```
+
+还有一种情况是： 当容器的大小远大于图片的大小时，图片也会变得模糊（图像失真）
+
+其实，CSS 中提供了一个新的属性 image-rendering ，该属性可以指定图片在缩放状态下的渲染算法。简单地说，image-rendering 的作用是在图像缩放时，提供不一样的渲染方式，让图片的展示形态更为多样化，或者说是尽可能减少图片的失真带来的信息损耗。
+
+小结：
+
+- aspect-ratio ：控制图片或图片容器的宽高比，避免产生布局的偏移和抖动；
+- object-fit ：控制图片填充容器的方式，避免图片的扭曲与变形；
+- image-rendering ：控制图片在缩放状态下的渲染算法。
+
 ## css 如何改善滚动体验
 
 滚动容器视觉视窗（可见区域）与它的内距盒子框（<padding-box>）边缘重合，被称为滚动视窗 。
@@ -266,6 +333,26 @@ overscroll-behavior 属性和 overflow 相似，可以分别在 x 轴（overscro
 要是你给滚动容器指定 overscroll-behavior 属性的值为 contain ，默认的滚动边界行为不变（“滚动触底”或者刷新），但是可以阻止滚动穿透。比如，模态框滚动到底部时，位于其底下的 body 不会有滚动行为：
 
 如果要移除滚动至顶部或者底部的默认滚动特效，需要在 html 或 body 元素上设置 overscorll-behavior 属性的值为 none。这也是禁用原生下拉刷新最有效的方案，而且它对于我们定制一个下拉刷新是非常有利的。否则就会出现两个下拉刷新的效果（一个是原生的，一个是定制的）。
+
+::-webkit-scrollbar
+
+```CSS
+.scrollbar--horizontal::-webkit-scrollbar {
+    height: 20px;
+}
+.scrollbar--vertical::-webkit-scrollbar {
+    width: 20px;
+}
+
+```
+
+定义滚动轨道的样式
+
+::-webkit-scrollbar-track
+
+定义滚动滑块的样式
+
+::-webkit-scrollbar-thumb
 
 ---
 

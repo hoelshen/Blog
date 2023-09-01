@@ -216,6 +216,64 @@ img {
 - object-fit ：控制图片填充容器的方式，避免图片的扭曲与变形；
 - image-rendering ：控制图片在缩放状态下的渲染算法。
 
+## 给文本添加阴影
+
+```CSS
+text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+
+```
+
+文本高亮
+
+```CSS
+background-color: rgb(0 0 0);
+```
+
+使用伪元素::before 或 ::after 让加载失败的图片在浏览器呈现上变得更美观
+
+```CSS
+img {
+    /* Same as first example */
+    min-height: 50px;
+}
+
+img::before,
+img::after {
+    position: absolute;
+    width: 100%;
+    left: 0;
+
+}
+
+img::before {
+    content: " ";
+    top: -10px;
+    height: calc(100% + 10px);
+    background-color: rgb(230, 230, 230);
+    border: 2px dotted rgb(200, 200, 200);
+    border-radius: 5px;
+}
+
+img::after {
+    content: "\f127" " Broken Image of " attr(alt);
+    font-size: 16px;
+    font-style: normal;
+    font-family: FontAwesome;
+    color: rgb(100, 100, 100);
+    top: 5px;
+    text-align: center;
+}
+
+```
+
+## css 渐变
+
+渐变一般指的是从一种颜色平滑地过渡到另一种颜色，而且用户代理（比如浏览器）将其渲染为图像，这个图像可以是背景图像（background-image）、边框图像（border-image）和遮罩图像（mask-image）等，即 CSS 中可以接受图像的任何属性。
+
+- 线性渐变 ：linear-gradient() 和 repeating-linear-gradient()；
+- 径向渐变 ：radial-gradient() 和 repeating-radial-gradient()；
+- 锥形渐变 ：conic-gradient() 和 repeating-conic-gradient()。
+
 ## css 如何改善滚动体验
 
 滚动容器视觉视窗（可见区域）与它的内距盒子框（<padding-box>）边缘重合，被称为滚动视窗 。

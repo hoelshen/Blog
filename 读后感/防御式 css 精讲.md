@@ -412,6 +412,185 @@ overscroll-behavior 属性和 overflow 相似，可以分别在 x 轴（overscro
 
 ::-webkit-scrollbar-thumb
 
+7. 如何灵活设置元素之间的距离
+
+css 中间距主要分为两种类型，一种是外间距，另一种是内间距。
+
+- 外间距，主要是用于设置元素盒子外部之间的间距，一般盒子元素主要通过 CSS 的 margin 属性来设置，在 CSS Flexbox 和 Grid 布局中，还可以通过 CSS 的 gap 属性来设置。
+
+- 内间距，主要是用于设置元素盒子框边缘和其内容之间的间距，主要通过 CSS 的 padding 属性来设置。
+
+![外间距](2023-09-16-22-26-59.png)
+
+看一段示例 css
+
+```css
+.box {
+  padding: 10vh;
+  margin-bottom: 10vh;
+}
+```
+
+![内间距 vs 外间距](image-3.png)
+
+除此之外，内距 padding 和 外距 margin 还有两个最大的差异
+
+- padding 不可以设置负值，而 margin 却可以
+- padding 没有叠加的概念，而 margin 却有
+
+小结：
+
+margin 和 gap 都可以用来设置元素与元素之间的外间距，一般情况下，Flexbox 和 Grid 布局中常用 gap 属性来设置项目之间的间距，但有一个前提条件，那就是所有项目之间的间距相等；
+padding 用来设置容器边缘与其内容之间的间距；
+在 Flexbox 和 Grid 布局中，还可以使用对齐方式来设置项目之间的间距，但很容易因项目增加或减少造成 Web 布局上的不美观，因此应该尽可能避免使用对齐方式来控制项目之间的间距；
+在某些特殊的布局场景，还可以使用 CSS 的定位来设置元素之间的间距。
+
+8. position：sticky 失效与修复
+
+position 的基础知识：
+
+- position 属性的值有 static 、relative 、absolute 、fixed 和 sticky ；
+
+定位元素 ：计算后位置 position 属性为 relative 、absolute 、fixed 或 sticky 的一个元素；
+相对定位元素 ：计算后位置 position 属性为 relative 的元素；
+绝对定位元素 ：计算后位置 position 属性为 absolute 或 fixed 的元素；
+粘性定位元素 ：计算后位置 position 属性为 sticky 的元素。
+
+![逻辑属性](2023-09-16-22-57-56.png)
+
+- top 、right 、bottom 和 left 属于 CSS 的物理属性；
+- inset-block-start 、inset-inline-end 、inset-block-end 和 inset-inline-start 属于 CSS 的逻辑属性。其中 inset-block-start 和 inset-block-end 还可以简写为 inset-block ；inset-inline-start 和 inset-inline-end 可以简写为 inset-inline。
+
+虽然 inset 看上去和 inset-\* 等逻辑属性很相似，但 CSS 的 inset 并没有定义块轴和内联轴方向的偏移量，相反，它定义的是物理方向的偏移量。换句话说，inset 是一个物理属性，它不会考虑元素的写入模式、方向和文本方向 。它其实就是 top 、right 、bottom 和 left 等属性的一个简写属性，而且使用方式和 padding 、margin 、border 等简写属性一样，遵循 CSS TRBL 原则：
+
+static 是 position 的默认属性
+
+如果你想重置一个定位元素的话，就需要将 position 显式设置为 static ：
+
+```css
+.static {
+  position: static;
+}
+```
+
+简单地说，相对定位它会与页面上其他元素重叠，但不会影响其他元素在文档流中的位置。另外，相对定位是相对于元素自身进行偏移 。
+
+绝对定位的元素可以设置外边距（margin），且不会与其他 margin 合并。如果绝对定位元素显式设置了宽高（width 和 height），那么 margin: auto 配合 inset:0 可以实现水平垂直居中的效果：
+
+```css
+.container {
+  position: relative;
+}
+
+.box {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 20cqw;
+  aspect-ratio: 4 / 3;
+}
+```
+
+当你定义了带有 position: sticky 的元素时，将自动定义其父元素为粘附容器！这一点需要记住，非常重要！粘附容器是粘附项目的范围，粘附项目不能脱离其对应粘附容器的范围。
+
+我们在使用 position: sticky 时，如果碰到下面这几种情形，那么 sticky 将会失效：
+
+粘性定位元素（即显式设置 position: sticky 元素）的父元素（只要是它的祖先元素）显式设置了 overflow 属性的值为 hidden 、scroll 或 auto；
+粘性定位元素没有指定一个阈值；
+粘附容器（即粘性定位元素的父元素）的高度（height）或其高度的计算值和粘性定位元素高度一样。
+
+最小尺寸
+
+font-size（字号） font-family（字体）、font-weight（粗细权重）
+
+最小内容尺寸是一个值，浏览器最终可以根据最小内容计算出来个真实的值（像素值），即 min-content 的计算值。它可以运用于 CSS 中描述元素盒子大小的属性上，比如 width 、min-width 、max-width 等
+
+min-\* 属性除了可以显式指定具体的长度值（<length-percentage> 值）之外，也可以是一些关键词值，比如 auto 、min-content 、max-content 、fit-content 等
+
+- 最小尺寸一般指的是 min-\* 相关属性；
+- 最小内容尺寸一般指的是内容中的最小值，即 min-content 关键词的计算值。
+
+元素盒子的最小尺寸不会小于该盒最小内容的尺寸，即 min-content。
+
+注意点： CSS Flexbox 或 CSS Grid 布局中，Flex 项目或 Grid 项目的最小尺寸不会小于其最小内容尺寸 。
+
+## 你不知道的 border-radius
+
+如果你只想给元素框某一个顶点设置圆角，那么就可以使用 border-top-left-radius 、border-top-right-radius 、border-bottom-right-radius 或 border-bottom-left-radius 四个属性中的一个。
+
+border-radius 百分值相对于谁计算?
+
+border-radius 值可以是：
+
+固定值 ：带有固定单位的长度值（<length>），比如 px 单位值；
+相对值 ：带有相对单位的长度值，比如百分比值（%）、视窗单位值（vw 、vh 等）、容器查询单位（cqw 、cqh 等）、rem 和 em 等；
+函数值 ：calc() 、min() 、max() 和 clamp() 等函数表达式值。
+
+相比而言，% 的取值是最为复杂的。特别是对于初学者而言，可能不太了解 border-radius 值为 % 时，它是相对于谁做计算。
+
+border-radius 使用 % 值时，它的相对值是需要分开来计算的，其中 x 轴的 % 值相对于元素的 width 值计算；y 轴的 % 值相对于元素的 height 值计算，比如
+
+示例：css
+
+```css
+.element {
+  width: 300px;
+  height: 300px;
+  border-radius: 30% 70% 20% 40%;
+}
+```
+
+```css
+x = width = 300px
+y = height = 300px
+
+a: 左上角（border-top-left-radius）
+    ⇒ border-top-left-radius: 30%
+    ⇒ a(x) = a(y) = 300px × 30% = 90px
+
+b: 右上角（border-top-right-radius）
+    ⇒ border-top-right-radius: 70%
+    ⇒ b(x) = b(y) = 300px × 70% = 210px
+
+c: 右下角（border-bottom-right-radius）
+    ⇒ border-bottom-right-radius: 20%
+    ⇒ c(x) = c(y) = 300px × 20% = 60px
+
+d: 左下角（border-bottom-left-radius）
+    ⇒ border-bottom-left-radius: 40%
+    ⇒ d(x) = d(y) = 300px × 40% = 120px
+
+```
+
+![border-radius](2023-10-02-23-02-03.png)
+
+胶囊 ui
+
+```css
+.pill {
+  border-radius: 999vmax;
+}
+```
+
+![border-radius 运算规则](2023-10-15-11-05-20.png)
+
+这个公式的目的是防止 border-radius （圆角半径）重叠
+
+计算出 .pill 元素每条边的长度与与它接触的半径之和的比率”：
+
+## web 中的阴影
+
+常见的主要有 text-shadow（文本阴影）、box-shadow（盒子阴影）和 filter 的 drop-shadow()（不规则阴影）。
+
+阴影的分类：
+
+1. 外阴影
+2. 内阴影
+
+- text-shadow ：专门为文本创建阴影；
+- box-shadow ：可以创建符合元素边界框的阴影（矩形框阴影）；
+- drop-shadow() ：它不是 CSS 的属性，是一个 CSS 函数，只是 filter 属性中的一个值。它和 box-shadow 的不同之处在于，它遵循任何元素（包括伪元素）的渲染形状（可以是任何规则形状）。
+
 ---
 
 ---

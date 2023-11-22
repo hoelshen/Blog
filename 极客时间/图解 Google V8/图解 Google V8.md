@@ -523,3 +523,88 @@ var a = (function () {
 不过 V8 对于提升函数和提升变量的策略是不同的，如果提升了一个变量，那么 V8 在将变量提升到作用域中时，还会为其设置默认值 undefined，如果是函数声明，那么 V8 会在内存中创建该函数对象，并提升整个函数对象。
 
 函数表达式也是表达式的一种，在编译阶段，V8 并不会将表达式中的函数对象提升到全局作用域中，所以无法在函数表达式之前使用该函数。函数立即表达式是一种特别的表达式，主要用来封装一些变量、函数，可以起到变量隔离和代码隐藏的作用，因此在一些大的开源项目中有广泛的应用。
+
+```js
+(function () {
+  //statements
+})();
+
+等价于(
+  (function () {
+    //statements
+  })()
+);
+```
+
+05 ｜原型链：V8 是如何实现对象继承的？
+
+简单地理解，继承就是一个对象可以访问另外一个对象中的属性和方法，比如我有一个 B 对象，该对象继承了 A 对象，那么 B 对象便可以直接访问 A 对象中的属性和方法，你可以参考下图：
+
+其中最典型的两种方式是基于类的设计和基于原型继承的设计。
+
+C++、Java、C# 这些语言都是基于经典的类继承的设计模式，这种模式最大的特点就是提供了非常复杂的规则，并提供了非常多的关键字，诸如 class、friend、protected、private、interface 等，通过组合使用这些关键字，就可以实现继承。
+
+而 JavaScript 的继承方式和其他面向对象的继承方式有着很大区别，JavaScript 本身不提供一个 class 实现。JavaScript 的继承依然和基于类的继承没有一点关系。所以当看到 JavaScript 出现了 class 关键字，不要以为 JavaScript 也是面向对象语言。
+
+JavaScript 仅仅在对象中引入了一个原型的属性，就实现了语言的继承机制，基于原型的继承省去了很多基于类继承时的复杂规则，使得 JavaScript 的继承变得非常简单。
+
+从图中可以看出 v8 的内存快照看到，JavaScript 的每个对象都包含了一个隐藏属性**proto**，我们把该隐藏属性**proto**称之为该对象的原型 (prototype)，**proto** 指向了内存中的另外一个对象，我们就把 **proto** 指向的对象称为该对象的原型对象，那么该对象就可以直接访问其原型对象的方法或者属性。
+
+![原型](image-1.png)
+
+不要将原型链接和作用域链搞混淆了，作用域链是沿着函数的作用域一级一级来查找变量的，而原型链是沿着对象的原型一级一级来查找属性的。
+
+继承就是一个对象可以访问另外一个对象中的属性和方法，在 JavaScript 中，我们通过原型和原型链的方式来实现了继承特性。
+
+在实际使用者： 虽然现代浏览器都开了一个口子，让 JavaScript 可以访问隐藏属性 _proto_，但是在实际项目中，我们不应该直接通过 _proto_ 来访问或者修改该属性，
+
+首先，这是隐藏属性，并不是标准定义的 ;其次，使用该属性会造成严重的性能问题。
+
+通过 new 的方式创建对象
+
+把 new 后面的函数称之为构造函数。
+
+```JS
+function DogFactory(type,color){
+    this.type = type
+    this.color = color
+}
+
+var dog = new DogFactory('Dog','Black')
+
+```
+
+```JS
+var dog = {}
+dog.__proto__ = DogFactory.prototype
+DogFactory.call(dog,'Dog','Black')
+```
+
+![构造函数](image-2.png)
+
+- 首先，创建了一个空白对象 dog；
+
+- 然后，将 DogFactory 的 prototype 属性设置为 dog 的原型对象，这就是给 dog 对象设置原型对象的关键一步，我们后面来介绍；
+
+- 最后，再使用 dog 来调用 DogFactory，这时候 DogFactory 函数中的 this 就指向了对象 dog，然后在 DogFactory 函数中，利用 this 对对象 dog 执行属性填充操作，最终就创建了对象 dog。
+
+构造函数实现继承
+
+```JS
+function DogFactory(type,color){
+    this.type = type
+    this.color = color
+    //Mammalia
+    //恒温
+    this.constant_temperature = 1
+}
+var dog1 = new DogFactory('Dog','Black')
+var dog2 = new DogFactory('Dog','Black')
+var dog3 = new DogFactory('Dog','Black')
+```
+
+还记得我们介绍函数时提到关于函数有两个隐藏属性吗？这两个隐藏属性就是 name 和 code，其实函数还有另外一个隐藏属性，那就是 prototype，
+
+每个函数对象中都有一个公开的 prototype 属性，当你将这个函数作为构造函数来创建一个新的对象时，新创建对象的原型对象就指向了该函数的 prototype 属性。
+
+06 ｜作用域链：V8 是如何查找变量的？

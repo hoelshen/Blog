@@ -102,3 +102,27 @@ var isValid = function (s) {
 }
 return true;
 };
+
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isValid = function (s) {
+  // 定义好左边
+  // 定义好右边
+  const valid = {
+      ')': '(',
+      '}': '{',
+      ']': '[',
+  };
+
+  const stack = [];
+  for (let j = 0; j < s.length; j++) {
+      stack.push(s[j]);
+  }
+
+  while (valid[stack.pop()] === stack.pop()) {
+      return true;
+  }
+  return false
+};

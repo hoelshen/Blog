@@ -47,3 +47,24 @@ var searchInsert = function(nums, target) {
   }
   return ans;
 }
+
+
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var searchInsert = function (nums, target) {
+  // 1. 升序 2.无重复
+  let value = null;
+  for (let i = 0; i < nums.length; i++) {
+      if (nums[i] === target) {
+          value = i;
+          break;
+      }
+      if (nums[i] < target) {
+          value = i + 1
+      }
+  }
+  return value
+};

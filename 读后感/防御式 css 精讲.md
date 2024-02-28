@@ -591,6 +591,21 @@ d: 左下角（border-bottom-left-radius）
 - box-shadow ：可以创建符合元素边界框的阴影（矩形框阴影）；
 - drop-shadow() ：它不是 CSS 的属性，是一个 CSS 函数，只是 filter 属性中的一个值。它和 box-shadow 的不同之处在于，它遵循任何元素（包括伪元素）的渲染形状（可以是任何规则形状）。
 
+## web 中的边框
+
+border 除了可以用来设置元素的边框风格之外，它还会影响元素尺寸（每个元素都是一个独立的盒子）大小。
+
+CSS 的 border-width 和 padding 都会影响一个盒子的尺寸大小。
+
+content-box ：是 box-sizing 的默认值。元素盒子的 width 和 height 指的是它内容本身的宽和高，不会包括元素盒子的边框宽度（border-width）、内距（padding）和外距（margin）。注意，边框、内距和外距都在这个元素盒子的外部，向外扩展。
+border-box ：元素盒子的 width 和 height 包括了内容本身的宽和高，同时也包括了元素盒子的边框宽度（border-width）和内距（padding），但它不包括元素盒子的外距（margin）。注意，边框和内距都在这个元素盒子的内部，向内收缩。
+
+box-sizing 属性的值有两个：
+外边框：需要将 box-sizing 属性的值设置为 content-box；
+内边框：需要将 box-sizing 属性的值设置为 border-box。
+
+## css 渐变
+
 ---
 
 ---

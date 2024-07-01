@@ -606,6 +606,87 @@ box-sizing 属性的值有两个：
 
 ## css 渐变
 
+渐变文本
+
+```css
+.gradient--text {
+  background-clip: text;
+  background-image: linear-gradient(
+    to right,
+    #09f1b8,
+    #00a2ff,
+    #ff00d2,
+    #fed90f
+  );
+  color: var(--color-background);
+  letter-spacing: var(--letter-spacing);
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient--strock {
+  background-clip: text;
+  background-image: linear-gradient(
+    to right,
+    #09f1b8,
+    #00a2ff,
+    #ff00d2,
+    #fed90f
+  );
+  color: var(--color-background);
+  letter-spacing: var(--letter-spacing);
+  -webkit-text-stroke-color: transparent;
+  -webkit-text-stroke-width: var(--stroke-width);
+}
+```
+
+渐变边框
+
+```css
+.gradient-border {
+  --gradient: linear-gradient(red, gold);
+  border-image: var(--gradient) 1;
+}
+```
+
+CSS 渐变创建纹理
+
+```css
+body {
+  background-color: #eee;
+  background-image: linear-gradient(
+      45deg,
+      black 25%,
+      transparent 25%,
+      transparent 75%,
+      black 75%,
+      black
+    ), linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black
+        75%, black);
+  background-size: 60px 60px;
+  background-position: 0 0, 30px 30px;
+}
+```
+
+渐变在蒙层上的运用
+
+```css
+div {
+  background: url(https://assets.codepen.io/489403/grand_canyon.jpeg) no-repeat
+    center;
+  background-size: cover;
+
+  mask-image: linear-gradient(
+    to right,
+    #000,
+    #000 50%,
+    transparent 50%,
+    transparent 100%
+  );
+  mask-size: 10vw 100%;
+  mask-repeat: repeat;
+}
+```
+
 ---
 
 ---

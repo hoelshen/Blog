@@ -686,6 +686,28 @@ div {
   mask-repeat: repeat;
 }
 ```
+## 裁剪图片的好处是什么？
+
+object-view-box 和 clip-path 还有一点不同，clip-path 可以很好地制作有创意的 Web 动效；可 object-view-box 却不能用于 Web 动效。换句话说，object-view-box 是不可以用于 transition 和 animation 的。不过，object-view-box 可以用正负值来实现图片的缩小和放大的效果：
+
+oject-fit 定义了 html 可替换元素（比如：img 或 video）的内容应该如何调整大小已适应其容器。该属性可以接受 cover 、contain 、fill（其默认值） 、scale-down 和 none。
+
+image（）函数裁剪
+
+```css
+.element {
+  background-image: image("sprites.png#xywh=338,324,360,390");
+}
+```
+
+其中 sprites.png 是引入的背景图像名称和相应的路径，和 url() 函数引入背景图像是一样的； #xywh=xVal,yVal,wVal,hVal 指的是媒体标识符，也就是需要显示的图像对应的 x 和 y 坐标以及宽度和高度：
+
+mask 裁剪
+
+![clip-path 和 mask](2024-04-28-22-58-06.png)
+
+剪切需要一个剪切路径，剪切路径可以是一个闭合矢量路径、形状或多边形；剪切路径是一个区域，该区域内部的所有内容都可以显示出来，外部的所有内容将被剪切掉，在页面上不可见；
+遮罩需要一个高亮或 Alpha 遮罩层，将源和遮罩层合在一起会创建一个缓冲区域，在合层阶段之前，亮度和 Alpha 遮罩会影响这个缓冲区的透明度，从而实现完全或部分遮罩源的部分
 
 ---
 

@@ -14,37 +14,33 @@ export function createRef(): RefObject {
   }
   return refObject;
 }
-
 ```
 
 purecomponent 没有实例
 
 纯函数组件
-connect需要是一个forwardRef，像这样：const connect = forwardRef(() => {...})
-怎么获取到ref
+connect 需要是一个 forwardRef，像这样：const connect = forwardRef(() => {...})
+怎么获取到 ref
 
 ```ts
-const LazyComp = lazy(() => import('./lazy.js'))
-
+const LazyComp = lazy(() => import("./lazy.js"));
 
 export default () => (
   <Suspense fallback="loading data">
     <SuspenseComp />
     <LazyComp />
   </Suspense>
-)
+);
 
+import React from "react";
 
-import React from 'react'
-
-export default () => <p>Lazy Comp</p>
-
+export default () => <p>Lazy Comp</p>;
 ```
 
 ```js
-import type {LazyComponent, Thenable} from 'shared/ReactLazyComponent';
+import type { LazyComponent, Thenable } from "shared/ReactLazyComponent";
 
-import {REACT_LAZY_TYPE} from 'shared/ReactSymbols';
+import { REACT_LAZY_TYPE } from "shared/ReactSymbols";
 
 export function lazy<T, R>(ctor: () => Thenable<T, R>): LazyComponent<T> {
   return {
@@ -55,8 +51,4 @@ export function lazy<T, R>(ctor: () => Thenable<T, R>): LazyComponent<T> {
     _result: null,
   };
 }
-
-
 ```
-
-Suspense的主要解决问题其实是对于异步操作会多次state变化的问题。

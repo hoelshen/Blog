@@ -103,3 +103,38 @@ function sort(elements){
     }
   }
 }
+
+
+// 桶排序
+function bucketSort(arr) {
+    if (arr.length <= 1) return arr;
+    
+    // 确定桶的数量，这里设为数组长度
+    const bucketSize = arr.length;
+    const buckets = Array.from({ length: bucketSize }, () => []);
+    
+    // 找到最小值和最大值（本例假设范围为 0 到 1）
+    const min = Math.min(...arr);
+    const max = Math.max(...arr);
+    
+    // 将元素分配到桶中
+    for (let num of arr) {
+        // 计算元素应该放入哪个桶
+        const bucketIndex = Math.floor(((num - min) / (max - min)) * (bucketSize - 1));
+        buckets[bucketIndex].push(num);
+    }
+    
+    // 对每个桶进行排序（这里使用内置 sort，也可以换成插入排序）
+    for (let bucket of buckets) {
+        bucket.sort((a, b) => a - b);
+    }
+    
+    // 合并所有桶
+    return [].concat(...buckets);
+}
+
+// 测试用例
+const arr = [0.78, 0.17, 0.39, 0.26, 0.72, 0.94, 0.21, 0.12, 0.23, 0.68];
+console.log(bucketSort(arr));
+// 输出: [0.12, 0.17, 0.21, 0.23, 0.26, 0.39, 0.68, 0.72, 0.78, 0.94]
+

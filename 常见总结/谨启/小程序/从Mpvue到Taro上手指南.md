@@ -49,30 +49,44 @@ componentwillMount 将被舍弃
 
 ### 事件点击方式
 
-```js
 当你通过 bind 方式向监听函数传参， 在类组件中定义的监听函数， 事件对象 e 要排在所传递参数的后面。
+
+```js
 class Popper extends Component {
-    constructor() {
-        super(...arguments)
-        this.state = {
-            name: 'Hello world!'
-        }
-    }
-    // 你可以通过 bind 传入多个参数
-    preventPop(name, test, e) { //事件对象 e 要放在最后
-        e.stopPropagation()
-    }
-    render() {
-        return <Button onClick = {
-            this.preventPop.bind(this, this.state.name, 'test')
-        } > < /Button>
-    }
+  constructor() {
+    super(...arguments);
+    this.state = {
+      name: "Hello world!",
+    };
+  }
+  // 你可以通过 bind 传入多个参数
+  preventPop(name, test, e) {
+    //事件对象 e 要放在最后
+    e.stopPropagation();
+  }
+  render() {
+    return (
+      <Button onClick={this.preventPop.bind(this, this.state.name, "test")}>
+        {" "}
+      </Button>
+    );
+  }
+}
 ```
 
 ### Mpvue 中的 filter, Taro 有吗
 
 ```js
+// utils/format.js
+export const currency = (value) => `$${value.toFixed(2)}`;
 
+// 组件
+import { currency } from "../utils/format";
+
+const MyComponent = () => {
+  const price = 123.456;
+  return <View>{currency(price)}</View>;
+};
 ```
 
 ### 项目配置

@@ -121,9 +121,6 @@ Center(
 
 ```
 
-![](https://user-gold-cdn.xitu.io/2019/7/10/16bdb43324bed55d?w=326&h=634&f=png&s=9297)
-
-
 ## List
 
 ```dart
@@ -144,8 +141,6 @@ Center(
 
 
 ```
-
-![list](https://user-gold-cdn.xitu.io/2019/7/10/16bdad5bca13f6a8?w=674&h=1480&f=gif&s=741462)
 
 ## Grid
 
@@ -198,10 +193,6 @@ GridView.builder(
 ```
 
 
-![grid](https://user-gold-cdn.xitu.io/2019/7/10/16bdad44a93c2d50?w=674&h=1470&f=gif&s=758201)
-
-
-
 ## NestedScrollView
 
 ```dart
@@ -252,9 +243,6 @@ class ListItemDemo extends StatelessWidget {
 }
 ```
 
-![](https://user-gold-cdn.xitu.io/2019/7/10/16bdb6d0752c672e?w=658&h=1430&f=gif&s=1639349)
-
-
 ## SingleChildSriollView
 
 ```dart
@@ -282,8 +270,3 @@ class ListItemDemo extends StatelessWidget {
 
 
 ```
-
-
-
-![](https://user-gold-cdn.xitu.io/2019/7/10/16bdb54f8604c63c?w=682&h=1460&f=gif&s=323382)
-

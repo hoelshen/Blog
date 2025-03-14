@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>生成指纹 ID</title>
+</head>
+<body>
+  <canvas id="canvas" style="display: none;"></canvas>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script>
+    // 获取指纹特征
+    function getFingerprint() {
+      const fingerprint = {};
+
+      // User-Agent
+      fingerprint.userAgent = navigator.userAgent;
+
+      // 屏幕信息
+      fingerprint.screen = `${window.screen.width}x${window.screen.height}x${window.screen.colorDepth}`;
+
+      // 时区
+      fingerprint.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+      // Canvas 指纹
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.font = '14px Arial';
+      ctx.fillText('kn-editor', 10, 50);
+      const canvasData = canvas.toDataURL(); // 获取 Canvas 渲染结果
+      fingerprint.canvas = canvasData;
+
+      // WebGL 指纹
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (gl) {
+        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+        fingerprint.webgl = debugInfo
+          ? `${gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL)}|${gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)}`
+          : 'unsupported';
+      }
+
+      return fingerprint;
+    }
+
+    // 生成指纹 ID
+    function generateFingerprintId() {
+      const data = getFingerprint();
+      const rawString = JSON.stringify(data); // 转为字符串
+      const fingerprintId = CryptoJS.SHA256(rawString).toString(); // 使用 SHA-256 哈希
+      console.log('Fingerprint ID:', fingerprintId);
+      return fingerprintId;
+    }
+
+    // 执行
+    window.onload = function() {
+      generateFingerprintId();
+    };
+  </script>
+</body>
+</html>

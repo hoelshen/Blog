@@ -68,3 +68,87 @@ window.requestIdleCallback =
     }, 1);
   };
 ```
+
+requestAnimationFrame  
+专为动画设计，确保任务在浏览器下一次重绘前执行，与显示器刷新率同步（通常 60Hz，即每帧约 16.7ms）。
+
+典型场景：实现平滑的动画效果，例如更新元素位置、绘制 Canvas 或 WebGL 内容。
+
+示例：
+
+```javascript
+function animate(timestamp) {
+  // 更新动画
+  element.style.transform = `translateX(${
+    Math.sin(timestamp * 0.001) * 100
+  }px)`;
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+```
+
+requestIdleCallback  
+旨在利用浏览器空闲时间执行非紧急任务，避免干扰用户交互或动画。
+
+典型场景：批量处理数据、预加载资源、发送分析日志等。
+
+示例：
+
+```javascript
+function processData(deadline) {
+  while (deadline.timeRemaining() > 0 && data.length > 0) {
+    // 处理数据
+    console.log(data.shift());
+  }
+  if (data.length > 0) {
+    requestIdleCallback(processData);
+  }
+}
+requestIdleCallback(processData);
+```
+
+调用时机
+requestAnimationFrame  
+在浏览器准备绘制下一帧时调用，通常与屏幕刷新同步，保证动画流畅。
+
+如果主线程繁忙，可能略有延迟，但优先级较高。
+
+requestIdleCallback  
+在浏览器完成所有高优先级任务（如用户输入、动画、渲染）后，且有空闲时间时调用。
+
+如果浏览器持续忙碌，任务可能被推迟，甚至在几秒后才执行。
+
+requestAnimationFrame  
+回调函数接收一个 timestamp 参数，表示回调执行时的精确时间（以毫秒为单位）。
+
+示例：
+
+```javascript
+requestAnimationFrame((timestamp) => {
+  console.log(`执行时间: ${timestamp}`);
+});
+```
+
+requestIdleCallback  
+回调函数接收一个 IdleDeadline 对象，提供 timeRemaining() 方法，用于检查当前帧剩余的空闲时间（单位：毫秒）。
+
+示例：
+
+```javascript
+requestIdleCallback((deadline) => {
+  console.log(`剩余时间: ${deadline.timeRemaining()}`);
+});
+```
+
+时间控制
+requestAnimationFrame  
+没有直接的时间限制，但开发者通常需要自行确保回调逻辑在 16.7ms 内完成，以避免掉帧。
+
+requestIdleCallback  
+提供 timeout 选项，强制任务在指定时间后执行（即使没有空闲时间），但默认情况下依赖浏览器判断空闲时机。
+
+示例：
+
+```javascript
+requestIdleCallback(myTask, { timeout: 2000 }); // 最多延迟 2 秒
+```

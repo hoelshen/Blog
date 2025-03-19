@@ -555,7 +555,7 @@ function reactive(obj){
 function shallowReactive(obj){
     return createReactive(obj, true)
 }
-```
+```  
 
 ## 简单的 diff 算法
 

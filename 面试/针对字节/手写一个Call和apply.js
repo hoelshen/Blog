@@ -1,34 +1,41 @@
-p
-var foo = {
-  value: 1
-};
 
-function bar() {
-  console.log(this.value);
-}
-
-bar.call(foo); // 1
-
-// call() 方法在使用一个指定的 this 值和若干个指定的参数值的前提下调用某个函数或方法。
-
-
-// call 改变了 this 的指向，指向到 foo
-//  bar 函数执行了
-
-function Mycall(context) {
-  // 1.this 参数可以传 null，当为 null 的时候，视为指向 window
-  context = context ? Object(context) : window;
-  context.fn = this;
-  context.fn();
-  var arg = [];
-
-  for (var i = 1, len = arguments.length; i < len; i++){
-    arg.push(arguments[i])
+// ## Call
+function Mycall(context, ...args) {
+  if (typeof this !== 'function') {
+    throw new Error("Function.prototype.call - what is trying to be bound is not callable");
   }
-  let = eval(`${context.fn(arg)}`)
-  delete context.fn
+  // 如果 context 为 null或 undefined，则指向全局对象
+  context = context || window;
+  // 创建一个唯一的属性名，避免覆盖原有属性
+  const fnSymbol = Symbol();
+  // 将当前函数赋值给 context 的临时属性
+  context[fnSymbol] = this;
+  
+  // 执行函数并传入参数
+  const  result = context[fnSymbol](...args);
+
+  // 删除临时属性
+  delete context[fnSymbol];
+
+  // 返回执行结果
+  return result
 }
 
-// 将函数设为对象的属性
-// 执行该函数
-// 删除该函数
+// ## Apply
+function MyApply(context, args) {
+  if (typeof this !== 'function') {
+    throw new Error("Function.prototype.call - what is trying to be bound is not callable");
+  }
+  
+  context = context || window;
+  
+  const fnSymbol = Symbol();
+
+  context[fnSymbol] = this;
+
+  const result  = args ? context[fnSymbol](...args) : context[fnSymbol]();
+
+  delete context[fnSymbol];
+
+  return result;
+}

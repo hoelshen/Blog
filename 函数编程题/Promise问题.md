@@ -26,6 +26,8 @@ new Promise(function (resolve) {
 });
 console.log("10");
 
+// -------------------------
+
 async function async1() {
   console.log("async1 start");
   await async2();
@@ -54,9 +56,9 @@ console.log("async1 start");
 console.log("async2");
 console.log("promise1");
 console.log("script end");
-
-console.log("setTimeout");
+console.log("async1 end");
 console.log("promise2");
+console.log("setTimeout");
 
 // ------------------------------
 // Promise.all((Promise.then(1), 2).then(v=> console.log(v)) // 输出 1,2

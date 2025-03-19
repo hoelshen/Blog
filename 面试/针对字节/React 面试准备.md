@@ -332,7 +332,7 @@ useMemo 会记录上一次执行 create 的返回值，并把它绑定在函数�
 
 ---
 
-useCallback# 和 useMemo# 有什么区别？
+useCallback 和 useMemo 有什么区别？
 
 答：useCallback 第一个参数就是缓存的内容，useMemo 需要执行第一个函数，返回值为缓存的内容，比起 useCallback ， useMemo 更像是缓存了一段逻辑，或者说执行这段逻辑获取的结果。那么对于缓存 element 用 useCallback 可以吗，答案是当然可以了。
 
@@ -361,6 +361,45 @@ React 事件合成的概念：React 应用中，元素绑定的事件并不是�
 ---
 
 - 如何实现的批量更新？
+
+1. 事件系统中的批量处理
+React 的合成事件（Synthetic Event）是批量更新的主要触发场景。在合成事件处理期间，React 会启用批量更新模式。
+核心变量：isBatchingUpdates
+React 内部维护了一个全局标志 isBatchingUpdates，用于控制是否进行批量更新。
+
+在合成事件开始时，React 将 isBatchingUpdates 设置为 true。
+
+事件处理结束后，设置为 false，并执行批量更新。
+
+2. 更新队列（Update Queue）
+React 使用一个更新队列来收集状态变化，而不是直接修改状态。
+数据结构：
+每个组件的 Fiber 节点维护一个 updateQueue，用于存储状态更新。
+
+每次调用 setState，React 创建一个 Update 对象，包含新的状态值或更新函数，并加入队列。
+
+3. 调度机制（Scheduler）
+React 18 引入了独立的 Scheduler 模块，进一步优化了批量更新。Scheduler 负责协调更新任务的执行时机。
+批量更新时机：
+在合成事件中，更新被标记为“同步任务”，事件结束后立即执行。
+
+在异步场景（如 setTimeout），React 17 之前不会自动批量更新，但 React 18 引入了自动批处理（Automatic Batching），即使在异步代码中也能批量更新。
+
+4. 状态合并与计算
+当批量更新执行时，React 会遍历更新队列，计算最终状态。
+
+
+5. 渲染阶段
+批量更新完成后，React 进入渲染阶段：
+更新 Fiber 树的状态。
+
+对比新旧虚拟 DOM（Reconciliation）。
+
+提交更改到真实 DOM（Commit）。
+
+因为状态更新被合并，只会触发一次渲染。
+
+
 
 - 事件系统如何模拟冒泡和捕获阶段？
 

@@ -21,15 +21,16 @@ new Promise(function (resolve) {
 });
 console.log("script end");
 
-// --- script start
-// --- script end
-// --- async1 start
-// --- Promise1
-// --- Promise2
-// --- async2
-// --- async1 end
-// --- promise3
-// --- setTimeout
+---------------------------
+
+console.log("script start");
+console.log("async1 start");
+console.log("async2");
+console.log("promise1");
+console.log("script end");
+console.log("async1 end");
+console.log("promise2");
+console.log("setTimeout");
 ```
 
 --不对

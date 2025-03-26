@@ -1,7 +1,9 @@
+postcss 配置 ：方案一
 
-postcss配置 ：方案一
+在 vue.config.js 中
 
-在 vue.config.js中
+```js
+module.exports = {
     css: {
       loaderOptions: {
           postcss: {
@@ -23,15 +25,19 @@ postcss配置 ：方案一
               ]
           }
       }
-
-
-在 pack.json 中
-不生效：
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {},
-      "postcss-pxtorem": {
-         "rootValue": 108
-      } 
     }
-  },
+}
+```
+
+在 pack.json 中 不生效：
+
+```js
+"postcss": {
+  "plugins": {
+    "autoprefixer": {},
+    "postcss-pxtorem": {
+    "rootValue": 108
+    }
+  }
+}
+```

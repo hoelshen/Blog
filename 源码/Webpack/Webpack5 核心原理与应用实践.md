@@ -1156,7 +1156,7 @@ Tree-Shaking 的实现大致上可以分为三个步骤：
 
 将模块的所有 ESM 导出语句转换为 Dependency 对象，并记录到 module 对象的 dependencies 集合，转换规则：具名导出转换为 HarmonyExportSpecifierDependency 对象；default 导出转换为 HarmonyExportExpressionDependency 对象。
 
-webpack 中 Tree Shaking 的实现分为如下步骤：
+webpack 中 Tree Shaking （树摇）的实现分为如下步骤：
 
 - 在 FlagDependencyExportsPlugin 插件中根据模块的 dependencies 列表收集模块导出值，并记录到 ModuleGraph 体系的 exportsInfo 中；
 - 在 FlagDependencyUsagePlugin 插件中收集模块的导出值的使用情况，并记录到 exportInfo.\_usedInRuntime 集合中；

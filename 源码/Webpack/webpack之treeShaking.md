@@ -1,4 +1,4 @@
-# treeShaking
+# treeShaking（树摇Tree Shaking）
 
 ## 原理
 
@@ -6,24 +6,24 @@
 
 tree-shaking 的消除原理是依赖于ES6的模块特性。
 
-我们先看看 ES6 import 的特性
-依赖关系是可以确定的
+* 只顶层语句：import 只能出现在模块顶层，无法嵌套在条件语句中。
 
-* 只能作为模块顶层的语句出现
+* 静态字符串 模块名必须是字符串常量（如 import x from './x'），不能是动态表达式。
 
-* import 的模块名只能是字符串常量
-
-* import binding 是 immutable的
+* 不可变绑定： import 的绑定是只读的（immutable），不会被运行时修改。
   
-依赖关系是确定， 和运行时的状态无关， 可以进行可靠的静态分析， 然后进行消除
-
-静态扽洗就是不执行代码,从字面量上对代码进行分析,es6之前的模块化,比如我们可以动态 require 一个,只有执行之后才知道引用什么模块,这个就不能通过静态分析去优化.
-
-这是 ES6 modules 在设计时的一个重要考量，也是为什么没有直接采用 CommonJS，正是基于这个基础上
+这些特性使得依赖关系在编译时就能被确定，与运行时状态无关，因此可以可靠地进行静态分析并消除未使用的代码。相比之下，CommonJS 的 require 支持动态加载（例如 require(变量)），需要在运行时才能确定依赖，无法通过静态分析优化。这也是 ES6 模块设计时的重要考量。
 
 ## 注意点
 
-treeshaking 只能对函数进行消除  无法对类进行消除
+Tree Shaking 的局限性
+
+
+Tree Shaking 并非万能，它有一些限制：
+
+1. 仅对函数有效
+
+Tree Shaking 通常只能消除未使用的函数，而对类（class）的优化效果有限。原因在于类的副作用（如原型方法）较难静态分析。
 
 ```js
 function Menu() {
@@ -48,8 +48,9 @@ export default Menu;
 
 ```
 
-下面这个例子静态分析是分析不了的
-函数的副作用相对较少，顶层函数相对来说更容易分析，加上babel默认都是"use strict"严格模式，减少顶层函数的动态访问的方式，也更容易分析
+2. 副作用问题：
+
+如果模块存在副作用（side effects），如修改全局变量或动态操作，Tree Shaking 可能无法安全移除代码。
 
 ## css tree-shaking
 
@@ -111,6 +112,20 @@ apply (compiler) {
 
 可以看到其实我只处理里 id选择器和class选择器，id和class相对来说副作用小，引起样式异常的可能性相对较小。判断css是否再js中出现过，是使用正则匹配。其实，后续还可以继续优化，比如对tag类的选择器，可以配置是否再html，jsx，template中出现过，如果出现过，没有出现过也可以认为是无用代码。
 
-## 遇到的问题
+## 遇到的问题及解决
+1. 副作用导致无法消除：
 
-IFE 存在副作用无法被 tree-shaking 掉. 需要配置 { module: false } 和 sideEffects: false
+一些模块可能包含副作用（如立即执行函数 IIFE），被标记为不可 Tree Shaking。
+解决方法：  
+
+* 在 package.json 中配置 "sideEffects": false，告诉构建工具该模块无副作用。
+
+* Webpack 中设置 { module: false }，禁用某些模块的副作用推断。
+
+2. 动态逻辑干扰：
+
+如上文示例中的条件语句，动态引用会导致 Tree Shaking 失效。
+
+  * 解决方法：尽量将逻辑静态化，或通过工具（如 babel-plugin-transform-imports）优化导入。
+
+

@@ -1,5 +1,22 @@
 # 迭代器
 
+## 一、什么是 Symbol？
+
+Symbol 是 ES6 引入的一种基本数据类型，表示一个唯一且不可变的值。它的主要特点是：
+
+* 唯一性：每次调用 Symbol() 或 Symbol('description') 都会生成一个新的、独一无二的值，即使描述相同也不相等。
+```javascript
+const sym1 = Symbol('id');
+const sym2 = Symbol('id');
+console.log(sym1 === sym2); // false
+```
+* 不可枚举：在对象的 for...in 或 Object.keys() 中，Symbol 属性不会被遍历到。
+
+* 不可变：Symbol 值无法被修改。
+
+这些特性为迭代器协议选择 Symbol.iterator 提供了关键优势。
+
+
 标准的内置迭代器，也可以构造自己的迭代器
 消费者工具(for..of 循环以及...运算)
 
@@ -18,6 +35,34 @@ for (var i of obj) {
 
 // 执行的顺序为
 // Uncaught TypeError: obj is not iterable
+```
+
+因为引擎不知道怎么遍历这个对象，是要遍历所有 key 为数字的属性呢，还是一视同仁遍历这个对象的全部属性呢？
+
+毋庸置疑，Array，Map，Set，String 等等类可以在被 for...of 中执行，因为它们都实现了 Symbol.iterator 接口。
+
+```js
+[][Symbol.iterator]
+// ƒ values() { [native code] }
+
+('')[Symbol.iterator]
+// ƒ values() { [native code] }
+
+(new Map())[Symbol.iterator]
+// ƒ values() { [native code] }
+
+(new Set())[Symbol.iterator]
+// ƒ values() { [native code] }
+```
+
+而 Number，Object 就没有实现 [Symbol.iterator]。
+
+```js
+({})[Symbol.iterator]
+// undefined
+
+(0)[Symbol.iterator]
+// undefined
 ```
 
 ![迭代器](./0081Kckwgy1gkjzsfqf2gj30u00yjdhr.webp)
@@ -105,4 +150,22 @@ interface IterationResult {
   value: any,
   done: boolean,
 }
+```
+
+```js
+const arr = ['0', '1', '2']
+
+const iterator = arr[Symbol.iterator]()
+
+iterator.next()
+// {value: '0', done: false}
+
+iterator.next()
+// {value: '1', done: false}
+
+iterator.next()
+// {value: '2', done: false}
+
+iterator.next()
+// {value: undefined, done: true}
 ```

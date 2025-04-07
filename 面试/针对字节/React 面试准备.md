@@ -257,7 +257,7 @@ React.useEffect(() => {
 
 在各个生命周期中的应用实例：scrollView
 
-- constructor： 做数据初始化，将滑动处理函数，做防抖处理。
+- constructor： 做数据初始化。
 - getDerivedStateFromProps: 将 props 中的 list ，合并到 state 。
 - componentDidMount: 绑定监听 scroll 事件。
 - shouldComponentUpdate：性能优化，只有 list 改变，渲染视图。

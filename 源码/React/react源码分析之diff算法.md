@@ -1,5 +1,4 @@
-
-传统的 diff 算法复杂度为O(n^3)
+# react 源码分析之 diff 算法
 
 react 优化的 diff 策略
 
